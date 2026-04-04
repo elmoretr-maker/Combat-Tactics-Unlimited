@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="css/ctu-metal.css" />
   <link rel="stylesheet" href="css/ctu-v2.css" />
-  <link rel="stylesheet" href="css/ctu-landing-hud.css" />
 </head>
 <body>
 <div id="app">
@@ -53,12 +52,6 @@
 
     <!-- ── LANDING (full-viewport video stage + metal HUD; IDs preserved) ── -->
     <section id="screen-landing" class="screen screen--active" aria-label="Landing">
-
-      <!-- Combat Vision: flex column shell + layer tokens (css/ctu-landing-hud.css) -->
-      <div class="landing-hud" data-ctu-component="landing-hud">
-
-        <!-- slot: briefing — sensor feed + metal bezel + intel strip -->
-        <div class="landing-hud__briefing" data-ctu-slot="briefing">
 
       <!-- Metal frame = field HUD bezel around the live feed (no center plate — video stays visible) -->
       <div class="lp-stage-frame ctu-metal-frame ctu-metal-frame--grow lp-metal--video-stage">
@@ -97,11 +90,6 @@
           </div>
         </div>
       </div>
-
-        </div><!-- /.landing-hud__briefing -->
-
-        <!-- slot: command-deck — toolbar + flyout cards -->
-        <div class="landing-hud__command-deck" data-ctu-slot="command-deck">
 
       <!-- Dock + flyouts in metal chassis (physical equipment strip) -->
       <div class="lp-dock-shell ctu-metal-frame ctu-metal-frame--sm lp-metal--dock-strip">
@@ -198,10 +186,8 @@
         </div>
       </div>
 
-        </div><!-- /.landing-hud__command-deck -->
-
-      <!-- slot: deploy — Urban Siege / Classic (positioned above deck in CSS) -->
-      <aside id="v2-ops-layer" class="v2-ops-layer landing-hud__deploy" data-ctu-slot="deploy" hidden aria-label="Modern operations">
+      <!-- Deploy panel: above command strip, metal chassis -->
+      <aside id="v2-ops-layer" class="v2-ops-layer" hidden aria-label="Modern operations">
         <div class="v2-ops-metal ctu-metal-frame ctu-metal-frame--sm lp-metal--dock-strip">
           <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
           <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -227,8 +213,6 @@
           </div>
         </div>
       </aside>
-
-      </div><!-- /.landing-hud -->
 
     </section>
 
