@@ -189,13 +189,30 @@
         </div>
       </div>
 
-      <!-- Deploy panel: sits in the bottom-right corner, beside the dock strip -->
+      <!-- Deploy panel: above command strip, metal chassis -->
       <aside id="v2-ops-layer" class="v2-ops-layer" hidden aria-label="Modern operations">
-        <div class="v2-ops-hud">
-          <p class="v2-ops-layer__eyebrow">Deploy</p>
-          <div class="v2-ops-layer__actions" role="group" aria-label="Deployment options">
-            <button type="button" class="v2-ops-field-btn v2-ops-field-btn--primary" id="btn-v2-urban">Urban Siege</button>
-            <button type="button" class="v2-ops-field-btn" data-screen="classic-menu">Classic</button>
+        <div class="v2-ops-metal ctu-metal-frame ctu-metal-frame--sm lp-metal--dock-strip">
+          <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+          <div class="ctu-metal-frame__content v2-ops-metal__content">
+            <div class="v2-ops-hud">
+              <p class="v2-ops-layer__eyebrow">Deploy</p>
+              <div class="v2-ops-layer__actions" role="group" aria-label="Deployment options">
+                <button type="button" class="v2-ops-field-btn v2-ops-field-btn--primary" id="btn-v2-urban">Urban Siege</button>
+                <button type="button" class="v2-ops-field-btn" data-screen="classic-menu">Classic</button>
+              </div>
+            </div>
           </div>
         </div>
       </aside>

@@ -1,68 +1,96 @@
 /* ── Version 2.0 overlay + high-def battle chrome (does not replace style.css) ─ */
 
-/* Deploy panel — compact strip docked bottom-right, beside the command strip */
+/* Deploy panel — bottom-right, stacked above the command strip (metal frame in markup) */
 .v2-ops-layer {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  /* Clear command strip + metal dock chrome (large dials + label row); safe area on notched devices */
+  bottom: calc(12.75rem + env(safe-area-inset-bottom, 0px));
+  right: max(0.35rem, env(safe-area-inset-right, 0px));
   left: auto;
   top: auto;
-  z-index: 25;
+  z-index: 40;
   pointer-events: none;
-  padding: 0 0.35rem 0.35rem 0;
+  padding: 0;
+}
+
+.v2-ops-metal {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  max-width: min(9.5rem, 28vw);
+  pointer-events: auto;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.55));
+}
+
+.v2-ops-metal__content {
+  padding: 0.28rem 0.38rem 0.32rem !important;
 }
 
 .v2-ops-hud {
   pointer-events: auto;
-  background: rgba(4, 8, 14, 0.92);
-  border: 1px solid rgba(61, 158, 255, 0.22);
-  border-radius: 6px;
-  padding: 0.45rem 0.65rem 0.5rem;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
-  min-width: 9rem;
-  max-width: 12rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  min-width: 0;
+  max-width: none;
+  width: 100%;
 }
 
 .v2-ops-layer__eyebrow {
   font-family: var(--font-display);
-  font-size: 0.52rem;
-  letter-spacing: 0.22em;
+  font-size: 0.46rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(200, 220, 210, 0.65);
-  margin: 0 0 0.3rem;
+  color: rgba(200, 228, 204, 0.72);
+  margin: 0 0 0.22rem;
   text-align: center;
 }
 
 .v2-ops-layer__actions {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.22rem;
 }
 
-/* Field switches — same toggle PNG as rest of app; primary = tactical tint */
-.v2-ops-field-btn {
-  min-height: var(--ctu-toggle-min-h-sm);
+/* Compact field buttons — override global #app button min-height */
+#app button.v2-ops-field-btn {
+  min-height: 34px;
   width: 100%;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  padding: 0.18rem 0.35rem;
+  line-height: 1.15;
 }
 
 .v2-ops-field-btn--primary {
-  filter: brightness(1.08) saturate(1.15) drop-shadow(0 0 10px rgba(61, 158, 255, 0.35));
+  filter: brightness(1.06) saturate(1.12) drop-shadow(0 0 8px rgba(61, 158, 255, 0.28));
 }
 
 .v2-ops-field-btn--primary:hover {
-  filter: brightness(1.15) saturate(1.2) drop-shadow(0 0 14px rgba(61, 158, 255, 0.45));
+  filter: brightness(1.12) saturate(1.18) drop-shadow(0 0 12px rgba(61, 158, 255, 0.4));
 }
 
 @media (max-width: 520px) {
-  .v2-ops-hud {
-    min-width: 7.5rem;
-    max-width: 10rem;
-    padding: 0.35rem 0.5rem;
+  .v2-ops-layer {
+    bottom: calc(11.5rem + env(safe-area-inset-bottom, 0px));
+    right: max(0.25rem, env(safe-area-inset-right, 0px));
+    max-width: calc(100vw - 0.5rem);
+  }
+  .v2-ops-metal {
+    max-width: min(8.25rem, 42vw);
+  }
+  .v2-ops-metal__content {
+    padding: 0.22rem 0.3rem 0.26rem !important;
+  }
+  #app button.v2-ops-field-btn {
+    min-height: 30px;
+    font-size: 0.52rem;
+    padding: 0.14rem 0.28rem;
   }
 }
 
