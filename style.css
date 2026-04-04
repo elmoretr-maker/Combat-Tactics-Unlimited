@@ -34,25 +34,8 @@ body {
 .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 1.25rem; background: var(--panel); border-bottom: 1px solid #2a4a66; gap: 0.5rem; flex-wrap: wrap; }
 .top-bar--landing .nav-screens { display: none; }
 .logo { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.08em; margin: 0; font-size: 1.2rem; flex-shrink: 0; }
-.nav-screens { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: stretch; }
-.nav-btn {
-  background: transparent;
-  border: 1px solid var(--muted);
-  color: var(--text);
-  padding: 0 0.75rem 0.38rem;
-  min-height: 52px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.82rem;
-  /* LED pip at top, label at bottom */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
-.nav-btn--primary { background: #1a3d5c; border-color: var(--accent); }
+.nav-screens { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: flex-end; justify-content: flex-end; }
+.nav-screens--dials { align-items: flex-end; }
 
 /* ── Screens ─────────────────────────────────────────── */
 .screen { display: none; padding: 1rem; }
@@ -1009,20 +992,34 @@ body {
   text-align: center;
 }
 
-/* Nav LED indicator dots — sit at top of button, label is at bottom */
-.nav-btn[data-led]::before {
-  content: '';
-  display: block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  margin-bottom: auto;
-  margin-top: 0.42rem;
-  flex-shrink: 0;
-  transition: box-shadow 0.15s;
+/* Top bar — same red-glow dial + label column as landing command strip (see .lp-dock-tag) */
+.lp-dock-tag--header {
+  max-width: 5rem;
+  font-size: clamp(0.48rem, 1.1vw, 0.58rem);
 }
-.nav-btn[data-led="green"]::before  { background: #40c057; box-shadow: 0 0 5px #40c057; }
-.nav-btn[data-led="yellow"]::before { background: #fab005; box-shadow: 0 0 5px #fab005; }
-.nav-btn[data-led="red"]::before    { background: #fa5252; box-shadow: 0 0 5px #fa5252; }
+.lp-dock-tag--header::before {
+  width: clamp(40px, 5.5vw, 52px);
+  height: clamp(40px, 5.5vw, 52px);
+}
+.lp-dock-tag--header .lp-dock-tag__labels {
+  margin-top: 0.28rem;
+  max-width: 4.75rem;
+}
+.lp-dock-tag--header[data-led="green"] { color: #7aba88; }
+.lp-dock-tag--header[data-led="green"]:hover,
+.lp-dock-tag--header[data-led="green"]:focus-visible { color: #c8ffc8; }
+.lp-dock-tag--header[data-led="yellow"] { color: #d4b870; }
+.lp-dock-tag--header[data-led="yellow"]:hover,
+.lp-dock-tag--header[data-led="yellow"]:focus-visible { color: #fff0c0; }
+.lp-dock-tag--header[data-led="red"] { color: #e8b0b0; }
+.lp-dock-tag--header[data-led="red"]:hover,
+.lp-dock-tag--header[data-led="red"]:focus-visible { color: #ffd0d0; }
+.lp-dock-tag--header-accent::before,
+.lp-dock-tag--header-accent:hover::before,
+.lp-dock-tag--header-accent:focus-visible::before {
+  background-image: url("assets/buttons/red button glow on.png");
+  filter: brightness(1.08);
+}
 
 /* ── Hero container — carbon fiber matching hub ── */
 /* ════════════════════════════════════════════════════════════
@@ -1371,6 +1368,7 @@ body {
   background: url("assets/buttons/red button glow off.png") center / contain no-repeat;
   flex-shrink: 0;
   transition: filter 0.12s, transform 0.1s;
+  pointer-events: none;
 }
 /* All captions sit directly under the matching dial */
 .lp-dock-tag__labels {
@@ -1556,6 +1554,10 @@ body {
   .lp-card__icon { font-size: 2rem; }
   .lp-card__label { font-size: 0.65rem; }
   .lp-dock-go.lp-card { width: min(200px, 86vw); }
+  .lp-dock-tag--header::before {
+    width: clamp(34px, 11vw, 46px);
+    height: clamp(34px, 11vw, 46px);
+  }
   .lp-dock-tag {
     font-size: 0.54rem;
     max-width: 5.5rem;

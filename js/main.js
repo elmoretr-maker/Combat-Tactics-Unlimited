@@ -1726,6 +1726,21 @@ function renderMapTheater() {
   }
 }
 
+function showBootFailureBanner(message) {
+  let el = document.getElementById("ctu-boot-failure");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "ctu-boot-failure";
+    el.setAttribute("role", "alert");
+    el.style.cssText =
+      "position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0.75rem 1rem;" +
+      "background:#4a1212;color:#fde8e8;font-family:system-ui,sans-serif;font-size:0.88rem;" +
+      "text-align:center;border-top:1px solid #8a3030;";
+    document.body.appendChild(el);
+  }
+  el.textContent = message;
+}
+
 /* ── Init app ─────────────────────────────────────────── */
 async function initApp() {
   /* Local configs first — these MUST succeed for the app to function */
@@ -2056,6 +2071,10 @@ initApp()
   })
   .catch((err) => {
     console.error("[CTU] initApp failed", err);
+    showBootFailureBanner(
+      "Could not load game data (configs / units.json). Use a local server (npm start), not file:// — " +
+        (err && err.message ? err.message : String(err))
+    );
     showScreen("landing");
     syncV2OpsLayer(false);
   });

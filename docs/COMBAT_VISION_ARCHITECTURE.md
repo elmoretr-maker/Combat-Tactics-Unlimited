@@ -1,5 +1,7 @@
 # Combat Vision — Landing HUD architecture
 
+**Status:** The **Combat Vision** experiment (`landing-hud` wrapper + `css/ctu-landing-hud.css`) is **not** in the current tree; landing uses the **pre–Combat Vision** DOM (`#screen-landing` → stage + dock, as in commit `b9da3d4`). This file is kept as a design record only.
+
 **Mission:** *Combat Tactics Unlimited* is a **hardcore tactical simulator**. Modern Ops landing chrome should read as **military briefing / C2 interface**, not a generic marketing page. Layout uses **flex column + explicit z-index tokens**—no accidental float overlap.
 
 ---
@@ -24,7 +26,7 @@
 
 ## 2. Component map (HTML)
 
-Landing is wrapped in **`landing-hud`** (`data-ctu-component="landing-hud"`):
+*(Historical)* Landing was wrapped in **`landing-hud`** (`data-ctu-component="landing-hud"`):
 
 | Slot | `data-ctu-slot` | Contents |
 |------|-----------------|----------|
@@ -41,7 +43,7 @@ IDs preserved for **`main.js`**, **`wireLandingDock`**, and **`syncV2OpsLayer`**
 1. `style.css` — base + landing details  
 2. `css/ctu-metal.css` — bitmap frame system, global `#app button`  
 3. `css/ctu-v2.css` — deploy module sizing/position  
-4. **`css/ctu-landing-hud.css`** — **last**: layer tokens, `.landing-hud` flex shell, z-index alignment  
+4. ~~**`css/ctu-landing-hud.css`**~~ — **removed** from the product; layer tokens live in `style.css` / `ctu-metal.css` for the current shell.
 
 ---
 

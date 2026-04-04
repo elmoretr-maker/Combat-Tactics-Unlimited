@@ -420,6 +420,39 @@ button *,
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 0 10px rgba(143, 179, 148, 0.35);
 }
 
+/* Header nav + map list use real panel chrome — not the global metal toggle bitmap */
+#app header .lp-dock-tag {
+  background-image: none;
+  min-height: 0;
+  background-size: auto;
+}
+#app button.map-theater-card {
+  background-image: none;
+  background: rgba(20, 28, 40, 0.95);
+  border: 1px solid #2a3545;
+  border-radius: 8px;
+  box-shadow: none;
+  min-height: 0;
+  text-shadow: none;
+  color: var(--text);
+}
+#app button.map-theater-card:hover {
+  border-color: var(--accent);
+}
+#app button.map-theater-card.map-theater-card--selected {
+  border-color: var(--led-green);
+  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.25);
+}
+#app button.lp-dock-go {
+  background-image: none;
+  background-color: transparent;
+  border: 1px solid rgba(40, 55, 70, 0.9);
+  border-radius: 10px;
+  min-height: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
+}
+
 #app button.btn--tiny,
 #app button.btn--ghost.btn--tiny {
   min-height: var(--ctu-toggle-min-h-sm);
@@ -566,12 +599,6 @@ button *,
 
 .lp-btn {
   min-height: var(--ctu-toggle-min-h);
-  background-size: auto 100%;
-}
-
-/* Nav — slightly shorter */
-.nav-btn {
-  min-height: 44px;
   background-size: auto 100%;
 }
 
