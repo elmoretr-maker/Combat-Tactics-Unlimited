@@ -1,0 +1,58 @@
+{
+  "_comment": "Inventory of CraftPix TDS assets vs CTU engine hooks. Paths relative to repo root unless noted.",
+  "movement": {
+    "description": "Infantry 'walking' is the run clip: CraftPix separates legs (walk cycle) from upper-body weapon poses.",
+    "implemented": {
+      "classicSprites": "attached_assets/sprites/{setId}/run/{n}.png — frameCounts.run",
+      "craftpixHd": "spriteAnimations.*.craftpixClips.run — usually legs1..legs7 under soldiers_color*/soldier*/legs/"
+    },
+    "availableNotUsed": [
+      "soldiers PNG/Shadows/legs1..7.png — shadow-only walk strips (could composite under units)",
+      "city tile Source/ — not unit movement"
+    ],
+    "engineNote": "Units interpolate grid-to-grid (lerp). Longer moves now use duration scaled by Manhattan distance so run cycles are visible."
+  },
+  "combatUnitPoses": {
+    "implemented": "craftpixClips idle | run | shot/shoot | dead | prone (sniper) in spriteAnimations.json",
+    "soldierPackWeaponFolders": [
+      "soldiers_color1..4/soldier1..4/rifle",
+      "soldiers_color1..4/soldier1..4/machine_gun",
+      "soldiers_color1..4/soldier1..4/mortar",
+      "soldiers_color1..4/soldier1..4/bazooka",
+      "soldiers_color1..4/soldier1..4/anti-tank_missile",
+      "soldiers_color1..4/soldier1..4/death1, death2",
+      "soldiers_color1..4/soldier1..4/legs"
+    ],
+    "recentEngineFix": "During _fireVisualUntil, pickClip now plays attackClip (shot/shoot) for infantry and shot for tread vehicles."
+  },
+  "muzzleAndProjectileOverlays": {
+    "implemented": "js/config/attackEffects.json → BattleVfx (paths may be attached_assets/...)",
+    "craftpixSources": [
+      "units/soldier/soldiers PNG/fire/Shot/Shot1..4.png",
+      "units/soldier/soldiers PNG/fire/Cannon_fire/Cannon_fire1..3.png",
+      "units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire1..4.png",
+      "units/soldier/soldiers PNG/fire/fire_source.png"
+    ],
+    "legacyPlaceholder": "attached_assets/vfx/*.png — empty except .gitkeep; prefer CraftPix paths above"
+  },
+  "worldExplosionsAndSmoke": {
+    "implemented": "js/render/fxLayer.js — random Explosion1..6 + random smoke_middle_gray|dark_gray|bright_gray|brown",
+    "explosions": "craftpix_pack/city/PNG City/Explosion{n}/Explosion{n}_1..10.png for n=1..6",
+    "explosionShadows": "craftpix_pack/city/PNG City/Shadows/Explosion{n}_*.png — not composited (could layer under blast)",
+    "smokeSets": "craftpix_pack/effects/PNG smoke/{smoke_bright_gray|smoke_brown|smoke_dark_gray|smoke_middle_gray}/smoke1/smoke1_1..7.png",
+    "smokeShadows": "craftpix_pack/effects/PNG smoke/smoke_shadows/ — not wired"
+  },
+  "vehicles": {
+    "acsTank": "vehicles/acs_tank_damage/Source/ACS_Base.png, ACS_Tower.png, ACS_Preview.png — opfor HD; no multi-frame tread animation in pack",
+    "classicTank": "sprites/tank_t/run — 12-frame tread strip",
+    "damageStates": "acs_tank_damage README expects damage sheets — not present beyond Source trio"
+  },
+  "otherPacks": {
+    "air": "bomber/, units/helicopter/",
+    "boats": "boats/ — not mapped to game units",
+    "city_buildings": "destructible tiles / world — partial via scenarios",
+    "heavy_weapons": "README only — no PNGs",
+    "hud": "hud/ — menu chrome, not battle canvas",
+    "shadows": "craftpix_pack/shadows/ — unit shadow sprites not auto-applied in UnitRenderer"
+  }
+}

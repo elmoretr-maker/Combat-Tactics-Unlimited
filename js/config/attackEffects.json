@@ -1,11 +1,11 @@
 {
   "rifle": {
-    "muzzle": "muzzle_flash.png",
-    "durationMs": 110
+    "muzzle": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Shot/Shot2.png",
+    "durationMs": 140
   },
   "rocket": {
-    "muzzle": "bazooka_shot_effect.png",
-    "projectile": "missile.png",
-    "durationMs": 220
+    "muzzle": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire2.png",
+    "projectile": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire3.png",
+    "durationMs": 260
   }
 }

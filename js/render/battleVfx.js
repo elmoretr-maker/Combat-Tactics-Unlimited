@@ -9,7 +9,10 @@ export class BattleVfx {
 
   getImage(filename) {
     if (!filename) return null;
-    const path = `attached_assets/vfx/${filename}`;
+    const path =
+      filename.startsWith("attached_assets/")
+        ? filename
+        : `attached_assets/vfx/${filename}`;
     if (this.cache.has(path)) return this.cache.get(path);
     const img = new Image();
     img.crossOrigin = "anonymous";

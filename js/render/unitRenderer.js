@@ -39,14 +39,15 @@ export class UnitRenderer {
   pickClip(unit, isMoving) {
     if (unit.hp <= 0) return "dead";
     const cfg = this.spriteAnimations[unit.mapSpriteSet];
-    if (cfg?.treadVehicle) return "run";
+    const firing =
+      unit._fireVisualUntil && performance.now() < unit._fireVisualUntil;
+
+    if (cfg?.treadVehicle) {
+      if (firing && (cfg.frameCounts?.shot ?? 0) > 0) return "shot";
+      return "run";
+    }
     if (isMoving) return "run";
-    if (
-      unit.prone &&
-      cfg?.specialAbility === "prone" &&
-      unit._fireVisualUntil &&
-      performance.now() < unit._fireVisualUntil
-    ) {
+    if (unit.prone && cfg?.specialAbility === "prone" && firing) {
       return "shot";
     }
     if (
@@ -56,14 +57,23 @@ export class UnitRenderer {
     ) {
       return "prone";
     }
+    if (firing && cfg?.attackClip) {
+      const ac = cfg.attackClip;
+      if ((cfg.frameCounts?.[ac] ?? 0) > 0) return ac;
+    }
     return "idle";
   }
 
   frameIndex(setId, clip, timeMs, isMoving) {
     const cfg = this.spriteAnimations[setId];
     if (cfg?.treadVehicle) {
-      const n = cfg.frameCounts?.run ?? 1;
       if (clip === "dead") return 0;
+      if (clip === "shot") {
+        const n = cfg.frameCounts?.shot ?? 1;
+        const spd = 95;
+        return Math.floor(timeMs / spd) % n;
+      }
+      const n = cfg.frameCounts?.run ?? 1;
       if (!isMoving) return 0;
       const spd = 70;
       return Math.floor(timeMs / spd) % n;

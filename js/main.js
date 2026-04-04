@@ -836,7 +836,11 @@ function cellFromEvent(ev) {
 }
 
 function startLerp(unit, x0, y0, x1, y1) {
-  lerp = { unitId: unit.id, x0, y0, x1, y1, t0: performance.now(), dur: settings.reduceMotion ? 0 : 300 };
+  const dist = Math.abs(x1 - x0) + Math.abs(y1 - y0);
+  const dur = settings.reduceMotion
+    ? 0
+    : Math.min(900, 220 + dist * 130);
+  lerp = { unitId: unit.id, x0, y0, x1, y1, t0: performance.now(), dur };
 }
 function updateLerp() {
   if (!lerp || !game) return;

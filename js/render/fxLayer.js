@@ -2,10 +2,13 @@
  * World-space VFX (explosion + smoke) drawn on the battle canvas after terrain/units.
  * Uses CraftPix PNG City explosions + PNG smoke sequences.
  */
-const EXP_BASE =
-  "attached_assets/craftpix_pack/city/PNG City/Explosion1";
-const SMOKE_BASE =
-  "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1";
+const EXPLOSION_IDS = [1, 2, 3, 4, 5, 6];
+const SMOKE_VARIANTS = [
+  "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1",
+  "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1",
+  "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1",
+  "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1",
+];
 
 export class FxLayer {
   constructor() {
@@ -30,13 +33,19 @@ export class FxLayer {
   }
 
   explosionAndSmoke(cx, cy, cellSize) {
+    const expId =
+      EXPLOSION_IDS[Math.floor(Math.random() * EXPLOSION_IDS.length)] || 1;
+    const expBase = `attached_assets/craftpix_pack/city/PNG City/Explosion${expId}`;
     const expFrames = [];
     for (let i = 1; i <= 10; i++) {
-      expFrames.push(`${EXP_BASE}/Explosion1_${i}.png`);
+      expFrames.push(`${expBase}/Explosion${expId}_${i}.png`);
     }
+    const smokeRoot =
+      SMOKE_VARIANTS[Math.floor(Math.random() * SMOKE_VARIANTS.length)] ||
+      SMOKE_VARIANTS[0];
     const smokeFrames = [];
     for (let i = 1; i <= 7; i++) {
-      smokeFrames.push(`${SMOKE_BASE}/smoke1_${i}.png`);
+      smokeFrames.push(`${smokeRoot}/smoke1_${i}.png`);
     }
     const scale = Math.max(0.6, (cellSize / 48) * 0.85);
     this.bursts.push({
