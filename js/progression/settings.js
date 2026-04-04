@@ -7,6 +7,7 @@ export function defaultSettings() {
     difficulty: "normal",
     fogOfWar: true,
     visualStyle: "hDef",
+    battleZoom: 1.25,
   };
 }
 

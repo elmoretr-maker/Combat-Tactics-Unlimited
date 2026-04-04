@@ -285,11 +285,49 @@
       </div>
     </section>
 
+    <!-- ── MAP THEATER (pick battlefield for skirmish / hotseat) ─ -->
+    <section id="screen-maps" class="screen" aria-label="Map theater" hidden>
+      <div class="panel panel--wide map-theater">
+        <h2>Map theater</h2>
+        <p class="muted small">Pick a battlefield for <strong>vs CPU skirmish</strong> or <strong>1v1 hotseat</strong>. Four size bands × five environments — 20 layouts with roads, cover, water, and city props where noted.</p>
+        <div class="map-theater-filters">
+          <label class="map-theater-filter">
+            <span>Size</span>
+            <select id="map-filter-size" aria-label="Filter by map size">
+              <option value="all">All sizes</option>
+              <option value="small">Small (compact)</option>
+              <option value="medium">Medium (warden)</option>
+              <option value="large">Large (sector)</option>
+              <option value="grand">Grand (theater)</option>
+            </select>
+          </label>
+          <label class="map-theater-filter">
+            <span>Environment</span>
+            <select id="map-filter-env" aria-label="Filter by environment">
+              <option value="all">All</option>
+              <option value="urban">Urban / city</option>
+              <option value="wild">Wild / forest</option>
+              <option value="desert">Desert</option>
+              <option value="arctic">Arctic / river</option>
+              <option value="mixed">Mixed theater</option>
+            </select>
+          </label>
+        </div>
+        <p id="map-theater-selected" class="map-theater-selected muted small"></p>
+        <div id="map-theater-grid" class="map-theater-grid" role="list"></div>
+        <div class="row-actions map-theater-actions">
+          <button type="button" id="btn-map-theater-skirmish" class="cta">Vs CPU on map</button>
+          <button type="button" id="btn-map-theater-hotseat" class="btn">Use map · hotseat setup</button>
+          <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+        </div>
+      </div>
+    </section>
+
     <!-- ── HOTSEAT SETUP ──────────────────────── -->
     <section id="screen-hotseat" class="screen" aria-label="1v1 Hotseat setup" hidden>
       <div class="panel panel--wide ctu-metal-panel">
         <h2>1v1 Hotseat</h2>
-        <p class="muted">Each player secretly picks <strong>2 units</strong>. Pass the device between turns.</p>
+        <p class="muted">Each player secretly picks <strong>2 units</strong>. Pass the device between turns. Choose a map in <strong>Map theater</strong> first if you want a specific battlefield.</p>
         <div class="hotseat-grid">
           <div class="hotseat-player">
             <h3 class="hotseat-player__title">
@@ -310,7 +348,6 @@
         <div class="row-actions">
           <button type="button" id="btn-hotseat-start" class="cta" disabled>Start battle</button>
           <button type="button" class="btn btn--ghost" data-screen="hub">Back</button>
-        </div>
         </div>
       </div>
     </section>
@@ -459,10 +496,20 @@
           </div>
         </aside>
 
-        <div class="canvas-wrap" style="position:relative">
-          <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield"></canvas>
+        <div class="canvas-wrap battle-canvas-arena" id="battle-canvas-arena" style="position:relative">
+          <div class="battle-canvas-scaler" id="battle-canvas-scaler">
+            <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield"></canvas>
+          </div>
           <div id="unit-tooltip" class="unit-tooltip" hidden></div>
         </div>
+      </div>
+
+      <div class="battle-float-tools" id="battle-float-tools" aria-label="Battle controls">
+        <button type="button" class="btn btn--tiny" id="btn-battle-zoom-out" title="Zoom out">−</button>
+        <span class="battle-float-tools__zoom" id="battle-zoom-label" aria-live="polite">125%</span>
+        <button type="button" class="btn btn--tiny" id="btn-battle-zoom-in" title="Zoom in">+</button>
+        <button type="button" class="btn btn--tiny" id="btn-battle-fullscreen" title="Fullscreen">⛶</button>
+        <button type="button" class="btn battle-float-tools__end" id="btn-battle-end-float">End turn</button>
       </div>
 
       <!-- Loading overlay -->

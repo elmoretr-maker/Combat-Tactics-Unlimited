@@ -61,6 +61,7 @@
     }
   ],
   "shortcuts": [
+    { "label": "Map theater", "icon": "🗺", "screen": "maps",     "requiresAcademy": false },
     { "label": "Unit Codex",  "icon": "📖", "screen": "codex",    "requiresAcademy": false },
     { "label": "1v1 Hotseat", "icon": "⚔",  "screen": "hotseat",  "requiresAcademy": true  },
     { "label": "Settings",    "icon": "⚙",  "screen": "settings", "requiresAcademy": false }

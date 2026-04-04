@@ -1,0 +1,153 @@
+{
+  "id": "map_compact_arctic",
+  "name": "Frozen Pass",
+  "width": 10,
+  "height": 8,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "road",
+      "hill",
+      "snow",
+      "snow",
+      "snow"
+    ],
+    [
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "water",
+      "snow",
+      "snow",
+      "snow",
+      "snow"
+    ],
+    [
+      "snow",
+      "snow",
+      "snow",
+      "hill",
+      "hill",
+      "water",
+      "forest",
+      "snow",
+      "snow",
+      "snow"
+    ],
+    [
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "hill",
+      "road",
+      "snow",
+      "snow",
+      "snow",
+      "snow"
+    ],
+    [
+      "hill",
+      "snow",
+      "hill",
+      "snow",
+      "hill",
+      "water",
+      "forest",
+      "snow",
+      "hill",
+      "hill"
+    ],
+    [
+      "snow",
+      "hill",
+      "snow",
+      "snow",
+      "snow",
+      "water",
+      "snow",
+      "snow",
+      "snow",
+      "snow"
+    ],
+    [
+      "snow",
+      "hill",
+      "snow",
+      "snow",
+      "snow",
+      "road",
+      "snow",
+      "snow",
+      "snow",
+      "snow"
+    ],
+    [
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "snow",
+      "road",
+      "snow",
+      "snow",
+      "snow",
+      "hill"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 4
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 4
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 8,
+      "y": 2
+    },
+    {
+      "x": 8,
+      "y": 4
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 6,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 7,
+      "y": 2
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "id": "map_compact_desert",
+  "name": "Dune Alley",
+  "width": 10,
+  "height": 8,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "desert",
+      "desert",
+      "hill",
+      "desert",
+      "desert",
+      "plains",
+      "desert",
+      "road",
+      "desert",
+      "hill"
+    ],
+    [
+      "road",
+      "hill",
+      "plains",
+      "desert",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "hill",
+      "hill",
+      "desert",
+      "road",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "hill",
+      "desert",
+      "desert",
+      "road",
+      "plains",
+      "road",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "plains",
+      "hill",
+      "desert",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "plains",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "road",
+      "plains",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "hill",
+      "hill",
+      "desert",
+      "hill"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "hill"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 4
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 4
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 8,
+      "y": 2
+    },
+    {
+      "x": 8,
+      "y": 4
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 6,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 7,
+      "y": 2
+    }
+  ]
+}

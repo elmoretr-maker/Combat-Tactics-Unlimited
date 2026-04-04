@@ -1,0 +1,153 @@
+{
+  "id": "map_compact_mixed",
+  "name": "Training Mix",
+  "width": 10,
+  "height": 8,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "urban",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "hill"
+    ],
+    [
+      "plains",
+      "forest",
+      "forest",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "forest",
+      "plains",
+      "urban",
+      "plains",
+      "urban",
+      "plains",
+      "desert",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "forest",
+      "forest",
+      "urban",
+      "urban",
+      "plains",
+      "hill",
+      "plains",
+      "desert",
+      "plains",
+      "plains"
+    ],
+    [
+      "road",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "hill",
+      "plains"
+    ],
+    [
+      "plains",
+      "forest",
+      "forest",
+      "urban",
+      "plains",
+      "hill",
+      "desert",
+      "plains",
+      "snow",
+      "plains"
+    ],
+    [
+      "road",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "desert",
+      "hill",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "road",
+      "urban",
+      "plains",
+      "road",
+      "forest",
+      "hill",
+      "plains",
+      "plains",
+      "desert"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 4
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 4
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 8,
+      "y": 2
+    },
+    {
+      "x": 8,
+      "y": 4
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 6,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 7,
+      "y": 2
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "id": "map_warden_wild",
+  "name": "Green Belt",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "forest",
+      "plains",
+      "forest",
+      "plains",
+      "road",
+      "hill",
+      "plains",
+      "road",
+      "hill",
+      "forest",
+      "forest",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "hill",
+      "plains",
+      "forest",
+      "plains",
+      "road",
+      "forest",
+      "plains",
+      "forest",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "plains",
+      "hill",
+      "plains",
+      "forest",
+      "hill"
+    ],
+    [
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "forest",
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "plains",
+      "plains",
+      "plains",
+      "hill"
+    ],
+    [
+      "plains",
+      "forest",
+      "hill",
+      "forest",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "plains",
+      "road",
+      "plains"
+    ],
+    [
+      "forest",
+      "forest",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "road",
+      "plains",
+      "hill",
+      "plains",
+      "hill",
+      "plains"
+    ],
+    [
+      "plains",
+      "road",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "forest",
+      "plains",
+      "forest",
+      "forest"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 5
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 1,
+      "y": 5
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 10,
+      "y": 3
+    },
+    {
+      "x": 10,
+      "y": 5
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 7
+    }
+  ]
+}

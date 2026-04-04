@@ -44,6 +44,9 @@ let academyConfig;
 let hubConfig;
 let onboardingConfig;
 let lastBootOptions = { mode: "skirmish", loadout: null, scenarioPath: null };
+/** When set (from Map Theater), used as default for vs-CPU skirmish and hotseat base layout. */
+let pendingUserMapPath = null;
+let mapCatalog = { maps: [] };
 let battleEndHandled = false;
 let aiRunning = false;
 let academyPickSet = new Set();
@@ -211,11 +214,16 @@ function pushLog(text, cls = "") {
 }
 
 /* ── Scenario merge ───────────────────────────────────── */
+function scenarioPresetEnemies(s) {
+  if (Array.isArray(s.presetEnemies) && s.presetEnemies.length) return s.presetEnemies;
+  return (s.units || []).filter((u) => u.owner !== 0);
+}
+
 function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
   const s = JSON.parse(JSON.stringify(baseScenario));
   if (s.usePresetUnits) return s;
   if (mode === "trial" || mode === "hotseat") return s;
-  const enemies = s.units.filter((u) => u.owner !== 0);
+  const enemies = scenarioPresetEnemies(s);
   if (mode === "academy" && loadout?.length && acad?.deploymentSlots) {
     s.units = [];
     loadout.forEach((tid, i) => {
@@ -225,7 +233,12 @@ function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
     s.units.push(...enemies);
     return s;
   }
-  s.units = [...QUICK_PLAYER_UNITS, ...enemies];
+  const p0 = QUICK_PLAYER_UNITS.map((u, i) => {
+    const slot = s.skirmishDeploy?.[i];
+    if (!slot) return { ...u };
+    return { ...u, x: slot.x, y: slot.y };
+  });
+  s.units = [...p0, ...enemies];
   return s;
 }
 
@@ -354,15 +367,19 @@ function showScreen(name, sectionId) {
   }
   const hdr = document.querySelector(".top-bar");
   if (hdr) hdr.classList.toggle("top-bar--landing", screenName === "landing");
-  /* combat_frame.png is position:fixed — on Codex it stayed put while codex_detail_frame scrolled (ghost ALPHA). Only show during battle. */
+  /* combat_frame.png — keep hidden so battle stays readable (solid black stage). */
   const hudFrame = document.querySelector(".ctu-hud-overlay");
-  if (hudFrame) hudFrame.hidden = screenName !== "battle";
-  if (screenName === "battle")   requestAnimationFrame(loop);
+  if (hudFrame) hudFrame.hidden = true;
+  if (screenName === "battle") {
+    requestAnimationFrame(loop);
+    applyBattleZoom();
+  }
   if (screenName === "codex")    renderCodex();
   if (screenName === "hotseat")  openHotseat();
   if (screenName === "settings") applySettingsToUi();
+  if (screenName === "maps")     renderMapTheater();
   if (screenName === "hub") {
-    renderHubRoster(); renderHubShortcuts(); updateGateBanner();
+    renderHubRoster(); renderHubModes(); renderHubShortcuts(); updateGateBanner();
     /* Carousel lives in hidden hub until now — remeasure so ▲/▼ aren't stuck disabled */
     requestAnimationFrame(() => {
       requestAnimationFrame(updateHubCarouselNav);
@@ -488,9 +505,18 @@ function renderHubModes() {
     b.addEventListener("click", () => {
       if (b.disabled) return;
       if (m.action === "academy") openAcademy();
-      else if (m.action === "skirmish") bootBattle({ mode: "skirmish", scenarioPath: m.scenarioPath });
-      else if (m.action === "trial")    bootBattle({ mode: "trial",    scenarioPath: m.scenarioPath || "js/config/scenarios/trial_survive.json" });
-      else if (m.action === "scenario") bootBattle({ mode: "skirmish", scenarioPath: m.scenarioPath });
+      else if (m.action === "skirmish")
+        bootBattle({
+          mode: "skirmish",
+          scenarioPath: m.scenarioPath || pendingUserMapPath,
+        });
+      else if (m.action === "trial")
+        bootBattle({
+          mode: "trial",
+          scenarioPath: m.scenarioPath || "js/config/scenarios/trial_survive.json",
+        });
+      else if (m.action === "scenario")
+        bootBattle({ mode: "skirmish", scenarioPath: m.scenarioPath });
     });
     li.appendChild(b);
     host.appendChild(li);
@@ -652,11 +678,13 @@ function syncHotseatStart() {
 }
 
 async function bootHotseat() {
+  const hotseatScenarioPath =
+    pendingUserMapPath || "js/config/scenarios/hotseat.json";
   const [units, tiles, sprites, scenarioBase, fx] = await Promise.all([
     loadJson("js/config/units.json"),
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/spriteAnimations.json"),
-    loadJson("js/config/scenarios/hotseat.json"),
+    loadJson(hotseatScenarioPath),
     loadJson("js/config/attackEffects.json"),
   ]);
   unitRegistry = units;
@@ -667,13 +695,18 @@ async function bootHotseat() {
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
   });
+  resizeBattleCanvas();
   game.hotseat = true;
   game.playerNames = ["Player 1", "Player 2"];
   unitRenderer = new UnitRenderer(spriteAnimations);
   battleVfx = new BattleVfx();
   battleFx = new FxLayer();
   combatLog.length = 0;
-  lastBootOptions = { mode: "hotseat", loadout: null, scenarioPath: "js/config/scenarios/hotseat.json" };
+  lastBootOptions = {
+    mode: "hotseat",
+    loadout: null,
+    scenarioPath: hotseatScenarioPath,
+  };
   battleEndHandled = false;
   battleHints = { movedOnce: false, attackedOnce: false };
   syncHud();
@@ -833,6 +866,46 @@ function cellFromEvent(ev) {
     x: Math.floor((sx - gridOffsetX) / cs),
     y: Math.floor((sy - gridOffsetY) / cs),
   };
+}
+
+function resizeBattleCanvas() {
+  if (!canvas || !game?.grid) return;
+  const cs = game.grid.cellSize;
+  const m = 24;
+  canvas.width = game.grid.width * cs + m * 2;
+  canvas.height = game.grid.height * cs + m * 2;
+}
+
+function syncBattleZoomLabel() {
+  const el = document.getElementById("battle-zoom-label");
+  if (!el) return;
+  const z = settings.reduceMotion ? 1 : (settings.battleZoom ?? 1.25);
+  el.textContent = `${Math.round(z * 100)}%`;
+}
+
+function applyBattleZoom() {
+  const sc = document.getElementById("battle-canvas-scaler");
+  if (!sc) return;
+  const z = settings.reduceMotion ? 1 : (settings.battleZoom ?? 1.25);
+  sc.style.transform = `scale(${z})`;
+  syncBattleZoomLabel();
+}
+
+function nudgeBattleZoom(delta) {
+  const steps = [0.85, 1, 1.15, 1.25, 1.4, 1.6, 1.85, 2];
+  let i = steps.findIndex((s) => Math.abs(s - (settings.battleZoom ?? 1.25)) < 0.04);
+  if (i < 0) i = 3;
+  i = Math.max(0, Math.min(steps.length - 1, i + delta));
+  settings.battleZoom = steps[i];
+  saveSettings(settings);
+  applyBattleZoom();
+}
+
+function toggleBattleFullscreen() {
+  const el = document.getElementById("screen-battle");
+  if (!el) return;
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  else el.requestFullscreen?.().catch(() => {});
 }
 
 function startLerp(unit, x0, y0, x1, y1) {
@@ -1015,8 +1088,9 @@ function onCanvasMouseMove(ev) {
   const u = (x >= 0 && y >= 0 && x < game.grid.width && y < game.grid.height) ? game.unitAt(x, y) : null;
   if (!u) { tooltip.hidden = true; return; }
   tooltip.hidden = false;
-  const rect = canvas.getBoundingClientRect();
-  const tx = Math.min(ev.clientX - rect.left + 14, canvas.width - 200);
+  const wrap = canvas.closest(".battle-canvas-arena");
+  const rect = wrap ? wrap.getBoundingClientRect() : canvas.getBoundingClientRect();
+  const tx = Math.min(ev.clientX - rect.left + 14, Math.max(120, rect.width - 180));
   const ty = Math.max(ev.clientY - rect.top - 14, 0);
   tooltip.style.left = tx + "px";
   tooltip.style.top = ty + "px";
@@ -1113,7 +1187,7 @@ function drawFrame(ts) {
   }
   const cs = game.grid.cellSize;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0a0e14";
+  ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   gridOffsetX = Math.floor((canvas.width - game.grid.width * cs) / 2);
@@ -1315,7 +1389,13 @@ function aiTurn() {
 async function bootBattle(options = {}) {
   const mode = options.mode ?? "skirmish";
   const loadout = options.loadout ?? null;
-  const scenarioPath = options.scenarioPath || "js/config/scenarios/academy_skirmish.json";
+  let scenarioPath = options.scenarioPath;
+  if (!scenarioPath) {
+    scenarioPath =
+      mode === "skirmish"
+        ? pendingUserMapPath || "js/config/scenarios/academy_skirmish.json"
+        : "js/config/scenarios/academy_skirmish.json";
+  }
   lastBootOptions = { mode, loadout, scenarioPath };
   battleEndHandled = false;
   aiRunning = false;
@@ -1347,6 +1427,7 @@ async function bootBattle(options = {}) {
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
   });
+  resizeBattleCanvas();
   unitRenderer = new UnitRenderer(spriteAnimations);
   battleVfx = new BattleVfx();
   battleFx = new FxLayer();
@@ -1505,13 +1586,53 @@ function applySettingsToUi() {
   if (hdefEl)   hdefEl.checked   = settings.visualStyle !== "classic";
 }
 
+let mapTheaterFilterSize = "all";
+let mapTheaterFilterEnv = "all";
+
+function renderMapTheater() {
+  const fs = document.getElementById("map-filter-size");
+  if (fs) fs.value = mapTheaterFilterSize;
+  const fe = document.getElementById("map-filter-env");
+  if (fe) fe.value = mapTheaterFilterEnv;
+  const host = document.getElementById("map-theater-grid");
+  if (!host) return;
+  host.innerHTML = "";
+  const maps = mapCatalog.maps || [];
+  for (const m of maps) {
+    if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) continue;
+    if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) continue;
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className =
+      "map-theater-card" +
+      (pendingUserMapPath === m.path ? " map-theater-card--selected" : "");
+    card.dataset.mapPath = m.path;
+    card.innerHTML =
+      `<span class="map-theater-card__name">${m.name}</span>` +
+      `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${m.environment}</span>`;
+    card.addEventListener("click", () => {
+      pendingUserMapPath = m.path;
+      renderMapTheater();
+    });
+    host.appendChild(card);
+  }
+  const sel = document.getElementById("map-theater-selected");
+  if (sel) {
+    const cur = maps.find((x) => x.path === pendingUserMapPath);
+    sel.textContent = cur
+      ? `Selected: ${cur.name} (${cur.width}×${cur.height})`
+      : "Select a map below (optional — defaults apply if none).";
+  }
+}
+
 /* ── Init app ─────────────────────────────────────────── */
 async function initApp() {
   /* Local configs first — these MUST succeed for the app to function */
-  [academyConfig, hubConfig, onboardingConfig] = await Promise.all([
+  [academyConfig, hubConfig, onboardingConfig, mapCatalog] = await Promise.all([
     loadJson("js/config/academy.json"),
     loadJson("js/config/hub.json"),
     loadJson("js/config/onboarding.json"),
+    loadJson("js/config/mapCatalog.json").catch(() => ({ maps: [] })),
   ]);
   unitRegistry = await loadJson("js/config/units.json");
   progress  = loadProgress();
@@ -1520,6 +1641,7 @@ async function initApp() {
   window.__CTU_AUDIO_DISABLED = !settings.audioEnabled;
   applySettingsToUi();
   applyVisualTheme();
+  applyBattleZoom();
 
   /* Firebase is optional — never blocks the app */
   await initFirebase();
@@ -1634,6 +1756,28 @@ function wireUi() {
   /* hotseat */
   document.getElementById("btn-hotseat-start")?.addEventListener("click", bootHotseat);
 
+  document.getElementById("map-filter-size")?.addEventListener("change", (ev) => {
+    mapTheaterFilterSize = ev.target.value || "all";
+    renderMapTheater();
+  });
+  document.getElementById("map-filter-env")?.addEventListener("change", (ev) => {
+    mapTheaterFilterEnv = ev.target.value || "all";
+    renderMapTheater();
+  });
+  document.getElementById("btn-map-theater-skirmish")?.addEventListener("click", () => {
+    void bootBattle({ mode: "skirmish" });
+  });
+  document.getElementById("btn-map-theater-hotseat")?.addEventListener("click", () =>
+    showScreen("hotseat")
+  );
+
+  document.getElementById("btn-battle-zoom-out")?.addEventListener("click", () => nudgeBattleZoom(-1));
+  document.getElementById("btn-battle-zoom-in")?.addEventListener("click", () => nudgeBattleZoom(1));
+  document.getElementById("btn-battle-fullscreen")?.addEventListener("click", () => toggleBattleFullscreen());
+  document.getElementById("btn-battle-end-float")?.addEventListener("click", () => {
+    document.getElementById("btn-end-turn")?.click();
+  });
+
   /* settings */
   document.getElementById("setting-audio")?.addEventListener("change", (ev) => {
     settings.audioEnabled = ev.target.checked;
@@ -1641,7 +1785,9 @@ function wireUi() {
     saveSettings(settings);
   });
   document.getElementById("setting-reduce-motion")?.addEventListener("change", (ev) => {
-    settings.reduceMotion = ev.target.checked; saveSettings(settings);
+    settings.reduceMotion = ev.target.checked;
+    saveSettings(settings);
+    applyBattleZoom();
   });
   document.getElementById("setting-fog")?.addEventListener("change", (ev) => {
     settings.fogOfWar = ev.target.checked; saveSettings(settings);

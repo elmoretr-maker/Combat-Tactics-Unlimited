@@ -1,0 +1,203 @@
+{
+  "id": "map_warden_urban",
+  "name": "Warden Block",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_building",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_building",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_building",
+      "cp_road",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_building",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_building",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road"
+    ],
+    [
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road",
+      "cp_road"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 5
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 1,
+      "y": 5
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 10,
+      "y": 3
+    },
+    {
+      "x": 10,
+      "y": 5
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 7
+    }
+  ]
+}

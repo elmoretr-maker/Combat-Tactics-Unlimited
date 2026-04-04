@@ -12,7 +12,7 @@ const SMOKE_VARIANTS = [
 
 export class FxLayer {
   constructor() {
-    /** @type {{ cx: number, cy: number, frames: string[], t0: number, dur: number, scale: number }[]} */
+    /** @type {{ cx: number, cy: number, frames: string[], t0: number, dur: number, scale: number, alphaMul?: number }[]} */
     this.bursts = [];
     this._cache = new Map();
   }
@@ -48,6 +48,21 @@ export class FxLayer {
       smokeFrames.push(`${smokeRoot}/smoke1_${i}.png`);
     }
     const scale = Math.max(0.6, (cellSize / 48) * 0.85);
+    const shadowFrames = [];
+    for (let i = 1; i <= 10; i++) {
+      shadowFrames.push(
+        `attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion${expId}_${i}.png`
+      );
+    }
+    this.bursts.push({
+      cx: cx + 1,
+      cy: cy + cellSize * 0.1,
+      frames: shadowFrames,
+      t0: performance.now(),
+      dur: 520,
+      scale: scale * 0.92,
+      alphaMul: 0.42,
+    });
     this.bursts.push({
       cx,
       cy,
@@ -90,7 +105,7 @@ export class FxLayer {
       }
       const w = img.naturalWidth * b.scale;
       const h = img.naturalHeight * b.scale;
-      ctx.globalAlpha = 1 - t * 0.15;
+      ctx.globalAlpha = (1 - t * 0.15) * (b.alphaMul ?? 1);
       ctx.drawImage(img, b.cx - w / 2, b.cy - h / 2, w, h);
       keep.push(b);
     }

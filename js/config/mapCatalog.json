@@ -1,0 +1,184 @@
+{
+  "maps": [
+    {
+      "id": "map_compact_urban",
+      "name": "Compact Grid",
+      "path": "js/config/scenarios/maps/map_compact_urban.json",
+      "sizeCategory": "small",
+      "environment": "urban",
+      "width": 10,
+      "height": 8
+    },
+    {
+      "id": "map_compact_wild",
+      "name": "Border Woods",
+      "path": "js/config/scenarios/maps/map_compact_wild.json",
+      "sizeCategory": "small",
+      "environment": "wild",
+      "width": 10,
+      "height": 8
+    },
+    {
+      "id": "map_compact_desert",
+      "name": "Dune Alley",
+      "path": "js/config/scenarios/maps/map_compact_desert.json",
+      "sizeCategory": "small",
+      "environment": "desert",
+      "width": 10,
+      "height": 8
+    },
+    {
+      "id": "map_compact_arctic",
+      "name": "Frozen Pass",
+      "path": "js/config/scenarios/maps/map_compact_arctic.json",
+      "sizeCategory": "small",
+      "environment": "arctic",
+      "width": 10,
+      "height": 8
+    },
+    {
+      "id": "map_compact_mixed",
+      "name": "Training Mix",
+      "path": "js/config/scenarios/maps/map_compact_mixed.json",
+      "sizeCategory": "small",
+      "environment": "mixed",
+      "width": 10,
+      "height": 8
+    },
+    {
+      "id": "map_warden_urban",
+      "name": "Warden Block",
+      "path": "js/config/scenarios/maps/map_warden_urban.json",
+      "sizeCategory": "medium",
+      "environment": "urban",
+      "width": 12,
+      "height": 10
+    },
+    {
+      "id": "map_warden_wild",
+      "name": "Green Belt",
+      "path": "js/config/scenarios/maps/map_warden_wild.json",
+      "sizeCategory": "medium",
+      "environment": "wild",
+      "width": 12,
+      "height": 10
+    },
+    {
+      "id": "map_warden_desert",
+      "name": "Sunstroke",
+      "path": "js/config/scenarios/maps/map_warden_desert.json",
+      "sizeCategory": "medium",
+      "environment": "desert",
+      "width": 12,
+      "height": 10
+    },
+    {
+      "id": "map_warden_arctic",
+      "name": "Ice Split",
+      "path": "js/config/scenarios/maps/map_warden_arctic.json",
+      "sizeCategory": "medium",
+      "environment": "arctic",
+      "width": 12,
+      "height": 10
+    },
+    {
+      "id": "map_warden_mixed",
+      "name": "Frontline Splice",
+      "path": "js/config/scenarios/maps/map_warden_mixed.json",
+      "sizeCategory": "medium",
+      "environment": "mixed",
+      "width": 12,
+      "height": 10
+    },
+    {
+      "id": "map_sector_urban",
+      "name": "Sector Ruins",
+      "path": "js/config/scenarios/maps/map_sector_urban.json",
+      "sizeCategory": "large",
+      "environment": "urban",
+      "width": 14,
+      "height": 12
+    },
+    {
+      "id": "map_sector_wild",
+      "name": "Deep Timber",
+      "path": "js/config/scenarios/maps/map_sector_wild.json",
+      "sizeCategory": "large",
+      "environment": "wild",
+      "width": 14,
+      "height": 12
+    },
+    {
+      "id": "map_sector_desert",
+      "name": "Salt Flats",
+      "path": "js/config/scenarios/maps/map_sector_desert.json",
+      "sizeCategory": "large",
+      "environment": "desert",
+      "width": 14,
+      "height": 12
+    },
+    {
+      "id": "map_sector_arctic",
+      "name": "Glacier Run",
+      "path": "js/config/scenarios/maps/map_sector_arctic.json",
+      "sizeCategory": "large",
+      "environment": "arctic",
+      "width": 14,
+      "height": 12
+    },
+    {
+      "id": "map_sector_mixed",
+      "name": "Theater Fusion",
+      "path": "js/config/scenarios/maps/map_sector_mixed.json",
+      "sizeCategory": "large",
+      "environment": "mixed",
+      "width": 14,
+      "height": 12
+    },
+    {
+      "id": "map_theater_urban",
+      "name": "Theater City",
+      "path": "js/config/scenarios/maps/map_theater_urban.json",
+      "sizeCategory": "grand",
+      "environment": "urban",
+      "width": 16,
+      "height": 14
+    },
+    {
+      "id": "map_theater_wild",
+      "name": "Theater Wilds",
+      "path": "js/config/scenarios/maps/map_theater_wild.json",
+      "sizeCategory": "grand",
+      "environment": "wild",
+      "width": 16,
+      "height": 14
+    },
+    {
+      "id": "map_theater_desert",
+      "name": "Theater Dunes",
+      "path": "js/config/scenarios/maps/map_theater_desert.json",
+      "sizeCategory": "grand",
+      "environment": "desert",
+      "width": 16,
+      "height": 14
+    },
+    {
+      "id": "map_theater_arctic",
+      "name": "Theater Tundra",
+      "path": "js/config/scenarios/maps/map_theater_arctic.json",
+      "sizeCategory": "grand",
+      "environment": "arctic",
+      "width": 16,
+      "height": 14
+    },
+    {
+      "id": "map_theater_mixed",
+      "name": "Theater Total War",
+      "path": "js/config/scenarios/maps/map_theater_mixed.json",
+      "sizeCategory": "grand",
+      "environment": "mixed",
+      "width": 16,
+      "height": 14
+    }
+  ]
+}

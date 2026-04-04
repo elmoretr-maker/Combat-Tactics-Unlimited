@@ -1,0 +1,203 @@
+{
+  "id": "map_warden_mixed",
+  "name": "Frontline Splice",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "forest",
+      "plains",
+      "plains",
+      "hill",
+      "hill",
+      "plains",
+      "snow"
+    ],
+    [
+      "road",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "plains",
+      "hill",
+      "desert"
+    ],
+    [
+      "plains",
+      "urban",
+      "road",
+      "urban",
+      "urban",
+      "forest",
+      "plains",
+      "plains",
+      "desert",
+      "desert",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "urban",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "snow",
+      "plains",
+      "desert"
+    ],
+    [
+      "plains",
+      "forest",
+      "urban",
+      "urban",
+      "plains",
+      "forest",
+      "hill",
+      "hill",
+      "plains",
+      "hill",
+      "plains",
+      "plains"
+    ],
+    [
+      "road",
+      "urban",
+      "plains",
+      "urban",
+      "forest",
+      "road",
+      "hill",
+      "hill",
+      "desert",
+      "desert",
+      "snow",
+      "hill"
+    ],
+    [
+      "plains",
+      "urban",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "plains",
+      "plains",
+      "snow",
+      "snow",
+      "plains"
+    ],
+    [
+      "plains",
+      "urban",
+      "road",
+      "plains",
+      "urban",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "plains"
+    ],
+    [
+      "plains",
+      "urban",
+      "road",
+      "urban",
+      "plains",
+      "forest",
+      "hill",
+      "desert",
+      "desert",
+      "plains",
+      "snow",
+      "plains"
+    ],
+    [
+      "road",
+      "road",
+      "plains",
+      "plains",
+      "forest",
+      "forest",
+      "hill",
+      "desert",
+      "desert",
+      "desert",
+      "plains",
+      "plains"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 5
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 1,
+      "y": 5
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 10,
+      "y": 3
+    },
+    {
+      "x": 10,
+      "y": 5
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 7
+    }
+  ]
+}

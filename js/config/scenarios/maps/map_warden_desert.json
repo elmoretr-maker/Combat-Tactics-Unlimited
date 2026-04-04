@@ -1,0 +1,203 @@
+{
+  "id": "map_warden_desert",
+  "name": "Sunstroke",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "desert",
+      "plains",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "plains",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "plains",
+      "road",
+      "desert",
+      "desert",
+      "hill",
+      "hill"
+    ],
+    [
+      "desert",
+      "hill",
+      "desert",
+      "desert",
+      "desert",
+      "plains",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "hill"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "road",
+      "plains",
+      "desert",
+      "desert"
+    ],
+    [
+      "plains",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "hill",
+      "hill",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "road",
+      "desert"
+    ],
+    [
+      "desert",
+      "hill",
+      "hill",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "plains",
+      "road",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "hill",
+      "desert",
+      "desert",
+      "desert",
+      "hill",
+      "desert",
+      "desert",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "plains",
+      "desert",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "road",
+      "desert",
+      "plains",
+      "desert",
+      "desert"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 5
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 1,
+      "y": 5
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 10,
+      "y": 3
+    },
+    {
+      "x": 10,
+      "y": 5
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 7
+    }
+  ]
+}

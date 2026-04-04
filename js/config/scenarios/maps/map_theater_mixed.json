@@ -1,0 +1,321 @@
+{
+  "id": "map_theater_mixed",
+  "name": "Theater Total War",
+  "width": 16,
+  "height": 14,
+  "cellSize": 48,
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "terrain": [
+    [
+      "plains",
+      "road",
+      "plains",
+      "forest",
+      "urban",
+      "plains",
+      "plains",
+      "road",
+      "forest",
+      "hill",
+      "desert",
+      "plains",
+      "snow",
+      "hill",
+      "hill",
+      "hill"
+    ],
+    [
+      "forest",
+      "road",
+      "plains",
+      "road",
+      "forest",
+      "plains",
+      "urban",
+      "road",
+      "forest",
+      "desert",
+      "desert",
+      "plains",
+      "snow",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "desert"
+    ],
+    [
+      "plains",
+      "plains",
+      "urban",
+      "plains",
+      "plains",
+      "plains",
+      "urban",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "desert",
+      "hill",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "urban",
+      "urban",
+      "urban",
+      "forest",
+      "forest",
+      "plains",
+      "road",
+      "hill",
+      "plains",
+      "desert",
+      "hill",
+      "desert",
+      "desert",
+      "snow",
+      "snow"
+    ],
+    [
+      "forest",
+      "plains",
+      "urban",
+      "plains",
+      "urban",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "desert",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "urban",
+      "road",
+      "hill",
+      "hill",
+      "plains",
+      "desert",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "forest",
+      "urban",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "plains",
+      "snow",
+      "plains",
+      "desert",
+      "desert",
+      "plains",
+      "plains"
+    ],
+    [
+      "urban",
+      "forest",
+      "road",
+      "road",
+      "urban",
+      "plains",
+      "forest",
+      "plains",
+      "hill",
+      "desert",
+      "desert",
+      "desert",
+      "plains",
+      "plains",
+      "hill",
+      "snow"
+    ],
+    [
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "urban",
+      "plains",
+      "forest",
+      "forest",
+      "desert",
+      "snow",
+      "plains",
+      "plains",
+      "snow",
+      "plains",
+      "hill"
+    ],
+    [
+      "road",
+      "plains",
+      "forest",
+      "urban",
+      "plains",
+      "plains",
+      "forest",
+      "plains",
+      "forest",
+      "plains",
+      "hill",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "desert"
+    ],
+    [
+      "road",
+      "forest",
+      "urban",
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "hill",
+      "desert",
+      "plains",
+      "plains",
+      "desert",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "road",
+      "urban",
+      "plains",
+      "forest",
+      "plains",
+      "plains",
+      "plains",
+      "forest",
+      "snow",
+      "hill",
+      "hill",
+      "plains",
+      "desert",
+      "hill",
+      "desert"
+    ]
+  ],
+  "skirmishDeploy": [
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 2,
+      "y": 7
+    }
+  ],
+  "p1DeploymentSlots": [
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 1,
+      "y": 7
+    }
+  ],
+  "p2DeploymentSlots": [
+    {
+      "x": 14,
+      "y": 4
+    },
+    {
+      "x": 14,
+      "y": 7
+    }
+  ],
+  "units": [],
+  "presetEnemies": [
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 12,
+      "y": 7
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 13,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 12,
+      "y": 9
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 14,
+      "y": 7
+    }
+  ]
+}
