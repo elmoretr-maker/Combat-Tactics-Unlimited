@@ -1265,6 +1265,7 @@ function toggleBattleFullscreen() {
   else el.requestFullscreen?.().catch(() => {});
 }
 
+/** Grid cell lerp: visual draw uses lerpPos() from (x0,y0) to (x1,y1) while logic x/y stay at destination. */
 function startLerp(unit, x0, y0, x1, y1) {
   const dist = Math.abs(x1 - x0) + Math.abs(y1 - y0);
   const dur = moveTweenDurationMs(dist, !!settings.reduceMotion);
