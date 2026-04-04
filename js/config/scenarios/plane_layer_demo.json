@@ -1,0 +1,51 @@
+{
+  "id": "plane_layer_demo",
+  "name": "Battle mat lab (plane stack)",
+  "width": 14,
+  "height": 10,
+  "cellSize": 48,
+  "terrain": [
+    ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","forest","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"]
+  ],
+  "presetEnemies": [
+    { "templateId": "grunt_red", "owner": 1, "x": 10, "y": 4 },
+    { "templateId": "grunt_red", "owner": 1, "x": 12, "y": 6 },
+    { "templateId": "opfor_tank", "owner": 1, "x": 11, "y": 7 }
+  ],
+  "units": [],
+  "skirmishDeploy": [
+    { "x": 1, "y": 1 },
+    { "x": 1, "y": 3 },
+    { "x": 1, "y": 5 },
+    { "x": 1, "y": 7 },
+    { "x": 2, "y": 2 },
+    { "x": 2, "y": 4 },
+    { "x": 2, "y": 6 },
+    { "x": 3, "y": 5 }
+  ],
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "fogOfWar": false,
+  "battlePlaneLayer": {
+    "enabled": true,
+    "theater": "grass",
+    "randomizeTheater": false,
+    "overlayAlpha": 0.28
+  },
+  "proceduralBoard": {
+    "enabled": true,
+    "minObstacles": 22,
+    "maxObstacles": 36,
+    "seed": "plane_layer_demo_v2"
+  }
+}

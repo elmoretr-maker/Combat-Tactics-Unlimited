@@ -43,7 +43,7 @@ export function canAttack(attacker, target, allUnits, losCtx) {
         losCtx.tileTypes,
         attacker.x, attacker.y,
         target.x,   target.y,
-        { sightBudget }
+        { sightBudget, mapObjects: losCtx.mapObjects }
       )
     ) {
       return false;

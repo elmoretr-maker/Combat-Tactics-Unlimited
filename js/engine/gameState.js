@@ -1,4 +1,6 @@
 import { buildTerrainGrid, moveCostAt } from "./terrain.js";
+import { mapObjectBlocksMoveAt } from "../battle-plane/mapObjects.js";
+import { BLOCKED_MOVE_COST } from "../battle-plane/pathfindingCost.js";
 import { reachableTiles, findPath } from "./astar.js";
 import { canAttack, resolveAttack, resolveCounter } from "./combat.js";
 import { inBounds } from "./grid.js";
@@ -66,15 +68,25 @@ export class GameState {
         destroyed: false,
       });
     }
+    /** Scatter props (battle-plane module); empty for all legacy scenarios */
+    this.mapObjects = [];
     this.currentPlayer = 0;
     this.selectedId = null;
     this.winner = null;
     /** Full rounds completed (each time play returns to player 0 after opfor). */
     this.fullRoundsCompleted = 0;
-    this.costAt = (x, y) => moveCostAt(this.grid, this.tileTypes, x, y);
+    this._terrainMoveCost = (x, y) =>
+      moveCostAt(this.grid, this.tileTypes, x, y);
+    this.costAt = (x, y) => {
+      if (mapObjectBlocksMoveAt(this.mapObjects, x, y)) {
+        return BLOCKED_MOVE_COST;
+      }
+      return this._terrainMoveCost(x, y);
+    };
     this.losCtx = () => ({
       grid: this.grid,
       tileTypes: this.tileTypes,
+      mapObjects: this.mapObjects?.length ? this.mapObjects : undefined,
       sightBudget:
         this.scenario?.losSightBudget != null &&
         Number.isFinite(this.scenario.losSightBudget)

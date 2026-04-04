@@ -1,12 +1,36 @@
-import { findPath } from "./astar.js";
-import { moveCostAt } from "./terrain.js";
+import { findPath } from "../engine/astar.js";
+import { moveCostAt } from "../engine/terrain.js";
 import { isBlockedMoveCost, BLOCKED_MOVE_COST } from "./pathfindingCost.js";
 import { makeMapObject, mapObjectBlocksMoveAt } from "./mapObjects.js";
 
-const OBSTACLE_SPRITES = [
-  "assets/props/crate.png",
-  "assets/props/barrel.png",
-  "assets/props/ruins.png",
+/**
+ * Scatter props — CraftPix PNG City / PNG City 2 (same licensed tree as `tileTextures.json` cp_*).
+ * `assets/props/*.png` was a stub path; real art lives under attached_assets/craftpix_pack/.
+ */
+const CP_CITY = "attached_assets/craftpix_pack/city";
+const PROP_TYPES = [
+  {
+    kind: "crate",
+    sprite: `${CP_CITY}/PNG City/Crates Barrels/TDS04_0018_Box1.png`,
+  },
+  {
+    kind: "barrel",
+    sprite: `${CP_CITY}/PNG City/Crates Barrels/TDS04_0016_Barrel.png`,
+  },
+  {
+    kind: "ruins",
+    sprite:
+      `${CP_CITY}/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png`,
+  },
+  {
+    kind: "tree",
+    sprite: `${CP_CITY}/PNG City/Trees Bushes/TDS04_0022_Tree1.png`,
+  },
+  {
+    kind: "house",
+    sprite:
+      `${CP_CITY}/PNG City 2/small_houses/Details/small_house1_color1_roof.png`,
+  },
 ];
 
 function mulberry32(seed) {
@@ -77,7 +101,7 @@ const SCATTER_FLOOR = new Set(["cp_grass", "plains", "desert", "snow"]);
 /**
  * Random 5–10 obstacle props into `mapObjects` (movement + LOS). Does not mutate terrain type.
  */
-export function generateBoard(scenario, grid, tileTypes, mapObjects) {
+export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
   const cfg = scenario.proceduralBoard;
   if (!cfg?.enabled) return;
 
@@ -111,15 +135,32 @@ export function generateBoard(scenario, grid, tileTypes, mapObjects) {
     minO + Math.floor(rnd() * (span + 1)),
   );
 
+  const tryPlace = (x, y) => {
+    const pick = PROP_TYPES[Math.floor(rnd() * PROP_TYPES.length)];
+    const obj = makeMapObject(x, y, pick.sprite, undefined, pick.kind);
+    mapObjects.push(obj);
+    if (!pathStillExists(grid, tileTypes, mapObjects, scenario)) {
+      mapObjects.pop();
+      return false;
+    }
+    return true;
+  };
+
   for (let i = 0; i < target; i++) {
     const pair = candidates[i];
     if (!pair) break;
     const [x, y] = pair;
-    const sprite = OBSTACLE_SPRITES[Math.floor(rnd() * OBSTACLE_SPRITES.length)];
-    const obj = makeMapObject(x, y, sprite);
-    mapObjects.push(obj);
-    if (!pathStillExists(grid, tileTypes, mapObjects, scenario)) {
-      mapObjects.pop();
-    }
+    tryPlace(x, y);
+  }
+
+  /* Dense boards: path checks reject many props — keep trying random cells until min count or budget */
+  const minFloor = Math.min(minO, candidates.length);
+  let extraTries = Math.min(220, candidates.length * 4);
+  while (mapObjects.length < minFloor && extraTries-- > 0) {
+    const pair = candidates[Math.floor(rnd() * candidates.length)];
+    if (!pair) break;
+    const [x, y] = pair;
+    if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
+    tryPlace(x, y);
   }
 }

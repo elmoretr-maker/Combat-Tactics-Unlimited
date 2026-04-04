@@ -195,6 +195,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
   const cs = g.cellSize;
   const ox = options.offsetX ?? 0;
   const oy = options.offsetY ?? 0;
+  const planeStack = options.stackMode === "plane";
   ctx.save();
   ctx.translate(ox, oy);
 
@@ -206,43 +207,63 @@ export function drawGrid(ctx, game, tileTypes, options) {
 
       /* ── Tile image (primary) or colour fallback ── */
       let drewImage = false;
-      const craftUrl = tileTypes[t]?.tileImage;
-      if (craftUrl) {
-        const cent = getCraftpixTileImage(craftUrl);
-        if (cent?.ok && cent.img.complete && cent.img.naturalWidth) {
-          ctx.save();
-          ctx.imageSmoothingEnabled = true;
-          ctx.drawImage(cent.img, px, py, cs, cs);
-          ctx.restore();
-          drewImage = true;
-        }
+      if (planeStack) {
+        ctx.fillStyle =
+          (x + y) % 2 === 0
+            ? "rgba(255,255,255,0.05)"
+            : "rgba(0,0,0,0.07)";
+        ctx.fillRect(px, py, cs, cs);
+        drewImage = true;
       }
-      if (!drewImage) {
-        const tileIdx = pickTileIdx(t, x, y);
-        if (tileIdx !== null) {
-          const entry = getTileImage(tileIdx);
-          if (entry.ok && entry.img.complete && entry.img.naturalWidth) {
+      if (!planeStack) {
+        const craftUrl = tileTypes[t]?.tileImage;
+        if (craftUrl) {
+          const cent = getCraftpixTileImage(craftUrl);
+          if (cent?.ok && cent.img.complete && cent.img.naturalWidth) {
             ctx.save();
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(entry.img, px, py, cs, cs);
+            ctx.imageSmoothingEnabled = true;
+            ctx.drawImage(cent.img, px, py, cs, cs);
             ctx.restore();
             drewImage = true;
           }
         }
       }
-      if (!drewImage) {
-        ctx.fillStyle = terrainColor(tileTypes, t);
-        ctx.fillRect(px, py, cs, cs);
-        drawTerrainFallback(ctx, t, px, py, cs);
+      if (!planeStack) {
+        if (!drewImage) {
+          const tileIdx = pickTileIdx(t, x, y);
+          if (tileIdx !== null) {
+            const entry = getTileImage(tileIdx);
+            if (entry.ok && entry.img.complete && entry.img.naturalWidth) {
+              ctx.save();
+              ctx.imageSmoothingEnabled = false;
+              ctx.drawImage(entry.img, px, py, cs, cs);
+              ctx.restore();
+              drewImage = true;
+            }
+          }
+        }
+        if (!drewImage) {
+          ctx.fillStyle = terrainColor(tileTypes, t);
+          ctx.fillRect(px, py, cs, cs);
+          drawTerrainFallback(ctx, t, px, py, cs);
+        }
       }
 
       /* ── Grid lines ── */
-      ctx.strokeStyle = "rgba(0,0,0,0.18)";
-      ctx.lineWidth = 0.5;
+      if (planeStack) {
+        ctx.strokeStyle =
+          (x + y) % 2 === 0
+            ? "rgba(255,255,255,0.55)"
+            : "rgba(0,0,0,0.62)";
+        ctx.lineWidth = 1.15;
+      } else {
+        ctx.strokeStyle = "rgba(0,0,0,0.18)";
+        ctx.lineWidth = 0.5;
+      }
       ctx.strokeRect(px + 0.5, py + 0.5, cs - 1, cs - 1);
 
       /* ── Subtle terrain label (only when no image loaded) ── */
-      if (!drewImage && tileTypes[t] && t !== "plains") {
+      if (!planeStack && !drewImage && tileTypes[t] && t !== "plains") {
         ctx.save();
         ctx.font = `bold ${Math.round(cs * 0.2)}px monospace`;
         ctx.fillStyle = "rgba(255,255,255,0.28)";
@@ -341,6 +362,22 @@ export function drawGrid(ctx, game, tileTypes, options) {
             ctx.fillRect(fx * cs, fy * cs, cs, cs);
           }
         }
+      }
+    }
+  }
+
+  /* Fog sat on top of per-cell grid strokes — redraw tactical grid so it stays readable */
+  if (options.fogCells && planeStack) {
+    for (let gy = 0; gy < g.height; gy++) {
+      for (let gx = 0; gx < g.width; gx++) {
+        const px = gx * cs;
+        const py = gy * cs;
+        ctx.strokeStyle =
+          (gx + gy) % 2 === 0
+            ? "rgba(255,255,255,0.62)"
+            : "rgba(0,0,0,0.72)";
+        ctx.lineWidth = 1.25;
+        ctx.strokeRect(px + 0.5, py + 0.5, cs - 1, cs - 1);
       }
     }
   }

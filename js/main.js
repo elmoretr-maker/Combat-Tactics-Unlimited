@@ -12,8 +12,11 @@ import { loadProgress, saveProgress, isUnlocked } from "./progression/store.js";
 import { loadSettings, saveSettings } from "./progression/settings.js";
 import { initFirebase } from "./firebase/auth.js";
 import { wireCloudProgress } from "./firebase/progressSync.js";
+import { createBattlePlaneController } from "./battle-plane/runtime.js";
 
 window.__CTU_MODULE_LOADED = true;
+
+const PLANE_LAYER_SCENARIO_PATH = "js/config/scenarios/plane_layer_demo.json";
 
 /* ── State ──────────────────────────────────────────── */
 const QUICK_PLAYER_UNITS = [
@@ -43,7 +46,7 @@ let unitRegistry = [];
 let academyConfig;
 let hubConfig;
 let onboardingConfig;
-let lastBootOptions = { mode: "skirmish", loadout: null, scenarioPath: null };
+let lastBootOptions = { mode: "skirmish", loadout: null, scenarioPath: null, matLabTheater: null };
 /** When set (from Map Theater), used as default for vs-CPU skirmish and hotseat base layout. */
 let pendingUserMapPath = null;
 let mapCatalog = { maps: [] };
@@ -53,6 +56,22 @@ let academyPickSet = new Set();
 /** Map theater → vs CPU: player-picked squad (insertion order = deploy slots). */
 let mapSkirmishPickSet = new Set();
 let mapSkirmishPickCount = 2;
+/** Deploy slots for the current vs-CPU target map (or default skirmish layout if no map yet). */
+let pendingMapSkirmishSlotCount = 4;
+/** Squad locked in on Vs CPU prep (`null` until player confirms squad picker). */
+let pendingSkirmishOrderedLoadout = null;
+/** After squad picker: return to this screen instead of starting battle (`null` = map-theater flow). */
+let mapSkirmishPrepReturnId = null;
+/** Allow 1..mapSkirmishPickCount instead of requiring an exact fill (prep + mat lab). */
+let mapSkirmishFlexiblePick = false;
+/** Selected battle-mat theater before plane-layer battle (`grass` | `desert` | `urban`). */
+let pendingMatLabTheater = "grass";
+/** Player squad for mat lab (1–8 template ids, deploy order). */
+let pendingMatLabLoadout = null;
+/** If set, picking a map in theater returns to this screen (e.g. vs-cpu-prep). Cleared when opening maps from hub/nav. */
+let mapsReturnTarget = null;
+/** When set, battle uses mat + plane grid stack (`js/battle-plane/`). Null = legacy renderer. */
+let battlePlaneCtl = null;
 let battleHints = { movedOnce: false, attackedOnce: false };
 let battleStats = { p0Kills: 0, p1Kills: 0, rounds: 0 };
 
@@ -129,6 +148,9 @@ function drawVfxFlashes(ts) {
 function computeVisibleCells() {
   if (!game) return null;
   if (!settings.fogOfWar) return null;
+  /* Plane stack + scattered props: LOS fog hides the mat, grid, and enemies. Disable until tuned. */
+  if (game.scenario?.battlePlaneLayer?.enabled) return null;
+  if (game.scenario?.fogOfWar === false) return null;
   const visible = new Set();
   const losCtx = game.losCtx();
   const budget = losCtx.sightBudget;
@@ -140,7 +162,12 @@ function computeVisibleCells() {
         const tx = u.x + dx, ty = u.y + dy;
         if (tx < 0 || ty < 0 || tx >= game.grid.width || ty >= game.grid.height) continue;
         if (chebyshev(u.x, u.y, tx, ty) > range) continue;
-        if (hasLineOfSight(game.grid, game.tileTypes, u.x, u.y, tx, ty, { sightBudget: budget })) {
+        if (
+          hasLineOfSight(game.grid, game.tileTypes, u.x, u.y, tx, ty, {
+            sightBudget: budget,
+            mapObjects: game.mapObjects?.length ? game.mapObjects : undefined,
+          })
+        ) {
           visible.add(`${tx},${ty}`);
         }
       }
@@ -391,6 +418,8 @@ function showScreen(name, sectionId) {
   if (screenName === "hotseat")  openHotseat();
   if (screenName === "settings") applySettingsToUi();
   if (screenName === "maps")     renderMapTheater();
+  if (screenName === "vs-cpu-prep") void openVsCpuPrep();
+  if (screenName === "mat-lab-prep") void openMatLabPrep();
   if (screenName === "hub") {
     renderHubRoster(); renderHubModes(); renderHubShortcuts(); updateGateBanner();
     /* Carousel lives in hidden hub until now — remeasure so ▲/▼ aren't stuck disabled */
@@ -525,15 +554,22 @@ function renderHubModes() {
     b.addEventListener("click", () => {
       if (b.disabled) return;
       if (m.action === "maps") {
+        mapsReturnTarget = null;
         showScreen("maps");
         return;
       }
+      if (m.action === "mat_lab") {
+        showScreen("mat-lab-prep");
+        return;
+      }
       if (m.action === "academy") openAcademy();
-      else if (m.action === "skirmish")
-        bootBattle({
-          mode: "skirmish",
-          scenarioPath: m.scenarioPath || pendingUserMapPath,
-        });
+      else if (m.action === "skirmish") {
+        if (m.scenarioPath) {
+          bootBattle({ mode: "skirmish", scenarioPath: m.scenarioPath });
+        } else {
+          void openVsCpuPrep();
+        }
+      }
       else if (m.action === "trial")
         bootBattle({
           mode: "trial",
@@ -574,7 +610,11 @@ function renderHubShortcuts() {
     btn.disabled  = gated;
     const ic = sc.icon ? `<span class="hub-toggle-icon" aria-hidden="true">${sc.icon}</span>` : "";
     btn.innerHTML = `${ic}<span class="hub-toggle-label">${sc.label}</span>`;
-    btn.addEventListener("click", () => { if (!btn.disabled) showScreen(sc.screen); });
+    btn.addEventListener("click", () => {
+      if (btn.disabled) return;
+      if (sc.screen === "maps") mapsReturnTarget = null;
+      showScreen(sc.screen);
+    });
     host.appendChild(btn);
   }
 }
@@ -664,27 +704,157 @@ function confirmAcademy() {
   bootBattle({ mode: "academy", loadout: [...academyPickSet], scenarioPath: academyConfig?.scenarioPath });
 }
 
+async function refreshPendingMapSkirmishSlotCount() {
+  const path = pendingUserMapPath || "js/config/scenarios/academy_skirmish.json";
+  try {
+    const sb = await loadJson(path);
+    pendingMapSkirmishSlotCount = Math.min(8, Math.max(1, sb.skirmishDeploy?.length ?? 8));
+  } catch (e) {
+    console.warn("[CTU] skirmish slot count", e);
+    pendingMapSkirmishSlotCount = 8;
+  }
+}
+
+async function openVsCpuPrep() {
+  await refreshPendingMapSkirmishSlotCount();
+  const need = pendingMapSkirmishSlotCount || 8;
+  const n = pendingSkirmishOrderedLoadout?.length ?? 0;
+  if (pendingSkirmishOrderedLoadout && (n < 1 || n > need)) {
+    pendingSkirmishOrderedLoadout = null;
+  }
+  syncVsCpuPrepUi();
+}
+
+function syncVsCpuPrepUi() {
+  const mapEl = document.getElementById("vs-cpu-prep-map");
+  const squadEl = document.getElementById("vs-cpu-prep-squad");
+  const startBtn = document.getElementById("btn-vs-cpu-prep-start");
+  const maps = mapCatalog.maps || [];
+  const cur = maps.find((x) => x.path === pendingUserMapPath);
+  if (mapEl) {
+    mapEl.textContent = cur
+      ? `✓ ${cur.name} (${cur.width}×${cur.height})`
+      : "Not chosen — open Map theater and click a map.";
+  }
+  const need = pendingMapSkirmishSlotCount || 8;
+  const n = pendingSkirmishOrderedLoadout?.length ?? 0;
+  if (squadEl) {
+    squadEl.textContent =
+      n >= 1 && n <= need
+        ? `✓ ${n} unit(s) ready (uses first ${n} deploy slots; max ${need})`
+        : `Pick 1–${need} units — ${n} selected.`;
+  }
+  const ready = !!pendingUserMapPath && n >= 1 && n <= need;
+  if (startBtn) startBtn.disabled = !ready;
+}
+
+async function openMatLabPrep() {
+  if (!pendingMatLabTheater) pendingMatLabTheater = "grass";
+  syncMatLabPrepUi();
+}
+
+const MAT_LAB_THEATER_LABEL = {
+  grass: "Grass mat",
+  desert: "Desert mat",
+  urban: "Urban mat",
+};
+
+function syncMatLabPrepUi() {
+  const matEl = document.getElementById("mat-lab-prep-mat");
+  const squadEl = document.getElementById("mat-lab-prep-squad");
+  const startBtn = document.getElementById("btn-mat-lab-start");
+  const th = pendingMatLabTheater || "grass";
+  if (matEl) {
+    matEl.textContent = `✓ ${MAT_LAB_THEATER_LABEL[th] ?? th}`;
+  }
+  const n = pendingMatLabLoadout?.length ?? 0;
+  if (squadEl) {
+    squadEl.textContent =
+      n >= 1
+        ? `✓ ${n} unit(s) — deploy order saved (max 8)`
+        : "Not chosen — pick 1–8 units.";
+  }
+  if (startBtn) startBtn.disabled = n < 1 || n > 8;
+  document.querySelectorAll("#screen-mat-lab-prep [data-mat-theater]").forEach((btn) => {
+    const k = btn.getAttribute("data-mat-theater");
+    btn.classList.toggle("academy-offer--on", k === th);
+  });
+}
+
+function syncMapSkirmishCta() {
+  const cta = document.getElementById("btn-map-skirmish-confirm");
+  if (!cta) return;
+  const n = mapSkirmishPickSet.size;
+  if (mapSkirmishFlexiblePick) {
+    cta.disabled = n < 1 || n > mapSkirmishPickCount;
+  } else {
+    cta.disabled = n !== mapSkirmishPickCount;
+  }
+}
+
 /* ── Map theater → vs CPU loadout (full roster, no unlock gate) ─ */
-async function openMapSkirmishLoadout() {
-  if (!pendingUserMapPath) {
+async function openMapSkirmishLoadout(opts = {}) {
+  const returnToPrep = opts.returnToPrep === true;
+  const matLab = opts.matLab === true;
+  mapSkirmishFlexiblePick = returnToPrep || matLab;
+  mapSkirmishPrepReturnId = matLab ? "mat-lab-prep" : returnToPrep ? "vs-cpu-prep" : null;
+
+  if (!matLab && !returnToPrep && !pendingUserMapPath) {
     const sel = document.getElementById("map-theater-selected");
     if (sel) sel.textContent = "Select a map first — click a map card below.";
+    mapSkirmishPrepReturnId = null;
+    mapSkirmishFlexiblePick = false;
     return;
   }
+
+  if (matLab) {
+    pendingMapSkirmishSlotCount = 8;
+    mapSkirmishPickCount = 8;
+  } else {
+    await refreshPendingMapSkirmishSlotCount();
+    mapSkirmishPickCount = pendingMapSkirmishSlotCount;
+  }
+
+  mapSkirmishPickSet.clear();
+  const restoreOrder = matLab
+    ? pendingMatLabLoadout
+    : returnToPrep
+      ? pendingSkirmishOrderedLoadout
+      : null;
+  if (restoreOrder?.length) {
+    for (const id of restoreOrder) {
+      if (mapSkirmishPickSet.size < mapSkirmishPickCount) mapSkirmishPickSet.add(id);
+    }
+  }
+
   let scenarioBase;
   try {
-    scenarioBase = await loadJson(pendingUserMapPath);
+    if (matLab) {
+      scenarioBase = await loadJson(PLANE_LAYER_SCENARIO_PATH);
+    } else {
+      scenarioBase = pendingUserMapPath
+        ? await loadJson(pendingUserMapPath)
+        : await loadJson("js/config/scenarios/academy_skirmish.json");
+    }
   } catch (e) {
     console.warn("[CTU] map loadout: failed to load scenario", e);
     const sel = document.getElementById("map-theater-selected");
     if (sel) sel.textContent = "Could not load that map. Pick another.";
+    mapSkirmishPrepReturnId = null;
+    mapSkirmishFlexiblePick = false;
     return;
   }
-  mapSkirmishPickCount = Math.min(8, Math.max(1, scenarioBase.skirmishDeploy?.length ?? 8));
-  mapSkirmishPickSet.clear();
 
   const nameEl = document.getElementById("map-skirmish-map-name");
-  if (nameEl) nameEl.textContent = scenarioBase.name || "Battlefield";
+  if (nameEl) {
+    if (matLab) {
+      nameEl.textContent = "Battle mat lab";
+    } else {
+      nameEl.textContent = pendingUserMapPath
+        ? scenarioBase.name || "Battlefield"
+        : "Choose squad (map next)";
+    }
+  }
 
   const host = document.getElementById("map-skirmish-picks");
   if (!host) return;
@@ -702,6 +872,7 @@ async function openMapSkirmishLoadout() {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "academy-offer";
+    if (mapSkirmishPickSet.has(u.id)) btn.classList.add("academy-offer--on");
     btn.dataset.unitId = u.id;
     const ph = portraitThumbHtml(u, "academy-offer__img");
     btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="muted small">${u.hp} HP · mv ${u.move} · ${u.attackType}</span></span>`;
@@ -709,9 +880,26 @@ async function openMapSkirmishLoadout() {
     host.appendChild(btn);
   }
   const st = document.getElementById("map-skirmish-status");
-  if (st) st.textContent = `Choose ${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
-  const cta = document.getElementById("btn-map-skirmish-confirm");
-  if (cta) cta.disabled = true;
+  if (st) {
+    if (matLab) {
+      st.textContent = `Pick 1–8 units (full roster). Click order = deploy order on the mat.`;
+    } else if (returnToPrep) {
+      st.textContent = mapSkirmishFlexiblePick
+        ? `Pick 1–${mapSkirmishPickCount} units — you can choose the map on the setup screen if needed. Order = deploy slots.`
+        : `Choose ${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
+    } else {
+      st.textContent = `Choose exactly ${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
+    }
+  }
+  syncMapSkirmishCta();
+  const ctaLab = document.getElementById("btn-map-skirmish-confirm");
+  if (ctaLab) ctaLab.textContent = mapSkirmishFlexiblePick ? "Save squad" : "Start battle";
+  const backLab = document.getElementById("btn-map-skirmish-back");
+  if (backLab) {
+    if (mapSkirmishPrepReturnId === "mat-lab-prep") backLab.textContent = "← Mat lab setup";
+    else if (mapSkirmishPrepReturnId === "vs-cpu-prep") backLab.textContent = "← Vs CPU setup";
+    else backLab.textContent = "← Map theater";
+  }
   showScreen("map-skirmish");
 }
 
@@ -724,13 +912,45 @@ function toggleMapSkirmishPick(id, btnEl) {
     btnEl.classList.add("academy-offer--on");
   }
   const st = document.getElementById("map-skirmish-status");
-  if (st) st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount}.`;
-  const cta = document.getElementById("btn-map-skirmish-confirm");
-  if (cta) cta.disabled = mapSkirmishPickSet.size !== mapSkirmishPickCount;
+  if (st) {
+    if (mapSkirmishFlexiblePick) {
+      st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount} — need at least 1, at most ${mapSkirmishPickCount}.`;
+    } else {
+      st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount}.`;
+    }
+  }
+  syncMapSkirmishCta();
 }
 
 function confirmMapSkirmish() {
-  if (!pendingUserMapPath || mapSkirmishPickSet.size !== mapSkirmishPickCount) return;
+  const n = mapSkirmishPickSet.size;
+  if (mapSkirmishFlexiblePick) {
+    if (n < 1 || n > mapSkirmishPickCount) return;
+  } else if (n !== mapSkirmishPickCount) {
+    return;
+  }
+
+  const ret = mapSkirmishPrepReturnId;
+  if (ret === "mat-lab-prep") {
+    pendingMatLabLoadout = [...mapSkirmishPickSet];
+    mapSkirmishPrepReturnId = null;
+    mapSkirmishFlexiblePick = false;
+    syncMatLabPrepUi();
+    showScreen("mat-lab-prep");
+    return;
+  }
+  if (ret === "vs-cpu-prep") {
+    pendingSkirmishOrderedLoadout = [...mapSkirmishPickSet];
+    mapSkirmishPrepReturnId = null;
+    mapSkirmishFlexiblePick = false;
+    void openVsCpuPrep();
+    showScreen("vs-cpu-prep");
+    return;
+  }
+
+  mapSkirmishFlexiblePick = false;
+  mapSkirmishPrepReturnId = null;
+  if (!pendingUserMapPath) return;
   void bootBattle({
     mode: "skirmish",
     loadout: [...mapSkirmishPickSet],
@@ -791,9 +1011,11 @@ async function bootHotseat() {
   spriteAnimations = sprites;
   attackEffects = fx;
   const scenario = mergeHotseatScenario(scenarioBase, [...hotseatP1Set], [...hotseatP2Set]);
+  battlePlaneCtl = null;
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
   });
+  battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
   game.hotseat = true;
   game.playerNames = ["Player 1", "Player 2"];
@@ -973,6 +1195,7 @@ function resizeBattleCanvas() {
   const m = 24;
   canvas.width = game.grid.width * cs + m * 2;
   canvas.height = game.grid.height * cs + m * 2;
+  applyBattleZoom();
 }
 
 function syncBattleZoomLabel() {
@@ -984,9 +1207,16 @@ function syncBattleZoomLabel() {
 
 function applyBattleZoom() {
   const sc = document.getElementById("battle-canvas-scaler");
+  const zp = document.getElementById("battle-canvas-zoomport");
   if (!sc) return;
   const z = settings.reduceMotion ? 1 : (settings.battleZoom ?? 1.25);
   sc.style.transform = `scale(${z})`;
+  if (zp && canvas) {
+    const w = Math.max(1, canvas.width);
+    const h = Math.max(1, canvas.height);
+    zp.style.width = `${Math.ceil(w * z)}px`;
+    zp.style.height = `${Math.ceil(h * z)}px`;
+  }
   syncBattleZoomLabel();
 }
 
@@ -1292,6 +1522,10 @@ function drawFrame(ts) {
   gridOffsetX = Math.floor((canvas.width - game.grid.width * cs) / 2);
   gridOffsetY = Math.floor((canvas.height - game.grid.height * cs) / 2);
 
+  if (battlePlaneCtl) {
+    battlePlaneCtl.drawBackground(ctx, gridOffsetX, gridOffsetY);
+  }
+
   const sel = game.getSelected();
   const currentOwner = game.currentPlayer;
   const reach = sel && sel.owner === currentOwner ? game.reachableFor(sel) : null;
@@ -1303,6 +1537,7 @@ function drawFrame(ts) {
 
   drawGrid(ctx, game, tileTypes, {
     offsetX: gridOffsetX, offsetY: gridOffsetY,
+    stackMode: battlePlaneCtl ? "plane" : "legacy",
     reachable: reach,
     selected: sel && sel.owner === currentOwner ? sel : null,
     attackRange: atkRange,
@@ -1311,6 +1546,10 @@ function drawFrame(ts) {
     fogCells,
     timeMs: ts,
   });
+
+  if (battlePlaneCtl) {
+    battlePlaneCtl.drawProps(ctx, gridOffsetX, gridOffsetY);
+  }
 
   const sorted = [...game.units]
     .filter((u) => {
@@ -1495,7 +1734,12 @@ async function bootBattle(options = {}) {
         ? pendingUserMapPath || "js/config/scenarios/academy_skirmish.json"
         : "js/config/scenarios/academy_skirmish.json";
   }
-  lastBootOptions = { mode, loadout, scenarioPath };
+  lastBootOptions = {
+    mode,
+    loadout,
+    scenarioPath,
+    matLabTheater: options.matLabTheater ?? null,
+  };
   battleEndHandled = false;
   aiRunning = false;
   battleHints = { movedOnce: false, attackedOnce: false };
@@ -1523,9 +1767,15 @@ async function bootBattle(options = {}) {
   spriteAnimations = sprites;
   attackEffects = fx;
   const scenario = mergeScenarioForBattle(scenarioBase, mode, loadout, academyConfig);
+  if (options.matLabTheater && scenario.battlePlaneLayer?.enabled) {
+    scenario.battlePlaneLayer.theater = options.matLabTheater;
+    scenario.battlePlaneLayer.randomizeTheater = false;
+  }
+  battlePlaneCtl = null;
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
   });
+  battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
   unitRenderer = new UnitRenderer(spriteAnimations);
   battleVfx = new BattleVfx();
@@ -1711,9 +1961,39 @@ function renderMapTheater() {
       `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${m.environment}</span>` +
       (m.blurb ? `<span class="map-theater-card__blurb">${m.blurb}</span>` : "");
     card.addEventListener("click", () => {
-      pendingUserMapPath = m.path;
-      renderMapTheater();
-      void openMapSkirmishLoadout();
+      void (async () => {
+        const prevPath = pendingUserMapPath;
+        pendingUserMapPath = m.path;
+        let sb;
+        try {
+          sb = await loadJson(m.path);
+        } catch (e) {
+          console.warn("[CTU] map theater: load failed", e);
+          pendingUserMapPath = prevPath;
+          const sel = document.getElementById("map-theater-selected");
+          if (sel) sel.textContent = "Could not load that map. Pick another.";
+          renderMapTheater();
+          return;
+        }
+        const newSlots = Math.min(8, Math.max(1, sb.skirmishDeploy?.length ?? 8));
+        pendingMapSkirmishSlotCount = newSlots;
+        if (
+          pendingSkirmishOrderedLoadout &&
+          pendingSkirmishOrderedLoadout.length !== newSlots
+        ) {
+          pendingSkirmishOrderedLoadout = null;
+        }
+        renderMapTheater();
+        if (mapsReturnTarget === "vs-cpu-prep") {
+          mapsReturnTarget = null;
+          void openVsCpuPrep();
+          showScreen("vs-cpu-prep");
+        } else if (mapsReturnTarget === "mat-lab-prep") {
+          mapsReturnTarget = null;
+          void openMatLabPrep();
+          showScreen("mat-lab-prep");
+        }
+      })();
     });
     host.appendChild(card);
   }
@@ -1723,6 +2003,11 @@ function renderMapTheater() {
     sel.textContent = cur
       ? `Selected: ${cur.name} (${cur.width}×${cur.height})`
       : "Select a map below (optional — defaults apply if none).";
+  }
+  const backPrep = document.getElementById("btn-map-theater-back-prep");
+  if (backPrep) {
+    backPrep.hidden =
+      mapsReturnTarget !== "vs-cpu-prep" && mapsReturnTarget !== "mat-lab-prep";
   }
 }
 
@@ -1803,11 +2088,18 @@ function wireUi() {
       const s = btn.getAttribute("data-screen");
       if (!s) return;
       const section = btn.getAttribute("data-section") || null;
+      if (s === "maps") {
+        mapsReturnTarget = null;
+        showScreen(s, section);
+        return;
+      }
       if (s === "battle") {
         if (btn.getAttribute("data-requires-academy") === "true" && !progress.academyComplete) {
           showScreen("hub", "hub-section-modes"); updateGateBanner(); return;
         }
-        bootBattle({ mode: "skirmish" }); return;
+        void openVsCpuPrep();
+        showScreen("vs-cpu-prep");
+        return;
       }
       if (s === "hotseat" && !progress.academyComplete) {
         showScreen("hub", "hub-section-modes"); updateGateBanner(); return;
@@ -1821,7 +2113,8 @@ function wireUi() {
   document.querySelectorAll("[data-skirmish='true']").forEach((btn) => {
     btn.addEventListener("click", () => {
       if (!progress.academyComplete) { showScreen("hub"); updateGateBanner(); return; }
-      bootBattle({ mode: "skirmish" });
+      void openVsCpuPrep();
+      showScreen("vs-cpu-prep");
     });
   });
 
@@ -1881,12 +2174,71 @@ function wireUi() {
     renderMapTheater();
   });
   document.getElementById("btn-map-theater-skirmish")?.addEventListener("click", () => {
-    void openMapSkirmishLoadout();
+    void openMapSkirmishLoadout({ returnToPrep: false });
+  });
+  document.getElementById("btn-map-theater-back-prep")?.addEventListener("click", () => {
+    const t = mapsReturnTarget;
+    mapsReturnTarget = null;
+    if (t === "mat-lab-prep") {
+      void openMatLabPrep();
+      showScreen("mat-lab-prep");
+    } else {
+      void openVsCpuPrep();
+      showScreen("vs-cpu-prep");
+    }
+  });
+  document.getElementById("btn-vs-cpu-prep-map")?.addEventListener("click", () => {
+    mapsReturnTarget = "vs-cpu-prep";
+    showScreen("maps");
+  });
+  document.getElementById("btn-vs-cpu-prep-squad")?.addEventListener("click", () => {
+    void openMapSkirmishLoadout({ returnToPrep: true });
+  });
+  document.getElementById("btn-vs-cpu-prep-start")?.addEventListener("click", () => {
+    const need = pendingMapSkirmishSlotCount || 8;
+    const n = pendingSkirmishOrderedLoadout?.length ?? 0;
+    if (!pendingUserMapPath || n < 1 || n > need) return;
+    void bootBattle({
+      mode: "skirmish",
+      loadout: [...pendingSkirmishOrderedLoadout],
+      scenarioPath: pendingUserMapPath,
+    });
+  });
+  document.getElementById("screen-mat-lab-prep")?.addEventListener("click", (ev) => {
+    const b = ev.target.closest("[data-mat-theater]");
+    if (!b || b.disabled) return;
+    pendingMatLabTheater = b.getAttribute("data-mat-theater") || "grass";
+    syncMatLabPrepUi();
+  });
+  document.getElementById("btn-mat-lab-squad")?.addEventListener("click", () => {
+    void openMapSkirmishLoadout({ matLab: true });
+  });
+  document.getElementById("btn-mat-lab-start")?.addEventListener("click", () => {
+    const loadout = pendingMatLabLoadout;
+    const n = loadout?.length ?? 0;
+    if (n < 1 || n > 8 || !pendingMatLabTheater) return;
+    void bootBattle({
+      mode: "skirmish",
+      scenarioPath: PLANE_LAYER_SCENARIO_PATH,
+      loadout: [...loadout],
+      matLabTheater: pendingMatLabTheater,
+    });
   });
   document.getElementById("btn-map-skirmish-confirm")?.addEventListener("click", confirmMapSkirmish);
   document.getElementById("btn-map-skirmish-back")?.addEventListener("click", () => {
-    showScreen("maps");
-    renderMapTheater();
+    const ret = mapSkirmishPrepReturnId;
+    mapSkirmishPrepReturnId = null;
+    mapSkirmishFlexiblePick = false;
+    if (ret === "mat-lab-prep") {
+      showScreen("mat-lab-prep");
+      syncMatLabPrepUi();
+    } else if (ret === "vs-cpu-prep") {
+      showScreen("vs-cpu-prep");
+      syncVsCpuPrepUi();
+    } else {
+      showScreen("maps");
+      renderMapTheater();
+    }
   });
   document.getElementById("btn-map-theater-hotseat")?.addEventListener("click", () =>
     showScreen("hotseat")

@@ -7,6 +7,14 @@
   },
   "soloModes": [
     {
+      "id": "plane_layer_lab",
+      "title": "Battle mat lab",
+      "description": "Pick mat surface (grass / desert / urban), choose 1–8 units, then fight on the plane-over-grid stack with dense props.",
+      "action": "mat_lab",
+      "iconKey": "maps",
+      "requiresAcademy": false
+    },
+    {
       "id": "map_theater",
       "title": "Map theater",
       "description": "Pick one of 20 battlefields for skirmish or hotseat.",
@@ -34,8 +42,8 @@
     },
     {
       "id": "skirmish",
-      "title": "Quick Skirmish (vs CPU)",
-      "description": "Default roster, default map. Fast test against AI.",
+      "title": "Vs CPU (setup)",
+      "description": "Choose your map and squad in any order, then start the battle.",
       "action": "skirmish",
       "iconKey": "skirmish",
       "requiresAcademy": false

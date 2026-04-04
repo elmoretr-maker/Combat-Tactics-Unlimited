@@ -11,7 +11,7 @@ This note captures **why Hub/Codex once looked empty**, how the shell was recove
 **Fix pattern:**
 
 - Keep **`main.js` imports limited to tracked, always-present modules** (match `HEAD` / origin).
-- Park experimental board/plane/grid code under something like **`js/wip-board-layer/`** and wire it with **`import()`** only on the battle path when stable—so Hub/Codex cannot be bricked by WIP.
+- Production plane stack lives in **`js/battle-plane/`** (see its **README.md**). It runs only when a scenario sets **`battlePlaneLayer.enabled`**. Legacy battles omit that key and keep the original tile renderer.
 
 **Diagnosis:** DevTools **Network** (failed `.js` 404) or **Console** (module load error). On boot failure from `fetch`, `showBootFailureBanner()` explains `file://` vs local server.
 

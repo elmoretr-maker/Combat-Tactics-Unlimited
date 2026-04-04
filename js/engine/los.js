@@ -46,6 +46,9 @@ export function hasLineOfSight(grid, tileTypes, ax, ay, tx, ty, options = {}) {
   for (let i = 1; i < line.length - 1; i++) {
     const [x, y] = line[i];
     if (!inBounds(grid, x, y)) return false;
+    if (options.mapObjects?.length && mapObjectBlocksLosAt(options.mapObjects, x, y)) {
+      return false;
+    }
     const terr = grid.cells[y][x];
     if (tileBlocksLos(tileTypes, terr)) return false;
     const info = tileTypes[terr];

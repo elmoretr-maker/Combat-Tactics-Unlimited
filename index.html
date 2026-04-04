@@ -50,6 +50,8 @@
           <button type="button" class="btn" data-screen="landing">Original home</button>
           <button type="button" class="btn" data-screen="hub" data-section="hub-section-modes">Command hub</button>
           <button type="button" class="btn" data-screen="maps">Map theater</button>
+          <button type="button" class="btn" data-screen="vs-cpu-prep">Vs CPU setup</button>
+          <button type="button" class="btn" data-screen="mat-lab-prep">Battle mat lab</button>
           <button type="button" class="btn" data-screen="hotseat">1v1 Hotseat</button>
           <button type="button" class="btn" data-screen="codex">Codex</button>
           <button type="button" class="btn" data-screen="settings">Settings</button>
@@ -321,11 +323,52 @@
       </div>
     </section>
 
+    <!-- ── VS CPU: map + squad in either order, then battle ─ -->
+    <section id="screen-vs-cpu-prep" class="screen" aria-label="Vs CPU mission setup" hidden>
+      <div class="panel panel--wide ctu-metal-panel">
+        <h2>Vs CPU — Mission setup</h2>
+        <p class="muted small">Pick your <strong>map</strong> and <strong>squad</strong> in any order, then start the battle. Use the buttons below — you can switch between Map theater and squad selection until both are ready.</p>
+        <ul class="vs-cpu-prep-status muted" style="list-style:none;padding:0;margin:1rem 0;line-height:1.6">
+          <li><strong>Battlefield:</strong> <span id="vs-cpu-prep-map">—</span></li>
+          <li><strong>Your squad:</strong> <span id="vs-cpu-prep-squad">—</span></li>
+        </ul>
+        <div class="row-actions" style="flex-wrap:wrap;gap:0.5rem">
+          <button type="button" id="btn-vs-cpu-prep-map" class="btn">Choose map</button>
+          <button type="button" id="btn-vs-cpu-prep-squad" class="btn">Choose squad</button>
+          <button type="button" id="btn-vs-cpu-prep-start" class="cta" disabled>Start battle</button>
+          <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BATTLE MAT LAB: surface → squad (1–8) → plane-stack battle ─ -->
+    <section id="screen-mat-lab-prep" class="screen" aria-label="Battle mat lab setup" hidden>
+      <div class="panel panel--wide ctu-metal-panel">
+        <h2>Battle mat lab</h2>
+        <p class="muted small">Same idea as the Academy flow: <strong>choose your battlefield</strong> (mat surface), <strong>choose your units</strong>, then <strong>fight</strong>. You can switch mat or squad until you are ready. Up to <strong>8</strong> units; click order is deploy order on the left flank.</p>
+        <ul class="muted" style="list-style:none;padding:0;margin:1rem 0;line-height:1.6">
+          <li><strong>Mat surface:</strong> <span id="mat-lab-prep-mat">—</span></li>
+          <li><strong>Your squad:</strong> <span id="mat-lab-prep-squad">—</span></li>
+        </ul>
+        <p class="muted small" style="margin-bottom:0.5rem">Mat</p>
+        <div class="row-actions" style="flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem">
+          <button type="button" class="btn" data-mat-theater="grass">Grass</button>
+          <button type="button" class="btn" data-mat-theater="desert">Desert</button>
+          <button type="button" class="btn" data-mat-theater="urban">Urban</button>
+        </div>
+        <div class="row-actions" style="flex-wrap:wrap;gap:0.5rem">
+          <button type="button" id="btn-mat-lab-squad" class="btn">Choose squad</button>
+          <button type="button" id="btn-mat-lab-start" class="cta" disabled>Start battle</button>
+          <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+        </div>
+      </div>
+    </section>
+
     <!-- ── MAP THEATER (pick battlefield for skirmish / hotseat) ─ -->
     <section id="screen-maps" class="screen" aria-label="Map theater" hidden>
       <div class="panel panel--wide map-theater">
         <h2>Map theater</h2>
-        <p class="muted small">Click a map to <strong>choose your squad</strong> (full roster) and fight the AI on that battlefield. Or pick a card, then use <strong>Vs CPU on map</strong>. For <strong>1v1 hotseat</strong>, select a map here first, then open Hotseat. Four size bands × five environments — 20 layouts.</p>
+        <p class="muted small">Click a map to <strong>select</strong> it (highlighted). Then use <strong>Vs CPU on map</strong> to pick your squad and fight, or return to <strong>Vs CPU setup</strong> if you came from there. For <strong>1v1 hotseat</strong>, select a map here first, then open Hotseat. Four size bands × five environments — 20 layouts.</p>
         <div class="map-theater-filters">
           <label class="map-theater-filter">
             <span>Size</span>
@@ -354,6 +397,7 @@
         <div class="row-actions map-theater-actions">
           <button type="button" id="btn-map-theater-skirmish" class="cta">Vs CPU on map</button>
           <button type="button" id="btn-map-theater-hotseat" class="btn">Use map · hotseat setup</button>
+          <button type="button" id="btn-map-theater-back-prep" class="btn btn--ghost" hidden>← Mission setup</button>
           <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
         </div>
       </div>
@@ -547,8 +591,10 @@
         </aside>
 
         <div class="canvas-wrap battle-canvas-arena" id="battle-canvas-arena" style="position:relative">
-          <div class="battle-canvas-scaler" id="battle-canvas-scaler">
-            <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield"></canvas>
+          <div class="battle-canvas-zoomport" id="battle-canvas-zoomport" aria-hidden="true">
+            <div class="battle-canvas-scaler" id="battle-canvas-scaler">
+              <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield"></canvas>
+            </div>
           </div>
           <div id="unit-tooltip" class="unit-tooltip" hidden></div>
         </div>

@@ -1,6 +1,6 @@
 /**
- * Placed battlefield props (crates, barrels, ruins). Authoritative for scatter obstacles:
- * blocks movement and line-of-sight independent of base terrain type under the cell.
+ * Placed battlefield props (crates, barrels, ruins). Blocks movement and LOS
+ * independent of base terrain when `game.mapObjects` is populated.
  */
 
 /** @param {{ x: number, y: number, blocksMove?: boolean, blocksLos?: boolean }[]} objects */
@@ -19,12 +19,17 @@ export function mapObjectBlocksLosAt(objects, x, y) {
   );
 }
 
-export function makeMapObject(x, y, sprite, id) {
+/**
+ * @param {string | null} sprite Asset path (optional if visualKind drives fallback art)
+ * @param {"crate"|"barrel"|"ruins"|"tree"|"house"} [visualKind]
+ */
+export function makeMapObject(x, y, sprite, id, visualKind = "crate") {
   return {
     id: id || `obj_${x}_${y}_${Math.random().toString(36).slice(2, 7)}`,
     x,
     y,
-    sprite,
+    sprite: sprite || null,
+    visualKind,
     blocksMove: true,
     blocksLos: true,
   };

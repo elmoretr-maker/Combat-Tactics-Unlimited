@@ -127,12 +127,22 @@ export class UnitRenderer {
     const cy = py + cellSize / 2 + bob;
     ctx.save();
     ctx.translate(cx, cy);
+    /* Tactical underlay — separates unit from busy battle mats */
+    const half = cellSize * 0.45;
+    const sy = half * 0.52;
+    const rg = ctx.createRadialGradient(0, sy, 0, 0, sy, half * 1.05);
+    rg.addColorStop(0, "rgba(0,0,0,0.38)");
+    rg.addColorStop(0.55, "rgba(0,0,0,0.18)");
+    rg.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = rg;
+    ctx.beginPath();
+    ctx.ellipse(0, sy, half * 0.92, half * 0.3, 0, 0, Math.PI * 2);
+    ctx.fill();
     if (mode === "topdown" && typeof faceRad === "number") {
       ctx.rotate(faceRad - Math.PI / 2);
     } else if (facingLeft) {
       ctx.scale(-1, 1);
     }
-    const half = cellSize * 0.45;
     if (!setId) {
       if (!this.drawPortraitFallback(ctx, unit, half, cellSize)) {
         ctx.fillStyle = unit.owner === 0 ? "#5cadff" : "#ff6b6b";
