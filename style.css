@@ -1156,23 +1156,6 @@ body {
   pointer-events: auto;
 }
 
-.lp-hero__cta-wrap {
-  margin: 0;
-}
-
-.lp-hero__cta {
-  pointer-events: auto;
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(0.62rem, 1.6vw, 0.78rem);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.35rem 0.9rem;
-  color: #bff5c8;
-  text-shadow: 0 0 10px rgba(64, 192, 87, 0.45);
-}
-
 /* ── Main title — single line in the thin banner ── */
 .lp-title {
   font-family: var(--font-display);
