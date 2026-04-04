@@ -430,6 +430,13 @@ button *,
   opacity: 0.85;
 }
 
+/* Landing command strip: dial PNGs via ::before only — not the global toggle texture */
+#app button.lp-dock-tag {
+  background-image: none;
+  min-height: 0;
+  background-size: auto;
+}
+
 /* Hub mode row button — layout + rivets only (toggle is bg) */
 .hub-mode-card {
   position: relative;
@@ -551,8 +558,7 @@ button *,
 
 /* ops-panel now uses a simple CSS box — no metal frame markup */
 
-/* Landing dock */
-.lp-dock-tag,
+/* Landing dock flyout cards still use toggle art; strip tags use circle assets only */
 .lp-dock-go.lp-card {
   min-height: var(--ctu-toggle-min-h-sm);
   background-size: auto 100%;
