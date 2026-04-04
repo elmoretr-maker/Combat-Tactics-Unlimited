@@ -1,0 +1,173 @@
+{
+  "generatedAt": "2026-04-04T19:29:32.136Z",
+  "note": "Primary list: generic basenames only. If that list is empty, `demoSamples` shows the same heuristics on a few `assets/tiles/urban` files (filenames not renamed by the librarian).",
+  "scannedForGenericUnder": [
+    "assets/New_Arrivals",
+    "assets/tiles",
+    "assets/obstacles"
+  ],
+  "genericNameCount": 0,
+  "items": [],
+  "demoSamples": [
+    {
+      "path": "assets/tiles/urban/Bridges.png",
+      "fileName": "Bridges.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 656,
+        "height": 672
+      },
+      "aspect": 0.976,
+      "dominantHex": "#534546",
+      "avgRgb": {
+        "r": 83,
+        "g": 69,
+        "b": 70
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "building",
+      "categoryByVisual": "building",
+      "proposedRenameIfGeneric": "building_medium_urban_37667eb7.png"
+    },
+    {
+      "path": "assets/tiles/urban/Objects.png",
+      "fileName": "Objects.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 384,
+        "height": 96
+      },
+      "aspect": 4,
+      "dominantHex": "#392D2E",
+      "avgRgb": {
+        "r": 57,
+        "g": 45,
+        "b": 46
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_2907989b.png"
+    },
+    {
+      "path": "assets/tiles/urban/Objects_1.png",
+      "fileName": "Objects_1.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 384,
+        "height": 144
+      },
+      "aspect": 2.667,
+      "dominantHex": "#2C2223",
+      "avgRgb": {
+        "r": 44,
+        "g": 34,
+        "b": 35
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_90ef6675.png"
+    },
+    {
+      "path": "assets/tiles/urban/Water_animation.png",
+      "fileName": "Water_animation.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 688,
+        "height": 192
+      },
+      "aspect": 3.583,
+      "dominantHex": "#3B4846",
+      "avgRgb": {
+        "r": 59,
+        "g": 72,
+        "b": 70
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_8090c350.png"
+    },
+    {
+      "path": "assets/tiles/urban/Water_animation10.png",
+      "fileName": "Water_animation10.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 688,
+        "height": 192
+      },
+      "aspect": 3.583,
+      "dominantHex": "#394956",
+      "avgRgb": {
+        "r": 57,
+        "g": 73,
+        "b": 86
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_5f044cc3.png"
+    },
+    {
+      "path": "assets/tiles/urban/Water_animation11.png",
+      "fileName": "Water_animation11.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 688,
+        "height": 192
+      },
+      "aspect": 3.583,
+      "dominantHex": "#354048",
+      "avgRgb": {
+        "r": 53,
+        "g": 64,
+        "b": 72
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_c328ed0c.png"
+    },
+    {
+      "path": "assets/tiles/urban/Water_animation12.png",
+      "fileName": "Water_animation12.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 688,
+        "height": 192
+      },
+      "aspect": 3.583,
+      "dominantHex": "#34363E",
+      "avgRgb": {
+        "r": 52,
+        "g": 54,
+        "b": 62
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_917f9ae7.png"
+    },
+    {
+      "path": "assets/tiles/urban/Water_animation13.png",
+      "fileName": "Water_animation13.png",
+      "filenameWasGeneric": false,
+      "dimensions": {
+        "width": 688,
+        "height": 192
+      },
+      "aspect": 3.583,
+      "dominantHex": "#534C3D",
+      "avgRgb": {
+        "r": 83,
+        "g": 76,
+        "b": 61
+      },
+      "inferredTheme": "urban",
+      "inferredAssetType": "tile",
+      "categoryByVisual": "tile",
+      "proposedRenameIfGeneric": "tile_urban_99ab4b3f.png"
+    }
+  ]
+}

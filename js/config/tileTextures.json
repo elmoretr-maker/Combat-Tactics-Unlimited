@@ -78,6 +78,15 @@
       "sightCost": 1,
       "defenseBonus": 0.15,
       "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png"
+    },
+    "building_block": {
+      "moveCost": 99,
+      "blocksMove": true,
+      "blocksLos": true,
+      "color": "#3a3840",
+      "sightCost": 0,
+      "defenseBonus": 0,
+      "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/small_houses/Details/small_house1_color1_roof.png"
     }
   },
   "defaultType": "plains"

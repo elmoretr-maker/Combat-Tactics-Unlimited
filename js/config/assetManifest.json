@@ -1,0 +1,2421 @@
+{
+  "version": 1,
+  "generatedAt": "2026-04-04T19:42:34.179Z",
+  "description": "Master catalog for procedural mapgen and tooling. Paths are repo-relative (forward slashes).",
+  "foundationHints": {
+    "urban": {
+      "baseTerrain": "cp_grass",
+      "roadTerrain": "cp_road",
+      "dividerTerrain": "water"
+    },
+    "desert": {
+      "baseTerrain": "desert",
+      "roadTerrain": "road",
+      "dividerTerrain": "water"
+    },
+    "grass": {
+      "baseTerrain": "plains",
+      "roadTerrain": "road",
+      "dividerTerrain": "water"
+    }
+  },
+  "assets": [
+    {
+      "id": "assets_guns_handgun_Gun_Urban_Handgun_62e67c6a_png",
+      "path": "assets/guns/handgun/Gun_Urban_Handgun_62e67c6a.png",
+      "fileName": "Gun_Urban_Handgun_62e67c6a.png",
+      "ext": "png",
+      "type": "gun",
+      "gunClass": "handgun",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "gun",
+        "handgun"
+      ]
+    },
+    {
+      "id": "assets_guns_handgun_Gun_Urban_Handgun_a1ac8683_png",
+      "path": "assets/guns/handgun/Gun_Urban_Handgun_a1ac8683.png",
+      "fileName": "Gun_Urban_Handgun_a1ac8683.png",
+      "ext": "png",
+      "type": "gun",
+      "gunClass": "handgun",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "gun",
+        "handgun"
+      ]
+    },
+    {
+      "id": "assets_buildings_large_Building_Urban_Large_062c9af9_png",
+      "path": "assets/buildings/large/Building_Urban_Large_062c9af9.png",
+      "fileName": "Building_Urban_Large_062c9af9.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "large",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "large",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_large_Building_Urban_Large_30c76b04_png",
+      "path": "assets/buildings/large/Building_Urban_Large_30c76b04.png",
+      "fileName": "Building_Urban_Large_30c76b04.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "large",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "large",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_0d971c64_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_0d971c64.png",
+      "fileName": "Building_Urban_Medium_0d971c64.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_2672df40_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_2672df40.png",
+      "fileName": "Building_Urban_Medium_2672df40.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_28c5fcb1_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_28c5fcb1.png",
+      "fileName": "Building_Urban_Medium_28c5fcb1.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_2c00745f_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_2c00745f.png",
+      "fileName": "Building_Urban_Medium_2c00745f.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_343b2d7b_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_343b2d7b.png",
+      "fileName": "Building_Urban_Medium_343b2d7b.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_86e9833e_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_86e9833e.png",
+      "fileName": "Building_Urban_Medium_86e9833e.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_9c86ff08_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
+      "fileName": "Building_Urban_Medium_9c86ff08.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_c4c08bdc_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png",
+      "fileName": "Building_Urban_Medium_c4c08bdc.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_13a4ce6c_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_13a4ce6c.png",
+      "fileName": "Tile_Desert_Tile_13a4ce6c.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_4c54db55_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_4c54db55.png",
+      "fileName": "Tile_Desert_Tile_4c54db55.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_73893cba_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_73893cba.png",
+      "fileName": "Tile_Desert_Tile_73893cba.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_8501cf17_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_8501cf17.png",
+      "fileName": "Tile_Desert_Tile_8501cf17.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_9584eb62_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_9584eb62.png",
+      "fileName": "Tile_Desert_Tile_9584eb62.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_a97a3f77_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_a97a3f77.png",
+      "fileName": "Tile_Desert_Tile_a97a3f77.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_c085f0b5_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_c085f0b5.png",
+      "fileName": "Tile_Desert_Tile_c085f0b5.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_e374f7b5_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_e374f7b5.png",
+      "fileName": "Tile_Desert_Tile_e374f7b5.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_f8a9863d_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_f8a9863d.png",
+      "fileName": "Tile_Desert_Tile_f8a9863d.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_desert_Tile_Desert_Tile_f8aca067_png",
+      "path": "assets/tiles/desert/Tile_Desert_Tile_f8aca067.png",
+      "fileName": "Tile_Desert_Tile_f8aca067.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "desert",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "desert"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Bridges_png",
+      "path": "assets/tiles/urban/Bridges.png",
+      "fileName": "Bridges.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_decorative_cracks_coasts_animation_png",
+      "path": "assets/tiles/urban/decorative_cracks_coasts_animation.png",
+      "fileName": "decorative_cracks_coasts_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_decorative_cracks_coasts_animation_1_png",
+      "path": "assets/tiles/urban/decorative_cracks_coasts_animation_1.png",
+      "fileName": "decorative_cracks_coasts_animation_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_decorative_cracks_floor_png",
+      "path": "assets/tiles/urban/decorative_cracks_floor.png",
+      "fileName": "decorative_cracks_floor.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_decorative_cracks_floor_1_png",
+      "path": "assets/tiles/urban/decorative_cracks_floor_1.png",
+      "fileName": "decorative_cracks_floor_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_decorative_cracks_walls_png",
+      "path": "assets/tiles/urban/decorative_cracks_walls.png",
+      "fileName": "decorative_cracks_walls.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_decorative_cracks_walls_1_png",
+      "path": "assets/tiles/urban/decorative_cracks_walls_1.png",
+      "fileName": "decorative_cracks_walls_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_doors_lever_chest_animation_png",
+      "path": "assets/tiles/urban/doors_lever_chest_animation.png",
+      "fileName": "doors_lever_chest_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_doors_lever_chest_animation_1_png",
+      "path": "assets/tiles/urban/doors_lever_chest_animation_1.png",
+      "fileName": "doors_lever_chest_animation_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_fire_animation_png",
+      "path": "assets/tiles/urban/fire_animation.png",
+      "fileName": "fire_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_fire_animation2_png",
+      "path": "assets/tiles/urban/fire_animation2.png",
+      "fileName": "fire_animation2.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_fire_animation2_1_png",
+      "path": "assets/tiles/urban/fire_animation2_1.png",
+      "fileName": "fire_animation2_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_fire_animation_1_png",
+      "path": "assets/tiles/urban/fire_animation_1.png",
+      "fileName": "fire_animation_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Objects_png",
+      "path": "assets/tiles/urban/Objects.png",
+      "fileName": "Objects.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Objects_1_png",
+      "path": "assets/tiles/urban/Objects_1.png",
+      "fileName": "Objects_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_06a80161_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_06a80161.png",
+      "fileName": "Tile_Urban_Tile_06a80161.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_0f758335_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_0f758335.png",
+      "fileName": "Tile_Urban_Tile_0f758335.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_18fa18b9_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_18fa18b9.png",
+      "fileName": "Tile_Urban_Tile_18fa18b9.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_1c019e12_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_1c019e12.png",
+      "fileName": "Tile_Urban_Tile_1c019e12.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_1c50d455_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_1c50d455.png",
+      "fileName": "Tile_Urban_Tile_1c50d455.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_1eb2209b_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_1eb2209b.png",
+      "fileName": "Tile_Urban_Tile_1eb2209b.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_28744415_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_28744415.png",
+      "fileName": "Tile_Urban_Tile_28744415.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_2bfc3030_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_2bfc3030.png",
+      "fileName": "Tile_Urban_Tile_2bfc3030.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_2e02582a_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_2e02582a.png",
+      "fileName": "Tile_Urban_Tile_2e02582a.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_2e72b2a4_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_2e72b2a4.png",
+      "fileName": "Tile_Urban_Tile_2e72b2a4.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_311f0f65_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_311f0f65.png",
+      "fileName": "Tile_Urban_Tile_311f0f65.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_31e8ed43_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_31e8ed43.png",
+      "fileName": "Tile_Urban_Tile_31e8ed43.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_3f58b367_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_3f58b367.png",
+      "fileName": "Tile_Urban_Tile_3f58b367.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_4041eb77_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_4041eb77.png",
+      "fileName": "Tile_Urban_Tile_4041eb77.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_43af6f6a_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_43af6f6a.png",
+      "fileName": "Tile_Urban_Tile_43af6f6a.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_449d0fed_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_449d0fed.png",
+      "fileName": "Tile_Urban_Tile_449d0fed.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_47b98f3a_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_47b98f3a.png",
+      "fileName": "Tile_Urban_Tile_47b98f3a.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_48275b5d_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_48275b5d.png",
+      "fileName": "Tile_Urban_Tile_48275b5d.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_58442700_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_58442700.png",
+      "fileName": "Tile_Urban_Tile_58442700.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_5e10c89b_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_5e10c89b.png",
+      "fileName": "Tile_Urban_Tile_5e10c89b.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_675b4e11_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_675b4e11.png",
+      "fileName": "Tile_Urban_Tile_675b4e11.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_691e5367_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_691e5367.png",
+      "fileName": "Tile_Urban_Tile_691e5367.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_6a0b4ca3_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_6a0b4ca3.png",
+      "fileName": "Tile_Urban_Tile_6a0b4ca3.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_742dc73d_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_742dc73d.png",
+      "fileName": "Tile_Urban_Tile_742dc73d.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_80346c73_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_80346c73.png",
+      "fileName": "Tile_Urban_Tile_80346c73.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_85dd985c_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_85dd985c.png",
+      "fileName": "Tile_Urban_Tile_85dd985c.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_8e42f09f_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_8e42f09f.png",
+      "fileName": "Tile_Urban_Tile_8e42f09f.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_9370dae4_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_9370dae4.png",
+      "fileName": "Tile_Urban_Tile_9370dae4.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_94af6e6f_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_94af6e6f.png",
+      "fileName": "Tile_Urban_Tile_94af6e6f.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_ad70f4d0_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_ad70f4d0.png",
+      "fileName": "Tile_Urban_Tile_ad70f4d0.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_b287b5dc_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_b287b5dc.png",
+      "fileName": "Tile_Urban_Tile_b287b5dc.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_b4c56b86_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_b4c56b86.png",
+      "fileName": "Tile_Urban_Tile_b4c56b86.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_b798c460_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_b798c460.png",
+      "fileName": "Tile_Urban_Tile_b798c460.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_b84d19eb_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_b84d19eb.png",
+      "fileName": "Tile_Urban_Tile_b84d19eb.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_b93d07a4_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_b93d07a4.png",
+      "fileName": "Tile_Urban_Tile_b93d07a4.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_bca2abe4_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_bca2abe4.png",
+      "fileName": "Tile_Urban_Tile_bca2abe4.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_bea1ea60_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_bea1ea60.png",
+      "fileName": "Tile_Urban_Tile_bea1ea60.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_c1913c54_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_c1913c54.png",
+      "fileName": "Tile_Urban_Tile_c1913c54.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_c61db489_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_c61db489.png",
+      "fileName": "Tile_Urban_Tile_c61db489.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_c73be9b0_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_c73be9b0.png",
+      "fileName": "Tile_Urban_Tile_c73be9b0.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_d2b8fdc6_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_d2b8fdc6.png",
+      "fileName": "Tile_Urban_Tile_d2b8fdc6.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_d7bff01b_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_d7bff01b.png",
+      "fileName": "Tile_Urban_Tile_d7bff01b.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_df1dd40d_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_df1dd40d.png",
+      "fileName": "Tile_Urban_Tile_df1dd40d.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_e331618e_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_e331618e.png",
+      "fileName": "Tile_Urban_Tile_e331618e.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_e92e8314_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_e92e8314.png",
+      "fileName": "Tile_Urban_Tile_e92e8314.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_e98710c6_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_e98710c6.png",
+      "fileName": "Tile_Urban_Tile_e98710c6.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_f3d3baed_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_f3d3baed.png",
+      "fileName": "Tile_Urban_Tile_f3d3baed.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_f66219ac_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_f66219ac.png",
+      "fileName": "Tile_Urban_Tile_f66219ac.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_f6fb7a0e_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_f6fb7a0e.png",
+      "fileName": "Tile_Urban_Tile_f6fb7a0e.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_f75527a4_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_f75527a4.png",
+      "fileName": "Tile_Urban_Tile_f75527a4.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_f8c5a6d8_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_f8c5a6d8.png",
+      "fileName": "Tile_Urban_Tile_f8c5a6d8.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_fb7d02de_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_fb7d02de.png",
+      "fileName": "Tile_Urban_Tile_fb7d02de.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_fcd96c94_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_fcd96c94.png",
+      "fileName": "Tile_Urban_Tile_fcd96c94.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_Tile_ff2db801_png",
+      "path": "assets/tiles/urban/Tile_Urban_Tile_ff2db801.png",
+      "fileName": "Tile_Urban_Tile_ff2db801.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Tile_Urban_WaterStrip_64d87f88_png",
+      "path": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+      "fileName": "Tile_Urban_WaterStrip_64d87f88.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_trap_animation_png",
+      "path": "assets/tiles/urban/trap_animation.png",
+      "fileName": "trap_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_trap_animation_1_png",
+      "path": "assets/tiles/urban/trap_animation_1.png",
+      "fileName": "trap_animation_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_walls_floor_png",
+      "path": "assets/tiles/urban/walls_floor.png",
+      "fileName": "walls_floor.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_walls_floor_1_png",
+      "path": "assets/tiles/urban/walls_floor_1.png",
+      "fileName": "walls_floor_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation_png",
+      "path": "assets/tiles/urban/Water_animation.png",
+      "fileName": "Water_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation10_png",
+      "path": "assets/tiles/urban/Water_animation10.png",
+      "fileName": "Water_animation10.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation11_png",
+      "path": "assets/tiles/urban/Water_animation11.png",
+      "fileName": "Water_animation11.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation12_png",
+      "path": "assets/tiles/urban/Water_animation12.png",
+      "fileName": "Water_animation12.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation13_png",
+      "path": "assets/tiles/urban/Water_animation13.png",
+      "fileName": "Water_animation13.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation14_png",
+      "path": "assets/tiles/urban/Water_animation14.png",
+      "fileName": "Water_animation14.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation2_png",
+      "path": "assets/tiles/urban/Water_animation2.png",
+      "fileName": "Water_animation2.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation3_png",
+      "path": "assets/tiles/urban/Water_animation3.png",
+      "fileName": "Water_animation3.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation4_png",
+      "path": "assets/tiles/urban/Water_animation4.png",
+      "fileName": "Water_animation4.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation5_png",
+      "path": "assets/tiles/urban/Water_animation5.png",
+      "fileName": "Water_animation5.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation6_png",
+      "path": "assets/tiles/urban/Water_animation6.png",
+      "fileName": "Water_animation6.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation8_png",
+      "path": "assets/tiles/urban/Water_animation8.png",
+      "fileName": "Water_animation8.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_animation9_png",
+      "path": "assets/tiles/urban/Water_animation9.png",
+      "fileName": "Water_animation9.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_coasts_animation_png",
+      "path": "assets/tiles/urban/Water_coasts_animation.png",
+      "fileName": "Water_coasts_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_Water_coasts_animation_1_png",
+      "path": "assets/tiles/urban/Water_coasts_animation_1.png",
+      "fileName": "Water_coasts_animation_1.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_water_details_animation_png",
+      "path": "assets/tiles/urban/water_details_animation.png",
+      "fileName": "water_details_animation.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_tiles_urban_water_detilazation_v2_png",
+      "path": "assets/tiles/urban/water_detilazation_v2.png",
+      "fileName": "water_detilazation_v2.png",
+      "ext": "png",
+      "type": "tile",
+      "theme": "urban",
+      "footprint": null,
+      "tags": [
+        "tile",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_03496e70_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_03496e70.png",
+      "fileName": "Obstacle_Urban_Prop_03496e70.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_247d5eb5_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_247d5eb5.png",
+      "fileName": "Obstacle_Urban_Prop_247d5eb5.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_2db0cbbd_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png",
+      "fileName": "Obstacle_Urban_Prop_2db0cbbd.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_34a10abb_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png",
+      "fileName": "Obstacle_Urban_Prop_34a10abb.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_4668262c_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_4668262c.png",
+      "fileName": "Obstacle_Urban_Prop_4668262c.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_495b9524_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_495b9524.png",
+      "fileName": "Obstacle_Urban_Prop_495b9524.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_52c89ad7_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_52c89ad7.png",
+      "fileName": "Obstacle_Urban_Prop_52c89ad7.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_55924153_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_55924153.png",
+      "fileName": "Obstacle_Urban_Prop_55924153.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_7725e0b7_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_7725e0b7.png",
+      "fileName": "Obstacle_Urban_Prop_7725e0b7.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_8d64a4eb_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_8d64a4eb.png",
+      "fileName": "Obstacle_Urban_Prop_8d64a4eb.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_9c85a7ed_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_9c85a7ed.png",
+      "fileName": "Obstacle_Urban_Prop_9c85a7ed.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_9db0b8a8_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_9db0b8a8.png",
+      "fileName": "Obstacle_Urban_Prop_9db0b8a8.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_bea5c318_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png",
+      "fileName": "Obstacle_Urban_Prop_bea5c318.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_da742248_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_da742248.png",
+      "fileName": "Obstacle_Urban_Prop_da742248.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_e8851ee9_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_e8851ee9.png",
+      "fileName": "Obstacle_Urban_Prop_e8851ee9.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_f28d20d4_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_f28d20d4.png",
+      "fileName": "Obstacle_Urban_Prop_f28d20d4.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_f8de985c_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_f8de985c.png",
+      "fileName": "Obstacle_Urban_Prop_f8de985c.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_5e95a194_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_5e95a194.png",
+      "fileName": "Obstacle_Urban_Strip_5e95a194.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_9e1d8da7_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_9e1d8da7.png",
+      "fileName": "Obstacle_Urban_Strip_9e1d8da7.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_e9581b7b_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_e9581b7b.png",
+      "fileName": "Obstacle_Urban_Strip_e9581b7b.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_31_30_021_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-31-30-021.png",
+      "fileName": "Picsart_26-04-04_00-31-30-021.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_33_07_132_1_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-33-07-132 (1).png",
+      "fileName": "Picsart_26-04-04_00-33-07-132 (1).png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_33_07_132_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-33-07-132.png",
+      "fileName": "Picsart_26-04-04_00-33-07-132.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_35_02_219_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-35-02-219.png",
+      "fileName": "Picsart_26-04-04_00-35-02-219.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_36_09_671_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-36-09-671.png",
+      "fileName": "Picsart_26-04-04_00-36-09-671.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_36_42_779_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-36-42-779.png",
+      "fileName": "Picsart_26-04-04_00-36-42-779.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_38_33_204_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-38-33-204.png",
+      "fileName": "Picsart_26-04-04_00-38-33-204.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_38_49_405_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-38-49-405.png",
+      "fileName": "Picsart_26-04-04_00-38-49-405.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_39_08_912_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-39-08-912.png",
+      "fileName": "Picsart_26-04-04_00-39-08-912.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_Picsart_26_04_04_00_39_24_457_png",
+      "path": "assets/ui/buttons/Picsart_26-04-04_00-39-24-457.png",
+      "fileName": "Picsart_26-04-04_00-39-24-457.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    },
+    {
+      "id": "assets_ui_buttons_preview_png",
+      "path": "assets/ui/buttons/preview.png",
+      "fileName": "preview.png",
+      "ext": "png",
+      "type": "ui",
+      "uiKind": "buttons",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "ui",
+        "buttons"
+      ]
+    }
+  ],
+  "index": {
+    "guns": {
+      "handgun": [
+        "assets/guns/handgun/Gun_Urban_Handgun_62e67c6a.png",
+        "assets/guns/handgun/Gun_Urban_Handgun_a1ac8683.png"
+      ],
+      "rifle": [],
+      "machine_gun": []
+    },
+    "buildings": {
+      "small": [],
+      "medium": [
+        "assets/buildings/medium/Building_Urban_Medium_0d971c64.png",
+        "assets/buildings/medium/Building_Urban_Medium_2672df40.png",
+        "assets/buildings/medium/Building_Urban_Medium_28c5fcb1.png",
+        "assets/buildings/medium/Building_Urban_Medium_2c00745f.png",
+        "assets/buildings/medium/Building_Urban_Medium_343b2d7b.png",
+        "assets/buildings/medium/Building_Urban_Medium_86e9833e.png",
+        "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
+        "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png"
+      ],
+      "large": [
+        "assets/buildings/large/Building_Urban_Large_062c9af9.png",
+        "assets/buildings/large/Building_Urban_Large_30c76b04.png"
+      ],
+      "fortified": []
+    },
+    "tiles": {
+      "desert": [
+        "assets/tiles/desert/Tile_Desert_Tile_13a4ce6c.png",
+        "assets/tiles/desert/Tile_Desert_Tile_4c54db55.png",
+        "assets/tiles/desert/Tile_Desert_Tile_73893cba.png",
+        "assets/tiles/desert/Tile_Desert_Tile_8501cf17.png",
+        "assets/tiles/desert/Tile_Desert_Tile_9584eb62.png",
+        "assets/tiles/desert/Tile_Desert_Tile_a97a3f77.png",
+        "assets/tiles/desert/Tile_Desert_Tile_c085f0b5.png",
+        "assets/tiles/desert/Tile_Desert_Tile_e374f7b5.png",
+        "assets/tiles/desert/Tile_Desert_Tile_f8a9863d.png",
+        "assets/tiles/desert/Tile_Desert_Tile_f8aca067.png"
+      ],
+      "urban": [
+        "assets/tiles/urban/Bridges.png",
+        "assets/tiles/urban/decorative_cracks_coasts_animation.png",
+        "assets/tiles/urban/decorative_cracks_coasts_animation_1.png",
+        "assets/tiles/urban/decorative_cracks_floor.png",
+        "assets/tiles/urban/decorative_cracks_floor_1.png",
+        "assets/tiles/urban/decorative_cracks_walls.png",
+        "assets/tiles/urban/decorative_cracks_walls_1.png",
+        "assets/tiles/urban/doors_lever_chest_animation.png",
+        "assets/tiles/urban/doors_lever_chest_animation_1.png",
+        "assets/tiles/urban/fire_animation.png",
+        "assets/tiles/urban/fire_animation2.png",
+        "assets/tiles/urban/fire_animation2_1.png",
+        "assets/tiles/urban/fire_animation_1.png",
+        "assets/tiles/urban/Objects.png",
+        "assets/tiles/urban/Objects_1.png",
+        "assets/tiles/urban/Tile_Urban_Tile_06a80161.png",
+        "assets/tiles/urban/Tile_Urban_Tile_0f758335.png",
+        "assets/tiles/urban/Tile_Urban_Tile_18fa18b9.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1c019e12.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1c50d455.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1eb2209b.png",
+        "assets/tiles/urban/Tile_Urban_Tile_28744415.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2bfc3030.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2e02582a.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2e72b2a4.png",
+        "assets/tiles/urban/Tile_Urban_Tile_311f0f65.png",
+        "assets/tiles/urban/Tile_Urban_Tile_31e8ed43.png",
+        "assets/tiles/urban/Tile_Urban_Tile_3f58b367.png",
+        "assets/tiles/urban/Tile_Urban_Tile_4041eb77.png",
+        "assets/tiles/urban/Tile_Urban_Tile_43af6f6a.png",
+        "assets/tiles/urban/Tile_Urban_Tile_449d0fed.png",
+        "assets/tiles/urban/Tile_Urban_Tile_47b98f3a.png",
+        "assets/tiles/urban/Tile_Urban_Tile_48275b5d.png",
+        "assets/tiles/urban/Tile_Urban_Tile_58442700.png",
+        "assets/tiles/urban/Tile_Urban_Tile_5e10c89b.png",
+        "assets/tiles/urban/Tile_Urban_Tile_675b4e11.png",
+        "assets/tiles/urban/Tile_Urban_Tile_691e5367.png",
+        "assets/tiles/urban/Tile_Urban_Tile_6a0b4ca3.png",
+        "assets/tiles/urban/Tile_Urban_Tile_742dc73d.png",
+        "assets/tiles/urban/Tile_Urban_Tile_80346c73.png",
+        "assets/tiles/urban/Tile_Urban_Tile_85dd985c.png",
+        "assets/tiles/urban/Tile_Urban_Tile_8e42f09f.png",
+        "assets/tiles/urban/Tile_Urban_Tile_9370dae4.png",
+        "assets/tiles/urban/Tile_Urban_Tile_94af6e6f.png",
+        "assets/tiles/urban/Tile_Urban_Tile_ad70f4d0.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b287b5dc.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b4c56b86.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b798c460.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b84d19eb.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b93d07a4.png",
+        "assets/tiles/urban/Tile_Urban_Tile_bca2abe4.png",
+        "assets/tiles/urban/Tile_Urban_Tile_bea1ea60.png",
+        "assets/tiles/urban/Tile_Urban_Tile_c1913c54.png",
+        "assets/tiles/urban/Tile_Urban_Tile_c61db489.png",
+        "assets/tiles/urban/Tile_Urban_Tile_c73be9b0.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d2b8fdc6.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d7bff01b.png",
+        "assets/tiles/urban/Tile_Urban_Tile_df1dd40d.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e331618e.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e92e8314.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e98710c6.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f3d3baed.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f66219ac.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f6fb7a0e.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f75527a4.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f8c5a6d8.png",
+        "assets/tiles/urban/Tile_Urban_Tile_fb7d02de.png",
+        "assets/tiles/urban/Tile_Urban_Tile_fcd96c94.png",
+        "assets/tiles/urban/Tile_Urban_Tile_ff2db801.png",
+        "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "assets/tiles/urban/trap_animation.png",
+        "assets/tiles/urban/trap_animation_1.png",
+        "assets/tiles/urban/walls_floor.png",
+        "assets/tiles/urban/walls_floor_1.png",
+        "assets/tiles/urban/Water_animation.png",
+        "assets/tiles/urban/Water_animation10.png",
+        "assets/tiles/urban/Water_animation11.png",
+        "assets/tiles/urban/Water_animation12.png",
+        "assets/tiles/urban/Water_animation13.png",
+        "assets/tiles/urban/Water_animation14.png",
+        "assets/tiles/urban/Water_animation2.png",
+        "assets/tiles/urban/Water_animation3.png",
+        "assets/tiles/urban/Water_animation4.png",
+        "assets/tiles/urban/Water_animation5.png",
+        "assets/tiles/urban/Water_animation6.png",
+        "assets/tiles/urban/Water_animation8.png",
+        "assets/tiles/urban/Water_animation9.png",
+        "assets/tiles/urban/Water_coasts_animation.png",
+        "assets/tiles/urban/Water_coasts_animation_1.png",
+        "assets/tiles/urban/water_details_animation.png",
+        "assets/tiles/urban/water_detilazation_v2.png"
+      ],
+      "grass": []
+    },
+    "obstaclesByTheme": {
+      "urban": [
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_03496e70.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_247d5eb5.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_4668262c.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_495b9524.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_52c89ad7.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_55924153.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_7725e0b7.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_8d64a4eb.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_9c85a7ed.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_9db0b8a8.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_da742248.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_e8851ee9.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_f28d20d4.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_f8de985c.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_5e95a194.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_9e1d8da7.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_e9581b7b.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip"
+          ]
+        }
+      ],
+      "desert": [
+        {
+          "kind": "tree",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "tree"
+          ]
+        },
+        {
+          "kind": "ruins",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "ruins"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "crate"
+          ]
+        },
+        {
+          "kind": "barrel",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "barrel"
+          ]
+        }
+      ],
+      "grass": [
+        {
+          "kind": "tree",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "tree"
+          ]
+        },
+        {
+          "kind": "ruins",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "ruins"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "crate"
+          ]
+        },
+        {
+          "kind": "barrel",
+          "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+          "tags": [
+            "urban",
+            "obstacle",
+            "barrel"
+          ]
+        }
+      ]
+    },
+    "buildingsByThemeFootprint": {
+      "urban": {
+        "small": [],
+        "medium": [
+          "assets/buildings/medium/Building_Urban_Medium_0d971c64.png",
+          "assets/buildings/medium/Building_Urban_Medium_2672df40.png",
+          "assets/buildings/medium/Building_Urban_Medium_28c5fcb1.png",
+          "assets/buildings/medium/Building_Urban_Medium_2c00745f.png",
+          "assets/buildings/medium/Building_Urban_Medium_343b2d7b.png",
+          "assets/buildings/medium/Building_Urban_Medium_86e9833e.png",
+          "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
+          "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png"
+        ],
+        "large": [
+          "assets/buildings/large/Building_Urban_Large_062c9af9.png",
+          "assets/buildings/large/Building_Urban_Large_30c76b04.png"
+        ],
+        "fortified": []
+      },
+      "desert": {
+        "small": [],
+        "medium": [],
+        "large": [],
+        "fortified": []
+      },
+      "grass": {
+        "small": [],
+        "medium": [],
+        "large": [],
+        "fortified": []
+      }
+    }
+  },
+  "externalRootsScan": [
+    {
+      "path": "attached_assets/craftpix_pack",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/sprites",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/tiles",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/ui",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/units",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/vfx",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/_commander_flat",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/_rgsdev_pack",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    }
+  ]
+}

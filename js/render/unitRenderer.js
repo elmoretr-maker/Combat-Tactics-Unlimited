@@ -121,6 +121,7 @@ export class UnitRenderer {
     const clip = this.pickClip(unit, isMoving);
     const fi = this.frameIndex(setId, clip, timeMs, isMoving);
     const diskClip = this.storageClip(setId, clip);
+    const cfgSheet = setId ? this.spriteAnimations[setId]?.spriteSheet : null;
     const path = setId ? this.framePath(setId, diskClip, fi) : "";
     const bob = mode === "side" ? Math.sin(timeMs / 300) * (isMoving ? 3 : 1.5) : 0;
     const cx = px + cellSize / 2;
@@ -152,6 +153,68 @@ export class UnitRenderer {
       }
       ctx.restore();
       return;
+    }
+    const colsCfg = cfgSheet?.columns;
+    const hasColGrid =
+      cfgSheet?.atlas &&
+      (typeof colsCfg === "number" && colsCfg > 0
+        ? true
+        : typeof cfgSheet.frameW === "number" &&
+          cfgSheet.frameW > 0 &&
+          typeof cfgSheet.frameH === "number" &&
+          cfgSheet.frameH > 0);
+    if (hasColGrid) {
+      const atlasPath = cfgSheet.atlas;
+      const entryS = this.getImage(atlasPath);
+      const imgS = entryS.img;
+      if (entryS.ok && imgS.complete && imgS.naturalWidth) {
+        const colsDef = colsCfg;
+        let fw =
+          typeof cfgSheet.frameW === "number" && cfgSheet.frameW > 0
+            ? cfgSheet.frameW
+            : 0;
+        let fh =
+          typeof cfgSheet.frameH === "number" && cfgSheet.frameH > 0
+            ? cfgSheet.frameH
+            : 0;
+        if (colsDef && colsDef > 0 && (!fw || fw <= 0)) {
+          fw = Math.max(1, Math.floor(imgS.naturalWidth / colsDef));
+        }
+        if (!fh || fh <= 0) {
+          fh = imgS.naturalHeight;
+        }
+        const cols =
+          colsDef && colsDef > 0
+            ? colsDef
+            : Math.max(1, Math.floor(imgS.naturalWidth / Math.max(1, fw)));
+        const rows =
+          cfgSheet.rows ?? Math.max(1, Math.floor(imgS.naturalHeight / fh));
+        const total = cols * rows;
+        const idx = total > 0 ? fi % total : 0;
+        const col = idx % cols;
+        const row = Math.floor(idx / cols);
+        const scale =
+          (cellSize * 1.1) / Math.max(fw, fh);
+        const w = fw * scale;
+        const h = fh * scale;
+        ctx.imageSmoothingEnabled = false;
+        if (clip === "dead" && this.spriteAnimations[setId]?.treadVehicle) {
+          ctx.globalAlpha = 0.55;
+        }
+        ctx.drawImage(
+          imgS,
+          col * fw,
+          row * fh,
+          fw,
+          fh,
+          -w / 2,
+          -h / 2,
+          w,
+          h,
+        );
+        ctx.restore();
+        return;
+      }
     }
     const entry = this.getImage(path);
     const img = entry.img;

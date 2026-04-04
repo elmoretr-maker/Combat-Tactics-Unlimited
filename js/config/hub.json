@@ -7,6 +7,15 @@
   },
   "soloModes": [
     {
+      "id": "procedural_skirmish",
+      "title": "Procedural skirmish",
+      "description": "Random 16×12 map: river, bridges, two flanking routes, buildings, and CraftPix props.",
+      "action": "procedural",
+      "procTheme": "urban",
+      "iconKey": "maps",
+      "requiresAcademy": false
+    },
+    {
       "id": "plane_layer_lab",
       "title": "Battle mat lab",
       "description": "Pick mat surface (grass / desert / urban), choose 1–8 units, then fight on the plane-over-grid stack with dense props.",

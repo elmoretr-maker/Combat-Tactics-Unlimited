@@ -52,6 +52,9 @@
           <button type="button" class="btn" data-screen="maps">Map theater</button>
           <button type="button" class="btn" data-screen="vs-cpu-prep">Vs CPU setup</button>
           <button type="button" class="btn" data-screen="mat-lab-prep">Battle mat lab</button>
+          <button type="button" class="btn" id="btn-proc-urban">Procedural (Urban)</button>
+          <button type="button" class="btn" id="btn-proc-desert">Procedural (Desert)</button>
+          <button type="button" class="btn" id="btn-export-proc-map">Export last procedural map (JSON)</button>
           <button type="button" class="btn" data-screen="hotseat">1v1 Hotseat</button>
           <button type="button" class="btn" data-screen="codex">Codex</button>
           <button type="button" class="btn" data-screen="settings">Settings</button>
@@ -217,6 +220,7 @@
               <p class="v2-ops-layer__eyebrow">Deploy</p>
               <div class="v2-ops-layer__actions" role="group" aria-label="Deployment options">
                 <button type="button" class="v2-ops-field-btn v2-ops-field-btn--primary" id="btn-v2-urban">Urban Siege</button>
+                <button type="button" class="v2-ops-field-btn" id="btn-v2-procedural" data-theme="urban">Procedural</button>
                 <button type="button" class="v2-ops-field-btn" data-screen="classic-menu">Classic</button>
               </div>
             </div>
@@ -545,6 +549,10 @@
             <input type="checkbox" id="setting-visual-hdef" class="setting-toggle" />
           </label>
         </div>
+        <hr class="settings-divider" />
+        <h3 class="h3" style="margin-top:1rem">Dev / debug</h3>
+        <p class="muted small">Spawns a minimal battle and moves one infantry three tiles east so you can verify the move tween and walk cycle.</p>
+        <button type="button" id="btn-dev-animation-test" class="btn btn--ghost">Animation test</button>
         <hr class="settings-divider" />
         <h3 class="h3" style="margin-top:1rem">Danger zone</h3>
         <p class="muted small">Clears all progress, unlocks, and W/L record permanently.</p>

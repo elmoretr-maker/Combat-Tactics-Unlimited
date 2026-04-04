@@ -13,6 +13,11 @@ import { loadSettings, saveSettings } from "./progression/settings.js";
 import { initFirebase } from "./firebase/auth.js";
 import { wireCloudProgress } from "./firebase/progressSync.js";
 import { createBattlePlaneController } from "./battle-plane/runtime.js";
+import { drawMapObjects } from "./render/mapObjectLayer.js";
+import { generateProceduralScenario } from "./mapgen/pipeline.js";
+import { downloadMapLayout } from "./mapgen/persist.js";
+import { moveTweenDurationMs, lerpCellPair } from "./render/tween.js";
+import { sharedBattleAmbient } from "./render/effects.js";
 
 window.__CTU_MODULE_LOADED = true;
 
@@ -46,7 +51,15 @@ let unitRegistry = [];
 let academyConfig;
 let hubConfig;
 let onboardingConfig;
-let lastBootOptions = { mode: "skirmish", loadout: null, scenarioPath: null, matLabTheater: null };
+let lastBootOptions = {
+  mode: "skirmish",
+  loadout: null,
+  scenarioPath: null,
+  matLabTheater: null,
+  scenarioInline: null,
+};
+/** Last scenario from generateProceduralScenario (for JSON export). */
+let lastProceduralScenario = null;
 /** When set (from Map Theater), used as default for vs-CPU skirmish and hotseat base layout. */
 let pendingUserMapPath = null;
 let mapCatalog = { maps: [] };
@@ -562,6 +575,10 @@ function renderHubModes() {
         showScreen("mat-lab-prep");
         return;
       }
+      if (m.action === "procedural") {
+        void bootProceduralSkirmish(m.procTheme || "urban");
+        return;
+      }
       if (m.action === "academy") openAcademy();
       else if (m.action === "skirmish") {
         if (m.scenarioPath) {
@@ -1017,6 +1034,7 @@ async function bootHotseat() {
   });
   battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
+  syncBattleAmbientFromScenario();
   game.hotseat = true;
   game.playerNames = ["Player 1", "Player 2"];
   unitRenderer = new UnitRenderer(spriteAnimations);
@@ -1027,6 +1045,8 @@ async function bootHotseat() {
     mode: "hotseat",
     loadout: null,
     scenarioPath: hotseatScenarioPath,
+    scenarioInline: null,
+    matLabTheater: null,
   };
   battleEndHandled = false;
   battleHints = { movedOnce: false, attackedOnce: false };
@@ -1198,6 +1218,14 @@ function resizeBattleCanvas() {
   applyBattleZoom();
 }
 
+function syncBattleAmbientFromScenario() {
+  if (!game?.grid) {
+    sharedBattleAmbient.clear();
+    return;
+  }
+  sharedBattleAmbient.setFromDefs(game.scenario?.ambientEffects ?? [], game.grid.cellSize);
+}
+
 function syncBattleZoomLabel() {
   const el = document.getElementById("battle-zoom-label");
   if (!el) return;
@@ -1239,21 +1267,26 @@ function toggleBattleFullscreen() {
 
 function startLerp(unit, x0, y0, x1, y1) {
   const dist = Math.abs(x1 - x0) + Math.abs(y1 - y0);
-  const dur = settings.reduceMotion
-    ? 0
-    : Math.min(900, 220 + dist * 130);
+  const dur = moveTweenDurationMs(dist, !!settings.reduceMotion);
   lerp = { unitId: unit.id, x0, y0, x1, y1, t0: performance.now(), dur };
 }
 function updateLerp() {
   if (!lerp || !game) return;
-  if (!game.units.find((q) => q.id === lerp.unitId)) { lerp = null; return; }
-  if (Math.min(1, (performance.now() - lerp.t0) / Math.max(1, lerp.dur)) >= 1) lerp = null;
+  const u = game.units.find((q) => q.id === lerp.unitId);
+  if (!u) {
+    lerp = null;
+    return;
+  }
+  const t = Math.min(1, (performance.now() - lerp.t0) / Math.max(1, lerp.dur));
+  if (t >= 1) {
+    u.isMoving = false;
+    lerp = null;
+  }
 }
 function lerpPos(u) {
   if (!lerp || lerp.unitId !== u.id) return { x: u.x, y: u.y };
   const t = Math.min(1, (performance.now() - lerp.t0) / Math.max(1, lerp.dur));
-  const e = t * t * (3 - 2 * t);
-  return { x: lerp.x0 + (lerp.x1 - lerp.x0) * e, y: lerp.y0 + (lerp.y1 - lerp.y0) * e };
+  return lerpCellPair(lerp.x0, lerp.y0, lerp.x1, lerp.y1, t);
 }
 
 /* ── Attack ───────────────────────────────────────────── */
@@ -1547,8 +1580,12 @@ function drawFrame(ts) {
     timeMs: ts,
   });
 
+  sharedBattleAmbient.draw(ctx, gridOffsetX, gridOffsetY, ts);
+
   if (battlePlaneCtl) {
     battlePlaneCtl.drawProps(ctx, gridOffsetX, gridOffsetY);
+  } else if (game.mapObjects?.length) {
+    drawMapObjects(ctx, game, gridOffsetX, gridOffsetY);
   }
 
   const sorted = [...game.units]
@@ -1563,7 +1600,7 @@ function drawFrame(ts) {
     const pos = lerpPos(u);
     const px = gridOffsetX + pos.x * cs;
     const py = gridOffsetY + pos.y * cs;
-    const moving = lerp && lerp.unitId === u.id;
+    const moving = (lerp && lerp.unitId === u.id) || !!u.isMoving;
     let facingLeft = false;
     if (moving && lerp.x1 < lerp.x0) {
       facingLeft = true;
@@ -1723,12 +1760,69 @@ function aiTurn() {
   syncHud();
 }
 
+/* ── Procedural mapgen boot ───────────────────────────── */
+async function bootProceduralSkirmish(theme = "urban") {
+  const [tiles, assetManifest] = await Promise.all([
+    loadJson("js/config/tileTextures.json"),
+    loadJson("js/config/assetManifest.json").catch(() => null),
+  ]);
+  const scenario = generateProceduralScenario({
+    theme,
+    width: 16,
+    height: 12,
+    seed: (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0,
+    tileTypes: tiles.types,
+    assetManifest: assetManifest && typeof assetManifest === "object" ? assetManifest : null,
+  });
+  if (!scenario) {
+    console.warn("[CTU] Procedural generation failed; using default skirmish.");
+    void bootBattle({ mode: "skirmish" });
+    return;
+  }
+  lastProceduralScenario = scenario;
+  void bootBattle({ mode: "skirmish", scenarioInline: scenario });
+}
+
 /* ── Battle boot ──────────────────────────────────────── */
+/** Minimal skirmish + automatic 3-tile eastward move (Settings → Dev). */
+async function runDevAnimationTest() {
+  const scenario = {
+    usePresetUnits: true,
+    id: "debug_anim_test",
+    name: "Animation test",
+    width: 12,
+    height: 8,
+    cellSize: 48,
+    terrain: Array.from({ length: 8 }, () => Array(12).fill("plains")),
+    units: [{ templateId: "infantry", owner: 0, x: 2, y: 4 }],
+    presetEnemies: [],
+    skirmishDeploy: [{ x: 2, y: 4 }],
+    winCondition: { type: "eliminate" },
+    fogOfWar: false,
+  };
+  await bootBattle({ mode: "skirmish", scenarioInline: scenario });
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const u = game?.units.find((q) => q.owner === 0 && q.hp > 0);
+      if (!u || !game) return;
+      game.select(u.id);
+      const ox = u.x;
+      const oy = u.y;
+      const tx = ox + 3;
+      if (tx < game.grid.width && game.moveUnit(u, tx, oy)) {
+        startLerp(u, ox, oy, u.x, u.y);
+        pushLog("Debug: animation test (3 cells east)", "battle-log__item--move");
+      }
+    });
+  });
+}
+
 async function bootBattle(options = {}) {
   const mode = options.mode ?? "skirmish";
   const loadout = options.loadout ?? null;
+  const useInline = options.scenarioInline && typeof options.scenarioInline === "object";
   let scenarioPath = options.scenarioPath;
-  if (!scenarioPath) {
+  if (!useInline && !scenarioPath) {
     scenarioPath =
       mode === "skirmish"
         ? pendingUserMapPath || "js/config/scenarios/academy_skirmish.json"
@@ -1737,8 +1831,9 @@ async function bootBattle(options = {}) {
   lastBootOptions = {
     mode,
     loadout,
-    scenarioPath,
+    scenarioPath: useInline ? null : scenarioPath,
     matLabTheater: options.matLabTheater ?? null,
+    scenarioInline: useInline ? JSON.parse(JSON.stringify(options.scenarioInline)) : null,
   };
   battleEndHandled = false;
   aiRunning = false;
@@ -1755,11 +1850,14 @@ async function bootBattle(options = {}) {
   const loadingEl = document.getElementById("battle-loading");
   if (loadingEl) loadingEl.hidden = false;
 
+  const scenarioPromise = useInline
+    ? Promise.resolve(JSON.parse(JSON.stringify(options.scenarioInline)))
+    : loadJson(scenarioPath);
   const [units, tiles, sprites, scenarioBase, fx] = await Promise.all([
     loadJson("js/config/units.json"),
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/spriteAnimations.json"),
-    loadJson(scenarioPath),
+    scenarioPromise,
     loadJson("js/config/attackEffects.json"),
   ]);
   unitRegistry = units;
@@ -1777,6 +1875,7 @@ async function bootBattle(options = {}) {
   });
   battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
+  syncBattleAmbientFromScenario();
   unitRenderer = new UnitRenderer(spriteAnimations);
   battleVfx = new BattleVfx();
   battleFx = new FxLayer();
@@ -2082,6 +2181,12 @@ function wireUi() {
         void bootUrbanSiege();
         return;
       }
+      const procV2 = t.closest("#btn-v2-procedural");
+      if (procV2) {
+        ev.preventDefault();
+        void bootProceduralSkirmish(procV2.getAttribute("data-theme") || "urban");
+        return;
+      }
       const btn = t.closest("[data-screen]");
       if (!btn || btn.closest("a")) return;
       if (btn.disabled) return;
@@ -2224,6 +2329,19 @@ function wireUi() {
       matLabTheater: pendingMatLabTheater,
     });
   });
+  document.getElementById("btn-proc-urban")?.addEventListener("click", () => {
+    void bootProceduralSkirmish("urban");
+  });
+  document.getElementById("btn-proc-desert")?.addEventListener("click", () => {
+    void bootProceduralSkirmish("desert");
+  });
+  document.getElementById("btn-export-proc-map")?.addEventListener("click", () => {
+    if (!lastProceduralScenario) {
+      window.alert("No procedural map yet. Start a procedural battle from Hub, Modern Ops, or Classic menu first.");
+      return;
+    }
+    downloadMapLayout(lastProceduralScenario, `${lastProceduralScenario.id || "ctu-map"}.json`);
+  });
   document.getElementById("btn-map-skirmish-confirm")?.addEventListener("click", confirmMapSkirmish);
   document.getElementById("btn-map-skirmish-back")?.addEventListener("click", () => {
     const ret = mapSkirmishPrepReturnId;
@@ -2249,6 +2367,10 @@ function wireUi() {
   document.getElementById("btn-battle-fullscreen")?.addEventListener("click", () => toggleBattleFullscreen());
   document.getElementById("btn-battle-end-float")?.addEventListener("click", () => {
     document.getElementById("btn-end-turn")?.click();
+  });
+
+  document.getElementById("btn-dev-animation-test")?.addEventListener("click", () => {
+    void runDevAnimationTest();
   });
 
   /* settings */

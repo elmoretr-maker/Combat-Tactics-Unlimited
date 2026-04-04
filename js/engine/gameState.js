@@ -40,6 +40,7 @@ export function createUnitFromTemplate(tpl, owner, x, y, visualStyle = "classic"
     movedThisTurn: false,
     attackedThisTurn: false,
     prone: false,
+    isMoving: false,
   };
 }
 
@@ -68,8 +69,21 @@ export class GameState {
         destroyed: false,
       });
     }
-    /** Scatter props (battle-plane module); empty for all legacy scenarios */
+    /** Scatter props / procedural map objects; optional scenario.mapObjects[] */
     this.mapObjects = [];
+    if (Array.isArray(scenario.mapObjects)) {
+      for (const o of scenario.mapObjects) {
+        this.mapObjects.push({
+          id: o.id || `obj_${o.x}_${o.y}_${Math.random().toString(36).slice(2, 7)}`,
+          x: o.x,
+          y: o.y,
+          sprite: o.sprite ?? null,
+          visualKind: o.visualKind || "crate",
+          blocksMove: o.blocksMove !== false,
+          blocksLos: o.blocksLos !== false,
+        });
+      }
+    }
     this.currentPlayer = 0;
     this.selectedId = null;
     this.winner = null;
@@ -148,6 +162,7 @@ export class GameState {
     const sy = unit.y;
     unit.x = tx;
     unit.y = ty;
+    unit.isMoving = true;
     if (unit.mapRenderMode === "topdown" && (tx !== sx || ty !== sy)) {
       unit.faceRad = Math.atan2(ty - sy, tx - sx);
     }
@@ -183,6 +198,7 @@ export class GameState {
     for (const u of this.units) {
       u.movedThisTurn = false;
       u.attackedThisTurn = false;
+      u.isMoving = false;
     }
     const was = this.currentPlayer;
     this.currentPlayer = this.currentPlayer === 0 ? 1 : 0;
