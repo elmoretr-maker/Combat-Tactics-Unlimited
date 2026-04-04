@@ -56,6 +56,26 @@
       "dead": 1
     }
   },
+  "acs_tank_cp": {
+    "attackClip": "shot",
+    "treadVehicle": true,
+    "frameCounts": {
+      "run": 1,
+      "shot": 1,
+      "dead": 1
+    },
+    "craftpixClips": {
+      "run": [
+        "attached_assets/craftpix_pack/vehicles/acs_tank_damage/Source/ACS_Preview.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/vehicles/acs_tank_damage/Source/ACS_Preview.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/vehicles/acs_tank_damage/Source/ACS_Base.png"
+      ]
+    }
+  },
   "bomber_sms": {
     "attackClip": "shot",
     "frameCounts": {
@@ -162,6 +182,378 @@
         "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber Broken 01.png",
         "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber_Broken 02.png",
         "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber Broken 03.png"
+      ]
+    }
+  },
+
+  "mortar_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 22,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar9.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar10.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar11.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar12.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar13.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar14.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar15.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar16.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar17.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar18.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar19.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar20.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar21.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar22.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "medic_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 9,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle9.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "artillery_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 22,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar9.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar10.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar11.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar12.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar13.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar14.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar15.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar16.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar17.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar18.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar19.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar20.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar21.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar22.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "commander_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 9,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle9.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "vanguard_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 16,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun9.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun10.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun11.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun12.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun13.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun14.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun15.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun16.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "guard_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 16,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun9.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun10.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun11.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun12.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun13.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun14.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun15.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun16.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "assault_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 13,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka9.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka10.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka11.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka12.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka13.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_4.png"
+      ]
+    }
+  },
+
+  "grunt_red_s_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 9,
+      "dead": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle1.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs7.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle4.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle5.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle6.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle7.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle8.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle9.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_1.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_2.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_3.png",
+        "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_4.png"
       ]
     }
   }

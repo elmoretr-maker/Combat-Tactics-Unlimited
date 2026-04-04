@@ -905,6 +905,10 @@ function doAttack(attacker, target) {
   if (!result) return false;
   const { dmg, counterDmg, structureCollapsed } = result;
   attacker._fireVisualUntil = performance.now() + 420;
+  attacker._attackTargetPos = { x: target.x, y: target.y };
+  if (attacker.mapRenderMode === "topdown") {
+    attacker.faceRad = Math.atan2(target.y - attacker.y, target.x - attacker.x);
+  }
   const targetDied    = target.hp <= 0;
   const attackerDied  = attacker.hp <= 0;
   pushLog(`⚔ ${attacker.displayName} → ${target.displayName}: -${dmg} HP${targetDied ? " 💀" : ""}`, "battle-log__item--atk");
@@ -1064,6 +1068,9 @@ function previewDamage(attacker, target) {
 function facingRadForDraw(u, moving) {
   if (u.mapRenderMode !== "topdown" || u.hp <= 0) return u.faceRad;
   if (moving) return u.faceRad;
+  if (u._attackTargetPos && u._fireVisualUntil && performance.now() < u._fireVisualUntil) {
+    return Math.atan2(u._attackTargetPos.y - u.y, u._attackTargetPos.x - u.x);
+  }
   const pos = lerpPos(u);
   let best = null; let bestD = Infinity;
   for (const o of game.units) {
@@ -1142,8 +1149,21 @@ function drawFrame(ts) {
     const py = gridOffsetY + pos.y * cs;
     const moving = lerp && lerp.unitId === u.id;
     let facingLeft = false;
-    if (moving && lerp.x1 < lerp.x0) facingLeft = true;
-    else if (!moving) { const foe = game.units.find((o) => o.owner !== u.owner && o.hp > 0); if (foe && foe.x < u.x) facingLeft = true; }
+    if (moving && lerp.x1 < lerp.x0) {
+      facingLeft = true;
+    } else if (!moving) {
+      if (u._attackTargetPos && u._fireVisualUntil && performance.now() < u._fireVisualUntil) {
+        facingLeft = u._attackTargetPos.x < u.x;
+      } else {
+        let nearest = null; let nearD = Infinity;
+        for (const o of game.units) {
+          if (o.owner === u.owner || o.hp <= 0) continue;
+          const d = Math.abs(o.x - u.x) + Math.abs(o.y - u.y);
+          if (d < nearD) { nearD = d; nearest = o; }
+        }
+        if (nearest) facingLeft = nearest.x < u.x;
+      }
+    }
 
     /* Dim units that have spent BOTH their move and attack this turn */
     const spent = u.owner === currentOwner && u.movedThisTurn && u.attackedThisTurn;
