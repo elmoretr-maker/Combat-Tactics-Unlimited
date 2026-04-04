@@ -1,153 +1,52 @@
 {
   "id": "map_compact_urban",
-  "name": "Compact Grid",
+  "name": "The Crossroads",
   "width": 10,
   "height": 8,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_road",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road"
-    ]
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass"],
+    ["cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"]
   ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 2
-    },
-    {
-      "x": 2,
-      "y": 4
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 2
-    },
-    {
-      "x": 1,
-      "y": 4
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 8,
-      "y": 2
-    },
-    {
-      "x": 8,
-      "y": 4
-    }
+  "destructibles": [
+    {"x":1,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":2,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":7,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":8,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":2,"hp":70,"brokenTerrain":"cp_rubble"},
+    {"x":8,"y":2,"hp":70,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":5,"hp":70,"brokenTerrain":"cp_rubble"},
+    {"x":8,"y":5,"hp":70,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":2,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":7,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":8,"y":6,"hp":90,"brokenTerrain":"cp_rubble"}
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 6,
-      "y": 4
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 7,
-      "y": 2
-    }
+    {"templateId":"grunt_red","owner":1,"x":7,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":7,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":7,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":7,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":8,"y":3}
+  ],
+  "skirmishDeploy": [
+    {"x":2,"y":2},{"x":2,"y":3},{"x":2,"y":4},{"x":2,"y":5},
+    {"x":3,"y":2},{"x":3,"y":3},{"x":3,"y":4},{"x":3,"y":5}
+  ],
+  "p1DeploymentSlots": [
+    {"x":2,"y":2},{"x":2,"y":3},{"x":2,"y":4},{"x":2,"y":5},
+    {"x":3,"y":2},{"x":3,"y":3},{"x":3,"y":4},{"x":3,"y":5}
+  ],
+  "p2DeploymentSlots": [
+    {"x":7,"y":2},{"x":7,"y":3},{"x":7,"y":4},{"x":7,"y":5},
+    {"x":6,"y":2},{"x":6,"y":3},{"x":6,"y":4},{"x":6,"y":5}
   ]
 }

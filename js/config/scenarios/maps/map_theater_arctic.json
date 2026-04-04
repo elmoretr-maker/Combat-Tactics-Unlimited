@@ -1,321 +1,49 @@
 {
   "id": "map_theater_arctic",
-  "name": "Theater Tundra",
-  "width": 16,
-  "height": 14,
+  "name": "Arctic Front",
+  "width": 20,
+  "height": 16,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "forest",
-      "water",
-      "forest",
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "snow"
-    ],
-    [
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "hill",
-      "snow",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "snow",
-      "hill",
-      "water",
-      "hill",
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "forest",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "road",
-      "hill",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "snow",
-      "water",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "snow",
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "road",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "snow",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ]
-  ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 2,
-      "y": 7
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 1,
-      "y": 7
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 14,
-      "y": 4
-    },
-    {
-      "x": 14,
-      "y": 7
-    }
+    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"],
+    ["snow","forest","forest","snow","snow","hill","hill","snow","water","water","water","water","snow","hill","hill","snow","forest","forest","snow","snow"],
+    ["snow","forest","snow","snow","hill","hill","snow","snow","water","water","water","water","snow","snow","hill","hill","snow","forest","snow","snow"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["snow","snow","hill","hill","snow","snow","snow","snow","water","water","water","water","snow","snow","snow","hill","hill","snow","snow","snow"],
+    ["snow","snow","snow","snow","snow","water","water","water","water","water","water","water","water","water","snow","snow","snow","snow","snow","snow"],
+    ["snow","hill","hill","snow","snow","water","water","plains","plains","plains","plains","plains","water","water","snow","snow","hill","hill","snow","snow"],
+    ["snow","hill","hill","snow","snow","water","water","plains","plains","plains","plains","plains","water","water","snow","snow","hill","hill","snow","snow"],
+    ["snow","hill","hill","snow","snow","water","water","plains","plains","plains","plains","plains","water","water","snow","snow","hill","hill","snow","snow"],
+    ["snow","snow","snow","snow","snow","water","water","water","water","water","water","water","water","water","snow","snow","snow","snow","snow","snow"],
+    ["snow","snow","hill","hill","snow","snow","snow","snow","water","water","water","water","snow","snow","snow","hill","hill","snow","snow","snow"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["snow","forest","snow","snow","hill","hill","snow","snow","water","water","water","water","snow","snow","hill","hill","snow","forest","snow","snow"],
+    ["snow","forest","forest","snow","snow","hill","hill","snow","water","water","water","water","snow","hill","hill","snow","forest","forest","snow","snow"],
+    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"],
+    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"]
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 12,
-      "y": 7
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 13,
-      "y": 5
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 12,
-      "y": 9
-    },
-    {
-      "templateId": "opfor_tank",
-      "owner": 1,
-      "x": 14,
-      "y": 7
-    }
+    {"templateId":"grunt_red","owner":1,"x":18,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":8},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":11},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":6},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":9},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":7},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":10}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":8},{"x":0,"y":11},
+    {"x":1,"y":5},{"x":1,"y":7},{"x":1,"y":9},{"x":1,"y":11}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":8},{"x":0,"y":11},
+    {"x":1,"y":5},{"x":1,"y":7},{"x":1,"y":9},{"x":1,"y":11}
+  ],
+  "p2DeploymentSlots": [
+    {"x":19,"y":3},{"x":19,"y":5},{"x":19,"y":8},{"x":19,"y":11},
+    {"x":18,"y":5},{"x":18,"y":7},{"x":18,"y":9},{"x":18,"y":11}
   ]
 }

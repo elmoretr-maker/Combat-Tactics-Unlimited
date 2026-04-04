@@ -1,321 +1,49 @@
 {
   "id": "map_theater_desert",
-  "name": "Theater Dunes",
-  "width": 16,
-  "height": 14,
+  "name": "Desert Warzone",
+  "width": 20,
+  "height": 16,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "desert",
-      "hill",
-      "plains",
-      "hill",
-      "desert",
-      "desert",
-      "road",
-      "desert",
-      "desert",
-      "road",
-      "desert",
-      "plains",
-      "hill",
-      "desert",
-      "desert",
-      "desert"
-    ],
-    [
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "desert"
-    ],
-    [
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "hill",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "desert"
-    ],
-    [
-      "plains",
-      "hill",
-      "desert",
-      "desert",
-      "desert",
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "road",
-      "plains",
-      "desert"
-    ],
-    [
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "hill",
-      "desert",
-      "desert",
-      "desert",
-      "desert"
-    ],
-    [
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "hill",
-      "plains",
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert"
-    ],
-    [
-      "hill",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "road",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "desert"
-    ],
-    [
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "hill",
-      "desert",
-      "road",
-      "plains",
-      "road",
-      "desert",
-      "hill",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "road"
-    ],
-    [
-      "hill",
-      "desert",
-      "hill",
-      "desert",
-      "hill",
-      "desert",
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "road",
-      "road",
-      "plains",
-      "desert",
-      "desert",
-      "hill"
-    ],
-    [
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "hill",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "hill",
-      "road",
-      "road",
-      "desert",
-      "desert",
-      "desert"
-    ],
-    [
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "road",
-      "desert"
-    ],
-    [
-      "desert",
-      "desert",
-      "plains",
-      "plains",
-      "desert",
-      "desert",
-      "plains",
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert"
-    ],
-    [
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "desert",
-      "road",
-      "plains",
-      "desert",
-      "desert",
-      "plains",
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "plains"
-    ],
-    [
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "road",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "desert",
-      "hill"
-    ]
-  ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 2,
-      "y": 7
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 1,
-      "y": 7
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 14,
-      "y": 4
-    },
-    {
-      "x": 14,
-      "y": 7
-    }
+    ["desert","desert","desert","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","desert","desert","desert","desert"],
+    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert"],
+    ["desert","desert","hill","hill","desert","desert","desert","desert","hill","hill","hill","hill","desert","desert","desert","desert","hill","hill","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert"],
+    ["desert","desert","desert","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","desert","desert","desert","desert"]
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 12,
-      "y": 7
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 13,
-      "y": 5
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 12,
-      "y": 9
-    },
-    {
-      "templateId": "opfor_tank",
-      "owner": 1,
-      "x": 14,
-      "y": 7
-    }
+    {"templateId":"grunt_red","owner":1,"x":18,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":10},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":11},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":7},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":13}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":6},{"x":0,"y":10},
+    {"x":1,"y":4},{"x":1,"y":6},{"x":0,"y":7},{"x":1,"y":11}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":6},{"x":0,"y":10},
+    {"x":1,"y":4},{"x":1,"y":6},{"x":0,"y":7},{"x":1,"y":11}
+  ],
+  "p2DeploymentSlots": [
+    {"x":19,"y":2},{"x":19,"y":4},{"x":19,"y":6},{"x":19,"y":10},
+    {"x":18,"y":4},{"x":18,"y":6},{"x":19,"y":7},{"x":18,"y":11}
   ]
 }

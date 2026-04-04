@@ -1,293 +1,56 @@
 {
   "id": "map_sector_urban",
-  "name": "Sector Ruins",
-  "width": 14,
+  "name": "City Quarter",
+  "width": 16,
   "height": 12,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_building",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_road",
-      "cp_grass",
-      "cp_road"
-    ],
-    [
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road",
-      "cp_road"
-    ]
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_road","cp_road","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_road","cp_road","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"]
   ],
   "destructibles": [
-    {
-      "x": 5,
-      "y": 3,
-      "hp": 84,
-      "brokenTerrain": "cp_rubble"
-    },
-    {
-      "x": 4,
-      "y": 6,
-      "hp": 78,
-      "brokenTerrain": "cp_rubble"
-    },
-    {
-      "x": 7,
-      "y": 6,
-      "hp": 70,
-      "brokenTerrain": "cp_rubble"
-    },
-    {
-      "x": 6,
-      "y": 7,
-      "hp": 81,
-      "brokenTerrain": "cp_rubble"
-    },
-    {
-      "x": 9,
-      "y": 9,
-      "hp": 90,
-      "brokenTerrain": "cp_rubble"
-    }
-  ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 2,
-      "y": 6
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 1,
-      "y": 6
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 12,
-      "y": 4
-    },
-    {
-      "x": 12,
-      "y": 6
-    }
+    {"x":1,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":5,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":6,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":9,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":13,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":14,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},{"x":2,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":13,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},{"x":14,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":7,"hp":80,"brokenTerrain":"cp_rubble"},{"x":2,"y":7,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":13,"y":7,"hp":80,"brokenTerrain":"cp_rubble"},{"x":14,"y":7,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":10,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":10,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":13,"y":10,"hp":90,"brokenTerrain":"cp_rubble"},{"x":14,"y":10,"hp":90,"brokenTerrain":"cp_rubble"}
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 10,
-      "y": 6
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 11,
-      "y": 4
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 10,
-      "y": 8
-    },
-    {
-      "templateId": "opfor_tank",
-      "owner": 1,
-      "x": 12,
-      "y": 6
-    }
+    {"templateId":"grunt_red","owner":1,"x":13,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":13,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":13,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":13,"y":8},
+    {"templateId":"opfor_tank","owner":1,"x":14,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":14,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":12,"y":5}
+  ],
+  "skirmishDeploy": [
+    {"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":6},{"x":2,"y":8},
+    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":6},{"x":3,"y":8}
+  ],
+  "p1DeploymentSlots": [
+    {"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":6},{"x":2,"y":8},
+    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":6},{"x":3,"y":8}
+  ],
+  "p2DeploymentSlots": [
+    {"x":13,"y":3},{"x":13,"y":5},{"x":13,"y":6},{"x":13,"y":8},
+    {"x":12,"y":3},{"x":12,"y":5},{"x":12,"y":6},{"x":12,"y":8}
   ]
 }

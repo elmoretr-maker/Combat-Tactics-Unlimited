@@ -1,321 +1,55 @@
 {
   "id": "map_theater_mixed",
-  "name": "Theater Total War",
-  "width": 16,
-  "height": 14,
+  "name": "Liberation Campaign",
+  "width": 20,
+  "height": 16,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "plains",
-      "road",
-      "plains",
-      "forest",
-      "urban",
-      "plains",
-      "plains",
-      "road",
-      "forest",
-      "hill",
-      "desert",
-      "plains",
-      "snow",
-      "hill",
-      "hill",
-      "hill"
-    ],
-    [
-      "forest",
-      "road",
-      "plains",
-      "road",
-      "forest",
-      "plains",
-      "urban",
-      "road",
-      "forest",
-      "desert",
-      "desert",
-      "plains",
-      "snow",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "desert",
-      "plains",
-      "plains",
-      "plains",
-      "desert",
-      "plains",
-      "desert"
-    ],
-    [
-      "plains",
-      "plains",
-      "urban",
-      "plains",
-      "plains",
-      "plains",
-      "urban",
-      "plains",
-      "plains",
-      "plains",
-      "desert",
-      "plains",
-      "desert",
-      "hill",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "urban",
-      "urban",
-      "urban",
-      "forest",
-      "forest",
-      "plains",
-      "road",
-      "hill",
-      "plains",
-      "desert",
-      "hill",
-      "desert",
-      "desert",
-      "snow",
-      "snow"
-    ],
-    [
-      "forest",
-      "plains",
-      "urban",
-      "plains",
-      "urban",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "hill",
-      "desert",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "urban",
-      "road",
-      "hill",
-      "hill",
-      "plains",
-      "desert",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "desert",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "forest",
-      "urban",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "hill",
-      "plains",
-      "snow",
-      "plains",
-      "desert",
-      "desert",
-      "plains",
-      "plains"
-    ],
-    [
-      "urban",
-      "forest",
-      "road",
-      "road",
-      "urban",
-      "plains",
-      "forest",
-      "plains",
-      "hill",
-      "desert",
-      "desert",
-      "desert",
-      "plains",
-      "plains",
-      "hill",
-      "snow"
-    ],
-    [
-      "plains",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "urban",
-      "plains",
-      "forest",
-      "forest",
-      "desert",
-      "snow",
-      "plains",
-      "plains",
-      "snow",
-      "plains",
-      "hill"
-    ],
-    [
-      "road",
-      "plains",
-      "forest",
-      "urban",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "hill",
-      "plains",
-      "plains",
-      "desert",
-      "plains",
-      "desert"
-    ],
-    [
-      "road",
-      "forest",
-      "urban",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "hill",
-      "desert",
-      "plains",
-      "plains",
-      "desert",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "road",
-      "urban",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "snow",
-      "hill",
-      "hill",
-      "plains",
-      "desert",
-      "hill",
-      "desert"
-    ]
+    ["forest","forest","forest","plains","plains","cp_road","cp_road","plains","plains","desert","desert","plains","plains","snow","snow","plains","plains","forest","forest","forest"],
+    ["forest","hill","plains","plains","plains","cp_road","cp_road","plains","plains","desert","desert","plains","plains","snow","hill","snow","plains","plains","hill","forest"],
+    ["forest","plains","plains","plains","cp_road","cp_road","cp_road","cp_road","plains","desert","hill","plains","plains","snow","snow","plains","plains","plains","plains","forest"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","plains","forest","forest","cp_road","cp_road","plains","plains","plains","hill","hill","plains","water","water","snow","snow","plains","forest","forest","plains"],
+    ["plains","plains","forest","forest","cp_road","cp_building","cp_building","cp_road","plains","hill","hill","plains","water","water","snow","snow","plains","forest","forest","plains"],
+    ["plains","plains","forest","forest","cp_road","cp_building","cp_building","cp_road","plains","hill","hill","plains","water","water","snow","snow","plains","forest","forest","plains"],
+    ["plains","hill","plains","plains","cp_road","cp_road","plains","plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","hill","plains"],
+    ["plains","hill","plains","plains","cp_road","cp_road","plains","plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","hill","plains"],
+    ["plains","plains","forest","forest","cp_road","cp_building","cp_building","cp_road","plains","hill","hill","plains","water","water","snow","snow","plains","forest","forest","plains"],
+    ["plains","plains","forest","forest","cp_road","cp_building","cp_building","cp_road","plains","hill","hill","plains","water","water","snow","snow","plains","forest","forest","plains"],
+    ["plains","plains","forest","forest","cp_road","cp_road","plains","plains","plains","hill","hill","plains","water","water","snow","snow","plains","forest","forest","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["forest","plains","plains","plains","cp_road","cp_road","cp_road","cp_road","plains","desert","hill","plains","plains","snow","snow","plains","plains","plains","plains","forest"],
+    ["forest","hill","plains","plains","plains","cp_road","cp_road","plains","plains","desert","desert","plains","plains","snow","hill","snow","plains","plains","hill","forest"],
+    ["forest","forest","forest","plains","plains","cp_road","cp_road","plains","plains","desert","desert","plains","plains","snow","snow","plains","plains","forest","forest","forest"]
   ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 2,
-      "y": 7
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 1,
-      "y": 7
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 14,
-      "y": 4
-    },
-    {
-      "x": 14,
-      "y": 7
-    }
+  "destructibles": [
+    {"x":5,"y":5,"hp":80,"brokenTerrain":"cp_rubble"},{"x":6,"y":5,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":5,"y":6,"hp":80,"brokenTerrain":"cp_rubble"},{"x":6,"y":6,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":5,"y":9,"hp":80,"brokenTerrain":"cp_rubble"},{"x":6,"y":9,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":5,"y":10,"hp":80,"brokenTerrain":"cp_rubble"},{"x":6,"y":10,"hp":80,"brokenTerrain":"cp_rubble"}
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 12,
-      "y": 7
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 13,
-      "y": 5
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 12,
-      "y": 9
-    },
-    {
-      "templateId": "opfor_tank",
-      "owner": 1,
-      "x": 14,
-      "y": 7
-    }
+    {"templateId":"grunt_red","owner":1,"x":18,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":8},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":10},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":6},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":9},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":7},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":12}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":7},{"x":0,"y":10},
+    {"x":1,"y":5},{"x":1,"y":7},{"x":0,"y":12},{"x":1,"y":9}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":7},{"x":0,"y":10},
+    {"x":1,"y":5},{"x":1,"y":7},{"x":0,"y":12},{"x":1,"y":9}
+  ],
+  "p2DeploymentSlots": [
+    {"x":19,"y":3},{"x":19,"y":5},{"x":19,"y":7},{"x":19,"y":10},
+    {"x":18,"y":5},{"x":18,"y":7},{"x":19,"y":12},{"x":18,"y":9}
   ]
 }

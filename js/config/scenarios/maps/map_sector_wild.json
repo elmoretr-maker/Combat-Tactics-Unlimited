@@ -1,261 +1,44 @@
 {
   "id": "map_sector_wild",
-  "name": "Deep Timber",
-  "width": 14,
+  "name": "Forest Valley",
+  "width": 16,
   "height": 12,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "plains",
-      "plains",
-      "forest",
-      "forest",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "forest",
-      "road",
-      "plains",
-      "forest",
-      "hill",
-      "plains",
-      "forest",
-      "forest",
-      "plains"
-    ],
-    [
-      "plains",
-      "forest",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "road"
-    ],
-    [
-      "plains",
-      "plains",
-      "hill",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "road"
-    ],
-    [
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "road"
-    ],
-    [
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "road"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "road",
-      "plains",
-      "hill",
-      "plains",
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "forest",
-      "forest",
-      "forest",
-      "forest",
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "hill",
-      "forest",
-      "plains"
-    ],
-    [
-      "hill",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "hill",
-      "hill",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "road",
-      "forest",
-      "forest",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "hill",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "forest",
-      "plains",
-      "road",
-      "hill",
-      "plains",
-      "hill",
-      "hill"
-    ]
-  ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 2,
-      "y": 6
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 4
-    },
-    {
-      "x": 1,
-      "y": 6
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 12,
-      "y": 4
-    },
-    {
-      "x": 12,
-      "y": 6
-    }
+    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
+    ["forest","hill","hill","forest","plains","plains","water","water","plains","plains","forest","hill","hill","forest","forest","forest"],
+    ["plains","plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","plains","plains","plains","plains"],
+    ["plains","forest","forest","plains","plains","plains","water","water","plains","plains","plains","forest","forest","plains","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","plains","hill","plains","plains","plains","water","water","plains","plains","plains","hill","plains","plains","plains","plains"],
+    ["plains","plains","hill","plains","plains","plains","water","water","plains","plains","plains","hill","plains","plains","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","forest","forest","plains","plains","plains","water","water","plains","plains","plains","forest","forest","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","plains","plains","plains","plains"],
+    ["forest","hill","hill","forest","plains","plains","water","water","plains","plains","forest","hill","hill","forest","forest","forest"],
+    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"]
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 10,
-      "y": 6
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 11,
-      "y": 4
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 10,
-      "y": 8
-    },
-    {
-      "templateId": "opfor_tank",
-      "owner": 1,
-      "x": 12,
-      "y": 6
-    }
+    {"templateId":"grunt_red","owner":1,"x":14,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":7},
+    {"templateId":"opfor_tank","owner":1,"x":15,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":15,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":13,"y":5}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":7},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":1,"y":6},{"x":1,"y":7}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":7},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":1,"y":6},{"x":1,"y":7}
+  ],
+  "p2DeploymentSlots": [
+    {"x":15,"y":4},{"x":15,"y":5},{"x":15,"y":6},{"x":15,"y":7},
+    {"x":14,"y":4},{"x":14,"y":5},{"x":14,"y":6},{"x":14,"y":7}
   ]
 }

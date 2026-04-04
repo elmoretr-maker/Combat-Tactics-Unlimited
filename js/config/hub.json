@@ -7,6 +7,14 @@
   },
   "soloModes": [
     {
+      "id": "map_theater",
+      "title": "Map theater",
+      "description": "Pick one of 20 battlefields for skirmish or hotseat.",
+      "action": "maps",
+      "iconKey": "maps",
+      "requiresAcademy": false
+    },
+    {
       "id": "academy",
       "title": "Training Academy",
       "description": "Pick 3 units — forest LOS, flanking encouraged.",

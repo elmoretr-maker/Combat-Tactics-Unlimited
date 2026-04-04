@@ -2,183 +2,203 @@
   "maps": [
     {
       "id": "map_compact_urban",
-      "name": "Compact Grid",
+      "name": "The Crossroads",
       "path": "js/config/scenarios/maps/map_compact_urban.json",
       "sizeCategory": "small",
       "environment": "urban",
       "width": 10,
-      "height": 8
+      "height": 8,
+      "blurb": "City intersection. Buildings guard every corner — take cover, push through, destroy what you can't go around."
     },
     {
       "id": "map_compact_wild",
-      "name": "Border Woods",
+      "name": "Woodpecker Hill",
       "path": "js/config/scenarios/maps/map_compact_wild.json",
       "sizeCategory": "small",
       "environment": "wild",
       "width": 10,
-      "height": 8
+      "height": 8,
+      "blurb": "Forested hilltops flank a twin-road corridor. Forest blocks line-of-sight — move fast or get flanked."
     },
     {
       "id": "map_compact_desert",
-      "name": "Dune Alley",
+      "name": "Dune Pass",
       "path": "js/config/scenarios/maps/map_compact_desert.json",
       "sizeCategory": "small",
       "environment": "desert",
       "width": 10,
-      "height": 8
+      "height": 8,
+      "blurb": "Sandy ridgelines and two fast roads through the dunes. Ruins in the center offer grim cover."
     },
     {
       "id": "map_compact_arctic",
-      "name": "Frozen Pass",
+      "name": "Frozen Crossing",
       "path": "js/config/scenarios/maps/map_compact_arctic.json",
       "sizeCategory": "small",
       "environment": "arctic",
       "width": 10,
-      "height": 8
+      "height": 8,
+      "blurb": "Frozen river splits the map. Two bridges — control them both or hold the ice line."
     },
     {
       "id": "map_compact_mixed",
-      "name": "Training Mix",
+      "name": "Staging Grounds",
       "path": "js/config/scenarios/maps/map_compact_mixed.json",
       "sizeCategory": "small",
       "environment": "mixed",
       "width": 10,
-      "height": 8
+      "height": 8,
+      "blurb": "Training area with every terrain type. Hills, forest, ruins, and roads in a compact kill box."
     },
     {
       "id": "map_warden_urban",
-      "name": "Warden Block",
+      "name": "Occupied District",
       "path": "js/config/scenarios/maps/map_warden_urban.json",
       "sizeCategory": "medium",
       "environment": "urban",
       "width": 12,
-      "height": 10
+      "height": 10,
+      "blurb": "Multi-block city sector. Buildings create corridors and ambush pockets across three city rows."
     },
     {
       "id": "map_warden_wild",
-      "name": "Green Belt",
+      "name": "Green Choke",
       "path": "js/config/scenarios/maps/map_warden_wild.json",
       "sizeCategory": "medium",
       "environment": "wild",
       "width": 12,
-      "height": 10
+      "height": 10,
+      "blurb": "Thick forest flanks a river. Two road crossings become life-or-death choke points."
     },
     {
       "id": "map_warden_desert",
-      "name": "Sunstroke",
+      "name": "Outpost Bravo",
       "path": "js/config/scenarios/maps/map_warden_desert.json",
       "sizeCategory": "medium",
       "environment": "desert",
       "width": 12,
-      "height": 10
+      "height": 10,
+      "blurb": "Desert fortification at the center. Dune ridges offer elevation. Crossing the open costs units."
     },
     {
       "id": "map_warden_arctic",
-      "name": "Ice Split",
+      "name": "Northern Passage",
       "path": "js/config/scenarios/maps/map_warden_arctic.json",
       "sizeCategory": "medium",
       "environment": "arctic",
       "width": 12,
-      "height": 10
+      "height": 10,
+      "blurb": "Snow and frozen lakes create a maze. Two road corridors are the only safe routes through."
     },
     {
       "id": "map_warden_mixed",
-      "name": "Frontline Splice",
+      "name": "Factory District",
       "path": "js/config/scenarios/maps/map_warden_mixed.json",
       "sizeCategory": "medium",
       "environment": "mixed",
       "width": 12,
-      "height": 10
+      "height": 10,
+      "blurb": "Industrial zone with urban buildings and forested perimeter. Hills provide sniper elevation."
     },
     {
       "id": "map_sector_urban",
-      "name": "Sector Ruins",
+      "name": "City Quarter",
       "path": "js/config/scenarios/maps/map_sector_urban.json",
       "sizeCategory": "large",
       "environment": "urban",
-      "width": 14,
-      "height": 12
+      "width": 16,
+      "height": 12,
+      "blurb": "A large city grid with four road arteries and dense building clusters. Rubble from destroyed buildings creates dynamic cover."
     },
     {
       "id": "map_sector_wild",
-      "name": "Deep Timber",
+      "name": "Forest Valley",
       "path": "js/config/scenarios/maps/map_sector_wild.json",
       "sizeCategory": "large",
       "environment": "wild",
-      "width": 14,
-      "height": 12
+      "width": 16,
+      "height": 12,
+      "blurb": "A river splits the valley floor. Two bridge crossings under dense forest fire — flanking is key."
     },
     {
       "id": "map_sector_desert",
-      "name": "Salt Flats",
+      "name": "Desert Ruins",
       "path": "js/config/scenarios/maps/map_sector_desert.json",
       "sizeCategory": "large",
       "environment": "desert",
-      "width": 14,
-      "height": 12
+      "width": 16,
+      "height": 12,
+      "blurb": "Abandoned settlement surrounded by open desert. Dunes hide movement; ruins provide the only real cover."
     },
     {
       "id": "map_sector_arctic",
-      "name": "Glacier Run",
+      "name": "Tundra Siege",
       "path": "js/config/scenarios/maps/map_sector_arctic.json",
       "sizeCategory": "large",
       "environment": "arctic",
-      "width": 14,
-      "height": 12
+      "width": 16,
+      "height": 12,
+      "blurb": "Frozen lakes and scattered forests create a deadly puzzle. Two roads thread the only navigable paths."
     },
     {
       "id": "map_sector_mixed",
-      "name": "Theater Fusion",
+      "name": "River Delta",
       "path": "js/config/scenarios/maps/map_sector_mixed.json",
       "sizeCategory": "large",
       "environment": "mixed",
-      "width": 14,
-      "height": 12
+      "width": 16,
+      "height": 12,
+      "blurb": "River branches create islands of high ground. Urban strongpoints, hills, and water barriers divide the battlefield."
     },
     {
       "id": "map_theater_urban",
-      "name": "Theater City",
+      "name": "Fallen City",
       "path": "js/config/scenarios/maps/map_theater_urban.json",
       "sizeCategory": "grand",
       "environment": "urban",
-      "width": 16,
-      "height": 14
+      "width": 20,
+      "height": 16,
+      "blurb": "A massive urban warzone. Three horizontal boulevards cross a grid of destructible city blocks. Every building can become rubble."
     },
     {
       "id": "map_theater_wild",
-      "name": "Theater Wilds",
+      "name": "The Great Forest",
       "path": "js/config/scenarios/maps/map_theater_wild.json",
       "sizeCategory": "grand",
       "environment": "wild",
-      "width": 16,
-      "height": 14
+      "width": 20,
+      "height": 16,
+      "blurb": "Rivers branch through a vast forested landscape. Hills command the crossings. Long-range units thrive in the clearings."
     },
     {
       "id": "map_theater_desert",
-      "name": "Theater Dunes",
+      "name": "Desert Warzone",
       "path": "js/config/scenarios/maps/map_theater_desert.json",
       "sizeCategory": "grand",
       "environment": "desert",
-      "width": 16,
-      "height": 14
+      "width": 20,
+      "height": 16,
+      "blurb": "Vast desert with twin oases and three road arteries. Ancient ruins and dune ridges anchor the flanks."
     },
     {
       "id": "map_theater_arctic",
-      "name": "Theater Tundra",
+      "name": "Arctic Front",
       "path": "js/config/scenarios/maps/map_theater_arctic.json",
       "sizeCategory": "grand",
       "environment": "arctic",
-      "width": 16,
-      "height": 14
+      "width": 20,
+      "height": 16,
+      "blurb": "Massive frozen battlefield. A central ice lake dominates — two road bridges are the only links. Forest and hills guard the perimeter."
     },
     {
       "id": "map_theater_mixed",
-      "name": "Theater Total War",
+      "name": "Liberation Campaign",
       "path": "js/config/scenarios/maps/map_theater_mixed.json",
       "sizeCategory": "grand",
       "environment": "mixed",
-      "width": 16,
-      "height": 14
+      "width": 20,
+      "height": 16,
+      "blurb": "Grand cross-terrain battle. Urban buildings, forest ridges, desert dunes, frozen lakes, and river barriers all collide in one massive map."
     }
   ]
 }

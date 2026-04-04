@@ -1,153 +1,38 @@
 {
   "id": "map_compact_arctic",
-  "name": "Frozen Pass",
+  "name": "Frozen Crossing",
   "width": 10,
   "height": 8,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "road",
-      "hill",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "hill",
-      "water",
-      "forest",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "hill",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "hill",
-      "snow",
-      "hill",
-      "snow",
-      "hill",
-      "water",
-      "forest",
-      "snow",
-      "hill",
-      "hill"
-    ],
-    [
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "water",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "hill",
-      "snow",
-      "snow",
-      "snow",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "snow"
-    ],
-    [
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "snow",
-      "road",
-      "snow",
-      "snow",
-      "snow",
-      "hill"
-    ]
-  ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 2
-    },
-    {
-      "x": 2,
-      "y": 4
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 2
-    },
-    {
-      "x": 1,
-      "y": 4
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 8,
-      "y": 2
-    },
-    {
-      "x": 8,
-      "y": 4
-    }
+    ["snow","snow","snow","snow","water","water","snow","snow","snow","snow"],
+    ["snow","forest","snow","snow","water","water","snow","snow","forest","snow"],
+    ["road","road","road","road","road","road","road","road","road","road"],
+    ["snow","snow","forest","snow","water","water","snow","forest","snow","snow"],
+    ["snow","snow","forest","snow","water","water","snow","forest","snow","snow"],
+    ["road","road","road","road","road","road","road","road","road","road"],
+    ["snow","forest","snow","snow","water","water","snow","snow","forest","snow"],
+    ["snow","snow","snow","snow","water","water","snow","snow","snow","snow"]
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 6,
-      "y": 4
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 7,
-      "y": 2
-    }
+    {"templateId":"grunt_red","owner":1,"x":8,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":8,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":8,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":8,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":9,"y":3}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":2},{"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":5},
+    {"x":1,"y":2},{"x":1,"y":5},{"x":2,"y":3},{"x":2,"y":4}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":2},{"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":5},
+    {"x":1,"y":2},{"x":1,"y":5},{"x":2,"y":3},{"x":2,"y":4}
+  ],
+  "p2DeploymentSlots": [
+    {"x":9,"y":2},{"x":9,"y":3},{"x":9,"y":4},{"x":9,"y":5},
+    {"x":8,"y":2},{"x":8,"y":5},{"x":7,"y":3},{"x":7,"y":4}
   ]
 }

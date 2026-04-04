@@ -50,6 +50,9 @@ let mapCatalog = { maps: [] };
 let battleEndHandled = false;
 let aiRunning = false;
 let academyPickSet = new Set();
+/** Map theater → vs CPU: player-picked squad (insertion order = deploy slots). */
+let mapSkirmishPickSet = new Set();
+let mapSkirmishPickCount = 2;
 let battleHints = { movedOnce: false, attackedOnce: false };
 let battleStats = { p0Kills: 0, p1Kills: 0, rounds: 0 };
 
@@ -230,6 +233,16 @@ function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
       const slot = acad.deploymentSlots[i];
       if (slot) s.units.push({ templateId: tid, owner: 0, x: slot.x, y: slot.y });
     });
+    s.units.push(...enemies);
+    return s;
+  }
+  if (mode === "skirmish" && Array.isArray(loadout) && loadout.length > 0 && s.skirmishDeploy?.length) {
+    s.units = [];
+    for (let i = 0; i < s.skirmishDeploy.length; i++) {
+      const tid = loadout[i];
+      const slot = s.skirmishDeploy[i];
+      if (tid && slot) s.units.push({ templateId: tid, owner: 0, x: slot.x, y: slot.y });
+    }
     s.units.push(...enemies);
     return s;
   }
@@ -465,6 +478,13 @@ const HUB_ICONS = {
     <path d="M2 28 C6 25 10 31 14 28 C18 25 22 31 26 28 C30 25 34 31 38 28" stroke="currentColor" stroke-width="2"/>
     <path d="M2 34 C6 31 10 37 14 34 C18 31 22 37 26 34 C30 31 34 37 38 34" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
   </svg>`,
+  maps: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 8 L18 5 L32 9 L32 33 L18 30 L6 34 Z" stroke="currentColor" stroke-width="1.8" fill="currentColor" fill-opacity="0.12"/>
+    <path d="M18 5 L18 30" stroke="currentColor" stroke-width="1.2" opacity="0.7"/>
+    <circle cx="14" cy="16" r="2.5" fill="currentColor" opacity="0.55"/>
+    <circle cx="24" cy="22" r="2" fill="currentColor" opacity="0.45"/>
+    <path d="M10 26 L16 20 L22 24 L28 18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+  </svg>`,
 };
 
 const BULLET_SVG = `<svg class="hub-mode-card__bullet" viewBox="0 0 14 34" aria-hidden="true">
@@ -504,6 +524,10 @@ function renderHubModes() {
       ${bullet}`;
     b.addEventListener("click", () => {
       if (b.disabled) return;
+      if (m.action === "maps") {
+        showScreen("maps");
+        return;
+      }
       if (m.action === "academy") openAcademy();
       else if (m.action === "skirmish")
         bootBattle({
@@ -548,7 +572,8 @@ function renderHubShortcuts() {
     btn.type    = "button";
     btn.className = "hub-toggle-btn" + (gated ? " hub-toggle-btn--locked" : "");
     btn.disabled  = gated;
-    btn.innerHTML = `<span class="hub-toggle-label">${sc.label}</span>`;
+    const ic = sc.icon ? `<span class="hub-toggle-icon" aria-hidden="true">${sc.icon}</span>` : "";
+    btn.innerHTML = `${ic}<span class="hub-toggle-label">${sc.label}</span>`;
     btn.addEventListener("click", () => { if (!btn.disabled) showScreen(sc.screen); });
     host.appendChild(btn);
   }
@@ -637,6 +662,80 @@ function confirmAcademy() {
   const count = academyConfig?.pickCount ?? 3;
   if (academyPickSet.size !== count) return;
   bootBattle({ mode: "academy", loadout: [...academyPickSet], scenarioPath: academyConfig?.scenarioPath });
+}
+
+/* ── Map theater → vs CPU loadout (full roster, no unlock gate) ─ */
+async function openMapSkirmishLoadout() {
+  if (!pendingUserMapPath) {
+    const sel = document.getElementById("map-theater-selected");
+    if (sel) sel.textContent = "Select a map first — click a map card below.";
+    return;
+  }
+  let scenarioBase;
+  try {
+    scenarioBase = await loadJson(pendingUserMapPath);
+  } catch (e) {
+    console.warn("[CTU] map loadout: failed to load scenario", e);
+    const sel = document.getElementById("map-theater-selected");
+    if (sel) sel.textContent = "Could not load that map. Pick another.";
+    return;
+  }
+  mapSkirmishPickCount = Math.min(8, Math.max(1, scenarioBase.skirmishDeploy?.length ?? 8));
+  mapSkirmishPickSet.clear();
+
+  const nameEl = document.getElementById("map-skirmish-map-name");
+  if (nameEl) nameEl.textContent = scenarioBase.name || "Battlefield";
+
+  const host = document.getElementById("map-skirmish-picks");
+  if (!host) return;
+  if (!unitRegistry.length) {
+    try {
+      unitRegistry = await loadJson("js/config/units.json");
+    } catch (e) {
+      console.warn("[CTU] map loadout: units.json", e);
+      return;
+    }
+  }
+  host.innerHTML = "";
+  const offer = unitRegistry.filter((u) => !u.tags?.includes("ai"));
+  for (const u of offer) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "academy-offer";
+    btn.dataset.unitId = u.id;
+    const ph = portraitThumbHtml(u, "academy-offer__img");
+    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="muted small">${u.hp} HP · mv ${u.move} · ${u.attackType}</span></span>`;
+    btn.addEventListener("click", () => toggleMapSkirmishPick(u.id, btn));
+    host.appendChild(btn);
+  }
+  const st = document.getElementById("map-skirmish-status");
+  if (st) st.textContent = `Choose ${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
+  const cta = document.getElementById("btn-map-skirmish-confirm");
+  if (cta) cta.disabled = true;
+  showScreen("map-skirmish");
+}
+
+function toggleMapSkirmishPick(id, btnEl) {
+  if (mapSkirmishPickSet.has(id)) {
+    mapSkirmishPickSet.delete(id);
+    btnEl.classList.remove("academy-offer--on");
+  } else if (mapSkirmishPickSet.size < mapSkirmishPickCount) {
+    mapSkirmishPickSet.add(id);
+    btnEl.classList.add("academy-offer--on");
+  }
+  const st = document.getElementById("map-skirmish-status");
+  if (st) st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount}.`;
+  const cta = document.getElementById("btn-map-skirmish-confirm");
+  if (cta) cta.disabled = mapSkirmishPickSet.size !== mapSkirmishPickCount;
+}
+
+function confirmMapSkirmish() {
+  if (!pendingUserMapPath || mapSkirmishPickSet.size !== mapSkirmishPickCount) return;
+  void bootBattle({
+    mode: "skirmish",
+    loadout: [...mapSkirmishPickSet],
+    scenarioPath: pendingUserMapPath,
+  });
 }
 
 /* ── Hotseat ──────────────────────────────────────────── */
@@ -1609,10 +1708,12 @@ function renderMapTheater() {
     card.dataset.mapPath = m.path;
     card.innerHTML =
       `<span class="map-theater-card__name">${m.name}</span>` +
-      `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${m.environment}</span>`;
+      `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${m.environment}</span>` +
+      (m.blurb ? `<span class="map-theater-card__blurb">${m.blurb}</span>` : "");
     card.addEventListener("click", () => {
       pendingUserMapPath = m.path;
       renderMapTheater();
+      void openMapSkirmishLoadout();
     });
     host.appendChild(card);
   }
@@ -1765,7 +1866,12 @@ function wireUi() {
     renderMapTheater();
   });
   document.getElementById("btn-map-theater-skirmish")?.addEventListener("click", () => {
-    void bootBattle({ mode: "skirmish" });
+    void openMapSkirmishLoadout();
+  });
+  document.getElementById("btn-map-skirmish-confirm")?.addEventListener("click", confirmMapSkirmish);
+  document.getElementById("btn-map-skirmish-back")?.addEventListener("click", () => {
+    showScreen("maps");
+    renderMapTheater();
   });
   document.getElementById("btn-map-theater-hotseat")?.addEventListener("click", () =>
     showScreen("hotseat")

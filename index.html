@@ -41,6 +41,7 @@
         <div class="classic-menu-screen__grid">
           <button type="button" class="btn" data-screen="landing">Original home</button>
           <button type="button" class="btn" data-screen="hub" data-section="hub-section-modes">Command hub</button>
+          <button type="button" class="btn" data-screen="maps">Map theater</button>
           <button type="button" class="btn" data-screen="hotseat">1v1 Hotseat</button>
           <button type="button" class="btn" data-screen="codex">Codex</button>
           <button type="button" class="btn" data-screen="settings">Settings</button>
@@ -124,6 +125,15 @@
             <span class="lp-dock-tag__line1">Quick</span>
             <span class="lp-dock-tag__line2">Skirmish</span>
           </button>
+        </div>
+        <div class="lp-dock-item lp-dock-item--maps">
+          <button type="button" class="lp-dock-tag" aria-expanded="false" aria-controls="lp-dock-p-maps">Maps</button>
+          <div id="lp-dock-p-maps" class="lp-dock-panel" hidden>
+            <button type="button" class="lp-dock-go lp-card lp-card--maps" data-screen="maps">
+              <div class="lp-card__art"><span class="lp-card__icon">🗺</span></div>
+              <span class="lp-card__label">Map<br>theater</span>
+            </button>
+          </div>
         </div>
 
         <div class="lp-dock-item lp-dock-item--academy">
@@ -289,7 +299,7 @@
     <section id="screen-maps" class="screen" aria-label="Map theater" hidden>
       <div class="panel panel--wide map-theater">
         <h2>Map theater</h2>
-        <p class="muted small">Pick a battlefield for <strong>vs CPU skirmish</strong> or <strong>1v1 hotseat</strong>. Four size bands × five environments — 20 layouts with roads, cover, water, and city props where noted.</p>
+        <p class="muted small">Click a map to <strong>choose your squad</strong> (full roster) and fight the AI on that battlefield. Or pick a card, then use <strong>Vs CPU on map</strong>. For <strong>1v1 hotseat</strong>, select a map here first, then open Hotseat. Four size bands × five environments — 20 layouts.</p>
         <div class="map-theater-filters">
           <label class="map-theater-filter">
             <span>Size</span>
@@ -319,6 +329,20 @@
           <button type="button" id="btn-map-theater-skirmish" class="cta">Vs CPU on map</button>
           <button type="button" id="btn-map-theater-hotseat" class="btn">Use map · hotseat setup</button>
           <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MAP SKIRMISH LOADOUT (after picking a map in theater) ─ -->
+    <section id="screen-map-skirmish" class="screen" aria-label="Map skirmish loadout" hidden>
+      <div class="panel panel--wide ctu-metal-panel">
+        <h2>Deploy on <span id="map-skirmish-map-name">—</span></h2>
+        <p id="map-skirmish-status" class="muted small"></p>
+        <p class="muted small">Every unit is available here regardless of campaign progress. Pick in the order you want them placed on the map’s deploy tiles (first click → first slot).</p>
+        <div id="map-skirmish-picks" class="academy-grid"></div>
+        <div class="row-actions">
+          <button type="button" id="btn-map-skirmish-confirm" class="cta" disabled>Start battle</button>
+          <button type="button" id="btn-map-skirmish-back" class="btn btn--ghost">← Map theater</button>
         </div>
       </div>
     </section>

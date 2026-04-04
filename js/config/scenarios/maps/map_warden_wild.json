@@ -1,203 +1,41 @@
 {
   "id": "map_warden_wild",
-  "name": "Green Belt",
+  "name": "Green Choke",
   "width": 12,
   "height": 10,
   "cellSize": 48,
-  "winCondition": {
-    "type": "eliminate"
-  },
+  "winCondition": { "type": "eliminate" },
   "terrain": [
-    [
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "road",
-      "hill",
-      "plains",
-      "road",
-      "hill",
-      "forest",
-      "forest",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "hill",
-      "plains",
-      "forest",
-      "plains",
-      "road",
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "hill",
-      "plains",
-      "forest",
-      "hill"
-    ],
-    [
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "hill",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "forest",
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "hill"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "hill",
-      "plains",
-      "plains",
-      "plains",
-      "hill"
-    ],
-    [
-      "plains",
-      "forest",
-      "hill",
-      "forest",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "plains",
-      "road",
-      "plains"
-    ],
-    [
-      "forest",
-      "forest",
-      "plains",
-      "plains",
-      "road",
-      "plains",
-      "road",
-      "plains",
-      "hill",
-      "plains",
-      "hill",
-      "plains"
-    ],
-    [
-      "plains",
-      "road",
-      "forest",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "forest",
-      "forest",
-      "plains",
-      "forest",
-      "forest"
-    ]
-  ],
-  "skirmishDeploy": [
-    {
-      "x": 1,
-      "y": 3
-    },
-    {
-      "x": 2,
-      "y": 5
-    }
-  ],
-  "p1DeploymentSlots": [
-    {
-      "x": 1,
-      "y": 3
-    },
-    {
-      "x": 1,
-      "y": 5
-    }
-  ],
-  "p2DeploymentSlots": [
-    {
-      "x": 10,
-      "y": 3
-    },
-    {
-      "x": 10,
-      "y": 5
-    }
+    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
+    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
+    ["plains","plains","forest","forest","plains","water","water","plains","forest","forest","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","plains"],
+    ["plains","hill","hill","plains","plains","water","water","plains","plains","hill","hill","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","plains","forest","forest","plains","water","water","plains","forest","forest","plains","plains"],
+    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
+    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"]
   ],
   "units": [],
   "presetEnemies": [
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 8,
-      "y": 5
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 9,
-      "y": 3
-    },
-    {
-      "templateId": "grunt_red",
-      "owner": 1,
-      "x": 8,
-      "y": 7
-    }
+    {"templateId":"grunt_red","owner":1,"x":10,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":6},
+    {"templateId":"opfor_tank","owner":1,"x":11,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":11,"y":6}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":4},{"x":2,"y":5}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":4},{"x":2,"y":5}
+  ],
+  "p2DeploymentSlots": [
+    {"x":11,"y":3},{"x":11,"y":4},{"x":11,"y":5},{"x":11,"y":6},
+    {"x":10,"y":4},{"x":10,"y":5},{"x":9,"y":4},{"x":9,"y":5}
   ]
 }
