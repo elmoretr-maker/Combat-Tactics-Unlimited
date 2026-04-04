@@ -1,0 +1,84 @@
+{
+  "types": {
+    "plains": {
+      "moveCost": 1,
+      "color": "#4a7c4e",
+      "sightCost": 0,
+      "defenseBonus": 0
+    },
+    "road": {
+      "moveCost": 0.5,
+      "color": "#8b7355",
+      "sightCost": 0,
+      "defenseBonus": 0
+    },
+    "forest": {
+      "moveCost": 2,
+      "color": "#2d5a3d",
+      "blocksLos": true,
+      "sightCost": 0,
+      "defenseBonus": 0.25
+    },
+    "hill": {
+      "moveCost": 2,
+      "color": "#6b6b5a",
+      "sightCost": 1,
+      "defenseBonus": 0.20
+    },
+    "urban": {
+      "moveCost": 1.5,
+      "color": "#5a5a62",
+      "sightCost": 2,
+      "defenseBonus": 0.30
+    },
+    "water": {
+      "moveCost": 99,
+      "blocksMove": true,
+      "color": "#2a5f8f",
+      "sightCost": 0,
+      "defenseBonus": 0
+    },
+    "desert": {
+      "moveCost": 1.5,
+      "color": "#c8a84b",
+      "sightCost": 0,
+      "defenseBonus": 0
+    },
+    "snow": {
+      "moveCost": 2,
+      "color": "#d8e4f0",
+      "sightCost": 0,
+      "defenseBonus": 0.10
+    },
+    "cp_grass": {
+      "moveCost": 1,
+      "color": "#3d5c3a",
+      "sightCost": 0,
+      "defenseBonus": 0.08,
+      "tileImage": "attached_assets/craftpix_pack/city/PNG City/Tiles/_0003_GrassTiles.png"
+    },
+    "cp_road": {
+      "moveCost": 0.5,
+      "color": "#5a5348",
+      "sightCost": 0,
+      "defenseBonus": 0,
+      "tileImage": "attached_assets/craftpix_pack/city/PNG City/Tiles/_0004_RoadTiles.png"
+    },
+    "cp_building": {
+      "moveCost": 1.5,
+      "color": "#4a4a52",
+      "sightCost": 2,
+      "defenseBonus": 0.35,
+      "blocksLos": true,
+      "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/small_houses/Details/small_house1_color1_roof.png"
+    },
+    "cp_rubble": {
+      "moveCost": 2,
+      "color": "#3a3a40",
+      "sightCost": 1,
+      "defenseBonus": 0.15,
+      "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png"
+    }
+  },
+  "defaultType": "plains"
+}

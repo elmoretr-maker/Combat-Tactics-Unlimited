@@ -1,0 +1,30 @@
+{
+  "id": "urban_assault",
+  "name": "Urban Assault",
+  "width": 14,
+  "height": 10,
+  "cellSize": 48,
+  "losSightBudget": 3,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban"],
+    ["urban", "plains","plains","urban", "plains","plains","urban", "plains","plains","urban", "plains","plains","urban", "plains"],
+    ["road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road" ],
+    ["urban", "plains","urban", "plains","urban", "plains","road",  "plains","urban", "plains","urban", "plains","road",  "urban"],
+    ["urban", "plains","urban", "road",  "road",  "plains","urban", "plains","road",  "road",  "urban", "plains","urban", "urban"],
+    ["road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road" ],
+    ["urban", "plains","urban", "plains","urban", "plains","road",  "plains","urban", "plains","urban", "plains","road",  "urban"],
+    ["urban", "plains","plains","urban", "plains","plains","urban", "plains","plains","urban", "plains","plains","urban", "plains"],
+    ["road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road" ],
+    ["urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban"]
+  ],
+  "units": [
+    { "templateId": "infantry",   "owner": 0, "x": 1,  "y": 3 },
+    { "templateId": "sniper",     "owner": 0, "x": 1,  "y": 6 },
+    { "templateId": "light_tank", "owner": 0, "x": 2,  "y": 8 },
+
+    { "templateId": "infantry",   "owner": 1, "x": 12, "y": 3 },
+    { "templateId": "grunt_red",  "owner": 1, "x": 11, "y": 1 },
+    { "templateId": "infantry",   "owner": 1, "x": 12, "y": 7 }
+  ]
+}

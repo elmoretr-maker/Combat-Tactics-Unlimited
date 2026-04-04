@@ -1,0 +1,26 @@
+{
+  "id": "trial_survive",
+  "name": "Hold the line",
+  "width": 12,
+  "height": 8,
+  "cellSize": 48,
+  "losSightBudget": 4,
+  "winCondition": {
+    "type": "survive",
+    "rounds": 4
+  },
+  "terrain": [
+    ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "hill", "hill", "hill", "hill", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "hill", "urban", "urban", "hill", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "hill", "hill", "hill", "hill", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"],
+    ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"]
+  ],
+  "units": [
+    { "templateId": "infantry", "owner": 0, "x": 2, "y": 4 },
+    { "templateId": "grunt_red", "owner": 1, "x": 9, "y": 4 }
+  ]
+}

@@ -1,0 +1,820 @@
+/* ═══════════════════════════════════════════════════════════
+   CTU — Metal frame via absolute positioning (no CSS border colors)
+   Assets: ../attached_assets/ui/*.png (relative to css/)
+   left_edge.jpg: not shipped; left rail mirrors long_right_edge.png (swap URL when added).
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --ctu-corner-ur: url("../attached_assets/ui/upper_right_corner.png");
+  --ctu-corner-bl: url("../attached_assets/ui/bottom_left_corner.png");
+  --ctu-corner-br: url("../attached_assets/ui/bottom_right_corner.png");
+  --ctu-edge-top: url("../attached_assets/ui/top_middle_edge.png");
+  --ctu-edge-bot: url("../attached_assets/ui/bottom_middle_edge.png");
+  --ctu-edge-right: url("../attached_assets/ui/long_right_edge.png");
+  /* Spec calls for left_edge.jpg — use dedicated file when present; fallback = mirror of long_right_edge */
+  --ctu-edge-left: url("../attached_assets/ui/left_edge.jpg");
+  --ctu-edge-left-fallback: url("../attached_assets/ui/long_right_edge.png");
+  --ctu-rivet: url("../attached_assets/ui/metal_rivet.png");
+  --ctu-bar-tag: url("../attached_assets/ui/bar_tag.png");
+  --ctu-unit-label: url("../attached_assets/ui/unit_label.png");
+  --ctu-toggle: url("../attached_assets/ui/toggle_button.png");
+  --ctu-frame-cw: clamp(40px, 11vw, 64px);
+  --ctu-frame-ch: clamp(40px, 11vw, 64px);
+  --ctu-frame-eh: clamp(32px, 8vw, 48px);
+  --ctu-frame-ew: clamp(36px, 9vw, 52px);
+  --ctu-frame-sm-cw: 32px;
+  --ctu-frame-sm-ch: 32px;
+  --ctu-frame-sm-eh: 26px;
+  --ctu-frame-sm-ew: 30px;
+  --ctu-toggle-min-h: 72px;
+  --ctu-toggle-min-h-sm: 40px;
+}
+
+/* Pixel grit — bitmap UI */
+.ctu-metal-frame,
+.ctu-metal-frame *,
+.ctu-hud-overlay img,
+.codex-detail-frame__img,
+button,
+button *,
+.academy-offer,
+.unit-tile {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ── Absolute metal frame (corners + edges + plate + rivets) ── */
+.ctu-metal-frame {
+  position: relative;
+  box-sizing: border-box;
+  min-height: 0;
+  min-width: 0;
+  /* no CSS border */
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Panel fill — flat (no repeating plate texture) */
+.ctu-metal-frame__plate {
+  position: absolute;
+  z-index: 1;
+  top: var(--ctu-frame-eh);
+  left: var(--ctu-frame-ew);
+  right: var(--ctu-frame-ew);
+  bottom: var(--ctu-frame-eh);
+  background: #080a0b;
+  pointer-events: none;
+}
+
+.ctu-metal-frame--sm {
+  --ctu-frame-cw: var(--ctu-frame-sm-cw);
+  --ctu-frame-ch: var(--ctu-frame-sm-ch);
+  --ctu-frame-eh: var(--ctu-frame-sm-eh);
+  --ctu-frame-ew: var(--ctu-frame-sm-ew);
+}
+
+/* Corners — z-index above plate */
+.ctu-metal-frame__corner {
+  position: absolute;
+  z-index: 3;
+  width: var(--ctu-frame-cw);
+  height: var(--ctu-frame-ch);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ctu-metal-frame__corner-bg {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.ctu-metal-frame__corner--tl {
+  top: 0;
+  left: 0;
+}
+.ctu-metal-frame__corner--tl .ctu-metal-frame__corner-bg {
+  background-image: var(--ctu-corner-ur);
+  transform: scaleX(-1);
+}
+
+.ctu-metal-frame__corner--tr {
+  top: 0;
+  right: 0;
+}
+.ctu-metal-frame__corner--tr .ctu-metal-frame__corner-bg {
+  background-image: var(--ctu-corner-ur);
+}
+
+.ctu-metal-frame__corner--bl {
+  bottom: 0;
+  left: 0;
+}
+.ctu-metal-frame__corner--bl .ctu-metal-frame__corner-bg {
+  background-image: var(--ctu-corner-bl);
+}
+
+.ctu-metal-frame__corner--br {
+  bottom: 0;
+  right: 0;
+}
+.ctu-metal-frame__corner--br .ctu-metal-frame__corner-bg {
+  background-image: var(--ctu-corner-br);
+}
+
+/* Edges — between corners, z-index 2 */
+.ctu-metal-frame__edge {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ctu-metal-frame__edge--top {
+  top: 0;
+  left: var(--ctu-frame-cw);
+  right: var(--ctu-frame-cw);
+  height: var(--ctu-frame-eh);
+  background-image: var(--ctu-edge-top);
+  background-repeat: repeat-x;
+  background-position: center bottom;
+  background-size: auto 100%;
+}
+
+.ctu-metal-frame__edge--bottom {
+  bottom: 0;
+  left: var(--ctu-frame-cw);
+  right: var(--ctu-frame-cw);
+  height: var(--ctu-frame-eh);
+  background-image: var(--ctu-edge-bot);
+  background-repeat: repeat-x;
+  background-position: center top;
+  background-size: auto 100%;
+}
+
+.ctu-metal-frame__edge--left {
+  top: var(--ctu-frame-ch);
+  bottom: var(--ctu-frame-ch);
+  left: 0;
+  width: var(--ctu-frame-ew);
+}
+
+.ctu-metal-frame__edge--right {
+  top: var(--ctu-frame-ch);
+  bottom: var(--ctu-frame-ch);
+  right: 0;
+  width: var(--ctu-frame-ew);
+}
+
+.ctu-metal-frame__edge-fill {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size: 100% auto;
+}
+
+/* Prefer left_edge.jpg; file may be absent — use mirrored long_right as physical strip */
+.ctu-metal-frame__edge--left .ctu-metal-frame__edge-fill {
+  background-image: var(--ctu-edge-left-fallback);
+  transform: scaleX(-1);
+}
+
+.ctu-metal-frame__edge--right .ctu-metal-frame__edge-fill {
+  background-image: var(--ctu-edge-right);
+}
+
+/* Outer corner rivets — above frame art */
+.ctu-metal-frame__rivet {
+  position: absolute;
+  z-index: 6;
+  width: clamp(16px, 4vw, 24px);
+  height: clamp(16px, 4vw, 24px);
+  background: var(--ctu-rivet) center / contain no-repeat;
+  pointer-events: none;
+}
+
+.ctu-metal-frame__rivet--nw {
+  top: 0;
+  left: 0;
+  transform: translate(-10%, -10%);
+}
+.ctu-metal-frame__rivet--ne {
+  top: 0;
+  right: 0;
+  transform: translate(10%, -10%);
+}
+.ctu-metal-frame__rivet--sw {
+  bottom: 0;
+  left: 0;
+  transform: translate(-10%, 10%);
+}
+.ctu-metal-frame__rivet--se {
+  bottom: 0;
+  right: 0;
+  transform: translate(10%, 10%);
+}
+
+/* Interactive / scrollable content */
+.ctu-metal-frame__content {
+  position: relative;
+  z-index: 5;
+  box-sizing: border-box;
+  padding:
+    calc(var(--ctu-frame-eh) + 10px)
+    calc(var(--ctu-frame-ew) + 10px)
+    calc(var(--ctu-frame-eh) + 10px)
+    calc(var(--ctu-frame-ew) + 10px);
+  min-height: 0;
+}
+
+.ctu-metal-frame--grow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.ctu-metal-frame--grow > .ctu-metal-frame__content {
+  flex: 1;
+  overflow: auto;
+}
+
+/* ── HUD overlay ── */
+.ctu-hud-overlay img {
+  content: "";
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
+  opacity: 0.2;
+  mix-blend-mode: lighten;
+}
+
+.ctu-hud-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* [hidden] must win: otherwise display:flex above overrides the attribute and combat_frame.png stays visible behind every screen */
+.ctu-hud-overlay[hidden] {
+  display: none !important;
+}
+
+/* combat_frame: main.js sets hidden off except battle — see index.html first child of #app */
+
+/*
+ * Header must stack above <main>: both were z-index:50, so main (later in DOM)
+ * painted on top and trapped the fixed landing — header/nav clicks dead and
+ * other .screen layers could show through incorrectly.
+ */
+#app > header.top-bar {
+  position: relative;
+  z-index: 100;
+}
+
+#app > main {
+  position: relative;
+  z-index: 0;
+}
+
+/* ── Section headers: bar_tag, centered tactical type ── */
+.hub-section-label,
+.battle-log__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0.35rem;
+  padding: 0.42rem 1.75rem 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #d0e8d0;
+  background-image: var(--ctu-bar-tag);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  text-shadow:
+    0 0 1px #000,
+    0 0 10px rgba(57, 255, 20, 0.45),
+    0 0 16px rgba(143, 179, 148, 0.5);
+  border: none;
+  box-shadow: none;
+}
+
+.hub-section .hub-section-label {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* ── Unit names: unit_label strip (Roster + Codex) ── */
+.ctu-unit-label-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 1.85rem;
+  padding: 0.2rem 0.5rem;
+  box-sizing: border-box;
+  background-image: var(--ctu-unit-label);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  border: none;
+}
+
+.ctu-unit-label-strip__text {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e0f0e4;
+  text-shadow:
+    0 0 1px #000,
+    0 0 8px rgba(57, 255, 20, 0.4),
+    0 0 14px rgba(143, 179, 148, 0.45);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.codex-card__title h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 0.35rem;
+  padding: 0.35rem 1.5rem 0.45rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e8f4ea;
+  background-image: var(--ctu-unit-label);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  text-shadow:
+    0 0 1px #000,
+    0 0 10px rgba(57, 255, 20, 0.4),
+    0 0 18px rgba(143, 179, 148, 0.5);
+}
+
+/* Codex sidebar title */
+.codex-sidebar h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin: 0 0 0.5rem;
+  padding: 0.4rem 1rem 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #e0ece4;
+  background-image: var(--ctu-unit-label);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  text-shadow:
+    0 0 1px #000,
+    0 0 10px rgba(57, 255, 20, 0.4),
+    0 0 16px rgba(143, 179, 148, 0.5);
+}
+
+/* ── Buttons: toggle texture, preserve aspect (height-led) ── */
+#app button {
+  background-color: transparent;
+  background-image: var(--ctu-toggle);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 100%;
+  border: none;
+  box-shadow: none;
+  min-height: var(--ctu-toggle-min-h);
+  color: var(--text);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 0 10px rgba(143, 179, 148, 0.35);
+}
+
+#app button.btn--tiny,
+#app button.btn--ghost.btn--tiny {
+  min-height: var(--ctu-toggle-min-h-sm);
+}
+
+#app button:disabled {
+  filter: grayscale(0.9) brightness(0.55);
+  opacity: 0.85;
+}
+
+/* Hub mode row button — layout + rivets only (toggle is bg) */
+.hub-mode-card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: var(--ctu-toggle-min-h);
+  padding: 0 0.5rem;
+  border-radius: 0;
+  text-align: left;
+  overflow: visible;
+}
+
+.hub-mode-card__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  min-height: 0;
+  padding: 0;
+  background-image: none;
+}
+
+.hub-mode-card__icon-box {
+  background: transparent;
+  border: none;
+  min-width: 48px;
+}
+
+.hub-mode-card__title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c8e2c8;
+  text-align: center;
+  flex: 1;
+  text-shadow:
+    0 0 1px #000,
+    0 0 8px rgba(57, 255, 20, 0.35),
+    0 0 14px rgba(143, 179, 148, 0.4);
+}
+
+.hub-mode-card--locked {
+  filter: grayscale(0.4) brightness(0.75);
+}
+
+.hub-mode-card .ctu-metal-frame__rivet {
+  width: 12px;
+  height: 12px;
+  z-index: 8;
+}
+
+/* Quick toggles: label under toggle bg */
+.hub-toggle-btn {
+  flex-direction: column;
+  min-height: calc(var(--ctu-toggle-min-h) + 1.25rem);
+  padding: 0.35rem 0.6rem 0.45rem;
+  background-size: auto 70%;
+  background-position: center top;
+}
+
+.hub-toggle-label {
+  text-align: center;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.15rem;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.95), 0 0 8px rgba(143, 179, 148, 0.35);
+}
+
+/* Unit tile = button */
+.unit-tile {
+  position: relative;
+  min-height: 118px;
+  padding: 0.45rem 0.35rem 0.35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-size: auto 55%;
+  background-position: center 18%;
+  border: none;
+  border-radius: 0;
+}
+
+.unit-tile__name {
+  margin-top: auto;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.unit-tile .ctu-unit-label-strip {
+  margin-top: 0.25rem;
+}
+
+/* Academy pick rows */
+.academy-offer {
+  min-height: 56px;
+  background-size: auto 100%;
+  border: none;
+}
+
+/* Landing — video stage: transparent center plate so the feed stays visible */
+.lp-metal--video-stage .ctu-metal-frame__plate {
+  background: transparent !important;
+}
+
+/* Dock strip + Modern Ops panel: armored backing (bitmap frame still defines edges) */
+.lp-metal--dock-strip .ctu-metal-frame__plate {
+  background: rgba(4, 7, 10, 0.94) !important;
+}
+
+/* ops-panel now uses a simple CSS box — no metal frame markup */
+
+/* Landing dock */
+.lp-dock-tag,
+.lp-dock-go.lp-card {
+  min-height: var(--ctu-toggle-min-h-sm);
+  background-size: auto 100%;
+}
+
+.lp-btn {
+  min-height: var(--ctu-toggle-min-h);
+  background-size: auto 100%;
+}
+
+/* Nav — slightly shorter */
+.nav-btn {
+  min-height: 44px;
+  background-size: auto 100%;
+}
+
+/* Ghost / danger still use toggle art; tint via filter */
+#app button.btn--ghost {
+  filter: brightness(0.92) saturate(0.85);
+}
+
+#app button.btn--danger {
+  filter: hue-rotate(-55deg) saturate(1.2) brightness(0.95);
+}
+
+/* Panels: remove flat borders — frame supplies chrome */
+.hub-roster-panel {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.codex-sidebar,
+.codex-detail {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  min-height: 0;
+}
+
+.codex-layout {
+  align-items: stretch;
+}
+
+.codex-detail {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Codex detail: single PNG frame (768×613), content inset matches alpha hole */
+.codex-detail-frame {
+  position: relative;
+  flex: 1;
+  min-height: min(70vh, 680px);
+  min-width: 0;
+  background: #080a0b;
+  isolation: isolate;
+}
+
+/* Opaque fill under PNG — stops bleed-through; repeating steel lives on #screen-codex::before only */
+.codex-detail-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #080a0b;
+  pointer-events: none;
+}
+
+.codex-detail-frame__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.codex-detail-frame__body {
+  position: absolute;
+  z-index: 3;
+  overflow: auto;
+  min-height: 0;
+  /* Flood-filled transparent window vs asset (768×613) */
+  top: 19.25%;
+  right: 15.62%;
+  bottom: 17.13%;
+  left: 15.36%;
+}
+
+.codex-detail-frame__body .codex-detail__scroll {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 0.35rem 0.15rem 0.5rem;
+}
+
+.codex-sidebar > .ctu-metal-frame {
+  min-height: min(58vh, 520px);
+}
+
+.codex-detail__scroll {
+  min-height: 10rem;
+}
+
+/* Hub command bg = carbon grid only (no plate tile) */
+.hub-command.bg-command-hub {
+  background-image:
+    linear-gradient(45deg, rgba(17, 17, 17, 0.88) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(17, 17, 17, 0.88) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(17, 17, 17, 0.88) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(17, 17, 17, 0.88) 75%);
+  background-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px;
+  background-color: #0c0f11;
+  border: none;
+}
+
+.hub-gate {
+  background-color: rgba(55, 38, 6, 0.94);
+  border: none;
+}
+
+.hub-stats-bar {
+  background-color: #0a0d0c;
+  border: none;
+  padding: 0.4rem 0.65rem;
+}
+
+.hub-dossier {
+  position: relative;
+  background-color: #0a0c0d;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(60, 70, 55, 0.35);
+}
+
+.hub-dossier__name {
+  flex: 1;
+  min-width: 0;
+}
+
+.hub-season-card {
+  background-color: #0c0f11;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(120, 96, 40, 0.5);
+}
+
+/* Generic framed panels (inner content only — outer frame in HTML) */
+.ctu-metal-frame__content--panel {
+  padding-top: 1.25rem;
+}
+
+.panel-like-h2 {
+  margin-top: 0;
+}
+
+/* Panel body inside frame — no synthetic borders */
+.ctu-metal-frame__content.panel,
+.ctu-metal-frame__content.panel--wide {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.ctu-metal-frame__content.panel--wide {
+  max-width: none;
+}
+
+a.hub-season-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--ctu-toggle-min-h-sm);
+  padding: 0.35rem 1rem;
+  background-image: var(--ctu-toggle);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 100%;
+  image-rendering: pixelated;
+  text-decoration: none;
+  border: none;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c8a030;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+}
+
+/* Battle / top bar / hud — flat fill, no CSS borders */
+.top-bar {
+  background-color: #0e1216;
+  border: none;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.hud {
+  background-color: #090c0e;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(50, 58, 48, 0.4);
+}
+
+.battle-coach,
+.battle-log {
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(55, 65, 52, 0.35);
+}
+
+.lp-hero__content {
+  background-color: rgba(6, 10, 12, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: none;
+}
+
+.codex-stat {
+  background-color: #080b0a;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(50, 60, 50, 0.35);
+}
+
+/* Settings rows — keep inputs visible */
+.setting-row {
+  border-bottom: none;
+  box-shadow: inset 0 -1px 0 rgba(60, 68, 55, 0.25);
+}
+
+@media (max-width: 600px) {
+  :root {
+    --ctu-frame-cw: 34px;
+    --ctu-frame-ch: 34px;
+    --ctu-frame-eh: 28px;
+    --ctu-frame-ew: 30px;
+  }
+}
+
+/* Modal-sized frames (battle result / interstitial) */
+.ctu-metal-frame--modal {
+  width: 90%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.ctu-metal-frame__content.battle-overlay__card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 100%;
+  max-width: none;
+  text-align: center;
+}
+
+.hub-modes-grid > li {
+  position: relative;
+  overflow: visible;
+  flex-shrink: 0;
+  height: 76px;               /* one snap unit — matches max-height / 3 */
+  scroll-snap-align: start;
+}
+/* Card fills its snap slot exactly */
+.hub-modes-grid > li > .hub-mode-card {
+  height: 100%;
+  min-height: unset;
+}

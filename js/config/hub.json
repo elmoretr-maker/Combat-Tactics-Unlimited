@@ -1,0 +1,68 @@
+{
+  "tournament": {
+    "title": "Season Signup",
+    "blurb": "Brackets stubbed",
+    "externalUrl": "https://example.com/ctu-tournament-signup",
+    "buttonLabel": "Signup"
+  },
+  "soloModes": [
+    {
+      "id": "academy",
+      "title": "Training Academy",
+      "description": "Pick 3 units — forest LOS, flanking encouraged.",
+      "action": "academy",
+      "iconKey": "academy",
+      "requiresAcademy": false
+    },
+    {
+      "id": "trial_survive",
+      "title": "Trial: Defend",
+      "description": "Survive 4 rounds. Hills and urban sap sight.",
+      "action": "trial",
+      "iconKey": "defend",
+      "bullet": true,
+      "scenarioPath": "js/config/scenarios/trial_survive.json",
+      "requiresAcademy": false
+    },
+    {
+      "id": "skirmish",
+      "title": "Quick Skirmish (vs CPU)",
+      "description": "Default roster, default map. Fast test against AI.",
+      "action": "skirmish",
+      "iconKey": "skirmish",
+      "requiresAcademy": false
+    },
+    {
+      "id": "target_ai",
+      "title": "Target: AI Engaged",
+      "description": "Asymmetric AI encounter — survive contact and counterattack.",
+      "action": "skirmish",
+      "iconKey": "target",
+      "bullet": true,
+      "requiresAcademy": true
+    },
+    {
+      "id": "urban_assault",
+      "title": "Urban Assault",
+      "description": "City streets, tight corridors, restricted LOS.",
+      "action": "scenario",
+      "iconKey": "urban",
+      "scenarioPath": "js/config/scenarios/urban_assault.json",
+      "requiresAcademy": true
+    },
+    {
+      "id": "river_crossing",
+      "title": "River Crossing",
+      "description": "Two bridges, one river. Control the crossings.",
+      "action": "scenario",
+      "iconKey": "river",
+      "scenarioPath": "js/config/scenarios/river_crossing.json",
+      "requiresAcademy": true
+    }
+  ],
+  "shortcuts": [
+    { "label": "Unit Codex",  "icon": "📖", "screen": "codex",    "requiresAcademy": false },
+    { "label": "1v1 Hotseat", "icon": "⚔",  "screen": "hotseat",  "requiresAcademy": true  },
+    { "label": "Settings",    "icon": "⚙",  "screen": "settings", "requiresAcademy": false }
+  ]
+}

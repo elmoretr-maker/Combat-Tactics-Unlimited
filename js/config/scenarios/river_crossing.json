@@ -1,0 +1,29 @@
+{
+  "id": "river_crossing",
+  "name": "River Crossing",
+  "width": 14,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","forest","forest","water","water","forest","forest","plains","plains","plains","plains"],
+    ["plains","plains","forest","plains","plains","road",  "road",  "road",  "road",  "plains","plains","forest","plains","plains"],
+    ["plains","plains","forest","hill",  "plains","plains","water","water","plains","plains","hill",  "forest","plains","plains"],
+    ["plains","hill",  "forest","plains","plains","plains","water","water","plains","plains","plains","forest","hill",  "plains"],
+    ["plains","hill",  "forest","plains","plains","plains","water","water","plains","plains","plains","forest","hill",  "plains"],
+    ["plains","plains","forest","hill",  "plains","plains","water","water","plains","plains","hill",  "forest","plains","plains"],
+    ["plains","plains","forest","plains","plains","road",  "road",  "road",  "road",  "plains","plains","forest","plains","plains"],
+    ["plains","plains","plains","plains","forest","forest","water","water","forest","forest","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"]
+  ],
+  "units": [
+    { "templateId": "infantry",   "owner": 0, "x": 1, "y": 4 },
+    { "templateId": "light_tank", "owner": 0, "x": 1, "y": 6 },
+    { "templateId": "sniper",     "owner": 0, "x": 2, "y": 2 },
+
+    { "templateId": "infantry",   "owner": 1, "x": 12, "y": 4 },
+    { "templateId": "opfor_tank", "owner": 1, "x": 12, "y": 6 },
+    { "templateId": "grunt_red",  "owner": 1, "x": 11, "y": 2 }
+  ]
+}

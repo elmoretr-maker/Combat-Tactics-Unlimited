@@ -1,0 +1,102 @@
+================================================================================
+COMBAT TACTICS UNLIMITED — GOOGLE DRIVE ASSET SOURCE
+================================================================================
+Saved folder (canonical):
+  https://drive.google.com/drive/folders/1jh6s23A0fxpGs2PupUgd2WwqGSs-CDc3?usp=sharing
+
+Commander only (flat files: commander_idle_0.png … commander_shot_1.png):
+  https://drive.google.com/drive/folders/1G437Hhgn2AzMl5wCX4mD1RpHk8uggPES?usp=sharing
+  Import: copy all PNGs into attached_assets/_commander_flat/
+           then  python tools/import_commander_flat_pngs.py
+
+Soldier Characters Pack by RgsDev (direct link):
+  https://drive.google.com/drive/folders/18-nGLw1JqcKUBiVk1kG2bBpFwbpUtKcz?usp=sharing
+  Contains: commander, soldier_1 … soldier_5, Extras, Separated parts, license.
+  Game uses soldier_2, soldier_3, soldier_5, commander. Import with:
+    python tools/import_rgsdev_soldiers.py
+  (after unzipping into attached_assets/_rgsdev_pack/)
+
+On Drive this is titled “Combat Tactics Sprites”. Subfolders/files commonly listed:
+  • 01_GUN, 02_ITEM, 03_Medal
+  • Army Pack Tank Update 1          → vehicle / tank-style map sprites
+  • SMS Asset Pack Spy Fighter       → aircraft / alternate units
+  • Soldier Characters Pack by RgsDev → infantry-style animated characters
+  • UI Bars, UI Buttons, UI Icons, UI Panels
+  • World Asset Pack                 → environment / props
+  • WW2 Tileset                      → ground / terrain tiles
+
+WHAT THE GAME LOADS TODAY
+--------------------------------------------------------------------------------
+1) MAP SPRITES (animated units on the battle grid)
+   Path pattern:
+     attached_assets/sprites/<setId>/<clip>/<frame>.png
+   Frame files are 0-based integers: 0.png, 1.png, …
+
+   setId values used in js/config/units.json:
+     soldier_2, soldier_3, soldier_5, commander, tank_t
+
+   Clip names and per-clip frame COUNTS:
+     See js/config/spriteAnimations.json (source of truth).
+   Examples:
+     soldier_3: idle (5), run (8), shoot (4), dead (8), fall (2), jump (3), reload (6)
+     tank_t:    run (12) only for movement animation; treadVehicle flag in JSON
+
+2) TERRAIN TILES
+   Path pattern:
+     attached_assets/tiles/tile_NNN.png
+   Where NNN is zero-padded three digits (tile_000.png … tile_257.png etc.).
+
+   Which indices are used for which terrain type:
+     See TILE_MAP in js/render/canvasGrid.js
+   Typical groups: plains, water, forest, hill, road, urban, desert, snow.
+
+3) UNIT PORTRAITS (Codex + map fallback when sprites are missing)
+     attached_assets/units/<name>.png
+   Listed per unit in js/config/units.json as "portrait".
+
+IMPORT WORKFLOW (manual is reliable; Drive needs sign-in)
+--------------------------------------------------------------------------------
+A) Download the Drive folder or individual packs in a browser (signed in).
+
+B) Soldier / infantry movement:
+   - Export or extract sequential PNGs per animation (idle, run, death, etc.).
+   - Rename/copy into:
+       attached_assets/sprites/soldier_3/idle/0.png … 4.png
+       attached_assets/sprites/soldier_3/run/0.png … 7.png
+     (Repeat for soldier_2, soldier_5, commander using the same clip names
+      and counts in spriteAnimations.json.)
+
+C) Tanks:
+   - Use “Army Pack Tank Update 1” (or similar) frames under:
+       attached_assets/sprites/tank_t/run/0.png … 11.png
+     (12 frames; see spriteAnimations.json for tank_t.)
+
+D) Terrain:
+   - From “WW2 Tileset” or “World Asset Pack”, produce PNGs named tile_000.png,
+     tile_001.png, … and place under attached_assets/tiles/
+   - Adjust TILE_MAP in js/render/canvasGrid.js if your sheet uses different indices.
+
+OPTIONAL: bulk download with gdown (run on YOUR machine; may require access)
+--------------------------------------------------------------------------------
+  pip install gdown
+  python -m gdown --folder ^
+    "https://drive.google.com/drive/folders/1jh6s23A0fxpGs2PupUgd2WwqGSs-CDc3" ^
+    -O attached_assets/_drive_staging
+
+Then sort files from _drive_staging into the paths above.
+
+VERIFY AFTER IMPORT
+--------------------------------------------------------------------------------
+  python tools/verify_game_assets.py
+
+--------------------------------------------------------------------------------
+INTEGRATED FILE (Enemy Boss Tank spritesheet)
+  Source: https://drive.google.com/file/d/16AGsgVLaciw0ngrzjGRNk5AQLLDzeWjO/view?usp=sharing
+  Saved copy: attached_assets/sprites/Enemy_Boss_Tank_SpriteSheet.png
+  Sliced into: attached_assets/sprites/tank_t/run/0.png … 11.png
+                attached_assets/sprites/tank_t/shot/0.png
+                attached_assets/sprites/tank_t/dead/0.png
+  Layout assumed: single horizontal strip, 16 equal frames (368÷16 = 23 px wide × 200 px tall).
+  If in-game tank looks wrong, re-slice with a different grid (see tools/slice_tank_spritesheet.py).
+
+================================================================================

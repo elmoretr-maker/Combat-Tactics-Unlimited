@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f1828" />
+  <title>Combat Tactics Unlimited</title>
+  <meta name="description" content="Browser tactical grid — Training Academy, 1v1 Hotseat, vs CPU, Unit Codex." />
+  <meta property="og:title" content="Combat Tactics Unlimited" />
+  <meta property="og:description" content="Square-grid tactics in the browser." />
+  <meta property="og:image" content="assets/hero-cover.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/open-props/open-props.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/ctu-metal.css" />
+  <link rel="stylesheet" href="css/ctu-v2.css" />
+</head>
+<body>
+<div id="app">
+  <div class="ctu-hud-overlay" aria-hidden="true" hidden>
+    <img src="attached_assets/ui/combat_frame.png" alt="" />
+  </div>
+  <header class="top-bar">
+    <h1 class="logo">CTU</h1>
+    <nav class="nav-screens" aria-label="Primary">
+      <button type="button" class="nav-btn" data-screen="v2-landing" data-led="green">Ops</button>
+      <button type="button" class="nav-btn" data-screen="codex" data-led="yellow">Codex</button>
+      <button type="button" class="nav-btn" data-screen="settings" data-led="green">Settings</button>
+      <button type="button" class="nav-btn nav-btn--primary" data-screen="classic-menu" data-led="red">Classic</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ── CLASSIC MODE MENU ───────────────────── -->
+    <section id="screen-classic-menu" class="screen classic-menu-screen" aria-label="Classic mode" hidden>
+      <div class="classic-menu-screen__panel">
+        <h2>Classic Operations</h2>
+        <p class="muted small">Version 1.0 hub, training, hotseat, and original landing.</p>
+        <div class="classic-menu-screen__grid">
+          <button type="button" class="btn" data-screen="landing">Original home</button>
+          <button type="button" class="btn" data-screen="hub" data-section="hub-section-modes">Command hub</button>
+          <button type="button" class="btn" data-screen="hotseat">1v1 Hotseat</button>
+          <button type="button" class="btn" data-screen="codex">Codex</button>
+          <button type="button" class="btn" data-screen="settings">Settings</button>
+        </div>
+        <button type="button" class="btn btn--ghost" data-screen="v2-landing" style="margin-top:1rem" id="btn-classic-back-modern">← Back to Modern Ops</button>
+      </div>
+    </section>
+
+    <!-- ── LANDING (full-viewport video stage + metal HUD; IDs preserved) ── -->
+    <section id="screen-landing" class="screen screen--active" aria-label="Landing">
+
+      <!-- Metal frame = field HUD bezel around the live feed (no center plate — video stays visible) -->
+      <div class="lp-stage-frame ctu-metal-frame ctu-metal-frame--grow lp-metal--video-stage">
+        <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+        <div class="ctu-metal-frame__content lp-stage-frame__viewport">
+          <div class="lp-cinematic">
+            <video id="lp-bg-video" class="lp-cinematic__video"
+                   autoplay loop muted playsinline
+                   poster="attached_assets/bg_video_poster.jpg">
+              <source src="attached_assets/bg_video.mp4" type="video/mp4">
+            </video>
+            <!-- Optional HUD grid; kept subtle — no blur on the feed -->
+            <div class="lp-hero__grid lp-hero__grid--subtle" aria-hidden="true"></div>
+            <!-- Light letterbox assist only — does not obscure the invitation -->
+            <div class="lp-cinematic__readability" aria-hidden="true"></div>
+
+            <div class="lp-hero">
+              <div class="lp-hero__content lp-hero__content--hud">
+                <h2 class="lp-title">Combat Tactics Unlimited</h2>
+                <p class="lp-ctu">CTU</p>
+                <p class="lp-tagline">Square-grid tactics · LOS · Line-of-sight · Direct &amp; Indirect fire</p>
+                <p class="lp-hero__cta-wrap">
+                  <button type="button" class="lp-hero__cta" data-screen="hub">Enter command hub</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dock + flyouts in metal chassis (physical equipment strip) -->
+      <div class="lp-dock-shell ctu-metal-frame ctu-metal-frame--sm lp-metal--dock-strip">
+        <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+        <div class="ctu-metal-frame__content lp-dock-shell__content">
+          <p class="lp-dock-strip-label">Command strip</p>
+          <div class="lp-dock" id="lp-dock" role="toolbar" aria-label="Quick navigation">
+
+        <!-- Primary CTAs moved from hero overlay -->
+        <div class="lp-dock-item lp-dock-item--hub">
+          <button type="button" class="lp-dock-tag lp-dock-tag--hub" data-screen="hub">
+            <span class="lp-dock-tag__line1">Enter</span>
+            <span class="lp-dock-tag__line2">Hub</span>
+          </button>
+        </div>
+        <div class="lp-dock-item lp-dock-item--skirmish">
+          <button type="button" class="lp-dock-tag lp-dock-tag--skirmish" data-screen="battle" data-requires-academy="true">
+            <span class="lp-dock-tag__line1">Quick</span>
+            <span class="lp-dock-tag__line2">Skirmish</span>
+          </button>
+        </div>
+
+        <div class="lp-dock-item lp-dock-item--academy">
+          <button type="button" class="lp-dock-tag" aria-expanded="false" aria-controls="lp-dock-p0">Academy</button>
+          <div id="lp-dock-p0" class="lp-dock-panel" hidden>
+            <button type="button" class="lp-dock-go lp-card lp-card--academy" data-screen="hub">
+              <div class="lp-card__art"><span class="lp-card__icon">🧭</span></div>
+              <span class="lp-card__label">Training<br>Academy</span>
+            </button>
+          </div>
+        </div>
+        <div class="lp-dock-item lp-dock-item--hotseat">
+          <button type="button" class="lp-dock-tag" aria-expanded="false" aria-controls="lp-dock-p1">Hotseat</button>
+          <div id="lp-dock-p1" class="lp-dock-panel" hidden>
+            <button type="button" class="lp-dock-go lp-card lp-card--hotseat" data-screen="hotseat">
+              <div class="lp-card__art"><span class="lp-card__icon">⚔️</span></div>
+              <span class="lp-card__label">1v1<br>Hotseat</span>
+            </button>
+          </div>
+        </div>
+        <div class="lp-dock-item lp-dock-item--cpu">
+          <button type="button" class="lp-dock-tag" aria-expanded="false" aria-controls="lp-dock-p2">vs CPU</button>
+          <div id="lp-dock-p2" class="lp-dock-panel" hidden>
+            <button type="button" class="lp-dock-go lp-card lp-card--cpu" data-skirmish="true">
+              <div class="lp-card__art"><span class="lp-card__icon">🤖</span></div>
+              <span class="lp-card__label">vs<br>Computer</span>
+            </button>
+          </div>
+        </div>
+        <div class="lp-dock-item lp-dock-item--codex">
+          <button type="button" class="lp-dock-tag" aria-expanded="false" aria-controls="lp-dock-p3">Codex</button>
+          <div id="lp-dock-p3" class="lp-dock-panel" hidden>
+            <button type="button" class="lp-dock-go lp-card lp-card--codex" data-screen="codex">
+              <div class="lp-card__art"><span class="lp-card__icon">📖</span></div>
+              <span class="lp-card__label">Unit<br>Codex</span>
+            </button>
+          </div>
+        </div>
+        <div class="lp-dock-item lp-dock-item--settings">
+          <button type="button" class="lp-dock-tag" aria-expanded="false" aria-controls="lp-dock-p4">Settings</button>
+          <div id="lp-dock-p4" class="lp-dock-panel" hidden>
+            <button type="button" class="lp-dock-go lp-card lp-card--settings" data-screen="settings">
+              <div class="lp-card__art"><span class="lp-card__icon">⚙️</span></div>
+              <span class="lp-card__label">Settings</span>
+            </button>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deploy panel: sits in the bottom-right corner, beside the dock strip -->
+      <aside id="v2-ops-layer" class="v2-ops-layer" hidden aria-label="Modern operations">
+        <div class="v2-ops-hud">
+          <p class="v2-ops-layer__eyebrow">Deploy</p>
+          <div class="v2-ops-layer__actions" role="group" aria-label="Deployment options">
+            <button type="button" class="v2-ops-field-btn v2-ops-field-btn--primary" id="btn-v2-urban">Urban Siege</button>
+            <button type="button" class="v2-ops-field-btn" data-screen="classic-menu">Classic</button>
+          </div>
+        </div>
+      </aside>
+
+    </section>
+
+    <!-- ── HUB ────────────────────────────────── -->
+    <section id="screen-hub" class="screen" aria-label="Hub" hidden>
+      <div class="hub-command bg-command-hub">
+
+        <!-- Gate banner -->
+        <div id="hub-gate-banner" class="hub-gate" role="status" hidden>
+          <span class="hub-gate__lock" aria-hidden="true">🔒</span>
+          <p class="hub-gate__text">Complete Training Academy to unlock Quick skirmish, trials, and 1v1 Hotseat.</p>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="hub-stats-bar">
+          <span class="hub-stats-bar__label">Record</span>
+          <span id="hub-stats-wins"   class="hub-stats-bar__badge hub-stats-bar__badge--wins">0</span>
+          <span class="hub-stats-bar__sep">–</span>
+          <span id="hub-stats-losses" class="hub-stats-bar__badge hub-stats-bar__badge--losses">0</span>
+          <span id="hub-stats-led"    class="hub-stats-bar__led"></span>
+          <span id="hub-stats-label"  class="hub-stats-bar__label">Academy open</span>
+        </div>
+
+        <!-- Solo modes -->
+        <div id="hub-section-modes" class="hub-section">
+          <p class="hub-section-label">Solo Modes</p>
+          <div class="hub-carousel">
+            <ul id="hub-modes" class="hub-modes-grid"></ul>
+            <div class="hub-carousel__nav" role="group" aria-label="Scroll solo modes">
+              <button type="button" class="hub-carousel__btn" id="hub-modes-prev" aria-label="Scroll to previous modes">&#9650;</button>
+              <span class="hub-carousel__label">More<br>modes</span>
+              <button type="button" class="hub-carousel__btn" id="hub-modes-next" aria-label="Scroll to next modes">&#9660;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Roster -->
+        <div id="hub-section-roster" class="hub-section">
+          <p class="hub-section-label">Roster</p>
+          <div class="hub-roster-panel ctu-metal-frame">
+            <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+            <div class="ctu-metal-frame__content">
+              <div id="hub-roster" class="hub-dossier-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom row: quick access + season signup -->
+        <div id="hub-section-access" class="hub-bottom-row">
+          <div class="hub-quick-access">
+            <p class="hub-section-label">Quick access</p>
+            <div id="hub-shortcuts" class="hub-quick-toggles"></div>
+          </div>
+          <div id="hub-tournament"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── ACADEMY LOADOUT ────────────────────── -->
+    <section id="screen-academy" class="screen" aria-label="Academy loadout" hidden>
+      <div class="ctu-metal-frame">
+        <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+        <div class="ctu-metal-frame__content panel panel--wide ctu-metal-frame__content--panel">
+        <h2>Training Academy</h2>
+        <p id="academy-status" class="muted"></p>
+        <p>Pick <strong>3 units</strong>. The map has a <strong>forest column</strong> — direct fire needs line of sight. Try your mortar or sniper to deal with it.</p>
+        <div id="academy-picks" class="academy-grid"></div>
+        <div class="row-actions">
+          <button type="button" id="btn-academy-confirm" class="cta">Start mission</button>
+          <button type="button" id="btn-academy-back" class="btn btn--ghost">Back</button>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HOTSEAT SETUP ──────────────────────── -->
+    <section id="screen-hotseat" class="screen" aria-label="1v1 Hotseat setup" hidden>
+      <div class="panel panel--wide ctu-metal-panel">
+        <h2>1v1 Hotseat</h2>
+        <p class="muted">Each player secretly picks <strong>2 units</strong>. Pass the device between turns.</p>
+        <div class="hotseat-grid">
+          <div class="hotseat-player">
+            <h3 class="hotseat-player__title">
+              <span class="badge badge--blue">Player 1</span>
+            </h3>
+            <div id="hotseat-p1-picks" class="academy-grid"></div>
+            <p id="hotseat-p1-status" class="muted small">Pick 2 units.</p>
+          </div>
+          <div class="hotseat-divider"></div>
+          <div class="hotseat-player">
+            <h3 class="hotseat-player__title">
+              <span class="badge badge--red">Player 2</span>
+            </h3>
+            <div id="hotseat-p2-picks" class="academy-grid"></div>
+            <p id="hotseat-p2-status" class="muted small">Pick 2 units.</p>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button type="button" id="btn-hotseat-start" class="cta" disabled>Start battle</button>
+          <button type="button" class="btn btn--ghost" data-screen="hub">Back</button>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CODEX ──────────────────────────────── -->
+    <section id="screen-codex" class="screen" aria-label="Unit codex" hidden>
+
+      <!-- Unit selection grid — full width -->
+      <div class="codex-layout">
+        <div class="codex-sidebar">
+          <div class="ctu-metal-frame ctu-metal-frame--grow">
+            <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+            <div class="ctu-metal-frame__content">
+              <h2>Unit Codex</h2>
+              <p class="muted small">Tap a unit to open its dossier.</p>
+              <div id="codex-list" class="codex-list"></div>
+              <div class="row-actions" style="margin-top:1rem">
+                <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dossier overlay — hidden off-screen right; slides in on unit select -->
+      <div id="codex-detail" class="codex-detail" aria-hidden="true">
+        <button type="button" class="codex-dossier-close" data-close-dossier aria-label="Close dossier">
+          ← Back to Codex
+        </button>
+        <div class="codex-detail-frame">
+          <img
+            class="codex-detail-frame__img"
+            src="attached_assets/ui/codex_detail_frame.png"
+            alt=""
+            width="768"
+            height="613"
+            decoding="async"
+            aria-hidden="true"
+          />
+          <div class="codex-detail-frame__body">
+            <div id="codex-detail-inner" class="codex-detail__scroll"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── SETTINGS ───────────────────────────── -->
+    <section id="screen-settings" class="screen" aria-label="Settings" hidden>
+      <div class="ctu-metal-frame">
+        <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+        <div class="ctu-metal-frame__content panel ctu-metal-frame__content--panel">
+        <h2>Settings</h2>
+        <div class="settings-list">
+          <label class="setting-row">
+            <span class="setting-row__label">Sound effects</span>
+            <input type="checkbox" id="setting-audio" class="setting-toggle" />
+          </label>
+          <label class="setting-row">
+            <span class="setting-row__label">Reduce motion <span class="muted small">(disables move animation)</span></span>
+            <input type="checkbox" id="setting-reduce-motion" class="setting-toggle" />
+          </label>
+          <label class="setting-row">
+            <span class="setting-row__label">Fog of war</span>
+            <input type="checkbox" id="setting-fog" class="setting-toggle" />
+          </label>
+          <div class="setting-row">
+            <span class="setting-row__label">AI difficulty</span>
+            <select id="setting-difficulty" class="setting-select">
+              <option value="easy">Easy</option>
+              <option value="normal">Normal</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <label class="setting-row">
+            <span class="setting-row__label">High-Def visuals <span class="muted small">(CraftPix UI + units)</span></span>
+            <input type="checkbox" id="setting-visual-hdef" class="setting-toggle" />
+          </label>
+        </div>
+        <hr class="settings-divider" />
+        <h3 class="h3" style="margin-top:1rem">Danger zone</h3>
+        <p class="muted small">Clears all progress, unlocks, and W/L record permanently.</p>
+        <button type="button" id="btn-reset-progress" class="btn btn--danger">Reset all progress</button>
+        <div class="row-actions" style="margin-top:1.5rem">
+          <button type="button" class="btn btn--ghost" id="btn-settings-back">← Back</button>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BATTLE ─────────────────────────────── -->
+    <section id="screen-battle" class="screen" aria-label="Battle" hidden>
+      <div class="battle-layout battle-layout--v2">
+        <aside class="hud hud--v2" aria-label="Battle HUD">
+          <p id="hud-map-name" class="hud__map-name"></p>
+          <div id="hud-portrait-row" class="hud__portrait-row" hidden>
+            <div id="hud-portrait" class="hud__portrait"></div>
+            <div class="hud__portrait-info">
+              <p id="hud-portrait-name" class="hud__portrait-name"></p>
+              <p id="hud-portrait-hp" class="hud__portrait-hp"></p>
+            </div>
+          </div>
+          <p id="hud-phase" class="hud__phase"></p>
+          <p id="hud-turn" class="hud__turn"></p>
+          <p id="hud-selection" class="hud__selection"></p>
+          <p class="hud__hint muted small">Select unit → blue = move · red = attack. Indirect ignores LOS.</p>
+
+          <div id="battle-coach" class="battle-coach" hidden>
+            <p id="battle-coach-text" class="battle-coach__text"></p>
+            <button type="button" id="btn-coach-dismiss" class="btn btn--ghost btn--tiny">Dismiss tips</button>
+          </div>
+
+          <div id="battle-log" class="battle-log">
+            <p class="battle-log__label">Combat log</p>
+            <ul id="battle-log-list" class="battle-log__list"></ul>
+          </div>
+
+          <div class="hud__actions">
+            <button type="button" id="btn-end-turn" class="btn">End turn</button>
+            <button type="button" id="btn-restart" class="btn btn--ghost">Restart</button>
+            <button type="button" id="btn-hub-from-battle" class="btn btn--ghost btn--tiny">← Hub</button>
+          </div>
+        </aside>
+
+        <div class="canvas-wrap" style="position:relative">
+          <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield"></canvas>
+          <div id="unit-tooltip" class="unit-tooltip" hidden></div>
+        </div>
+      </div>
+
+      <!-- Loading overlay -->
+      <div id="battle-loading" class="battle-loading" hidden>
+        <div class="battle-loading__inner">
+          <div class="battle-loading__spinner"></div>
+          <p class="battle-loading__text">Loading battle…</p>
+        </div>
+      </div>
+
+      <!-- Result overlay -->
+      <div id="battle-result-overlay" class="battle-overlay" hidden>
+        <div class="ctu-metal-frame ctu-metal-frame--modal ctu-metal-frame--sm">
+          <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+          <div class="ctu-metal-frame__content battle-overlay__card">
+            <p id="battle-result-icon" class="battle-result__icon"></p>
+            <h2 id="battle-result-title" class="battle-result__title"></h2>
+            <p id="battle-result-stats" class="muted battle-result__stats"></p>
+            <div class="row-actions" style="justify-content:center;margin-top:1.25rem">
+              <button type="button" id="btn-result-restart" class="cta">Play again</button>
+              <button type="button" id="btn-result-hub" class="btn btn--ghost">Hub</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hotseat pass-device interstitial -->
+      <div id="battle-interstitial" class="battle-overlay" hidden>
+        <div class="ctu-metal-frame ctu-metal-frame--modal ctu-metal-frame--sm">
+          <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+          <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+          <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+          <div class="ctu-metal-frame__content battle-overlay__card battle-overlay__card--interstitial">
+            <p class="muted small">Next up:</p>
+            <h2 id="interstitial-player-name" class="interstitial-name"></h2>
+            <p class="muted small">Pass the device. Press <strong>Ready</strong> when prepared.</p>
+            <button type="button" id="btn-interstitial-ready" class="cta" style="margin-top:1rem">Ready</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Boot-or-Kill: if ES module fails (file:// or CORS), show full-screen failure overlay -->
+<script>
+(function(){
+  var hdr = document.querySelector(".top-bar");
+  if(hdr) hdr.classList.add("top-bar--landing");
+
+  var checks = 0;
+  var interval = setInterval(function(){
+    checks++;
+    if(window.__CTU_MODULE_LOADED){ clearInterval(interval); return; }
+    if(checks < 10) return;
+    var overlay = document.createElement("div");
+    overlay.id = "boot-failure";
+    overlay.style.cssText =
+      "position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;" +
+      "align-items:center;justify-content:center;background:#080a0b;" +
+      "color:#c8e2c8;font-family:'Courier New',monospace;text-align:center;padding:2rem;";
+    overlay.innerHTML =
+      '<div style="border:2px solid #3a5a3a;padding:2.5rem 3rem;max-width:36rem;background:rgba(0,0,0,0.6)">' +
+        '<h1 style="color:#ff4444;font-size:1.6rem;margin:0 0 1rem;letter-spacing:0.15em">' +
+          '[ SYSTEM BOOT FAILURE ]</h1>' +
+        '<p style="font-size:1rem;line-height:1.6;margin:0 0 1.5rem;color:#8faa8f">' +
+          'ES Module blocked by browser security policy.<br>' +
+          'The app cannot run from the <code style="color:#ffcc00">file://</code> protocol.</p>' +
+        '<p style="font-size:0.95rem;line-height:1.7;margin:0 0 1.5rem;color:#c8e2c8">' +
+          'Launch via HTTP server:<br>' +
+          '<code style="color:#66ff66;font-size:0.9rem">python -m http.server 8080</code><br>' +
+          'then open <code style="color:#66ff66">http://localhost:8080</code></p>' +
+        '<p style="font-size:0.7rem;color:#556655;margin:0">' +
+          'CTU v2.0 — Tactical Engine requires HTTP</p>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    clearInterval(interval);
+  }, 1000);
+})();
+</script>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

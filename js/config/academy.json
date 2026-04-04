@@ -1,0 +1,10 @@
+{
+  "pickCount": 3,
+  "registryTag": "academyPick",
+  "scenarioPath": "js/config/scenarios/academy_skirmish.json",
+  "deploymentSlots": [
+    { "x": 2, "y": 5 },
+    { "x": 2, "y": 7 },
+    { "x": 3, "y": 6 }
+  ]
+}

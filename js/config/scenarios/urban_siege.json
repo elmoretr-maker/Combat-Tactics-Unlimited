@@ -1,0 +1,34 @@
+{
+  "id": "urban_siege",
+  "name": "Urban Siege",
+  "cellSize": 48,
+  "width": 10,
+  "height": 8,
+  "usePresetUnits": true,
+  "visualTheme": "craftpixUrban",
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road"],
+    ["cp_road", "cp_grass", "cp_grass", "cp_building", "cp_grass", "cp_grass", "cp_building", "cp_grass", "cp_grass", "cp_road"],
+    ["cp_road", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_road"],
+    ["cp_road", "cp_grass", "cp_grass", "cp_grass", "cp_road", "cp_road", "cp_grass", "cp_grass", "cp_grass", "cp_road"],
+    ["cp_road", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_road"],
+    ["cp_road", "cp_grass", "cp_grass", "cp_building", "cp_grass", "cp_grass", "cp_building", "cp_grass", "cp_grass", "cp_road"],
+    ["cp_road", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_grass", "cp_road"],
+    ["cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road", "cp_road"]
+  ],
+  "destructibles": [
+    { "x": 3, "y": 1, "hp": 75, "brokenTerrain": "cp_rubble" },
+    { "x": 6, "y": 1, "hp": 75, "brokenTerrain": "cp_rubble" },
+    { "x": 3, "y": 5, "hp": 75, "brokenTerrain": "cp_rubble" },
+    { "x": 6, "y": 5, "hp": 75, "brokenTerrain": "cp_rubble" }
+  ],
+  "units": [
+    { "templateId": "infantry", "owner": 0, "x": 1, "y": 3 },
+    { "templateId": "sniper", "owner": 0, "x": 1, "y": 4 },
+    { "templateId": "mortar", "owner": 0, "x": 1, "y": 5 },
+    { "templateId": "grunt_red", "owner": 1, "x": 8, "y": 3 },
+    { "templateId": "grunt_red", "owner": 1, "x": 8, "y": 4 },
+    { "templateId": "mortar", "owner": 1, "x": 8, "y": 5 }
+  ]
+}

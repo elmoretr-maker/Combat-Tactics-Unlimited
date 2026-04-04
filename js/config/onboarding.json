@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "id": "move_intro",
+      "objective": "Select your unit and move to an open tile (blue tiles).",
+      "teaches": ["move"],
+      "highlightTiles": [[2, 5], [2, 7], [3, 6]]
+    },
+    {
+      "id": "los_forest",
+      "objective": "Direct fire needs line of sight — forest blocks. Try flanking or use indirect fire.",
+      "teaches": ["directAttack", "los"]
+    },
+    {
+      "id": "indirect_deadspace",
+      "objective": "Indirect weapons ignore LOS but cannot hit inside deadspace next to you.",
+      "teaches": ["indirectAttack", "deadspace"]
+    }
+  ],
+  "note": "Coach advances after you move once, then after you attack once. Dismiss hides tips for this profile."
+}

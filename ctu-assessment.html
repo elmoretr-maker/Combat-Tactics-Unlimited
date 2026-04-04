@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CTU — Completion Assessment</title>
+<style>
+:root{--bg:#0d1520;--panel:#152030;--border:#2a4a66;--text:#e0eaf7;--muted:#7a95b5;--accent:#3d9eff;--green:#40c057;--yellow:#fab005;--red:#fa5252;--orange:#fd7e14;--purple:#9b59b6;--font:"IBM Plex Sans",system-ui,sans-serif;--display:"Chakra Petch",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5}
+header{background:var(--panel);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+header h1{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em}
+.badge{display:inline-block;padding:.2rem .55rem;border-radius:4px;font-size:.72rem;font-weight:700}
+.badge-green{background:rgba(64,192,87,.15);border:1px solid var(--green);color:var(--green)}
+.badge-yellow{background:rgba(250,176,5,.15);border:1px solid var(--yellow);color:var(--yellow)}
+.badge-red{background:rgba(250,82,82,.15);border:1px solid var(--red);color:var(--red)}
+.badge-orange{background:rgba(253,126,20,.15);border:1px solid var(--orange);color:var(--orange)}
+.badge-purple{background:rgba(155,89,182,.15);border:1px solid var(--purple);color:var(--purple)}
+.badge-blue{background:rgba(61,158,255,.15);border:1px solid var(--accent);color:var(--accent)}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 58px)}
+nav{background:var(--panel);border-right:1px solid var(--border);padding:1rem .75rem;display:flex;flex-direction:column;gap:.25rem;position:sticky;top:0;height:calc(100vh - 58px);overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:.5rem;padding:.45rem .7rem;border-radius:6px;cursor:pointer;font-size:.85rem;border:none;background:transparent;color:var(--muted);text-align:left;width:100%}
+.nav-item:hover{background:rgba(61,158,255,.1);color:var(--text)}
+.nav-item.active{background:rgba(61,158,255,.15);color:var(--accent);font-weight:600}
+.nav-section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.7rem .7rem .2rem;margin-top:.25rem}
+main{padding:1.5rem;overflow-y:auto;max-width:1100px}
+.page{display:none}
+.page.active{display:block}
+h2{font-family:var(--display);font-size:1.15rem;margin-bottom:1rem;color:var(--text)}
+h3{font-family:var(--display);font-size:.95rem;margin-bottom:.6rem;color:var(--accent)}
+p{color:var(--muted);margin-bottom:.75rem;line-height:1.6}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:.85rem}
+.card-row{display:flex;align-items:flex-start;gap:.85rem}
+.card-num{font-family:var(--display);font-size:1.4rem;font-weight:700;min-width:2rem;color:var(--accent)}
+.card-body h4{font-size:.92rem;font-weight:700;margin-bottom:.25rem}
+.card-body p{margin:0;font-size:.85rem}
+.impact-row{display:flex;gap:.5rem;align-items:center;margin-top:.45rem;flex-wrap:wrap}
+.label{font-size:.72rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:.83rem;margin-bottom:1rem}
+th{text-align:left;padding:.5rem .75rem;background:#0f1c2d;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+td{padding:.5rem .75rem;border-bottom:1px solid rgba(42,74,102,.4);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(61,158,255,.04)}
+.exists{color:var(--green)}
+.missing{color:var(--red)}
+.partial{color:var(--yellow)}
+.progress-wrap{margin-bottom:1rem}
+.progress-label{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem}
+.progress-bar{height:8px;background:#0f1c2d;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .4s}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+.stat-card{background:#0f1c2d;border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;text-align:center}
+.stat-num{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1}
+.stat-lbl{font-size:.72rem;color:var(--muted);margin-top:.3rem;text-transform:uppercase;letter-spacing:.06em}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:.85rem;padding:.7rem 0;border-bottom:1px solid rgba(42,74,102,.35)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-done{background:var(--green)}
+.tl-partial{background:var(--yellow)}
+.tl-todo{background:var(--border)}
+.tl-critical{background:var(--red)}
+.tl-body{flex:1}
+.tl-title{font-weight:700;font-size:.87rem;margin-bottom:.1rem}
+.tl-desc{font-size:.81rem;color:var(--muted);line-height:1.45}
+.chip-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
+.chip{font-size:.7rem;padding:.15rem .45rem;border-radius:3px;font-weight:600}
+.chip-engine{background:rgba(155,89,182,.2);color:#c9a8f7}
+.chip-ui{background:rgba(61,158,255,.2);color:#9bc8f7}
+.chip-content{background:rgba(64,192,87,.2);color:#9be5a9}
+.chip-test{background:rgba(253,126,20,.2);color:#ffc8a0}
+.chip-audio{background:rgba(250,176,5,.2);color:#ffe094}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.nav-item{display:inline-flex}.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>CTU — Completion Assessment</h1>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <span class="badge badge-green">Engine ✓</span>
+    <span class="badge badge-yellow">Content ~50%</span>
+    <span class="badge badge-red">Polish ~30%</span>
+    <span class="badge badge-orange">Testing ⚠</span>
+  </div>
+</header>
+
+<div class="layout">
+  <nav id="nav">
+    <div class="nav-section-label">Overview</div>
+    <button class="nav-item active" data-page="summary">📊 Summary</button>
+    <button class="nav-item" data-page="scorecard">✅ Scorecard vs Genre</button>
+    <div class="nav-section-label">Critical Gaps</div>
+    <button class="nav-item" data-page="p0">🚨 P0 — Blocking</button>
+    <button class="nav-item" data-page="p1">⚠ P1 — Core Fun</button>
+    <button class="nav-item" data-page="p2">🔧 P2 — Polish</button>
+    <div class="nav-section-label">Production</div>
+    <button class="nav-item" data-page="content">🗺 Content Gaps</button>
+    <button class="nav-item" data-page="audio">🔊 Audio</button>
+    <button class="nav-item" data-page="assets">🎨 Art / Assets</button>
+    <button class="nav-item" data-page="testing">🧪 Testing Plan</button>
+    <div class="nav-section-label">Roadmap</div>
+    <button class="nav-item" data-page="roadmap">🗓 Build Order</button>
+  </nav>
+
+  <main>
+
+    <!-- SUMMARY -->
+    <div class="page active" id="page-summary">
+      <h2>Overall Completion Status</h2>
+      <p>CTU has a fully functional engine, two distinct game modes, a Codex, settings, and an onboarding flow. The main gaps are <strong>core feel mechanics</strong> (damage preview, unit-acted visual, terrain defense), <strong>content depth</strong> (3 maps is thin), and completely <strong>missing audio</strong>. It's playable but not yet "enjoyable" by genre standards.</p>
+      <div class="grid-3" style="margin-bottom:1.25rem">
+        <div class="stat-card"><div class="stat-num" style="color:var(--green)">7</div><div class="stat-lbl">Systems built</div></div>
+        <div class="stat-card"><div class="stat-num" style="color:var(--yellow)">11</div><div class="stat-lbl">Critical gaps</div></div>
+        <div class="stat-card"><div class="stat-num" style="color:var(--red)">0</div><div class="stat-lbl">Sound effects</div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Engine / Logic</span><span style="color:var(--green)">90%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:90%;background:var(--green)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>UI / Screens</span><span style="color:var(--green)">80%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:80%;background:var(--green)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Core Feel (feedback, preview, counter)</span><span style="color:var(--red)">35%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:35%;background:var(--red)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Content (maps, scenarios)</span><span style="color:var(--orange)">40%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:40%;background:var(--orange)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Audio</span><span style="color:var(--red)">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:2%;background:var(--red)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Art / Sprites</span><span style="color:var(--red)">5%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:5%;background:var(--red)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Testability / Debug tools</span><span style="color:var(--red)">10%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:10%;background:var(--red)"></div></div>
+      </div>
+    </div>
+
+    <!-- SCORECARD -->
+    <div class="page" id="page-scorecard">
+      <h2>Genre Parity Scorecard</h2>
+      <p>Measured against <strong>Advance Wars</strong>, <strong>Into the Breach</strong>, and <strong>Warhammer 40K: Tacticus</strong> — the closest analogs to CTU's stated intent.</p>
+      <table>
+        <thead><tr><th>Feature</th><th>Advance Wars</th><th>Into the Breach</th><th>CTU Today</th></tr></thead>
+        <tbody>
+          <tr><td>Playable board</td><td class="exists">✓</td><td class="exists">✓</td><td class="exists">✓ (3 maps)</td></tr>
+          <tr><td>Terrain types with visual distinction</td><td class="exists">✓</td><td class="exists">✓</td><td class="partial">~ (drawn but no defense bonus)</td></tr>
+          <tr><td>Move then attack (any order)</td><td class="exists">✓</td><td class="exists">✓</td><td class="partial">~ (possible but no indicator)</td></tr>
+          <tr><td>Attack range ring shown on selection</td><td class="exists">✓</td><td class="exists">✓</td><td class="missing">✗ Missing</td></tr>
+          <tr><td>Damage preview before confirming</td><td class="exists">✓</td><td class="exists">✓</td><td class="missing">✗ Missing</td></tr>
+          <tr><td>Unit "acted / spent" visual state</td><td class="exists">✓ (gray)</td><td class="exists">✓</td><td class="missing">✗ Missing</td></tr>
+          <tr><td>Terrain defense bonus</td><td class="exists">✓</td><td class="partial">~</td><td class="missing">✗ Missing</td></tr>
+          <tr><td>Counter-attack on direct hit</td><td class="exists">✓</td><td class="missing">✗</td><td class="missing">✗ Missing</td></tr>
+          <tr><td>VS Computer AI</td><td class="exists">✓</td><td class="exists">✓</td><td class="partial">~ (greedy only)</td></tr>
+          <tr><td>1v1 same-device hotseat</td><td class="exists">✓</td><td class="missing">✗</td><td class="exists">✓</td></tr>
+          <tr><td>Sound effects</td><td class="exists">✓</td><td class="exists">✓</td><td class="missing">✗ Stub only</td></tr>
+          <tr><td>Unit sprites / animations</td><td class="exists">✓</td><td class="exists">✓</td><td class="partial">~ (fallback shapes, no PNGs)</td></tr>
+          <tr><td>Multiple win conditions</td><td class="exists">✓</td><td class="exists">✓</td><td class="partial">~ (eliminate + survive)</td></tr>
+          <tr><td>Unit codex / research</td><td class="partial">~</td><td class="missing">✗</td><td class="exists">✓</td></tr>
+          <tr><td>Progression / unlocks</td><td class="exists">✓</td><td class="partial">~</td><td class="partial">~ (Academy unlock only)</td></tr>
+          <tr><td>Campaign / multiple missions</td><td class="exists">✓</td><td class="exists">✓</td><td class="missing">✗ Only 3 standalone maps</td></tr>
+          <tr><td>Debug / testing tools</td><td>—</td><td>—</td><td class="missing">✗ None</td></tr>
+          <tr><td>Loading feedback</td><td>—</td><td>—</td><td class="missing">✗ Blank canvas</td></tr>
+          <tr><td>Diagonal movement / Chebyshev range</td><td class="exists">✓</td><td class="exists">✓</td><td class="missing">✗ 4-dir only, Manhattan range</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- P0 -->
+    <div class="page" id="page-p0">
+      <h2>🚨 P0 — Blocking Issues (must fix before testing)</h2>
+      <p>These gaps make the game confusing or feel broken to any first-time player.</p>
+
+      <div class="card">
+        <div class="card-row">
+          <div class="card-num">1</div>
+          <div class="card-body">
+            <h4>No "unit acted" visual state</h4>
+            <p>After a unit moves AND attacks, it looks identical to a fresh unit. Players can't tell who has remaining actions. In Advance Wars, spent units are drawn at 50% brightness. This is <em>the</em> most confusing omission — testers will waste turns clicking dead-end units.</p>
+            <div class="impact-row"><span class="badge badge-red">Critical UX</span><div class="chip-row"><span class="chip chip-ui">UI</span><span class="chip chip-engine">Engine</span></div></div>
+            <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: draw unit tokens at 60% alpha when both movedThisTurn && attackedThisTurn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-row">
+          <div class="card-num">2</div>
+          <div class="card-body">
+            <h4>No damage preview before attacking</h4>
+            <p>Players must click an enemy blind with no idea how much damage will be dealt or received. Every tactics game in the genre (AW, ITB, Tacticus) shows a forecast panel or tooltip. Without it, attacking feels like gambling.</p>
+            <div class="impact-row"><span class="badge badge-red">Critical UX</span><div class="chip-row"><span class="chip chip-ui">UI</span><span class="chip chip-engine">Engine</span></div></div>
+            <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: on hover over attackable enemy, show "⚔ -25 HP" preview in HUD selection line or as canvas overlay number.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-row">
+          <div class="card-num">3</div>
+          <div class="card-body">
+            <h4>No attack range ring overlay</h4>
+            <p>Blue cells show where a unit <em>can move</em>. But there is no overlay showing the unit's <em>attack reach</em> from current position. Players don't know if they're in firing range until they randomly click an enemy and nothing happens. The red outline only appears on current live targets — it gives no spatial understanding.</p>
+            <div class="impact-row"><span class="badge badge-red">Critical UX</span><div class="chip-row"><span class="chip chip-ui">Render</span></div></div>
+            <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: when a unit is selected, draw a secondary translucent orange ring showing all cells within rangeMin–rangeMax Manhattan distance.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-row">
+          <div class="card-num">4</div>
+          <div class="card-body">
+            <h4>End-turn button has a dead-code guard (hotseat / CPU)</h4>
+            <p>The end-turn handler contains <code>if (game.currentPlayer !== game.currentPlayer) return;</code> — this condition is <em>always false</em>, making it a no-op. In CPU mode, pressing "End Turn" when the AI is nominally "taking its turn" (during the 400ms setTimeout) can double-trigger the AI. Should guard against double-ending.</p>
+            <div class="impact-row"><span class="badge badge-orange">Bug</span><div class="chip-row"><span class="chip chip-engine">Engine</span></div></div>
+            <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: track an <code>aiRunning</code> flag, disable End Turn button while AI turn is in progress.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-row">
+          <div class="card-num">5</div>
+          <div class="card-body">
+            <h4>No loading state during bootBattle / bootHotseat</h4>
+            <p>JSON fetches take 100–600ms on slow connections. During that time the canvas is blank and the button appears unresponsive. Users will click again, potentially double-booting.</p>
+            <div class="impact-row"><span class="badge badge-orange">Bug / UX</span><div class="chip-row"><span class="chip chip-ui">UI</span></div></div>
+            <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: disable the triggering button + show "Loading…" in canvas before await Promise.all, re-enable on resolve.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P1 -->
+    <div class="page" id="page-p1">
+      <h2>⚠ P1 — Core Fun (needed for enjoyment)</h2>
+      <p>These aren't bugs, but their absence makes CTU feel shallow compared to its genre peers.</p>
+
+      <div class="card">
+        <div class="card-row"><div class="card-num">6</div><div class="card-body">
+          <h4>Terrain defense bonus absent</h4>
+          <p>Terrain <code>moveCost</code> exists and <code>sightCost</code> was added, but <code>defensBonus</code> is not. Every terrain tile in the genre reduces incoming damage: AW gives 10–30% reduction. Forest + hill tiles without defense feel wasted in CTU's current formula.</p>
+          <div class="impact-row"><span class="badge badge-yellow">Core Feel</span><div class="chip-row"><span class="chip chip-engine">Engine</span><span class="chip chip-content">Config</span></div></div>
+          <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: add <code>defenseBonus</code> (0–30%) to tileTextures.json; apply in resolveAttack as damage multiplier.</p>
+        </div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-row"><div class="card-num">7</div><div class="card-body">
+          <h4>No counter-attack</h4>
+          <p>When you attack a unit at close range, it should fight back at reduced damage (standard in AW, XCOM, etc.). Currently combat is entirely one-sided. This removes the strategic cost of attacking and makes aggressive play overpowered.</p>
+          <div class="impact-row"><span class="badge badge-yellow">Core Feel</span><div class="chip-row"><span class="chip chip-engine">Engine</span></div></div>
+          <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: after resolveAttack, if target is still alive, has direct attackType, and attacker is within target's range, auto-resolve a 50%-damage counter-attack.</p>
+        </div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-row"><div class="card-num">8</div><div class="card-body">
+          <h4>AI is too weak for any post-Academy challenge</h4>
+          <p>Current AI: move toward nearest enemy, shoot if in range. It never uses terrain, never retreats, never prioritizes weak targets, never flanks around forest LOS. Players who beat the Academy immediately outgrow the AI. The AI is also broken in hotseat-like situations since it only ever tries owner=1 units.</p>
+          <div class="impact-row"><span class="badge badge-yellow">Core Feel</span><div class="chip-row"><span class="chip chip-engine">Engine</span></div></div>
+          <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: add threat scoring (target lowest HP / best damage ratio), add a "retreat if HP below 25%" rule, add indirect-unit positioning logic.</p>
+        </div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-row"><div class="card-num">9</div><div class="card-body">
+          <h4>Movement is 4-directional only; attack range uses Manhattan</h4>
+          <p>The A* pathfinder and reachable tiles use <code>neighbors4</code> (N/S/E/W only). Tanks and snipers with range > 1 use Manhattan distance for checking attack range — meaning they cannot attack diagonally at range 2 even though visually the tile is "2 away". This feels like a bug to players expecting standard tactics movement.</p>
+          <div class="impact-row"><span class="badge badge-yellow">Core Feel</span><div class="chip-row"><span class="chip chip-engine">Engine</span></div></div>
+          <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: add <code>neighbors8</code> for movement + switch attack range check to Chebyshev distance (max of |dx|, |dy|) in combat.js.</p>
+        </div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-row"><div class="card-num">10</div><div class="card-body">
+          <h4>Zero sound effects</h4>
+          <p>AudioManager.play() is a complete no-op stub. Silence during attacks, movement, and win/loss makes the game feel like a prototype in a demo. Even 4–5 Web Audio API synthetic beeps (no files needed) dramatically improve feel.</p>
+          <div class="impact-row"><span class="badge badge-yellow">Core Feel</span><div class="chip-row"><span class="chip chip-audio">Audio</span></div></div>
+          <p style="margin-top:.5rem;font-size:.82rem;color:var(--accent)">Fix: implement Web Audio API synth sounds for UnitSelected, MoveStarted, AttackImpact, Victory, Defeat — no asset files required.</p>
+        </div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-row"><div class="card-num">11</div><div class="card-body">
+          <h4>No per-scenario completion tracking</h4>
+          <p>Only <code>academyComplete</code> is tracked. The "Hold the Line" trial has no completion flag; replaying it doesn't unlock anything. Players have no reason to replay. A <code>scenarioWins</code> map in progress + unlock-on-beat would close this.</p>
+          <div class="impact-row"><span class="badge badge-yellow">Progression</span><div class="chip-row"><span class="chip chip-engine">Engine</span><span class="chip chip-content">Config</span></div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="page" id="page-p2">
+      <h2>🔧 P2 — Polish (makes the game feel complete)</h2>
+
+      <table>
+        <thead><tr><th>#</th><th>Gap</th><th>Impact</th><th>Effort</th></tr></thead>
+        <tbody>
+          <tr><td>12</td><td><strong>Floating damage numbers</strong> — "+25" pop when attack lands</td><td class="partial">Feel</td><td class="exists">Low</td></tr>
+          <tr><td>13</td><td><strong>Dead unit death flash</strong> — brief white flash before disappearing</td><td class="partial">Feel</td><td class="exists">Low</td></tr>
+          <tr><td>14</td><td><strong>Scenario name shown in HUD</strong> — currently no map name visible in battle</td><td class="partial">Clarity</td><td class="exists">Trivial</td></tr>
+          <tr><td>15</td><td><strong>Terrain info tooltip</strong> — hover tile shows cost, defense bonus, sight cost</td><td class="partial">Clarity</td><td class="partial">Low</td></tr>
+          <tr><td>16</td><td><strong>Attack confirmed with Enter key</strong> — keyboard shortcut to confirm selected action</td><td class="partial">Accessibility</td><td class="partial">Low</td></tr>
+          <tr><td>17</td><td><strong>Escape deselects unit</strong> — currently no keyboard deselect</td><td class="partial">UX</td><td class="exists">Trivial</td></tr>
+          <tr><td>18</td><td><strong>Canvas resize / responsive scaling</strong> — battle canvas is fixed 960×640, clips on smaller screens</td><td class="partial">Mobile / small screens</td><td class="partial">Medium</td></tr>
+          <tr><td>19</td><td><strong>"Academy complete" celebration</strong> — no fanfare when Academy is first beaten and medic/artillery unlock</td><td class="partial">Progression feel</td><td class="exists">Low</td></tr>
+          <tr><td>20</td><td><strong>Scenario difficulty label</strong> — hub mode buttons have no difficulty indicator (Easy / Medium)</td><td class="partial">UX</td><td class="exists">Trivial</td></tr>
+          <tr><td>21</td><td><strong>Attack already used indicator</strong> — no visual on unit when only move remains vs both remaining</td><td class="partial">Clarity</td><td class="partial">Low</td></tr>
+          <tr><td>22</td><td><strong>AI turn animation delay</strong> — AI moves are instant; no visual cue that AI is "thinking"</td><td class="partial">Feel</td><td class="partial">Low</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="page" id="page-content">
+      <h2>🗺 Content Gaps</h2>
+      <p>3 playable scenarios is the minimum viable floor. For a "complete" testing session you need enough variety to validate all mechanics and give players a reason to return.</p>
+      <h3>Current maps</h3>
+      <table>
+        <thead><tr><th>Map</th><th>Size</th><th>Win Condition</th><th>Teaches</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Academy Skirmish</td><td>14×10</td><td>Eliminate</td><td>LOS, forest, indirect</td><td class="exists">✓ Done</td></tr>
+          <tr><td>Hold the Line (Trial)</td><td>12×8</td><td>Survive 4 rounds</td><td>Sight budget, hill/urban</td><td class="exists">✓ Done</td></tr>
+          <tr><td>Standoff (Hotseat)</td><td>14×10</td><td>Eliminate</td><td>Symmetric 1v1</td><td class="exists">✓ Done</td></tr>
+        </tbody>
+      </table>
+      <h3>Maps needed for complete testing</h3>
+      <table>
+        <thead><tr><th>Proposed Map</th><th>Size</th><th>Win Condition</th><th>Key mechanic</th></tr></thead>
+        <tbody>
+          <tr><td>Urban Assault</td><td>16×12</td><td>Eliminate</td><td>Urban sightCost, mixed terrain, tank vs infantry</td></tr>
+          <tr><td>River Crossing</td><td>14×10</td><td>Eliminate</td><td>Road corridor + water barriers, flanking required</td></tr>
+          <tr><td>Last Stand</td><td>12×8</td><td>Survive 6 rounds</td><td>Outnumbered 1:3, tests indirect + retreat</td></tr>
+          <tr><td>Breakout</td><td>18×12</td><td>Reach objective tile (x≥15)</td><td>First capture/reach objective type</td></tr>
+          <tr><td>Artillery Duel</td><td>20×14</td><td>Eliminate</td><td>Large map, indirect fire range, LOS budget 5</td></tr>
+        </tbody>
+      </table>
+      <h3>Unit roster gaps</h3>
+      <p>Missing from the plan's <em>roster A</em>: <strong>Sapper</strong> (demolish terrain/obstacles), <strong>Decoy</strong> (absorbs AI targeting), <strong>Jet Bomber</strong> (AOE indirect). The roster B CSV also listed <strong>Rocket Launcher</strong>, <strong>Anti-Air</strong>, and <strong>Recon Jeep</strong> — none exist in units.json yet.</p>
+    </div>
+
+    <!-- AUDIO -->
+    <div class="page" id="page-audio">
+      <h2>🔊 Audio — Zero Implementation</h2>
+      <p>Every <code>AudioManager.play()</code> call in main.js is a no-op. The current implementation:</p>
+      <div class="card"><code style="font-size:.85rem;color:#9bc8f7">const sounds = {};<br>export const AudioManager = { play(name) { void sounds[name]; } };</code></div>
+      <p>This is the single biggest quality-of-life gap. Even simple synthesized sounds would elevate the game significantly.</p>
+      <h3>Option A — Web Audio API synth (no files, immediate)</h3>
+      <p>Generate all needed sounds procedurally using the browser's built-in Web Audio API. Zero asset downloads, always works offline. Best for MVP testing.</p>
+      <table>
+        <thead><tr><th>Sound key</th><th>Synth approach</th><th>Duration</th></tr></thead>
+        <tbody>
+          <tr><td>UnitSelected</td><td>Short ascending sine blip (440→660 Hz)</td><td>80ms</td></tr>
+          <tr><td>MoveStarted</td><td>Low thud — oscillator at 120 Hz, quick decay</td><td>120ms</td></tr>
+          <tr><td>AttackImpact</td><td>Noise burst + low boom — white noise + 60 Hz sine</td><td>200ms</td></tr>
+          <tr><td>ButtonHover</td><td>Very quiet high tick (1200 Hz, 30ms)</td><td>30ms</td></tr>
+          <tr><td>Victory</td><td>Ascending 3-note arpeggio (C–E–G)</td><td>600ms</td></tr>
+          <tr><td>Defeat</td><td>Descending 2-note drop (A–E, minor)</td><td>500ms</td></tr>
+          <tr><td>TurnEnd</td><td>Mid-tone click (550 Hz, 60ms)</td><td>60ms</td></tr>
+        </tbody>
+      </table>
+      <h3>Option B — Free CC0 audio packs</h3>
+      <p><strong>Kenney.nl</strong> (kenney.nl/assets/interface-sounds) provides CC0 WAV/OGG packs. Drop files into <code>attached_assets/audio/</code> and wire paths in AudioManager.</p>
+      <h3>Option C — Mix</h3>
+      <p>Synth for immediate sounds (select, move), Kenney for impact and music. Best result with minimal effort.</p>
+    </div>
+
+    <!-- ASSETS -->
+    <div class="page" id="page-assets">
+      <h2>🎨 Art / Sprite Assets</h2>
+      <p>Currently all units render as <strong>colored rectangles</strong> (fallback) because no PNG frames exist in the repository. The rendering code and animation system are complete — only the image files are absent.</p>
+      <h3>What the engine expects</h3>
+      <table>
+        <thead><tr><th>Sprite set</th><th>Path pattern</th><th>Clips needed</th><th>Units using it</th></tr></thead>
+        <tbody>
+          <tr><td>soldier_3</td><td><code>attached_assets/sprites/soldier_3/{clip}/{n}.png</code></td><td>idle(5), run(8), shoot(4), dead(8)</td><td>Infantry, Medic</td></tr>
+          <tr><td>soldier_2</td><td><code>attached_assets/sprites/soldier_2/{clip}/{n}.png</code></td><td>idle(5), run(8), shot(2), dead(8)</td><td>Sniper</td></tr>
+          <tr><td>soldier_5</td><td><code>attached_assets/sprites/soldier_5/{clip}/{n}.png</code></td><td>idle(5), run(8), shot(2), dead(8)</td><td>Commandos, Heavy, Opfor</td></tr>
+          <tr><td>commander</td><td><code>attached_assets/sprites/commander/{clip}/{n}.png</code></td><td>idle(5), run(8), shot(2), dead(8)</td><td>Commander</td></tr>
+          <tr><td>tank_t</td><td><code>attached_assets/sprites/tank_t/run/{n}.png</code></td><td>run(12)</td><td>Light tank, Opfor tank</td></tr>
+        </tbody>
+      </table>
+      <h3>Portraits</h3>
+      <p>Placeholder portraits were generated by the Python script (<code>scripts/gen-brand-assets.py</code>) and exist at <code>attached_assets/units/*.png</code>. They show initials on colored circles. Real circular cinematic portraits can replace these at any time by overwriting the files with the same names.</p>
+      <h3>VFX PNGs</h3>
+      <p>BattleVfx expects <code>attached_assets/vfx/muzzle_flash.png</code>, <code>missile.png</code>, <code>bazooka_shot_effect.png</code>. Without them VFX silently skip (no crash). Source assets were referenced in the original plan under the Cursor project <code>assets/</code> folder but were never copied into the game repo.</p>
+      <h3>Hero banner</h3>
+      <p><code>assets/hero-cover.png</code> exists as a generated gradient. Real promo art can replace it.</p>
+    </div>
+
+    <!-- TESTING -->
+    <div class="page" id="page-testing">
+      <h2>🧪 Testing Plan</h2>
+      <p>No automated tests exist. The following structured manual test pass covers all critical paths.</p>
+      <h3>Pre-flight checks (before any test session)</h3>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot tl-critical"></div><div class="tl-body"><div class="tl-title">Serve with HTTP server (not file://)</div><div class="tl-desc">ES modules require HTTP. Run <code>python -m http.server 8765</code> from repo root, navigate to <code>http://localhost:8765</code>.</div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-critical"></div><div class="tl-body"><div class="tl-title">Open browser DevTools console (F12)</div><div class="tl-desc">Watch for 404 errors (missing JSON/assets) and JS exceptions. Any error before wireUi() means the game won't start.</div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-todo"></div><div class="tl-body"><div class="tl-title">Clear localStorage before first test</div><div class="tl-desc"><code>localStorage.removeItem('ctu_progress_v1')</code> in console — ensures clean Academy-locked state.</div></div></div>
+      </div>
+      <h3 style="margin-top:1rem">Critical path tests</h3>
+      <table>
+        <thead><tr><th>#</th><th>Test</th><th>Expected</th><th>Known issue?</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>Landing → Hub — locked state</td><td>Quick skirmish blocked, banner shown, Academy button active</td><td>—</td></tr>
+          <tr><td>T2</td><td>Academy pick 3 → Start → play to win</td><td>Victory overlay, medic+artillery unlocked, hub roster updated</td><td>No acted-visual indicator</td></tr>
+          <tr><td>T3</td><td>Forest LOS block</td><td>Infantry cannot attack opfor through x=7 forest column</td><td>—</td></tr>
+          <tr><td>T4</td><td>Mortar indirect through forest</td><td>Mortar CAN attack through forest; deadspace=1 prevents adjacent attack</td><td>—</td></tr>
+          <tr><td>T5</td><td>After Academy win — Quick skirmish unlocked</td><td>Hub shortcut "vs Computer" and skirmish mode both active</td><td>—</td></tr>
+          <tr><td>T6</td><td>1v1 Hotseat — pick 2 each → play to win</td><td>Interstitial shows between turns; result overlay names correct player</td><td>End-turn dead-code guard</td></tr>
+          <tr><td>T7</td><td>Codex — all 11 units show detail card</td><td>Stats, codexDesc, locked indicator on medic/artillery before Academy</td><td>—</td></tr>
+          <tr><td>T8</td><td>Trial: Hold the Line — survive 4 rounds</td><td>Win triggers after fullRoundsCompleted ≥ 4 with player alive</td><td>—</td></tr>
+          <tr><td>T9</td><td>Settings: reset progress</td><td>Confirm dialog → progress zeroed → hub re-locks</td><td>—</td></tr>
+          <tr><td>T10</td><td>Reduce motion setting</td><td>Units snap to destination instead of 300ms lerp</td><td>—</td></tr>
+          <tr><td>T11</td><td>Tank topdown rotation</td><td>Tank barrel faces nearest enemy; rotates when moved</td><td>No attack animation</td></tr>
+          <tr><td>T12</td><td>Unit hover tooltip</td><td>Floating card with correct stats appears on hover, disappears on leave</td><td>—</td></tr>
+          <tr><td>T13</td><td>HP bars update correctly</td><td>Bar shrinks on damage; color changes at 60% / 30% thresholds</td><td>—</td></tr>
+          <tr><td>T14</td><td>Combat log populates</td><td>Attack entries show attacker, target, damage; ⚑/🏆/💀 events appear</td><td>—</td></tr>
+          <tr><td>T15</td><td>AI takes turn after End Turn</td><td>Opfor units move and attack, then control returns to player</td><td>Double-trigger risk (P0 #4)</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Regression risks after next changes</h3>
+      <p>When implementing counter-attack or terrain defense: re-run T2, T3, T4, T8 — all involve combat resolution and could break win conditions or LOS.</p>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="page" id="page-roadmap">
+      <h2>🗓 Recommended Build Order</h2>
+      <p>Ordered by unblock value — each sprint enables meaningful testing of the next.</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot tl-critical"></div><div class="tl-body"><div class="tl-title">Sprint 1 — Fix P0 blocking issues</div><div class="tl-desc">Unit acted visual (alpha dimming); attack range ring overlay; damage preview on hover; loading guard + aiRunning flag. Unblocks: all T-tests.</div><div class="chip-row"><span class="chip chip-ui">UI</span><span class="chip chip-engine">Engine</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-critical"></div><div class="tl-body"><div class="tl-title">Sprint 2 — Synthesized audio</div><div class="tl-desc">Web Audio API synth sounds for all 7 keys. No file dependencies. Unblocks: playability assessment by external testers — silent games feel broken.</div><div class="chip-row"><span class="chip chip-audio">Audio</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-partial"></div><div class="tl-body"><div class="tl-title">Sprint 3 — Core feel mechanics</div><div class="tl-desc">Terrain defense bonus (config + resolveAttack); counter-attack on direct hits; smarter AI (threat scoring + retreat); 8-directional movement + Chebyshev range.</div><div class="chip-row"><span class="chip chip-engine">Engine</span><span class="chip chip-content">Config</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-partial"></div><div class="tl-body"><div class="tl-title">Sprint 4 — Content expansion</div><div class="tl-desc">3 new scenarios (Urban Assault, River Crossing, Last Stand); per-scenario unlock flags; difficulty labels in hub. Enables full playthrough testing.</div><div class="chip-row"><span class="chip chip-content">Content</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-todo"></div><div class="tl-body"><div class="tl-title">Sprint 5 — Polish pass</div><div class="tl-desc">Floating damage numbers; death flash; scenario name in HUD; academy completion celebration; terrain info tooltip; keyboard shortcuts (Escape, Enter).</div><div class="chip-row"><span class="chip chip-ui">UI</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-todo"></div><div class="tl-body"><div class="tl-title">Sprint 6 — Art + audio assets</div><div class="tl-desc">Wire sprite frame folders when art is available; copy VFX PNGs; replace placeholder portraits; optionally add BGM loop.</div><div class="chip-row"><span class="chip chip-audio">Audio</span><span class="chip chip-ui">Art</span></div></div></div>
+        <div class="tl-item"><div class="tl-dot tl-todo"></div><div class="tl-body"><div class="tl-title">Sprint 7 — Debug / QA tooling</div><div class="tl-desc">F1 debug overlay (tile costs, LOS line, unit IDs, range ring); deterministic RNG seed option; AI fast-forward toggle; scenario JSON validator script.</div><div class="chip-row"><span class="chip chip-test">Testing</span></div></div></div>
+      </div>
+      <h3 style="margin-top:1.25rem">What "ready for external testing" looks like</h3>
+      <p>Sprints 1–3 complete → game is comparable to a polished browser prototype. Sprints 4–5 complete → comparable to a complete indie tactics game demo ready for Steam Next Fest-style feedback.</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const navItems = document.querySelectorAll('.nav-item');
+const pages = document.querySelectorAll('.page');
+navItems.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.getAttribute('data-page');
+    navItems.forEach(b => b.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('page-' + id)?.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

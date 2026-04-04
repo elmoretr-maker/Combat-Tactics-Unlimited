@@ -1,0 +1,168 @@
+{
+  "soldier_2": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 5,
+      "run": 8,
+      "shot": 2,
+      "dead": 8,
+      "fall": 2,
+      "jump": 3,
+      "reload": 6
+    }
+  },
+  "soldier_3": {
+    "attackClip": "shoot",
+    "frameCounts": {
+      "idle": 5,
+      "run": 8,
+      "shoot": 4,
+      "dead": 8,
+      "fall": 2,
+      "jump": 3,
+      "reload": 6
+    }
+  },
+  "soldier_5": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 5,
+      "run": 8,
+      "shot": 2,
+      "dead": 8,
+      "fall": 2,
+      "jump": 3,
+      "reload": 6
+    }
+  },
+  "commander": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 5,
+      "run": 8,
+      "shot": 2,
+      "dead": 8,
+      "fall": 2,
+      "jump": 3,
+      "reload": 6
+    }
+  },
+  "tank_t": {
+    "attackClip": "shot",
+    "treadVehicle": true,
+    "frameCounts": {
+      "run": 12,
+      "shot": 1,
+      "dead": 1
+    }
+  },
+  "bomber_sms": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 4,
+      "run": 4,
+      "shot": 1,
+      "dead": 1
+    }
+  },
+  "sniper_cp": {
+    "attackClip": "shot",
+    "specialAbility": "prone",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 1,
+      "dead": 5,
+      "prone": 4
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Base.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_01.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_02.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_03.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_04.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_05.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_06.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_07.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Shot/Shot.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_00.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_01.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_02.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_03.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_04.png"
+      ],
+      "prone": [
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Shot/Shot.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Effects/1.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Effects/2.png",
+        "attached_assets/craftpix_pack/units/sniper/Sniper/Effects/3.png"
+      ]
+    }
+  },
+  "gunner_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 7,
+      "shot": 2,
+      "dead": 5
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Gunner.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_01.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_02.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_03.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_04.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_05.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_06.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_07.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Fire/GunnerShot.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Fire/GunnerShot_version2.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_01.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_02.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_03.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_04.png",
+        "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_05.png"
+      ]
+    }
+  },
+  "bomber_cp": {
+    "attackClip": "shot",
+    "frameCounts": {
+      "idle": 1,
+      "run": 1,
+      "shot": 1,
+      "dead": 3
+    },
+    "craftpixClips": {
+      "idle": [
+        "attached_assets/craftpix_pack/bomber/Bomber/Bomber_Source.png"
+      ],
+      "run": [
+        "attached_assets/craftpix_pack/bomber/Bomber/Bomber_Source.png"
+      ],
+      "shot": [
+        "attached_assets/craftpix_pack/bomber/Bomber/Bomber_Source.png"
+      ],
+      "dead": [
+        "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber Broken 01.png",
+        "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber_Broken 02.png",
+        "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber Broken 03.png"
+      ]
+    }
+  }
+}

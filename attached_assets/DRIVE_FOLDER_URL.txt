@@ -1,0 +1,12 @@
+Main CTU asset bundle:
+https://drive.google.com/drive/folders/1jh6s23A0fxpGs2PupUgd2WwqGSs-CDc3?usp=sharing
+
+Commander sprites (flat PNGs: commander_idle_0.png, …):
+https://drive.google.com/drive/folders/1G437Hhgn2AzMl5wCX4mD1RpHk8uggPES?usp=sharing
+Download into attached_assets/_commander_flat/ then:
+  python tools/import_commander_flat_pngs.py
+
+Soldier Characters Pack by RgsDev (full pack):
+https://drive.google.com/drive/folders/18-nGLw1JqcKUBiVk1kG2bBpFwbpUtKcz?usp=sharing
+Unzip into attached_assets/_rgsdev_pack/ then:
+  python tools/import_rgsdev_soldiers.py

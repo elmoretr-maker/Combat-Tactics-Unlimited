@@ -1,0 +1,11 @@
+{
+  "rifle": {
+    "muzzle": "muzzle_flash.png",
+    "durationMs": 110
+  },
+  "rocket": {
+    "muzzle": "bazooka_shot_effect.png",
+    "projectile": "missile.png",
+    "durationMs": 220
+  }
+}

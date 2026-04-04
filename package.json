@@ -1,0 +1,10 @@
+{
+  "name": "combat-tactics-unlimited",
+  "private": true,
+  "description": "Local static server for browser preview (ES modules + fetch require HTTP).",
+  "scripts": {
+    "start": "python tools/serve_dev.py",
+    "serve": "python tools/serve_dev.py",
+    "serve:node": "npx --yes serve . -l 8080"
+  }
+}
