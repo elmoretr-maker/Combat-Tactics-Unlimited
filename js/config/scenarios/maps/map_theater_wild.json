@@ -1,49 +1,952 @@
 {
   "id": "map_theater_wild",
-  "name": "The Great Forest",
+  "name": "The Great Forest v2",
   "width": 20,
   "height": 16,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
-    ["forest","hill","hill","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","hill","hill","forest","forest"],
-    ["forest","hill","plains","plains","forest","water","water","water","water","plains","plains","plains","water","water","water","forest","plains","plains","hill","forest"],
-    ["plains","plains","plains","plains","plains","water","water","water","water","plains","plains","plains","water","water","water","plains","plains","plains","plains","plains"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["plains","hill","hill","plains","plains","plains","plains","plains","hill","hill","plains","hill","hill","plains","plains","plains","plains","hill","hill","plains"],
-    ["plains","hill","hill","plains","plains","plains","plains","plains","hill","hill","plains","hill","hill","plains","plains","plains","plains","hill","hill","plains"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["plains","plains","plains","plains","plains","water","water","water","water","plains","plains","plains","water","water","water","plains","plains","plains","plains","plains"],
-    ["forest","hill","plains","plains","forest","water","water","water","water","plains","plains","plains","water","water","water","forest","plains","plains","hill","forest"],
-    ["forest","hill","hill","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","hill","hill","forest","forest"],
-    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"]
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "water",
+      "water",
+      "plains",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "plains",
+      "water",
+      "water",
+      "water",
+      "water",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":18,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":7},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":10},
-    {"templateId":"opfor_tank","owner":1,"x":19,"y":6},
-    {"templateId":"opfor_tank","owner":1,"x":19,"y":8},
-    {"templateId":"grunt_red","owner":1,"x":17,"y":9},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":11}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 7
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 10
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 19,
+      "y": 6
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 19,
+      "y": 8
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 17,
+      "y": 9
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 11
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},{"x":0,"y":10},
-    {"x":1,"y":5},{"x":1,"y":7},{"x":0,"y":11},{"x":1,"y":9}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},{"x":0,"y":10},
-    {"x":1,"y":5},{"x":1,"y":7},{"x":0,"y":11},{"x":1,"y":9}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":19,"y":4},{"x":19,"y":5},{"x":19,"y":7},{"x":19,"y":10},
-    {"x":18,"y":5},{"x":18,"y":7},{"x":19,"y":11},{"x":18,"y":9}
-  ]
+    {
+      "x": 19,
+      "y": 0
+    },
+    {
+      "x": 19,
+      "y": 1
+    },
+    {
+      "x": 19,
+      "y": 2
+    },
+    {
+      "x": 19,
+      "y": 3
+    },
+    {
+      "x": 19,
+      "y": 4
+    },
+    {
+      "x": 19,
+      "y": 5
+    },
+    {
+      "x": 19,
+      "y": 6
+    },
+    {
+      "x": 19,
+      "y": 7
+    }
+  ],
+  "mapObjects": [
+    {
+      "id": "obj_17_10_aegxt",
+      "x": 17,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_3_11_7tb7v",
+      "x": 3,
+      "y": 11,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_3_9_hf0jj",
+      "x": 3,
+      "y": 9,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_12_9_mnrqt",
+      "x": 12,
+      "y": 9,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_15_7_l3qis",
+      "x": 15,
+      "y": 7,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_7_11_j9fmd",
+      "x": 7,
+      "y": 11,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_10_9jbai",
+      "x": 5,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_10_hjvze",
+      "x": 4,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_1_10_lbg24",
+      "x": 1,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_6_xk0f6",
+      "x": 5,
+      "y": 6,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_6_12_fsafh",
+      "x": 6,
+      "y": 12,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_12_tbgd8",
+      "x": 5,
+      "y": 12,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_5_c6gsp",
+      "x": 4,
+      "y": 5,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_18_14_85rsd",
+      "x": 18,
+      "y": 14,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_11_6_79gz2",
+      "x": 11,
+      "y": 6,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_13_fxg2b",
+      "x": 5,
+      "y": 13,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_7_6_v6tbr",
+      "x": 7,
+      "y": 6,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_8_10_h6lks",
+      "x": 8,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_13_956m5",
+      "x": 4,
+      "y": 13,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_2_10_x0j6h",
+      "x": 2,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_2_9_3ruop",
+      "x": 2,
+      "y": 9,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_6_dzqc1",
+      "x": 4,
+      "y": 6,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_5_5jvkn",
+      "x": 5,
+      "y": 5,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_14_8_94ufv",
+      "x": 14,
+      "y": 8,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_7_7_wtk0f",
+      "x": 7,
+      "y": 7,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_12_10_o7fre",
+      "x": 12,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    }
+  ],
+  "buildings": [
+    {
+      "id": "bld_11_4",
+      "footprint": [
+        {
+          "x": 11,
+          "y": 4
+        },
+        {
+          "x": 12,
+          "y": 4
+        },
+        {
+          "x": 11,
+          "y": 5
+        },
+        {
+          "x": 12,
+          "y": 5
+        }
+      ],
+      "entry": {
+        "x": 12,
+        "y": 6
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_28c5fcb1.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 2967999871,
+    "theme": "grass",
+    "dividerConnectorCount": 0,
+    "flowConnectors": [
+      {
+        "x": 12,
+        "y": 6,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": null,
+        "spriteSheetFrame": 0
+      },
+      {
+        "x": 1,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 2,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 4,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 7,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 9,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 10,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 11,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 13,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 15,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 16,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 17,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 18,
+        "y": 8,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_theater_wild",
+      "migratedAt": "2026-04-04T20:31:52.775Z",
+      "environment": "wild",
+      "preservedPresetCount": 8
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

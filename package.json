@@ -7,6 +7,9 @@
     "serve": "python tools/serve_dev.py",
     "serve:node": "npx --yes serve . -l 8080",
     "catalog-assets": "node tools/catalog_assets.mjs",
+    "migrate-maps": "node tools/migrate_maps.mjs",
+    "verify-tree-collision": "node js/battle-plane/verifyTreeCollision.mjs",
+    "verify-los-building": "node js/battle-plane/verifyLosBuilding.mjs",
     "visual-report": "node tools/catalog_assets.mjs --visual-report"
   },
   "devDependencies": {

@@ -1,38 +1,416 @@
 {
   "id": "map_compact_mixed",
-  "name": "Staging Grounds",
+  "name": "Staging Grounds v2",
   "width": 10,
   "height": 8,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["road","road","road","road","road","road","road","road","road","road"],
-    ["road","plains","plains","forest","forest","forest","forest","plains","plains","road"],
-    ["road","plains","hill","hill","plains","plains","hill","hill","plains","road"],
-    ["plains","plains","plains","plains","urban","urban","plains","plains","plains","plains"],
-    ["plains","plains","plains","plains","urban","urban","plains","plains","plains","plains"],
-    ["road","plains","hill","hill","plains","plains","hill","hill","plains","road"],
-    ["road","plains","plains","forest","forest","forest","forest","plains","plains","road"],
-    ["road","road","road","road","road","road","road","road","road","road"]
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":8,"y":2},
-    {"templateId":"grunt_red","owner":1,"x":8,"y":3},
-    {"templateId":"grunt_red","owner":1,"x":8,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":8,"y":5},
-    {"templateId":"opfor_tank","owner":1,"x":9,"y":3}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 2
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    }
   ],
   "skirmishDeploy": [
-    {"x":1,"y":2},{"x":1,"y":3},{"x":1,"y":4},{"x":1,"y":5},
-    {"x":2,"y":3},{"x":2,"y":4},{"x":0,"y":3},{"x":0,"y":4}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":1,"y":2},{"x":1,"y":3},{"x":1,"y":4},{"x":1,"y":5},
-    {"x":2,"y":3},{"x":2,"y":4},{"x":0,"y":3},{"x":0,"y":4}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":8,"y":2},{"x":8,"y":3},{"x":8,"y":4},{"x":8,"y":5},
-    {"x":7,"y":3},{"x":7,"y":4},{"x":9,"y":3},{"x":9,"y":4}
+    {
+      "x": 9,
+      "y": 0
+    },
+    {
+      "x": 9,
+      "y": 1
+    },
+    {
+      "x": 9,
+      "y": 2
+    },
+    {
+      "x": 9,
+      "y": 3
+    },
+    {
+      "x": 9,
+      "y": 4
+    },
+    {
+      "x": 9,
+      "y": 5
+    },
+    {
+      "x": 9,
+      "y": 6
+    },
+    {
+      "x": 9,
+      "y": 7
+    }
+  ],
+  "mapObjects": [
+    {
+      "id": "obj_2_6_n17na",
+      "x": 2,
+      "y": 6,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_92c0f35a.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_6_b1jj0",
+      "x": 4,
+      "y": 6,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_38a709a5.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_5_0a7nb",
+      "x": 4,
+      "y": 5,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_f8de985c.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_7_6_z5gr3",
+      "x": 7,
+      "y": 6,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_a7e47133.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_6_7jlk5",
+      "x": 5,
+      "y": 6,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_94fd0651.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_7_5_jxyei",
+      "x": 7,
+      "y": 5,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_08f98307.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_3_6_nqxlw",
+      "x": 3,
+      "y": 6,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_495b9524.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_5_5_ob70l",
+      "x": 5,
+      "y": 5,
+      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_162f599e.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    }
+  ],
+  "buildings": [],
+  "generator": {
+    "version": 1,
+    "seed": 3503903606,
+    "theme": "urban",
+    "dividerConnectorCount": 0,
+    "flowConnectors": [
+      {
+        "x": 1,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 2,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 3,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 6,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 7,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_compact_mixed",
+      "migratedAt": "2026-04-04T20:31:52.374Z",
+      "environment": "mixed",
+      "preservedPresetCount": 4
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": [
+    {
+      "x": 3,
+      "y": 4,
+      "spritePath": "assets/tiles/urban/fire_animation.png",
+      "frameCount": 8,
+      "fps": 10
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "spritePath": "assets/tiles/urban/fire_animation2.png",
+      "frameCount": 8,
+      "fps": 9
+    }
   ]
 }

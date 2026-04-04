@@ -24,6 +24,17 @@ export function moveCostAt(grid, tileTypes, x, y) {
   return info.moveCost ?? 1;
 }
 
+/**
+ * @param {"infantry"|"vehicle"} movementClass
+ */
+export function moveCostAtForClass(grid, tileTypes, x, y, movementClass) {
+  const type = grid.cells[y][x];
+  const info = tileTypes[type] || tileTypes.plains || { moveCost: 1 };
+  if (info.blocksMove) return 99;
+  if (movementClass === "vehicle" && type === "forest") return 99;
+  return info.moveCost ?? 1;
+}
+
 export function terrainColor(tileTypes, type) {
   const info = tileTypes[type];
   return (info && info.color) || "#445544";

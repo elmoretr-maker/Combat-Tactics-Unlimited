@@ -1,6 +1,6 @@
 """
 Generate assets/hero-cover.png and attached_assets/units/*.png (placeholder roster art).
-Run from repo root: python scripts/gen-brand-assets.py
+Run from repo root: python tools/gen-brand-assets.py
 Requires: pip install pillow
 """
 from __future__ import annotations

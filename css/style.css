@@ -74,7 +74,7 @@ body {
 .hero--cover {
   position: relative; min-height: 40vh; max-width: none; margin: 0; padding: 0; overflow: hidden;
   border-bottom: 1px solid #2a4a66;
-  background: linear-gradient(135deg, #0f1828 0%, #1a3350 40%, #0d2840 100%), url("assets/hero-cover.png") center/cover no-repeat;
+  background: linear-gradient(135deg, #0f1828 0%, #1a3350 40%, #0d2840 100%), url("../assets/hero-cover.png") center/cover no-repeat;
 }
 .hero__veil { position: absolute; inset: 0; background: linear-gradient(90deg,rgba(15,20,28,.92) 0%,rgba(15,24,40,.45) 100%); pointer-events: none; }
 .hero__text { position: relative; z-index: 1; padding: 2.5rem 2rem; max-width: 38rem; }
@@ -1018,7 +1018,7 @@ body {
 .lp-dock-tag--header-accent::before,
 .lp-dock-tag--header-accent:hover::before,
 .lp-dock-tag--header-accent:focus-visible::before {
-  background-image: url("assets/buttons/red button glow on.png");
+  background-image: url("../assets/buttons/red button glow on.png");
   filter: brightness(1.08);
 }
 
@@ -1366,7 +1366,7 @@ body {
   display: block;
   width: clamp(68px, 9.5vw, 96px);
   height: clamp(68px, 9.5vw, 96px);
-  background: url("assets/buttons/red button glow off.png") center / contain no-repeat;
+  background: url("../assets/buttons/red button glow off.png") center / contain no-repeat;
   flex-shrink: 0;
   transition: filter 0.12s, transform 0.1s;
   pointer-events: none;
@@ -1393,7 +1393,7 @@ body {
 }
 .lp-dock-tag:hover::before,
 .lp-dock-tag:focus-visible::before {
-  background-image: url("assets/buttons/red button glow on.png");
+  background-image: url("../assets/buttons/red button glow on.png");
   filter: brightness(1.05);
   transform: translateY(-2px) scale(1.06);
 }
@@ -1406,7 +1406,7 @@ body {
   color: #c8ffc8;
 }
 .lp-dock-item--open .lp-dock-tag::before {
-  background-image: url("assets/buttons/red button glow on.png");
+  background-image: url("../assets/buttons/red button glow on.png");
   filter: brightness(1.08);
 }
 
@@ -1621,6 +1621,32 @@ body {
 .battle-canvas-arena .unit-tooltip {
   position: absolute;
   z-index: 60;
+}
+
+/* Battle feedback toasts (invalid move / attack) — arena is position:relative */
+.ctu-battle-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  max-width: min(92%, 440px);
+  padding: 10px 16px;
+  font: 600 0.9rem/1.35 var(--font-body, "IBM Plex Sans", system-ui, sans-serif);
+  color: #e8f4e8;
+  background: rgba(8, 12, 16, 0.94);
+  border: 1px solid rgba(255, 90, 90, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.55);
+  z-index: 55;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+  text-align: center;
+}
+.ctu-battle-toast.ctu-battle-toast--visible {
+  opacity: 1;
+  visibility: visible;
 }
 .battle-float-tools {
   position: fixed;

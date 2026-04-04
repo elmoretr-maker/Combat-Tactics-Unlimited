@@ -1,44 +1,663 @@
 {
   "id": "map_sector_desert",
-  "name": "Desert Ruins",
+  "name": "Desert Ruins v2",
   "width": 16,
   "height": 12,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["desert","desert","desert","hill","hill","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert"],
-    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","desert","desert","urban","urban","urban","urban","urban","urban","urban","urban","desert","desert","desert","desert"],
-    ["desert","hill","desert","desert","urban","urban","desert","desert","desert","desert","urban","urban","desert","desert","hill","desert"],
-    ["desert","hill","desert","desert","urban","desert","desert","desert","desert","desert","desert","urban","desert","desert","hill","desert"],
-    ["desert","desert","desert","desert","urban","desert","desert","desert","desert","desert","desert","urban","desert","desert","desert","desert"],
-    ["desert","hill","desert","desert","urban","urban","desert","desert","desert","desert","urban","urban","desert","desert","hill","desert"],
-    ["desert","desert","desert","desert","urban","urban","urban","urban","urban","urban","urban","urban","desert","desert","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert","desert"],
-    ["desert","desert","desert","hill","hill","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert"]
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "building_block",
+      "building_block",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "building_block",
+      "building_block",
+      "road",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "water",
+      "water",
+      "desert",
+      "desert",
+      "water",
+      "water",
+      "desert",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "water",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":14,"y":2},
-    {"templateId":"grunt_red","owner":1,"x":14,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":14,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":14,"y":7},
-    {"templateId":"opfor_tank","owner":1,"x":15,"y":4},
-    {"templateId":"opfor_tank","owner":1,"x":15,"y":6},
-    {"templateId":"grunt_red","owner":1,"x":13,"y":9}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 14,
+      "y": 2
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 14,
+      "y": 4
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 15,
+      "y": 4
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 15,
+      "y": 6
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 13,
+      "y": 9
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":0,"y":9},{"x":2,"y":5}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":0,"y":9},{"x":2,"y":5}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":15,"y":2},{"x":15,"y":4},{"x":15,"y":5},{"x":15,"y":7},
-    {"x":14,"y":4},{"x":14,"y":5},{"x":15,"y":9},{"x":13,"y":5}
-  ]
+    {
+      "x": 15,
+      "y": 0
+    },
+    {
+      "x": 15,
+      "y": 1
+    },
+    {
+      "x": 15,
+      "y": 2
+    },
+    {
+      "x": 15,
+      "y": 3
+    },
+    {
+      "x": 15,
+      "y": 4
+    },
+    {
+      "x": 15,
+      "y": 5
+    },
+    {
+      "x": 15,
+      "y": 6
+    },
+    {
+      "x": 15,
+      "y": 7
+    }
+  ],
+  "mapObjects": [
+    {
+      "id": "obj_4_5_y7u8f",
+      "x": 4,
+      "y": 5,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_11_7_gjw04",
+      "x": 11,
+      "y": 7,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_1_4_b6fe7",
+      "x": 1,
+      "y": 4,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_11_4_p9htj",
+      "x": 11,
+      "y": 4,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_7_7_1fziz",
+      "x": 7,
+      "y": 7,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_2_9_wx5j8",
+      "x": 2,
+      "y": 9,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_14_5_s33v0",
+      "x": 14,
+      "y": 5,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_9_7_3f8wf",
+      "x": 9,
+      "y": 7,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_6_10_0sp0b",
+      "x": 6,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "visualKind": "tree",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_11_10_znyo6",
+      "x": 11,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_3_4_sx503",
+      "x": 3,
+      "y": 4,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_10_4_zhvjv",
+      "x": 10,
+      "y": 4,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_13_10_eltro",
+      "x": 13,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_4_10_ji7ln",
+      "x": 4,
+      "y": 10,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_10_5_u7qc7",
+      "x": 10,
+      "y": 5,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "visualKind": "barrel",
+      "blocksMove": true,
+      "blocksLos": true
+    },
+    {
+      "id": "obj_14_7_9m14t",
+      "x": 14,
+      "y": 7,
+      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "visualKind": "crate",
+      "blocksMove": true,
+      "blocksLos": true
+    }
+  ],
+  "buildings": [
+    {
+      "id": "bld_8_4",
+      "footprint": [
+        {
+          "x": 8,
+          "y": 4
+        },
+        {
+          "x": 9,
+          "y": 4
+        },
+        {
+          "x": 8,
+          "y": 5
+        },
+        {
+          "x": 9,
+          "y": 5
+        }
+      ],
+      "entry": {
+        "x": 10,
+        "y": 5
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_2672df40.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 3676645029,
+    "theme": "desert",
+    "dividerConnectorCount": 0,
+    "flowConnectors": [
+      {
+        "x": 10,
+        "y": 5,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": null,
+        "spriteSheetFrame": 0
+      },
+      {
+        "x": 1,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 2,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 5,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 6,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 8,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 2,
+        "variant": "end_e",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 2
+      },
+      {
+        "x": 9,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 10,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 11,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 12,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 13,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 10,
+        "variant": "straight_ew",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      },
+      {
+        "x": 14,
+        "y": 6,
+        "terrainId": "water",
+        "mask": 8,
+        "variant": "end_w",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_sector_desert",
+      "migratedAt": "2026-04-04T20:31:52.566Z",
+      "environment": "desert",
+      "preservedPresetCount": 5
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

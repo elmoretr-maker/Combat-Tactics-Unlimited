@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-04T19:42:34.179Z",
+  "generatedAt": "2026-04-04T20:16:18.871Z",
   "description": "Master catalog for procedural mapgen and tooling. Paths are repo-relative (forward slashes).",
   "foundationHints": {
     "urban": {
@@ -164,6 +164,20 @@
       "id": "assets_buildings_medium_Building_Urban_Medium_9c86ff08_png",
       "path": "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
       "fileName": "Building_Urban_Medium_9c86ff08.png",
+      "ext": "png",
+      "type": "building",
+      "footprint": "medium",
+      "theme": "urban",
+      "tags": [
+        "building",
+        "medium",
+        "urban"
+      ]
+    },
+    {
+      "id": "assets_buildings_medium_Building_Urban_Medium_b77a3b56_png",
+      "path": "assets/buildings/medium/Building_Urban_Medium_b77a3b56.png",
+      "fileName": "Building_Urban_Medium_b77a3b56.png",
       "ext": "png",
       "type": "building",
       "footprint": "medium",
@@ -497,8 +511,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 96,
+        "frameH": 96
+      }
     },
     {
       "id": "assets_tiles_urban_Objects_1_png",
@@ -1225,8 +1246,18 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "flowConnector",
+        "spriteSheet"
+      ],
+      "flowConnector": true,
+      "flowKind": "water",
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_trap_animation_png",
@@ -1290,8 +1321,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation10_png",
@@ -1303,8 +1341,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation11_png",
@@ -1316,8 +1361,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation12_png",
@@ -1329,8 +1381,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation13_png",
@@ -1342,8 +1401,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation14_png",
@@ -1355,8 +1421,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation2_png",
@@ -1368,8 +1441,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation3_png",
@@ -1381,8 +1461,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation4_png",
@@ -1394,8 +1481,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation5_png",
@@ -1407,8 +1501,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation6_png",
@@ -1420,8 +1521,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation8_png",
@@ -1433,8 +1541,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_animation9_png",
@@ -1446,8 +1561,15 @@
       "footprint": null,
       "tags": [
         "tile",
-        "urban"
-      ]
+        "urban",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 172,
+        "frameH": 192
+      }
     },
     {
       "id": "assets_tiles_urban_Water_coasts_animation_png",
@@ -1517,9 +1639,99 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_076483e5_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_076483e5.png",
+      "fileName": "Obstacle_Urban_Prop_076483e5.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_08f98307_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_08f98307.png",
+      "fileName": "Obstacle_Urban_Prop_08f98307.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_0b03f02e_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_0b03f02e.png",
+      "fileName": "Obstacle_Urban_Prop_0b03f02e.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_14d8ec31_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_14d8ec31.png",
+      "fileName": "Obstacle_Urban_Prop_14d8ec31.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_162f599e_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_162f599e.png",
+      "fileName": "Obstacle_Urban_Prop_162f599e.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Prop_247d5eb5_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Prop_247d5eb5.png",
       "fileName": "Obstacle_Urban_Prop_247d5eb5.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_2b6f735f_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_2b6f735f.png",
+      "fileName": "Obstacle_Urban_Prop_2b6f735f.png",
       "ext": "png",
       "type": "obstacle",
       "theme": "urban",
@@ -1547,9 +1759,39 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_3278bfec_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_3278bfec.png",
+      "fileName": "Obstacle_Urban_Prop_3278bfec.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Prop_34a10abb_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png",
       "fileName": "Obstacle_Urban_Prop_34a10abb.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_38a709a5_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_38a709a5.png",
+      "fileName": "Obstacle_Urban_Prop_38a709a5.png",
       "ext": "png",
       "type": "obstacle",
       "theme": "urban",
@@ -1622,6 +1864,36 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_6524b622_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_6524b622.png",
+      "fileName": "Obstacle_Urban_Prop_6524b622.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_68f47d7c_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_68f47d7c.png",
+      "fileName": "Obstacle_Urban_Prop_68f47d7c.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Prop_7725e0b7_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Prop_7725e0b7.png",
       "fileName": "Obstacle_Urban_Prop_7725e0b7.png",
@@ -1637,9 +1909,99 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_786c0f3a_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_786c0f3a.png",
+      "fileName": "Obstacle_Urban_Prop_786c0f3a.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_7eaf67b8_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_7eaf67b8.png",
+      "fileName": "Obstacle_Urban_Prop_7eaf67b8.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_8bc2f606_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_8bc2f606.png",
+      "fileName": "Obstacle_Urban_Prop_8bc2f606.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Prop_8d64a4eb_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Prop_8d64a4eb.png",
       "fileName": "Obstacle_Urban_Prop_8d64a4eb.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_92c0f35a_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_92c0f35a.png",
+      "fileName": "Obstacle_Urban_Prop_92c0f35a.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_94fd0651_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_94fd0651.png",
+      "fileName": "Obstacle_Urban_Prop_94fd0651.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_95096f7f_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png",
+      "fileName": "Obstacle_Urban_Prop_95096f7f.png",
       "ext": "png",
       "type": "obstacle",
       "theme": "urban",
@@ -1682,9 +2044,84 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_a7e47133_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_a7e47133.png",
+      "fileName": "Obstacle_Urban_Prop_a7e47133.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_ab4081d7_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_ab4081d7.png",
+      "fileName": "Obstacle_Urban_Prop_ab4081d7.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_b238d5ef_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_b238d5ef.png",
+      "fileName": "Obstacle_Urban_Prop_b238d5ef.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Prop_bea5c318_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png",
       "fileName": "Obstacle_Urban_Prop_bea5c318.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_c6521eb2_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_c6521eb2.png",
+      "fileName": "Obstacle_Urban_Prop_c6521eb2.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_d016b68c_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_d016b68c.png",
+      "fileName": "Obstacle_Urban_Prop_d016b68c.png",
       "ext": "png",
       "type": "obstacle",
       "theme": "urban",
@@ -1712,9 +2149,39 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_dd3edbb6_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_dd3edbb6.png",
+      "fileName": "Obstacle_Urban_Prop_dd3edbb6.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Prop_e8851ee9_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Prop_e8851ee9.png",
       "fileName": "Obstacle_Urban_Prop_e8851ee9.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Prop_f02f29b1_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Prop_f02f29b1.png",
+      "fileName": "Obstacle_Urban_Prop_f02f29b1.png",
       "ext": "png",
       "type": "obstacle",
       "theme": "urban",
@@ -1757,6 +2224,36 @@
       ]
     },
     {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_2b191cc6_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_2b191cc6.png",
+      "fileName": "Obstacle_Urban_Strip_2b191cc6.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_3ef9a1b8_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_3ef9a1b8.png",
+      "fileName": "Obstacle_Urban_Strip_3ef9a1b8.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip"
+      ]
+    },
+    {
       "id": "assets_obstacles_urban_Obstacle_Urban_Strip_5e95a194_png",
       "path": "assets/obstacles/urban/Obstacle_Urban_Strip_5e95a194.png",
       "fileName": "Obstacle_Urban_Strip_5e95a194.png",
@@ -1783,6 +2280,65 @@
       "tags": [
         "obstacle",
         "urban",
+        "strip",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 96,
+        "frameH": 96
+      }
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_9ef7b88e_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_9ef7b88e.png",
+      "fileName": "Obstacle_Urban_Strip_9ef7b88e.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 3,
+        "frameW": 16,
+        "frameH": 16
+      }
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_a06db329_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_a06db329.png",
+      "fileName": "Obstacle_Urban_Strip_a06db329.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "strip"
+      ]
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Strip_d81af864_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Strip_d81af864.png",
+      "fileName": "Obstacle_Urban_Strip_d81af864.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "strip",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
         "strip"
       ]
     },
@@ -1798,7 +2354,29 @@
       "tags": [
         "obstacle",
         "urban",
-        "strip"
+        "strip",
+        "spriteSheet"
+      ],
+      "spriteSheet": {
+        "layout": "horizontal",
+        "columns": 4,
+        "frameW": 54,
+        "frameH": 57
+      }
+    },
+    {
+      "id": "assets_obstacles_urban_Obstacle_Urban_Tree_d8c014dc_png",
+      "path": "assets/obstacles/urban/Obstacle_Urban_Tree_d8c014dc.png",
+      "fileName": "Obstacle_Urban_Tree_d8c014dc.png",
+      "ext": "png",
+      "type": "obstacle",
+      "theme": "urban",
+      "obstacleKind": "crate",
+      "footprint": null,
+      "tags": [
+        "obstacle",
+        "urban",
+        "crate"
       ]
     },
     {
@@ -1954,6 +2532,22 @@
         "ui",
         "buttons"
       ]
+    },
+    {
+      "id": "assets_units_urban_Unit_Urban_Sprite_5e94630f_png",
+      "path": "assets/units/urban/Unit_Urban_Sprite_5e94630f.png",
+      "fileName": "Unit_Urban_Sprite_5e94630f.png",
+      "ext": "png",
+      "type": "unit",
+      "unitKind": "soldier",
+      "theme": "urban",
+      "footprint": null,
+      "gunClass": null,
+      "tags": [
+        "unit",
+        "urban",
+        "mapSprite"
+      ]
     }
   ],
   "index": {
@@ -1975,6 +2569,7 @@
         "assets/buildings/medium/Building_Urban_Medium_343b2d7b.png",
         "assets/buildings/medium/Building_Urban_Medium_86e9833e.png",
         "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
+        "assets/buildings/medium/Building_Urban_Medium_b77a3b56.png",
         "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png"
       ],
       "large": [
@@ -2091,11 +2686,64 @@
       ],
       "grass": []
     },
+    "unitsByTheme": {
+      "urban": [
+        "assets/units/urban/Unit_Urban_Sprite_5e94630f.png"
+      ],
+      "desert": [],
+      "grass": []
+    },
+    "vehicles": [],
     "obstaclesByTheme": {
       "urban": [
         {
           "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_03496e70.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_076483e5.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_08f98307.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_0b03f02e.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_14d8ec31.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_162f599e.png",
           "tags": [
             "obstacle",
             "urban",
@@ -2113,6 +2761,15 @@
         },
         {
           "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_2b6f735f.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png",
           "tags": [
             "obstacle",
@@ -2122,7 +2779,25 @@
         },
         {
           "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_3278bfec.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_38a709a5.png",
           "tags": [
             "obstacle",
             "urban",
@@ -2167,6 +2842,24 @@
         },
         {
           "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_6524b622.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_68f47d7c.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_7725e0b7.png",
           "tags": [
             "obstacle",
@@ -2176,7 +2869,61 @@
         },
         {
           "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_786c0f3a.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_7eaf67b8.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_8bc2f606.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_8d64a4eb.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_92c0f35a.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_94fd0651.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png",
           "tags": [
             "obstacle",
             "urban",
@@ -2203,7 +2950,52 @@
         },
         {
           "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_a7e47133.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_ab4081d7.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_b238d5ef.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_c6521eb2.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_d016b68c.png",
           "tags": [
             "obstacle",
             "urban",
@@ -2221,7 +3013,25 @@
         },
         {
           "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_dd3edbb6.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_e8851ee9.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_f02f29b1.png",
           "tags": [
             "obstacle",
             "urban",
@@ -2248,6 +3058,24 @@
         },
         {
           "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_2b191cc6.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_3ef9a1b8.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip"
+          ]
+        },
+        {
+          "kind": "strip",
           "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_5e95a194.png",
           "tags": [
             "obstacle",
@@ -2261,6 +3089,35 @@
           "tags": [
             "obstacle",
             "urban",
+            "strip",
+            "spriteSheet"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_9ef7b88e.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip",
+            "spriteSheet"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_a06db329.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "strip"
+          ]
+        },
+        {
+          "kind": "strip",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Strip_d81af864.png",
+          "tags": [
+            "obstacle",
+            "urban",
             "strip"
           ]
         },
@@ -2270,7 +3127,17 @@
           "tags": [
             "obstacle",
             "urban",
-            "strip"
+            "strip",
+            "spriteSheet"
+          ]
+        },
+        {
+          "kind": "crate",
+          "sprite": "assets/obstacles/urban/Obstacle_Urban_Tree_d8c014dc.png",
+          "tags": [
+            "obstacle",
+            "urban",
+            "crate"
           ]
         }
       ],
@@ -2351,6 +3218,11 @@
         }
       ]
     },
+    "interiorFurnitureByTheme": {
+      "urban": [],
+      "desert": [],
+      "grass": []
+    },
     "buildingsByThemeFootprint": {
       "urban": {
         "small": [],
@@ -2362,6 +3234,7 @@
           "assets/buildings/medium/Building_Urban_Medium_343b2d7b.png",
           "assets/buildings/medium/Building_Urban_Medium_86e9833e.png",
           "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
+          "assets/buildings/medium/Building_Urban_Medium_b77a3b56.png",
           "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png"
         ],
         "large": [

@@ -1,0 +1,41 @@
+{
+  "id": "map_warden_mixed",
+  "name": "Factory District",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","forest","forest","plains","plains","plains","plains","forest","forest","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","plains","plains","urban","urban","urban","urban","urban","urban","plains","plains","plains"],
+    ["plains","hill","plains","urban","urban","urban","urban","urban","urban","plains","hill","plains"],
+    ["plains","hill","plains","urban","urban","plains","plains","urban","urban","plains","hill","plains"],
+    ["plains","plains","plains","urban","urban","urban","urban","urban","urban","plains","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","plains","forest","forest","plains","plains","plains","plains","forest","forest","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"]
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":10,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":7},
+    {"templateId":"opfor_tank","owner":1,"x":11,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":9,"y":5}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":4},{"x":2,"y":5}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":4},{"x":2,"y":5}
+  ],
+  "p2DeploymentSlots": [
+    {"x":11,"y":2},{"x":11,"y":4},{"x":11,"y":5},{"x":11,"y":7},
+    {"x":10,"y":4},{"x":10,"y":5},{"x":9,"y":4},{"x":9,"y":5}
+  ]
+}

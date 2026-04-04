@@ -289,6 +289,15 @@ export function drawGrid(ctx, game, tileTypes, options) {
     }
   }
 
+  /* ── LOS shadow (tiles hidden behind cover from selected unit) ── */
+  if (options.losShadowCells?.size) {
+    ctx.fillStyle = "rgba(10, 16, 28, 0.4)";
+    for (const k of options.losShadowCells) {
+      const [tx, ty] = k.split(",").map(Number);
+      ctx.fillRect(tx * cs + 2, ty * cs + 2, cs - 4, cs - 4);
+    }
+  }
+
   /* ── Attack range ring (orange, no-target preview) ── */
   if (options.attackRange?.size) {
     ctx.fillStyle = "rgba(255,140,0,0.15)";

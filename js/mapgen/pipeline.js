@@ -4,7 +4,7 @@
 
 import { moveCostAt } from "../engine/terrain.js";
 import { generateFoundation } from "./foundation.js";
-import { applyDividerRule } from "./dividerRule.js";
+import { applyDividerRule, buildFlowConnectorLayer } from "./dividerRule.js";
 import { computeProtectedRibbon } from "./corridor.js";
 import { placeTacticalAssets } from "./tacticalAssets.js";
 import { mulberry32 } from "./rng.js";
@@ -101,6 +101,7 @@ export function generateProceduralScenario(spec) {
 
     const skirmishDeploy = playerSpawns.map(([x, y]) => ({ x, y }));
     const presetEnemies = defaultPresetEnemies(width, height, terrain, tileTypes);
+    const flowConnectors = buildFlowConnectorLayer(terrain, profile, assetManifest, theme);
 
     /** @type {object} */
     const scenario = {
@@ -120,6 +121,7 @@ export function generateProceduralScenario(spec) {
         seed: s,
         theme,
         dividerConnectorCount: div.connectorLog.length,
+        flowConnectors,
       },
       winCondition: { type: "eliminate" },
       fogOfWar: false,

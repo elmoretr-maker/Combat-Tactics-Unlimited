@@ -1,0 +1,94 @@
+
+======== Map migration run 2026-04-04T20:31:46.973Z ========
+[2026-04-04T20:31:46.999Z] OK map_compact_urban (urban) seed=1840376525
+[2026-04-04T20:31:47.000Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:47.000Z]   River/flow AFTER:  waterCells=7 flowLayers=7 variants={"end_e":1,"straight_ew":5,"end_w":1}
+[2026-04-04T20:31:47.001Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_urban__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_urban.json
+[2026-04-04T20:31:47.012Z] OK map_compact_desert (desert) seed=3782825190
+[2026-04-04T20:31:47.015Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:47.016Z]   River/flow AFTER:  waterCells=8 flowLayers=8 variants={"end_e":1,"straight_ew":6,"end_w":1}
+[2026-04-04T20:31:47.017Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_desert__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_desert.json
+[2026-04-04T20:31:47.018Z] Migration pass complete.
+
+======== Map migration run 2026-04-04T20:31:52.301Z ========
+[2026-04-04T20:31:52.326Z] OK map_compact_urban (urban) seed=1840376525
+[2026-04-04T20:31:52.327Z]   River/flow BEFORE: waterCells=7 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.327Z]   River/flow AFTER:  waterCells=7 flowLayers=7 variants={"end_e":1,"straight_ew":5,"end_w":1}
+[2026-04-04T20:31:52.328Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_urban__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_urban.json
+[2026-04-04T20:31:52.344Z] OK map_compact_wild (grass) seed=2676573411
+[2026-04-04T20:31:52.344Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.345Z]   River/flow AFTER:  waterCells=7 flowLayers=7 variants={"end_e":2,"straight_ew":3,"end_w":2}
+[2026-04-04T20:31:52.345Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_wild__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_wild.json
+[2026-04-04T20:31:52.357Z] OK map_compact_desert (desert) seed=3782825190
+[2026-04-04T20:31:52.358Z]   River/flow BEFORE: waterCells=8 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.358Z]   River/flow AFTER:  waterCells=8 flowLayers=8 variants={"end_e":1,"straight_ew":6,"end_w":1}
+[2026-04-04T20:31:52.358Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_desert__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_desert.json
+[2026-04-04T20:31:52.368Z] OK map_compact_arctic (grass) seed=2122988219
+[2026-04-04T20:31:52.368Z]   River/flow BEFORE: waterCells=12 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.369Z]   River/flow AFTER:  waterCells=8 flowLayers=8 variants={"end_e":1,"straight_ew":6,"end_w":1}
+[2026-04-04T20:31:52.369Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_arctic__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_arctic.json
+[2026-04-04T20:31:52.376Z] OK map_compact_mixed (urban) seed=3503903606
+[2026-04-04T20:31:52.377Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.378Z]   River/flow AFTER:  waterCells=8 flowLayers=8 variants={"end_e":1,"straight_ew":6,"end_w":1}
+[2026-04-04T20:31:52.378Z]   Archived: js\config\scenarios\maps\archive_for_review\map_compact_mixed__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_compact_mixed.json
+[2026-04-04T20:31:52.393Z] OK map_warden_urban (urban) seed=1603852259
+[2026-04-04T20:31:52.394Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.394Z]   River/flow AFTER:  waterCells=8 flowLayers=8 variants={"isolated":2,"end_e":1,"straight_ew":4,"end_w":1}
+[2026-04-04T20:31:52.395Z]   Archived: js\config\scenarios\maps\archive_for_review\map_warden_urban__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_warden_urban.json
+[2026-04-04T20:31:52.409Z] OK map_warden_wild (grass) seed=2955729373
+[2026-04-04T20:31:52.410Z]   River/flow BEFORE: waterCells=8 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.410Z]   River/flow AFTER:  waterCells=8 flowLayers=8 variants={"end_e":2,"end_w":2,"straight_ew":3,"isolated":1}
+[2026-04-04T20:31:52.410Z]   Archived: js\config\scenarios\maps\archive_for_review\map_warden_wild__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_warden_wild.json
+[2026-04-04T20:31:52.429Z] OK map_warden_desert (desert) seed=2730078308
+[2026-04-04T20:31:52.430Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.431Z]   River/flow AFTER:  waterCells=10 flowLayers=10 variants={"end_e":1,"straight_ew":8,"end_w":1}
+[2026-04-04T20:31:52.432Z]   Archived: js\config\scenarios\maps\archive_for_review\map_warden_desert__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_warden_desert.json
+[2026-04-04T20:31:52.445Z] OK map_warden_arctic (grass) seed=205380325
+[2026-04-04T20:31:52.447Z]   River/flow BEFORE: waterCells=16 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.448Z]   River/flow AFTER:  waterCells=10 flowLayers=10 variants={"end_e":1,"straight_ew":8,"end_w":1}
+[2026-04-04T20:31:52.449Z]   Archived: js\config\scenarios\maps\archive_for_review\map_warden_arctic__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_warden_arctic.json
+[2026-04-04T20:31:52.463Z] OK map_warden_mixed (urban) seed=1665400384
+[2026-04-04T20:31:52.464Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.465Z]   River/flow AFTER:  waterCells=9 flowLayers=9 variants={"end_e":2,"straight_ew":5,"end_w":2}
+[2026-04-04T20:31:52.466Z]   Archived: js\config\scenarios\maps\archive_for_review\map_warden_mixed__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_warden_mixed.json
+[2026-04-04T20:31:52.504Z] OK map_sector_urban (urban) seed=493365224
+[2026-04-04T20:31:52.504Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.505Z]   River/flow AFTER:  waterCells=13 flowLayers=14 variants={"isolated":1,"end_e":1,"straight_ew":11,"end_w":1}
+[2026-04-04T20:31:52.505Z]   Archived: js\config\scenarios\maps\archive_for_review\map_sector_urban__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_sector_urban.json
+[2026-04-04T20:31:52.533Z] OK map_sector_wild (grass) seed=557936000
+[2026-04-04T20:31:52.534Z]   River/flow BEFORE: waterCells=16 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.534Z]   River/flow AFTER:  waterCells=13 flowLayers=14 variants={"end_e":1,"straight_ew":11,"end_w":1,"isolated":1}
+[2026-04-04T20:31:52.535Z]   Archived: js\config\scenarios\maps\archive_for_review\map_sector_wild__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_sector_wild.json
+[2026-04-04T20:31:52.569Z] OK map_sector_desert (desert) seed=3676645029
+[2026-04-04T20:31:52.570Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.570Z]   River/flow AFTER:  waterCells=11 flowLayers=12 variants={"isolated":1,"end_e":3,"end_w":3,"straight_ew":5}
+[2026-04-04T20:31:52.571Z]   Archived: js\config\scenarios\maps\archive_for_review\map_sector_desert__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_sector_desert.json
+[2026-04-04T20:31:52.595Z] OK map_sector_arctic (grass) seed=1230476224
+[2026-04-04T20:31:52.596Z]   River/flow BEFORE: waterCells=32 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.597Z]   River/flow AFTER:  waterCells=12 flowLayers=13 variants={"end_e":1,"straight_ew":10,"end_w":1,"isolated":1}
+[2026-04-04T20:31:52.598Z]   Archived: js\config\scenarios\maps\archive_for_review\map_sector_arctic__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_sector_arctic.json
+[2026-04-04T20:31:52.626Z] OK map_sector_mixed (urban) seed=1308939435
+[2026-04-04T20:31:52.626Z]   River/flow BEFORE: waterCells=28 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.627Z]   River/flow AFTER:  waterCells=13 flowLayers=14 variants={"end_e":2,"straight_ew":9,"end_w":2,"isolated":1}
+[2026-04-04T20:31:52.627Z]   Archived: js\config\scenarios\maps\archive_for_review\map_sector_mixed__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_sector_mixed.json
+[2026-04-04T20:31:52.705Z] OK map_theater_urban (urban) seed=557975001
+[2026-04-04T20:31:52.706Z]   River/flow BEFORE: waterCells=0 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.706Z]   River/flow AFTER:  waterCells=15 flowLayers=16 variants={"end_e":3,"straight_ew":9,"end_w":3,"isolated":1}
+[2026-04-04T20:31:52.707Z]   Archived: js\config\scenarios\maps\archive_for_review\map_theater_urban__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_theater_urban.json
+[2026-04-04T20:31:52.777Z] OK map_theater_wild (grass) seed=2967999871
+[2026-04-04T20:31:52.778Z]   River/flow BEFORE: waterCells=44 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.778Z]   River/flow AFTER:  waterCells=16 flowLayers=17 variants={"isolated":1,"end_e":3,"end_w":3,"straight_ew":10}
+[2026-04-04T20:31:52.779Z]   Archived: js\config\scenarios\maps\archive_for_review\map_theater_wild__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_theater_wild.json
+[2026-04-04T20:31:52.887Z] OK map_theater_desert (desert) seed=2413282106
+[2026-04-04T20:31:52.888Z]   River/flow BEFORE: waterCells=24 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:52.889Z]   River/flow AFTER:  waterCells=18 flowLayers=19 variants={"end_e":1,"straight_ew":16,"end_w":1,"isolated":1}
+[2026-04-04T20:31:52.890Z]   Archived: js\config\scenarios\maps\archive_for_review\map_theater_desert__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_theater_desert.json
+[2026-04-04T20:31:53.057Z] OK map_theater_arctic (grass) seed=1016119159
+[2026-04-04T20:31:53.057Z]   River/flow BEFORE: waterCells=54 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:53.058Z]   River/flow AFTER:  waterCells=18 flowLayers=19 variants={"isolated":1,"end_e":1,"straight_ew":16,"end_w":1}
+[2026-04-04T20:31:53.059Z]   Archived: js\config\scenarios\maps\archive_for_review\map_theater_arctic__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_theater_arctic.json
+[2026-04-04T20:31:53.172Z] OK map_theater_mixed (urban) seed=2348285450
+[2026-04-04T20:31:53.173Z]   River/flow BEFORE: waterCells=16 (hand terrain; no flowConnectors)
+[2026-04-04T20:31:53.174Z]   River/flow AFTER:  waterCells=17 flowLayers=18 variants={"end_e":2,"straight_ew":13,"end_w":2,"isolated":1}
+[2026-04-04T20:31:53.176Z]   Archived: js\config\scenarios\maps\archive_for_review\map_theater_mixed__pre_v2.json → wrote v2 → js\config\scenarios\maps\map_theater_mixed.json
+[2026-04-04T20:31:53.176Z] Migration pass complete.

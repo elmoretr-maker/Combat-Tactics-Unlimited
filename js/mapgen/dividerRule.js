@@ -10,9 +10,124 @@ import { findPath } from "../engine/astar.js";
 import { mapObjectBlocksMoveAt } from "../battle-plane/mapObjects.js";
 import { BLOCKED_MOVE_COST } from "../battle-plane/pathfindingCost.js";
 import { gridFromTerrain, terrainCostAt } from "./gridCost.js";
+import { resolveFlowConnectorAsset } from "./assetQuery.js";
 
 function key(x, y) {
   return `${x},${y}`;
+}
+
+/* ── River / road cardinal bitmask (same-type 4-neighbor connectivity) ─────
+ * Bits: N=1, E=2, S=4, W=8. y-1 = north, x+1 = east, y+1 = south, x-1 = west.
+ * Variant ids match manifest `flowVariant` / tag `flow:<variant>` for Tile_*WaterStrip* etc.
+ */
+export const FLOW_BIT_N = 1;
+export const FLOW_BIT_E = 2;
+export const FLOW_BIT_S = 4;
+export const FLOW_BIT_W = 8;
+
+/**
+ * Full 4-bit neighbor mask → connector topology id (for manifest lookup).
+ * 1 neighbor = end cap; 2 opposite = straight; 2 adjacent = corner; 3 = T; 4 = cross.
+ */
+export const FLOW_VARIANT_BY_MASK = Object.freeze({
+  0: "isolated",
+  1: "end_n",
+  2: "end_e",
+  4: "end_s",
+  8: "end_w",
+  5: "straight_ns",
+  10: "straight_ew",
+  3: "corner_ne",
+  6: "corner_se",
+  9: "corner_nw",
+  12: "corner_sw",
+  7: "t_nes",
+  11: "t_new",
+  13: "t_nsw",
+  14: "t_esw",
+  15: "cross",
+});
+
+/**
+ * @param {Set<string>|string[]} sameTerrainIds terrain strings that count as “connected” for this layer
+ * @returns {number} mask 0–15
+ */
+export function computeCardinalFlowMask(terrain, x, y, sameTerrainIds) {
+  const h = terrain.length;
+  const w = h ? terrain[0].length : 0;
+  const set = sameTerrainIds instanceof Set ? sameTerrainIds : new Set(sameTerrainIds);
+  const t = (nx, ny) => {
+    if (nx < 0 || ny < 0 || nx >= w || ny >= h) return false;
+    return set.has(terrain[ny][nx]);
+  };
+  let m = 0;
+  if (t(x, y - 1)) m |= FLOW_BIT_N;
+  if (t(x + 1, y)) m |= FLOW_BIT_E;
+  if (t(x, y + 1)) m |= FLOW_BIT_S;
+  if (t(x - 1, y)) m |= FLOW_BIT_W;
+  return m;
+}
+
+export function flowConnectorVariantFromMask(mask) {
+  const v = FLOW_VARIANT_BY_MASK[mask];
+  return v ?? "isolated";
+}
+
+/**
+ * Per-cell flow/road connector hints for rendering (bitmask + optional manifest path / sheet frame).
+ * @param {string[][]} terrain
+ * @param {{ dividerTypes?: string[], roadTerrain?: string }} profile from theme profile
+ * @param {object|null|undefined} manifest
+ * @param {"urban"|"desert"|"grass"} themeId
+ * @returns {{ x: number, y: number, terrainId: string, mask: number, variant: string, spritePath: (string|null), spriteSheetFrame: number }[]}
+ */
+export function buildFlowConnectorLayer(terrain, profile, manifest, themeId) {
+  const dividerTypes = profile.dividerTypes ?? ["water"];
+  const roadTerrain = profile.roadTerrain ?? "road";
+  const waterSet = new Set(dividerTypes);
+  const roadSet = new Set([roadTerrain].filter(Boolean));
+
+  const h = terrain.length;
+  const w = h ? terrain[0].length : 0;
+  const out = [];
+
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const tid = terrain[y][x];
+      if (waterSet.has(tid)) {
+        const mask = computeCardinalFlowMask(terrain, x, y, waterSet);
+        const variant = flowConnectorVariantFromMask(mask);
+        const resolved = resolveFlowConnectorAsset(manifest, themeId, variant, {
+          flowKind: "water",
+        });
+        out.push({
+          x,
+          y,
+          terrainId: tid,
+          mask,
+          variant,
+          spritePath: resolved?.path ?? null,
+          spriteSheetFrame: resolved?.spriteSheetFrame ?? mask,
+        });
+      } else if (roadSet.has(tid)) {
+        const mask = computeCardinalFlowMask(terrain, x, y, roadSet);
+        const variant = flowConnectorVariantFromMask(mask);
+        const resolved = resolveFlowConnectorAsset(manifest, themeId, variant, {
+          flowKind: "road",
+        });
+        out.push({
+          x,
+          y,
+          terrainId: tid,
+          mask,
+          variant,
+          spritePath: resolved?.path ?? null,
+          spriteSheetFrame: resolved?.spriteSheetFrame ?? mask,
+        });
+      }
+    }
+  }
+  return out;
 }
 
 function cloneTerrain(terrain) {

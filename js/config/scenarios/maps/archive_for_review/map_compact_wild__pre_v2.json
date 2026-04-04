@@ -1,0 +1,38 @@
+{
+  "id": "map_compact_wild",
+  "name": "Woodpecker Hill",
+  "width": 10,
+  "height": 8,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["plains","forest","forest","forest","forest","forest","forest","forest","forest","plains"],
+    ["plains","forest","hill","hill","forest","forest","hill","hill","forest","plains"],
+    ["road","road","road","plains","plains","plains","plains","road","road","road"],
+    ["plains","forest","plains","plains","plains","plains","plains","plains","forest","plains"],
+    ["plains","forest","plains","plains","plains","plains","plains","plains","forest","plains"],
+    ["road","road","road","plains","plains","plains","plains","road","road","road"],
+    ["plains","forest","hill","hill","forest","forest","hill","hill","forest","plains"],
+    ["plains","forest","forest","forest","forest","forest","forest","forest","forest","plains"]
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":8,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":8,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":8,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":8,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":7,"y":3}
+  ],
+  "skirmishDeploy": [
+    {"x":1,"y":2},{"x":1,"y":3},{"x":1,"y":4},{"x":1,"y":5},
+    {"x":2,"y":3},{"x":2,"y":4},{"x":3,"y":3},{"x":3,"y":4}
+  ],
+  "p1DeploymentSlots": [
+    {"x":1,"y":2},{"x":1,"y":3},{"x":1,"y":4},{"x":1,"y":5},
+    {"x":2,"y":3},{"x":2,"y":4},{"x":3,"y":3},{"x":3,"y":4}
+  ],
+  "p2DeploymentSlots": [
+    {"x":8,"y":2},{"x":8,"y":3},{"x":8,"y":4},{"x":8,"y":5},
+    {"x":7,"y":3},{"x":7,"y":4},{"x":6,"y":3},{"x":6,"y":4}
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "map_theater_urban",
+  "name": "Fallen City",
+  "width": 20,
+  "height": 16,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"]
+  ],
+  "destructibles": [
+    {"x":1,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":5,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":6,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":13,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":14,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":17,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":18,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},{"x":2,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":17,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},{"x":18,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":17,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},{"x":18,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},{"x":2,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":17,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},{"x":18,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":14,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":14,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":17,"y":14,"hp":90,"brokenTerrain":"cp_rubble"},{"x":18,"y":14,"hp":90,"brokenTerrain":"cp_rubble"}
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":17,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":9},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":12},
+    {"templateId":"opfor_tank","owner":1,"x":18,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":18,"y":9},
+    {"templateId":"grunt_red","owner":1,"x":16,"y":7},
+    {"templateId":"grunt_red","owner":1,"x":16,"y":12}
+  ],
+  "skirmishDeploy": [
+    {"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":9},{"x":2,"y":12},
+    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":9},{"x":3,"y":12}
+  ],
+  "p1DeploymentSlots": [
+    {"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":9},{"x":2,"y":12},
+    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":9},{"x":3,"y":12}
+  ],
+  "p2DeploymentSlots": [
+    {"x":17,"y":3},{"x":17,"y":5},{"x":17,"y":9},{"x":17,"y":12},
+    {"x":16,"y":3},{"x":16,"y":5},{"x":16,"y":9},{"x":16,"y":12}
+  ]
+}

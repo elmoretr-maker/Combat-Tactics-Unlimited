@@ -13,10 +13,12 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import sharp from "sharp";
 import {
   analyzeImageVisual,
   isGenericFileName,
   planLibrarianRename,
+  planRenameForKeywordOverride,
 } from "./visual_analysis.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -25,6 +27,7 @@ const ROOT = path.join(__dirname, "..");
 const NEW_ARRIVALS = path.join(ROOT, "assets", "New_Arrivals");
 const MANIFEST_PATH = path.join(ROOT, "js", "config", "assetManifest.json");
 const VISUAL_REPORT_PATH = path.join(ROOT, "tools", "visual_assessment_report.json");
+const LIBRARIAN_LOG_PATH = path.join(ROOT, "tools", "librarian_log.txt");
 
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"]);
 
@@ -36,6 +39,54 @@ const FLAG_FILENAME_ONLY = ARGS.has("--filename-only");
 function obstacleThemeForPalette(theme) {
   if (theme === "desert" || theme === "grass") return theme;
   return "urban";
+}
+
+function appendLibrarianLog(message) {
+  const line = `[${new Date().toISOString()}] ${message}\n`;
+  fs.appendFileSync(LIBRARIAN_LOG_PATH, line, "utf8");
+}
+
+/**
+ * Filename keywords override visual dimensions. Checked after path+name joined.
+ * @returns {{ category: 'obstacle'|'unit', unitKind?: 'vehicle'|'soldier', obstacleKind?: string, reason: string } | null}
+ */
+function keywordOverrideCategory(fileName, relDirFromNewArrivals) {
+  const s = `${relDirFromNewArrivals}/${fileName}`.replace(/\\/g, "/").toLowerCase();
+  const base = path.basename(fileName, path.extname(fileName)).toLowerCase();
+  /* Underscores are \w in JS — \b fails for tmp_soldier_idle; use delimiter-aware tokens. */
+  const delimTok = (re) => re.test(base) || re.test(s);
+  if (delimTok(/(^|[_\-.])(vehicle|tank|plane)([_\-.]|$)/i) || /\b(vehicle|tank|plane)\b/.test(s)) {
+    return {
+      category: "unit",
+      unitKind: "vehicle",
+      reason:
+        "Keyword override: 'vehicle', 'tank', or 'plane' in filename/path → assets/units/vehicles (overrides visual dimensions).",
+    };
+  }
+  if (delimTok(/(^|[_\-.])(unit|soldier)([_\-.]|$)/i) || /\b(unit|soldier)\b/.test(s)) {
+    return {
+      category: "unit",
+      reason:
+        "Keyword override: 'unit' or 'soldier' in filename/path → category Unit (overrides visual dimensions).",
+    };
+  }
+  if (delimTok(/(^|[_\-.])(tree|bush)([_\-.]|$)/i) || /\b(tree|bush)\b/.test(s)) {
+    return {
+      category: "obstacle",
+      obstacleKind: "tree",
+      reason:
+        "Keyword override: 'tree' or 'bush' in filename/path → Obstacle/tree (overrides visual Building).",
+    };
+  }
+  if (delimTok(/(^|[_\-.])(rock|boulder|stone)([_\-.]|$)/i) || /\b(rock|boulder|stone)\b/.test(s)) {
+    return {
+      category: "obstacle",
+      obstacleKind: "ruins",
+      reason:
+        "Keyword override: 'rock', 'boulder', or 'stone' in filename/path → Obstacle/ruins (overrides visual Building).",
+    };
+  }
+  return null;
 }
 
 /* ── Gun classification (filename + relative path, case-insensitive) ─────────
@@ -120,6 +171,31 @@ function classifyObstacleKind(fileName) {
   if (/\bruin|ruins|rubble|wreck\b/.test(s)) return "ruins";
   if (/\brock|boulder|stone\b/.test(s)) return "ruins";
   return "crate";
+}
+
+/** Interior / scatter policy for obstacle props (manifest + generator). */
+function classifyPlacementRuleFromFileName(fileName) {
+  const s = fileName.toLowerCase();
+  if (/\b(debris|wreck|scrap|junk)\b/.test(s)) return "debris";
+  if (/\b(bed|bookcase|bookshelf|desk|shelf|wardrobe|dresser|cabinet)\b/.test(s)) {
+    return "wall_anchored";
+  }
+  if (/\b(table|rug|carpet|chair|sofa|couch|ottoman|stool)\b/.test(s)) {
+    return "central";
+  }
+  return null;
+}
+
+function applyTileFlowConnectorHints(record) {
+  const n = record.fileName || "";
+  if (!/waterstrip|water_strip|riverstrip|river_strip|roadstrip|road_strip|flowconnector/i.test(n)) {
+    return;
+  }
+  record.flowConnector = true;
+  record.flowKind = /roadstrip|road_strip|cp_road/i.test(n) ? "road" : "water";
+  const tags = new Set(record.tags || []);
+  tags.add("flowConnector");
+  record.tags = [...tags];
 }
 
 /**
@@ -209,6 +285,7 @@ function assetBucket(relRoot) {
   if (n === "assets/tiles" || n.startsWith("assets/tiles/")) return "tiles";
   if (n === "assets/obstacles" || n.startsWith("assets/obstacles/")) return "obstacles";
   if (n === "assets/ui" || n.startsWith("assets/ui/")) return "ui";
+  if (n === "assets/units" || n.startsWith("assets/units/")) return "units";
   return null;
 }
 
@@ -255,10 +332,56 @@ function promoteMisfiledFromObstacles() {
 }
 
 /**
+ * Re-home obstacle rasters that are clearly vehicles (mis-ingested tmp packs, etc.).
+ * Only filenames/paths containing vehicle/tank/plane tokens are moved — UUID-only
+ * Obstacle_* names cannot be recovered without re-dropping into New_Arrivals.
+ */
+function promoteVehiclesFromObstacles() {
+  const promoted = [];
+  const delim = (name, fullRel) => {
+    const base = path.basename(name, path.extname(name)).toLowerCase();
+    const s = `${fullRel}/${name}`.replace(/\\/g, "/").toLowerCase();
+    const tok = (re) => re.test(base) || re.test(s);
+    return (
+      tok(/(^|[_\-.])(vehicle|tank|plane)([_\-.]|$)/i) ||
+      /\b(vehicle|tank|plane)\b/.test(s) ||
+      /tmp_vehicle|vehicle_cell/i.test(s)
+    );
+  };
+
+  const destDir = path.join(ROOT, "assets", "units", "vehicles");
+  ensureDir(destDir);
+
+  for (const theme of ["urban", "desert", "grass"]) {
+    const dir = path.join(ROOT, "assets", "obstacles", theme);
+    if (!fs.existsSync(dir)) continue;
+    for (const name of fs.readdirSync(dir)) {
+      const ext = path.extname(name).toLowerCase();
+      if (!IMAGE_EXT.has(ext)) continue;
+      const full = path.join(dir, name);
+      if (!fs.statSync(full).isFile()) continue;
+      if (!delim(name, `assets/obstacles/${theme}`)) continue;
+
+      const dest = uniqueDest(path.join(destDir, name));
+      fs.renameSync(full, dest);
+      promoted.push({
+        from: `assets/obstacles/${theme}/${name}`,
+        to: posixRel(dest),
+      });
+      appendLibrarianLog(
+        `PROMOTE vehicle keyword: assets/obstacles/${theme}/${name} → ${posixRel(dest)}`,
+      );
+    }
+  }
+  return promoted;
+}
+
+/**
  * @param {{ visualAll?: boolean }} opts
  */
 async function ingestNewArrivals() {
   ensureDir(NEW_ARRIVALS);
+  ensureDir(path.dirname(LIBRARIAN_LOG_PATH));
   const moves = [];
   for (const { full, rel, name } of walkFiles(NEW_ARRIVALS, "")) {
     const ext = path.extname(name).toLowerCase();
@@ -268,14 +391,39 @@ async function ingestNewArrivals() {
     let outName = name;
     let plan = null;
     let visual = null;
+    const reasoning = [];
+    const kw = keywordOverrideCategory(name, rel);
+    const runSharp = IMAGE_EXT.has(ext) && (!FLAG_FILENAME_ONLY || kw);
 
-    const useVisual = !FLAG_FILENAME_ONLY && IMAGE_EXT.has(ext);
-    if (useVisual) {
+    if (runSharp) {
       try {
         visual = await analyzeImageVisual(full);
-        plan = planLibrarianRename(visual, name, ext);
-        cat = plan.category;
-        outName = plan.newFileName;
+        reasoning.push(
+          `Sharp: ${visual.width}×${visual.height}px, aspect ${visual.aspect}, dominant ${visual.dominantHex}, theme ${visual.theme}, inferredType ${visual.assetType}, alphaMean ${visual.meanAlpha}, transparencyHigh=${visual.transparencyHigh}`,
+        );
+        if (kw) {
+          plan = planRenameForKeywordOverride(
+            visual,
+            name,
+            ext,
+            kw.category === "obstacle"
+              ? { category: "obstacle", obstacleKind: kw.obstacleKind ?? "crate" }
+              : { category: "unit", unitKind: kw.unitKind },
+          );
+          cat = plan.category;
+          outName = plan.newFileName;
+          reasoning.push(kw.reason);
+          meta.keywordOverride = kw.category;
+        } else if (!FLAG_FILENAME_ONLY) {
+          plan = planLibrarianRename(visual, name, ext);
+          cat = plan.category;
+          outName = plan.newFileName;
+          reasoning.push(
+            `Visual+librarian rename → ${outName} (subtype ${plan.librarianSubtype}); visual alone would align with inferred ${visual.assetType}`,
+          );
+        } else {
+          reasoning.push("Filename-only mode: kept original name; Sharp run skipped except keyword paths above.");
+        }
         meta.visualAnalysis = {
           width: visual.width,
           height: visual.height,
@@ -286,10 +434,63 @@ async function ingestNewArrivals() {
           meanAlpha: visual.meanAlpha,
           transparencyHigh: visual.transparencyHigh,
         };
-        meta.librarianSubtype = plan.librarianSubtype;
+        if (plan) meta.librarianSubtype = plan.librarianSubtype;
       } catch (e) {
         console.warn("Visual analysis failed:", rel, e?.message || e);
+        reasoning.push(`Sharp error: ${e?.message || e}`);
+        const th =
+          classifyTileTheme(name, rel) === "desert"
+            ? "desert"
+            : /\bgrass\b/i.test(`${rel}/${name}`)
+              ? "grass"
+              : "urban";
+        visual = {
+          width: 1,
+          height: 1,
+          aspect: 1,
+          avgRgb: { r: 128, g: 128, b: 128 },
+          dominantHex: "#808080",
+          theme: th,
+          assetType: "obstacle",
+          gunClass: "rifle",
+          footprint: "medium",
+          meanAlpha: 255,
+          transparencyHigh: false,
+        };
+        meta.visualAnalysis = {
+          width: visual.width,
+          height: visual.height,
+          aspect: visual.aspect,
+          dominantHex: visual.dominantHex,
+          inferredTheme: visual.theme,
+          inferredType: visual.assetType,
+          meanAlpha: visual.meanAlpha,
+          transparencyHigh: visual.transparencyHigh,
+        };
+        if (kw) {
+          plan = planRenameForKeywordOverride(
+            visual,
+            name,
+            ext,
+            kw.category === "obstacle"
+              ? { category: "obstacle", obstacleKind: kw.obstacleKind ?? "crate" }
+              : { category: "unit", unitKind: kw.unitKind },
+          );
+          cat = plan.category;
+          outName = plan.newFileName;
+          meta.keywordOverride = kw.category;
+          meta.librarianSubtype = plan.librarianSubtype;
+          reasoning.push(`Stub theme ${th} used for keyword rename after Sharp failure.`);
+        } else if (!FLAG_FILENAME_ONLY) {
+          plan = planLibrarianRename(visual, name, ext);
+          cat = plan.category;
+          outName = plan.newFileName;
+          meta.librarianSubtype = plan.librarianSubtype;
+          reasoning.push(`Stub theme ${th} used for librarian rename after Sharp failure.`);
+        }
       }
+    } else if (IMAGE_EXT.has(ext)) {
+      reasoning.push("Filename-only ingest, no keyword override — using path heuristics only.");
     }
 
     if (cat === "gun") {
@@ -327,17 +528,36 @@ async function ingestNewArrivals() {
         uiKind: "buttons",
         tags: ["ui", "button"],
       };
+    } else if (cat === "unit") {
+      const paletteTheme = obstacleThemeForPalette(visual?.theme ?? classifyTileTheme(name, rel));
+      const isVehicle =
+        kw?.unitKind === "vehicle" || plan?.unitKind === "vehicle";
+      const subDir = isVehicle ? "vehicles" : paletteTheme;
+      destDir = path.join(ROOT, "assets", "units", subDir);
+      meta = {
+        ...meta,
+        type: "unit",
+        unitKind: isVehicle ? "vehicle" : "soldier",
+        theme: paletteTheme,
+        tags: isVehicle
+          ? ["unit", "vehicle", paletteTheme, "mapSprite"]
+          : ["unit", paletteTheme, "mapSprite"],
+      };
     } else {
       const theme = visual?.theme ?? classifyTileTheme(name, rel);
       const obstacleTheme = obstacleThemeForPalette(theme);
       const okind = plan?.obstacleKind ?? classifyObstacleKind(outName);
       destDir = path.join(ROOT, "assets", "obstacles", obstacleTheme);
+      const pr = classifyPlacementRuleFromFileName(outName);
+      const otags = [obstacleTheme, "obstacle", okind];
+      if (pr) otags.push(`placement:${pr}`);
       meta = {
         ...meta,
         type: "obstacle",
         theme: obstacleTheme,
         obstacleKind: okind,
-        tags: [obstacleTheme, "obstacle", okind],
+        placementRule: pr || undefined,
+        tags: otags,
       };
     }
 
@@ -345,7 +565,11 @@ async function ingestNewArrivals() {
     let destPath = path.join(destDir, outName);
     destPath = uniqueDest(destPath);
     fs.renameSync(full, destPath);
-    moves.push({ from: `New_Arrivals/${rel}`, to: posixRel(destPath), meta });
+    const logTo = posixRel(destPath);
+    appendLibrarianLog(
+      `MOVE New_Arrivals/${rel} → ${logTo} | ${reasoning.join(" || ")}`,
+    );
+    moves.push({ from: `New_Arrivals/${rel}`, to: logTo, meta });
   }
   return moves;
 }
@@ -386,6 +610,7 @@ function collectAssetsUnder(relRoot) {
       record.theme = theme;
       record.footprint = null;
       record.tags = ["tile", theme];
+      applyTileFlowConnectorHints(record);
     } else if (bucket === "obstacles") {
       const theme = rel.split("/")[2];
       record.type = "obstacle";
@@ -393,6 +618,11 @@ function collectAssetsUnder(relRoot) {
       record.obstacleKind = classifyObstacleKind(name);
       record.footprint = null;
       record.tags = ["obstacle", theme, record.obstacleKind];
+      const pr = classifyPlacementRuleFromFileName(name);
+      if (pr) {
+        record.placementRule = pr;
+        record.tags = [...record.tags, `placement:${pr}`];
+      }
     } else if (bucket === "ui") {
       const uiKind = rel.split("/")[2] || "misc";
       record.type = "ui";
@@ -400,6 +630,23 @@ function collectAssetsUnder(relRoot) {
       record.theme = null;
       record.footprint = null;
       record.tags = ["ui", uiKind];
+    } else if (bucket === "units") {
+      const ut = rel.split("/")[2] || "urban";
+      if (ut === "vehicles") {
+        record.type = "unit";
+        record.unitKind = "vehicle";
+        record.theme = obstacleThemeForPalette(classifyTileTheme(name, ""));
+        record.footprint = null;
+        record.gunClass = null;
+        record.tags = ["unit", "vehicle", record.theme, "mapSprite"];
+      } else {
+        record.type = "unit";
+        record.unitKind = "soldier";
+        record.theme = ut;
+        record.footprint = null;
+        record.gunClass = null;
+        record.tags = ["unit", ut, "mapSprite"];
+      }
     } else {
       continue;
     }
@@ -462,7 +709,10 @@ function buildIndex(assets) {
     guns: { handgun: [], rifle: [], machine_gun: [] },
     buildings: { small: [], medium: [], large: [], fortified: [] },
     tiles: { desert: [], urban: [], grass: [] },
+    unitsByTheme: { urban: [], desert: [], grass: [] },
+    vehicles: [],
     obstaclesByTheme: { urban: [], desert: [], grass: [] },
+    interiorFurnitureByTheme: { urban: [], desert: [], grass: [] },
     buildingsByThemeFootprint: {
       urban: { small: [], medium: [], large: [], fortified: [] },
       desert: { small: [], medium: [], large: [], fortified: [] },
@@ -485,12 +735,28 @@ function buildIndex(assets) {
       const th = a.theme && index.tiles[a.theme] ? a.theme : "urban";
       index.tiles[th].push(a.path);
     }
+    if (a.type === "unit") {
+      if (a.unitKind === "vehicle") {
+        index.vehicles.push(a.path);
+      } else {
+        const ut = a.theme && index.unitsByTheme[a.theme] ? a.theme : "urban";
+        index.unitsByTheme[ut].push(a.path);
+      }
+    }
     if (a.type === "obstacle" && index.obstaclesByTheme[a.theme]) {
-      index.obstaclesByTheme[a.theme].push({
+      const entry = {
         kind: a.obstacleKind,
         sprite: a.path,
         tags: a.tags,
-      });
+        placementRule: a.placementRule,
+      };
+      const pr = a.placementRule;
+      if (pr === "wall_anchored" || pr === "central") {
+        const th = a.theme && index.interiorFurnitureByTheme[a.theme] ? a.theme : "urban";
+        index.interiorFurnitureByTheme[th].push(entry);
+      } else {
+        index.obstaclesByTheme[a.theme].push(entry);
+      }
     }
   }
 
@@ -519,15 +785,50 @@ function scanUnmappedRoots() {
   return notes;
 }
 
-function rebuildManifest(priorFoundationHints) {
+async function enrichSpriteSheetMetadata(assets) {
+  for (const a of assets) {
+    const extl = (a.ext || "").toLowerCase();
+    if (!["png", "webp", "gif"].includes(extl)) continue;
+    const fp = path.join(ROOT, a.path.split("/").join(path.sep));
+    if (!fs.existsSync(fp)) continue;
+    try {
+      const m = await sharp(fp).metadata();
+      const w = m.width;
+      const h = m.height;
+      if (!w || !h || h < 12) continue;
+      const ratio = w / h;
+      /* Horizontal strips: e.g. 688×192 ≈ 3.6× — treat ratio ≥ 3 as multi-frame row */
+      if (ratio >= 3) {
+        const columns = Math.max(2, Math.min(64, Math.round(ratio)));
+        const frameW = Math.floor(w / columns);
+        if (frameW < 4) continue;
+        a.spriteSheet = {
+          layout: "horizontal",
+          columns,
+          frameW,
+          frameH: h,
+        };
+        const t = new Set(a.tags || []);
+        t.add("spriteSheet");
+        a.tags = [...t];
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
+async function rebuildManifest(priorFoundationHints) {
   const buckets = [
     collectAssetsUnder("assets/guns"),
     collectAssetsUnder("assets/buildings"),
     collectAssetsUnder("assets/tiles"),
     collectAssetsUnder("assets/obstacles"),
     collectAssetsUnder("assets/ui"),
+    collectAssetsUnder("assets/units"),
   ];
   const assets = buckets.flat();
+  await enrichSpriteSheetMetadata(assets);
   const index = buildIndex(assets);
   const foundationHints = {
     ...DEFAULT_FOUNDATION_HINTS,
@@ -689,9 +990,11 @@ async function main() {
     return;
   }
 
+  appendLibrarianLog(`======== catalog_assets run ========`);
   const moves = await ingestNewArrivals();
   const promoted = promoteMisfiledFromObstacles();
-  const manifest = rebuildManifest(priorHints);
+  const promotedVehicles = promoteVehiclesFromObstacles();
+  const manifest = await rebuildManifest(priorHints);
 
   console.log("CTU Asset Librarian");
   console.log("  New_Arrivals moves:", moves.length ? moves.length : "(none)");
@@ -703,6 +1006,13 @@ async function main() {
     promoted.length ? promoted.length : "(none)",
   );
   for (const p of promoted) {
+    console.log("   ", p.from, "→", p.to);
+  }
+  console.log(
+    "  Promoted (obstacles → units/vehicles):",
+    promotedVehicles.length ? promotedVehicles.length : "(none)",
+  );
+  for (const p of promotedVehicles) {
     console.log("   ", p.from, "→", p.to);
   }
   console.log("  Manifest:", MANIFEST_PATH);

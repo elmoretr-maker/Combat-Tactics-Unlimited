@@ -1,0 +1,41 @@
+{
+  "id": "map_warden_desert",
+  "name": "Outpost Bravo",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["desert","desert","hill","hill","hill","desert","desert","hill","hill","hill","desert","desert"],
+    ["desert","desert","desert","hill","desert","desert","desert","desert","hill","desert","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","urban","urban","urban","urban","desert","desert","desert","desert"],
+    ["desert","hill","desert","desert","urban","urban","urban","urban","desert","desert","hill","desert"],
+    ["desert","hill","desert","desert","urban","urban","urban","urban","desert","desert","hill","desert"],
+    ["desert","desert","desert","desert","urban","urban","urban","urban","desert","desert","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","hill","desert","desert","desert","desert","hill","desert","desert","desert"],
+    ["desert","desert","hill","hill","hill","desert","desert","hill","hill","hill","desert","desert"]
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":10,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":7},
+    {"templateId":"opfor_tank","owner":1,"x":11,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":9,"y":3}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":3},{"x":2,"y":6}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":3},{"x":2,"y":6}
+  ],
+  "p2DeploymentSlots": [
+    {"x":11,"y":2},{"x":11,"y":4},{"x":11,"y":5},{"x":11,"y":7},
+    {"x":10,"y":4},{"x":10,"y":5},{"x":9,"y":3},{"x":9,"y":6}
+  ]
+}

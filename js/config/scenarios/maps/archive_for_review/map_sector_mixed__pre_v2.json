@@ -1,0 +1,44 @@
+{
+  "id": "map_sector_mixed",
+  "name": "River Delta",
+  "width": 16,
+  "height": 12,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["plains","plains","forest","forest","plains","plains","plains","plains","plains","plains","forest","forest","plains","plains","plains","plains"],
+    ["plains","plains","forest","forest","water","water","plains","plains","water","water","forest","forest","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","water","water","plains","plains","water","water","plains","plains","plains","plains","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","hill","hill","plains","water","water","plains","plains","water","water","plains","hill","hill","plains","plains","plains"],
+    ["plains","hill","hill","plains","water","water","plains","plains","water","water","plains","hill","hill","plains","plains","plains"],
+    ["plains","plains","plains","plains","plains","plains","urban","urban","plains","plains","plains","plains","plains","plains","plains","plains"],
+    ["plains","plains","plains","plains","water","water","urban","urban","water","water","plains","plains","plains","plains","plains","plains"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["plains","hill","plains","plains","water","water","plains","plains","water","water","plains","hill","plains","plains","plains","plains"],
+    ["plains","plains","forest","forest","water","water","plains","plains","water","water","forest","forest","plains","plains","plains","plains"],
+    ["plains","plains","forest","forest","plains","plains","plains","plains","plains","plains","forest","forest","plains","plains","plains","plains"]
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":14,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":8},
+    {"templateId":"opfor_tank","owner":1,"x":15,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":15,"y":7},
+    {"templateId":"grunt_red","owner":1,"x":13,"y":6}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":8},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":1,"y":6},{"x":1,"y":7}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":8},
+    {"x":1,"y":4},{"x":1,"y":5},{"x":1,"y":6},{"x":1,"y":7}
+  ],
+  "p2DeploymentSlots": [
+    {"x":15,"y":3},{"x":15,"y":5},{"x":15,"y":6},{"x":15,"y":8},
+    {"x":14,"y":4},{"x":14,"y":5},{"x":14,"y":6},{"x":14,"y":7}
+  ]
+}

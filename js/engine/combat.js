@@ -1,4 +1,8 @@
-import { hasLineOfSight } from "./los.js";
+import { hasLineOfSight, isIndirectDeadzoneBlock } from "./los.js";
+import {
+  obstacleCoverNameAt,
+  OBSTACLE_COVER_DAMAGE_FACTOR,
+} from "../battle-plane/cover.js";
 
 /**
  * Chebyshev distance: max(|dx|, |dy|).
@@ -32,7 +36,9 @@ export function canAttack(attacker, target, allUnits, losCtx) {
   }
 
   const atkType = attacker.attackType || "direct";
-  if (atkType === "direct" && losCtx?.grid && losCtx?.tileTypes) {
+  const useLos =
+    atkType === "direct" && attacker.usesLos !== false;
+  if (useLos && losCtx?.grid && losCtx?.tileTypes) {
     const sightBudget =
       losCtx.sightBudget != null && Number.isFinite(losCtx.sightBudget)
         ? losCtx.sightBudget
@@ -49,6 +55,23 @@ export function canAttack(attacker, target, allUnits, losCtx) {
       return false;
     }
   }
+
+  if (atkType === "indirect" && losCtx?.grid && losCtx?.tileTypes) {
+    if (
+      isIndirectDeadzoneBlock(
+        losCtx.grid,
+        losCtx.tileTypes,
+        attacker.x,
+        attacker.y,
+        target.x,
+        target.y,
+        { mapObjects: losCtx.mapObjects },
+      )
+    ) {
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -68,32 +91,41 @@ export function resolveAttack(attacker, target, losCtx) {
     dmg = Math.max(1, Math.round(dmg * (1 - defBonus)));
   }
 
+  let protectedBy = null;
+  if (losCtx?.grid && losCtx?.tileTypes) {
+    const coverName = obstacleCoverNameAt(
+      losCtx.grid,
+      losCtx.tileTypes,
+      losCtx.mapObjects,
+      target.x,
+      target.y,
+    );
+    if (coverName) {
+      protectedBy = coverName;
+      dmg = Math.max(1, Math.round(dmg * OBSTACLE_COVER_DAMAGE_FACTOR));
+    }
+  }
+
   target.hp -= dmg;
-  return dmg;
+  return { dmg, protectedBy };
 }
 
 /**
- * Counter-attack: the struck unit fires back at 60% power if ALL conditions hold:
- *  1. unit.canCounter === true  (explicit per-unit flag; indirect units, medics, etc. set false)
- *  2. defender is still alive after being hit
- *  3. defender has NOT already attacked this turn
- *  4. attacker is within defender's weapon range (range min/max, sight range, LOS all apply)
- *  5. defender uses direct fire (indirect units physically cannot snap-return fire)
- *
- * Units with canCounter = false (mortar, artillery, medic) never return fire.
- * Returns actual HP removed from attacker (0 if no counter fired).
+ * Counter-attack: defender fires back at 60% power only if specialAbility is Counter-Attack
+ * (after being struck; same range / LOS / sight rules as canAttack).
  */
 export function resolveCounter(attacker, defender, losCtx) {
-  if (defender.hp <= 0) return 0;
-  /* Explicit opt-out — medic, mortar, artillery, etc. */
-  if (defender.canCounter === false) return 0;
-  if (defender.attackedThisTurn) return 0;
+  if (defender.hp <= 0) return { dmg: 0, protectedBy: null };
+  if (defender.specialAbility !== "Counter-Attack")
+    return { dmg: 0, protectedBy: null };
+  if (defender.attackedThisTurn) return { dmg: 0, protectedBy: null };
 
   const defType = defender.attackType || "direct";
-  if (defType !== "direct") return 0;
+  if (defType !== "direct") return { dmg: 0, protectedBy: null };
 
   /* Attacker must be within defender's own weapon range */
-  if (!canAttack(defender, attacker, [], losCtx)) return 0;
+  if (!canAttack(defender, attacker, [], losCtx))
+    return { dmg: 0, protectedBy: null };
 
   let dmg = Math.round((defender.damage ?? 20) * 0.6);
   const arm = attacker.armor ?? 0;
@@ -104,8 +136,23 @@ export function resolveCounter(attacker, defender, losCtx) {
     dmg = Math.max(1, Math.round(dmg * (1 - defBonus)));
   }
 
+  let protectedBy = null;
+  if (losCtx?.grid && losCtx?.tileTypes) {
+    const coverName = obstacleCoverNameAt(
+      losCtx.grid,
+      losCtx.tileTypes,
+      losCtx.mapObjects,
+      attacker.x,
+      attacker.y,
+    );
+    if (coverName) {
+      protectedBy = coverName;
+      dmg = Math.max(1, Math.round(dmg * OBSTACLE_COVER_DAMAGE_FACTOR));
+    }
+  }
+
   attacker.hp -= dmg;
-  return dmg;
+  return { dmg, protectedBy };
 }
 
 /** Pull defenseBonus from the terrain the unit is standing on. */

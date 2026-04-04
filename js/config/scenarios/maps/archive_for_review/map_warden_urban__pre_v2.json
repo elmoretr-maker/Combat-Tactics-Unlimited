@@ -1,0 +1,51 @@
+{
+  "id": "map_warden_urban",
+  "name": "Occupied District",
+  "width": 12,
+  "height": 10,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
+    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
+    ["cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road"],
+    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"]
+  ],
+  "destructibles": [
+    {"x":1,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":9,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":2,"hp":70,"brokenTerrain":"cp_rubble"},{"x":10,"y":2,"hp":70,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":9,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":9,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
+    {"x":1,"y":8,"hp":70,"brokenTerrain":"cp_rubble"},{"x":10,"y":8,"hp":70,"brokenTerrain":"cp_rubble"}
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":9,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":9,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":9,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":9,"y":7},
+    {"templateId":"opfor_tank","owner":1,"x":10,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":10,"y":7}
+  ],
+  "skirmishDeploy": [
+    {"x":2,"y":2},{"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":7},
+    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":7},{"x":1,"y":5}
+  ],
+  "p1DeploymentSlots": [
+    {"x":2,"y":2},{"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":7},
+    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":7},{"x":1,"y":5}
+  ],
+  "p2DeploymentSlots": [
+    {"x":9,"y":2},{"x":9,"y":3},{"x":9,"y":5},{"x":9,"y":7},
+    {"x":8,"y":3},{"x":8,"y":5},{"x":8,"y":7},{"x":10,"y":5}
+  ]
+}

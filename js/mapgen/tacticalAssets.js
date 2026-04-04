@@ -7,7 +7,10 @@ import { makeMapObject } from "../battle-plane/mapObjects.js";
 import { gridFromTerrain } from "./gridCost.js";
 import { hasTwoVertexDisjointPathsWithObjects } from "./dividerRule.js";
 import { shuffleInPlace } from "./rng.js";
-import { findBuildingsByThemeAndFootprint } from "./assetQuery.js";
+import {
+  findBuildingsByThemeAndFootprint,
+  interiorFurnitureKindsForTheme,
+} from "./assetQuery.js";
 
 function key(x, y) {
   return `${x},${y}`;
@@ -117,9 +120,98 @@ function tryPlaceOneBuilding(terrain, tileTypes, protectedRibbon, spawns, bw, bh
       footprint: cells.map(([x, y]) => ({ x, y })),
       entry: { x: ex, y: ey },
       facadeSprite,
+      interiorProps: [],
     };
   }
   return null;
+}
+
+function partitionBuildingWallsAndFloor(footprint) {
+  if (!footprint?.length) return { wall: new Set(), floor: new Set() };
+  const xs = footprint.map((c) => c.x);
+  const ys = footprint.map((c) => c.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const wall = new Set();
+  const floor = new Set();
+  for (const c of footprint) {
+    const k = key(c.x, c.y);
+    if (c.x === minX || c.x === maxX || c.y === minY || c.y === maxY) wall.add(k);
+    else floor.add(k);
+  }
+  return { wall, floor };
+}
+
+function neighKeys4(x, y) {
+  return [key(x + 1, y), key(x - 1, y), key(x, y + 1), key(x, y - 1)];
+}
+
+function wallAnchoredFloorCells(floor, wall) {
+  const out = [];
+  for (const k of floor) {
+    const [x, y] = k.split(",").map(Number);
+    if (neighKeys4(x, y).some((nk) => wall.has(nk))) out.push([x, y]);
+  }
+  return out;
+}
+
+/** “Central” = all four cardinals are interior floor (one tile clear of the wall ring). */
+function centralFloorCells(floor) {
+  const out = [];
+  for (const k of floor) {
+    const [x, y] = k.split(",").map(Number);
+    if (neighKeys4(x, y).every((nk) => floor.has(nk))) out.push([x, y]);
+  }
+  return out;
+}
+
+function placeInteriorFurniture(buildings, manifest, profile, rnd) {
+  if (!buildings.length || !manifest) return;
+  const themeKey = profile.id === "grass" ? "grass" : profile.id;
+  let pool = interiorFurnitureKindsForTheme(manifest, themeKey);
+  if (!pool.length) pool = interiorFurnitureKindsForTheme(manifest, "urban");
+  if (!pool.length) return;
+
+  const wallPool = pool.filter((p) => p.placementRule === "wall_anchored");
+  const centralPool = pool.filter((p) => p.placementRule === "central");
+
+  for (const b of buildings) {
+    if (!b.interiorProps) b.interiorProps = [];
+    const { wall, floor } = partitionBuildingWallsAndFloor(b.footprint);
+    if (floor.size === 0) continue;
+
+    const wa = wallAnchoredFloorCells(floor, wall);
+    const ce = centralFloorCells(floor);
+    shuffleInPlace(wa, rnd);
+    shuffleInPlace(ce, rnd);
+
+    b.interiorProps.length = 0;
+
+    if (wallPool.length && wa.length) {
+      const pick = wallPool[Math.floor(rnd() * wallPool.length)];
+      const [tx, ty] = wa[0];
+      b.interiorProps.push({
+        x: tx,
+        y: ty,
+        sprite: pick.sprite,
+        placementRule: pick.placementRule,
+        visualKind: pick.kind,
+      });
+    }
+    if (centralPool.length && ce.length) {
+      const pick = centralPool[Math.floor(rnd() * centralPool.length)];
+      const [tx, ty] = ce[0];
+      b.interiorProps.push({
+        x: tx,
+        y: ty,
+        sprite: pick.sprite,
+        placementRule: pick.placementRule,
+        visualKind: pick.kind,
+      });
+    }
+  }
 }
 
 /**
@@ -202,6 +294,8 @@ export function placeTacticalAssets(opts) {
       mapObjects.push(obj);
     }
   }
+
+  placeInteriorFurniture(buildings, assetManifest, profile, rnd);
 
   return { terrain, mapObjects, buildings };
 }

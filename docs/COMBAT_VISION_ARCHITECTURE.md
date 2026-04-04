@@ -20,7 +20,7 @@
 
 **App chrome:** `#app` header `.top-bar` uses `z-index: 100` (`ctu-metal.css`) so primary nav stays above the landing screen (`#screen-landing` is `z-index: 1` when active).
 
-**Battle / global:** tooltips, overlays, and loading layers use their own high values in `style.css` (50–300); they are **not** part of the landing stack.
+**Battle / global:** tooltips, overlays, and loading layers use their own high values in `css/style.css` (50–300); they are **not** part of the landing stack.
 
 ---
 
@@ -40,10 +40,10 @@ IDs preserved for **`main.js`**, **`wireLandingDock`**, and **`syncV2OpsLayer`**
 
 ## 3. Stylesheet load order
 
-1. `style.css` — base + landing details  
+1. `css/style.css` — base + landing details  
 2. `css/ctu-metal.css` — bitmap frame system, global `#app button`  
 3. `css/ctu-v2.css` — deploy module sizing/position  
-4. ~~**`css/ctu-landing-hud.css`**~~ — **removed** from the product; layer tokens live in `style.css` / `ctu-metal.css` for the current shell.
+4. ~~**`css/ctu-landing-hud.css`**~~ — **removed** from the product; layer tokens live in `css/style.css` / `ctu-metal.css` for the current shell.
 
 ---
 
@@ -75,5 +75,5 @@ IDs preserved for **`main.js`**, **`wireLandingDock`**, and **`syncV2OpsLayer`**
 ## 6. Future work (out of scope for this pass)
 
 - No new gameplay features until this structure is stable.  
-- Optional: split more landing rules from `style.css` into `ctu-landing-hud.css` incrementally.  
+- Optional: split more landing rules from `css/style.css` into `ctu-landing-hud.css` incrementally.  
 - Optional: rename legacy `lp-*` classes to `landing-hud__*` over time (keep aliases during migration).

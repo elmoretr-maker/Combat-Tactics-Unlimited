@@ -6,7 +6,15 @@ import { BattleVfx } from "./render/battleVfx.js";
 import { FxLayer } from "./render/fxLayer.js";
 import { manhattan, chebyshev } from "./engine/grid.js";
 import { canAttack } from "./engine/combat.js";
-import { hasLineOfSight } from "./engine/los.js";
+import {
+  hasLineOfSight,
+  losShadowCellKeys,
+  isIndirectDeadzoneBlock,
+} from "./engine/los.js";
+import {
+  obstacleCoverNameAt,
+  OBSTACLE_COVER_DAMAGE_FACTOR,
+} from "./battle-plane/cover.js";
 import { AudioManager } from "./audio/AudioManager.js";
 import { loadProgress, saveProgress, isUnlocked } from "./progression/store.js";
 import { loadSettings, saveSettings } from "./progression/settings.js";
@@ -18,6 +26,19 @@ import { generateProceduralScenario } from "./mapgen/pipeline.js";
 import { downloadMapLayout } from "./mapgen/persist.js";
 import { moveTweenDurationMs, lerpCellPair } from "./render/tween.js";
 import { sharedBattleAmbient } from "./render/effects.js";
+import {
+  initBattleNotifications,
+  showBattleToast,
+  flashInvalidTile,
+  drawInvalidTileFlashes,
+} from "./ui/notifications.js";
+import { mergeUnitTemplates } from "./config/unitOverridesStorage.js";
+
+/** Shipped units.json + localStorage `ctu_unit_overrides` (master stats for all modes). */
+async function loadMergedUnitsFromConfig() {
+  const raw = await loadJson("js/config/units.json");
+  return mergeUnitTemplates(raw);
+}
 
 window.__CTU_MODULE_LOADED = true;
 
@@ -187,6 +208,17 @@ function computeVisibleCells() {
     }
   }
   return visible;
+}
+
+/** Tiles within the selected unit's sight range that have no clear LOS (dimmed). */
+function computeSelectedLosShadow(sel, game) {
+  if (!game || !sel || sel.owner !== game.currentPlayer) return null;
+  const sr = sel.sightRange ?? 8;
+  const ctx = game.losCtx();
+  return losShadowCellKeys(game.grid, game.tileTypes, sel.x, sel.y, sr, {
+    sightBudget: ctx.sightBudget,
+    mapObjects: ctx.mapObjects,
+  });
 }
 
 /* floating damage numbers */
@@ -877,7 +909,7 @@ async function openMapSkirmishLoadout(opts = {}) {
   if (!host) return;
   if (!unitRegistry.length) {
     try {
-      unitRegistry = await loadJson("js/config/units.json");
+      unitRegistry = await loadMergedUnitsFromConfig();
     } catch (e) {
       console.warn("[CTU] map loadout: units.json", e);
       return;
@@ -1016,13 +1048,14 @@ function syncHotseatStart() {
 async function bootHotseat() {
   const hotseatScenarioPath =
     pendingUserMapPath || "js/config/scenarios/hotseat.json";
-  const [units, tiles, sprites, scenarioBase, fx] = await Promise.all([
+  const [unitsRaw, tiles, sprites, scenarioBase, fx] = await Promise.all([
     loadJson("js/config/units.json"),
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/spriteAnimations.json"),
     loadJson(hotseatScenarioPath),
     loadJson("js/config/attackEffects.json"),
   ]);
+  const units = mergeUnitTemplates(unitsRaw);
   unitRegistry = units;
   tileTypes = tiles.types;
   spriteAnimations = sprites;
@@ -1343,7 +1376,15 @@ function spawnAttackVfx(attacker, target) {
 function doAttack(attacker, target) {
   const result = game.attack(attacker, target);
   if (!result) return false;
-  const { dmg, counterDmg, structureCollapsed } = result;
+  const {
+    dmg,
+    preemptDmg,
+    preemptProtectedBy,
+    counterDmg,
+    structureCollapsed,
+    targetProtectedBy,
+    attackerProtectedBy,
+  } = result;
   attacker._fireVisualUntil = performance.now() + 420;
   attacker._attackTargetPos = { x: target.x, y: target.y };
   if (attacker.mapRenderMode === "topdown") {
@@ -1351,9 +1392,29 @@ function doAttack(attacker, target) {
   }
   const targetDied    = target.hp <= 0;
   const attackerDied  = attacker.hp <= 0;
-  pushLog(`⚔ ${attacker.displayName} → ${target.displayName}: -${dmg} HP${targetDied ? " 💀" : ""}`, "battle-log__item--atk");
+  if (preemptDmg > 0) {
+    pushLog(
+      `⚡ ${target.displayName} preemptive → ${attacker.displayName}: -${preemptDmg} HP`,
+      "battle-log__item--atk",
+    );
+    if (preemptProtectedBy) {
+      showBattleToast(`Target protected by ${preemptProtectedBy}!`);
+    }
+  }
+  if (dmg > 0) {
+    pushLog(
+      `⚔ ${attacker.displayName} → ${target.displayName}: -${dmg} HP${targetDied ? " 💀" : ""}`,
+      "battle-log__item--atk",
+    );
+  }
+  if (dmg > 0 && targetProtectedBy) {
+    showBattleToast(`Target protected by ${targetProtectedBy}!`);
+  }
   if (counterDmg > 0) {
     pushLog(`↩ ${target.displayName} counter: -${counterDmg} HP${attackerDied ? " 💀" : ""}`, "battle-log__item--move");
+  }
+  if (counterDmg > 0 && attackerProtectedBy) {
+    showBattleToast(`Target protected by ${attackerProtectedBy}!`);
   }
 
   /* kill tracking */
@@ -1379,9 +1440,16 @@ function doAttack(attacker, target) {
 
   /* floating damage numbers */
   const cellSz = game.scenario?.cellSize ?? 48;
+  const apx0 = gridOffsetX + attacker.x * cellSz + cellSz / 2;
+  const apy0 = gridOffsetY + attacker.y * cellSz + cellSz * 0.3;
+  if (preemptDmg > 0) {
+    spawnFloater(`⚡-${preemptDmg}`, apx0, apy0, "#ffcc44");
+  }
   const tpx = gridOffsetX + target.x * cellSz + cellSz / 2;
   const tpy = gridOffsetY + target.y * cellSz + cellSz * 0.3;
-  spawnFloater(`-${dmg}`, tpx, tpy, "#ff6060");
+  if (dmg > 0) {
+    spawnFloater(`-${dmg}`, tpx, tpy, "#ff6060");
+  }
   if (counterDmg > 0) {
     const apx = gridOffsetX + attacker.x * cellSz + cellSz / 2;
     const apy = gridOffsetY + attacker.y * cellSz + cellSz * 0.3;
@@ -1419,23 +1487,55 @@ function onCanvasClick(ev) {
     return;
   }
   if (sel && sel.owner === currentOwner && sel.hp > 0) {
-    if (clicked && clicked.owner !== currentOwner && canAttackNow(sel, clicked)) {
-      if (doAttack(sel, clicked)) {
-        battleHints.attackedOnce = true;
-        game.checkWinner();
+    /* Enemy: attack */
+    if (clicked && clicked.owner !== currentOwner && clicked.hp > 0) {
+      if (canAttackNow(sel, clicked)) {
+        if (doAttack(sel, clicked)) {
+          battleHints.attackedOnce = true;
+          game.checkWinner();
+        }
+        syncHud();
+        return;
+      }
+      flashInvalidTile(x, y);
+      if (sel.attackedThisTurn) {
+        showBattleToast("Unit has already moved/attacked this turn.");
+      } else {
+        showBattleToast(explainAttackFailure(sel, clicked));
       }
       syncHud();
       return;
     }
+
     const reach = game.reachableFor(sel);
     const k = x + "," + y;
     if (reach.has(k)) {
-      const ox = sel.x; const oy2 = sel.y;
+      const ox = sel.x;
+      const oy2 = sel.y;
       if (game.moveUnit(sel, x, y)) {
         startLerp(sel, ox, oy2, sel.x, sel.y);
         battleHints.movedOnce = true;
         pushLog(`🚶 ${sel.displayName} moved`, "battle-log__item--move");
         AudioManager.play("MoveStart");
+      } else {
+        flashInvalidTile(x, y);
+        showBattleToast("Cannot move to that tile.");
+      }
+      syncHud();
+      return;
+    }
+
+    /* Move/click rejected: not in reachable set */
+    const onSelf = x === sel.x && y === sel.y;
+    if (!onSelf && !clicked) {
+      flashInvalidTile(x, y);
+      if (sel.movedThisTurn) {
+        showBattleToast("Unit has already moved/attacked this turn.");
+      } else if (game.costAtForUnit(sel, x, y) >= 99) {
+        const name = describeMoveBlockerName(x, y);
+        showBattleToast(`That position is blocked by ${name}.`);
+      } else {
+        showBattleToast("Target is out of movement range.");
       }
       syncHud();
     }
@@ -1468,41 +1568,176 @@ function onCanvasMouseMove(ev) {
   if (sel && sel.owner === game.currentPlayer && u.owner !== game.currentPlayer) {
     const preview = previewDamage(sel, u);
     if (preview) {
-      const counterStr = preview.counterDmg > 0 ? ` · ↩ -${preview.counterDmg}` : "";
-      previewHtml = `<br><span class="tip-preview">⚔ forecast: -${preview.dmg} HP${counterStr}</span>`;
+      previewHtml = `<br><span class="tip-preview">${preview.summaryHtml}</span>`;
     }
   }
 
   tooltip.innerHTML = `<strong>${u.displayName}</strong><span class="${hpColor}">HP ${u.hp}/${u.maxHp}</span><br><span class="tip-dmg">DMG ${u.damage}</span>  ARM ${u.armor}<br>Range ${u.rangeMin}–${u.rangeMax}${u.deadspace ? ` · DS ${u.deadspace}` : ""}  Sight ${u.sightRange ?? "∞"}<br><span class="tip-type">${u.attackType}</span> · mv ${u.move} · <em>${terrainType}${defBonus}</em>${previewHtml}`;
 }
 
+function estimateStrikeDamagePreview(striker, victim) {
+  let dmg = striker.damage ?? 20;
+  const arm = victim.armor ?? 0;
+  dmg = Math.max(1, Math.round(dmg - arm * 0.25));
+  const tTerrain = game.grid.cells[victim.y]?.[victim.x] ?? "plains";
+  const tDef = tileTypes?.[tTerrain]?.defenseBonus ?? 0;
+  if (tDef > 0) dmg = Math.max(1, Math.round(dmg * (1 - tDef)));
+  const tCover = obstacleCoverNameAt(
+    game.grid,
+    tileTypes,
+    game.mapObjects,
+    victim.x,
+    victim.y,
+  );
+  if (tCover) dmg = Math.max(1, Math.round(dmg * OBSTACLE_COVER_DAMAGE_FACTOR));
+  return dmg;
+}
+
+function estimateCounterDamagePreview(defender, attackerUnit) {
+  let dmg = Math.round((defender.damage ?? 20) * 0.6);
+  const arm = attackerUnit.armor ?? 0;
+  dmg = Math.max(1, Math.round(dmg - arm * 0.25));
+  const aTerrain = game.grid.cells[attackerUnit.y]?.[attackerUnit.x] ?? "plains";
+  const aDef = tileTypes?.[aTerrain]?.defenseBonus ?? 0;
+  if (aDef > 0) dmg = Math.max(1, Math.round(dmg * (1 - aDef)));
+  const aCover = obstacleCoverNameAt(
+    game.grid,
+    tileTypes,
+    game.mapObjects,
+    attackerUnit.x,
+    attackerUnit.y,
+  );
+  if (aCover) dmg = Math.max(1, Math.round(dmg * OBSTACLE_COVER_DAMAGE_FACTOR));
+  return dmg;
+}
+
 /**
- * Estimate damage without actually applying it.
- * Mirrors the logic in resolveAttack / resolveCounter.
+ * Forecast damage order: preemptive (if any), your hit, counter/no counter.
  */
 function previewDamage(attacker, target) {
   const losCtx = game.losCtx();
   if (!canAttack(attacker, target, game.units, losCtx)) return null;
-  /* attacker → target */
-  let dmg = attacker.damage ?? 20;
-  const arm = target.armor ?? 0;
-  dmg = Math.max(1, Math.round(dmg - arm * 0.25));
-  const tTerrain = game.grid.cells[target.y]?.[target.x] ?? "plains";
-  const tDef = tileTypes?.[tTerrain]?.defenseBonus ?? 0;
-  if (tDef > 0) dmg = Math.max(1, Math.round(dmg * (1 - tDef)));
-  /* counter */
-  let counterDmg = 0;
-  if (target.canCounter !== false && !target.attackedThisTurn && target.hp > 0
-      && (target.attackType ?? "direct") === "direct"
-      && canAttack(target, attacker, game.units, losCtx)) {
-    counterDmg = Math.round((target.damage ?? 20) * 0.6);
-    const arm2 = attacker.armor ?? 0;
-    counterDmg = Math.max(1, Math.round(counterDmg - arm2 * 0.25));
-    const aTerrain = game.grid.cells[attacker.y]?.[attacker.x] ?? "plains";
-    const aDef = tileTypes?.[aTerrain]?.defenseBonus ?? 0;
-    if (aDef > 0) counterDmg = Math.max(1, Math.round(counterDmg * (1 - aDef)));
+
+  const preemptWouldFire =
+    target.specialAbility === "Preemptive Strike" &&
+    !target.attackedThisTurn &&
+    target.hp > 0 &&
+    (target.attackType ?? "direct") === "direct" &&
+    canAttack(target, attacker, game.units, losCtx);
+
+  let preemptEst = 0;
+  if (preemptWouldFire) {
+    preemptEst = estimateStrikeDamagePreview(target, attacker);
   }
-  return { dmg, counterDmg };
+
+  const dmg = estimateStrikeDamagePreview(attacker, target);
+
+  const defenderAlreadyActed = preemptWouldFire;
+  let counterDmg = 0;
+  if (
+    !defenderAlreadyActed &&
+    target.specialAbility === "Counter-Attack" &&
+    !target.attackedThisTurn &&
+    target.hp > 0 &&
+    (target.attackType ?? "direct") === "direct" &&
+    canAttack(target, attacker, game.units, losCtx)
+  ) {
+    counterDmg = estimateCounterDamagePreview(target, attacker);
+  }
+
+  const lines = [];
+  if (preemptWouldFire) {
+    lines.push(
+      `⚡ ${target.displayName} strikes first (~${preemptEst} HP to you)`,
+    );
+  }
+  lines.push(`⚔ Your hit ~${dmg} HP`);
+  if (defenderAlreadyActed) {
+    lines.push("↩ No counter (defender already fired preemptively).");
+  } else if (counterDmg > 0) {
+    lines.push(`↩ Counter ~${counterDmg} HP`);
+  } else {
+    lines.push("↩ No counter-attack");
+  }
+
+  return { dmg, counterDmg, summaryHtml: lines.join("<br>") };
+}
+
+/** Human-readable blocker for an impassable tile (terrain + map objects). */
+function describeMoveBlockerName(x, y) {
+  if (!game) return "an obstacle";
+  const mo = game.mapObjects?.find(
+    (o) => o.x === x && o.y === y && o.blocksMove !== false,
+  );
+  if (mo?.visualKind) {
+    const k = String(mo.visualKind);
+    return k.charAt(0).toUpperCase() + k.slice(1);
+  }
+  const t = game.grid.cells[y]?.[x];
+  const tt = game.tileTypes?.[t];
+  if (tt?.displayName) return tt.displayName;
+  if (t === "water") return "Water";
+  if (t === "building_block" || t === "cp_building") return "Building";
+  if (t) {
+    return String(t)
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  return "Terrain";
+}
+
+function explainAttackFailure(attacker, target) {
+  const d = chebyshev(attacker.x, attacker.y, target.x, target.y);
+  const lo = attacker.rangeMin ?? 1;
+  const hi = attacker.rangeMax ?? 1;
+  const ds = attacker.deadspace ?? 0;
+  if (d <= ds) return "Target is too close to attack.";
+  if (d < lo || d > hi) return "Target is out of attack range.";
+  const losCtx = game.losCtx();
+  const sightRange = attacker.sightRange;
+  if (sightRange != null && Number.isFinite(sightRange) && d > sightRange) {
+    return "Target is out of attack range.";
+  }
+  if ((attacker.attackType || "direct") === "indirect" && losCtx?.grid && losCtx?.tileTypes) {
+    if (
+      isIndirectDeadzoneBlock(
+        losCtx.grid,
+        losCtx.tileTypes,
+        attacker.x,
+        attacker.y,
+        target.x,
+        target.y,
+        { mapObjects: losCtx.mapObjects },
+      )
+    ) {
+      return "Target is in deadzone (obstacle shadow).";
+    }
+  }
+  if (
+    (attacker.attackType || "direct") === "direct" &&
+    attacker.usesLos !== false &&
+    losCtx?.grid &&
+    losCtx?.tileTypes
+  ) {
+    const budget =
+      losCtx.sightBudget != null && Number.isFinite(losCtx.sightBudget)
+        ? losCtx.sightBudget
+        : Infinity;
+    if (
+      !hasLineOfSight(
+        losCtx.grid,
+        losCtx.tileTypes,
+        attacker.x,
+        attacker.y,
+        target.x,
+        target.y,
+        { sightBudget: budget, mapObjects: losCtx.mapObjects },
+      )
+    ) {
+      return "Line of sight is blocked.";
+    }
+  }
+  return "Cannot attack that target.";
 }
 
 /* ── Draw ─────────────────────────────────────────────── */
@@ -1523,6 +1758,23 @@ function facingRadForDraw(u, moving) {
   return Math.atan2(best.y - pos.y, best.x - pos.x);
 }
 
+function drawCoverShieldIcon(ctx, cx, cy, scale) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+  ctx.fillStyle = "rgba(160, 220, 255, 0.95)";
+  ctx.strokeStyle = "rgba(25, 45, 70, 0.9)";
+  ctx.lineWidth = 0.14;
+  ctx.beginPath();
+  ctx.moveTo(0, -1);
+  ctx.bezierCurveTo(1, -0.55, 1, 0.4, 0, 1.05);
+  ctx.bezierCurveTo(-1, 0.4, -1, -0.55, 0, -1);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawHpBars(ts) {
   const cs = game.grid.cellSize;
   for (const u of game.units) {
@@ -1539,6 +1791,17 @@ function drawHpBars(ts) {
     ctx.fillRect(bx - 1, by - 1, bw + 2, bh + 2);
     ctx.fillStyle = frac > 0.6 ? "#40c057" : frac > 0.3 ? "#fab005" : "#fa5252";
     ctx.fillRect(bx, by, Math.max(1, bw * frac), bh);
+    const cover = obstacleCoverNameAt(
+      game.grid,
+      tileTypes,
+      game.mapObjects,
+      u.x,
+      u.y,
+    );
+    if (cover) {
+      const sc = cs * 0.22;
+      drawCoverShieldIcon(ctx, bx - sc * 0.85, by + bh / 2, sc * 0.42);
+    }
   }
 }
 
@@ -1568,6 +1831,8 @@ function drawFrame(ts) {
   const atkRange = (sel && sel.owner === currentOwner && !sel.attackedThisTurn)
     ? attackRangeCells(sel) : new Set();
   const fogCells = computeVisibleCells();
+  const losShadowCells =
+    sel && sel.owner === currentOwner ? computeSelectedLosShadow(sel, game) : null;
 
   drawGrid(ctx, game, tileTypes, {
     offsetX: gridOffsetX, offsetY: gridOffsetY,
@@ -1578,8 +1843,11 @@ function drawFrame(ts) {
     attackableCells: atkCells,
     highlightCells: coachHighlightKeys(),
     fogCells,
+    losShadowCells,
     timeMs: ts,
   });
+
+  drawInvalidTileFlashes(ctx, gridOffsetX, gridOffsetY, cs, ts);
 
   sharedBattleAmbient.draw(ctx, gridOffsetX, gridOffsetY, ts);
 
@@ -1784,6 +2052,30 @@ async function bootProceduralSkirmish(theme = "urban") {
   void bootBattle({ mode: "skirmish", scenarioInline: scenario });
 }
 
+/* ── Dev: logo backdoor → dev-editor.html (5 clicks in 2s + password) ── */
+const DEV_EDITOR_PASSWORD = "@@@IamBlack123";
+const DEV_LOGO_CLICK_WINDOW_MS = 2000;
+const DEV_LOGO_CLICKS_REQUIRED = 5;
+let devLogoClickTimes = [];
+
+function initDevLogoBackdoor() {
+  const logo = document.querySelector("header .logo, h1.logo");
+  if (!logo) return;
+  logo.addEventListener("click", () => {
+    const now = performance.now();
+    devLogoClickTimes = devLogoClickTimes.filter(
+      (t) => now - t <= DEV_LOGO_CLICK_WINDOW_MS,
+    );
+    devLogoClickTimes.push(now);
+    if (devLogoClickTimes.length < DEV_LOGO_CLICKS_REQUIRED) return;
+    devLogoClickTimes.length = 0;
+    const key = window.prompt("Access key");
+    if (key === DEV_EDITOR_PASSWORD) {
+      window.location.href = "dev-editor.html";
+    }
+  });
+}
+
 /* ── Battle boot ──────────────────────────────────────── */
 /** Minimal skirmish + automatic 3-tile eastward move (Settings → Dev). */
 async function runDevAnimationTest() {
@@ -1800,6 +2092,22 @@ async function runDevAnimationTest() {
     skirmishDeploy: [{ x: 2, y: 4 }],
     winCondition: { type: "eliminate" },
     fogOfWar: false,
+    ambientEffects: [
+      {
+        x: 4,
+        y: 3,
+        spritePath: "assets/tiles/urban/fire_animation.png",
+        frameCount: 8,
+        fps: 12,
+      },
+      {
+        x: 6,
+        y: 4,
+        spritePath: "assets/tiles/urban/fire_animation2.png",
+        frameCount: 8,
+        fps: 10,
+      },
+    ],
   };
   await bootBattle({ mode: "skirmish", scenarioInline: scenario });
   requestAnimationFrame(() => {
@@ -1854,13 +2162,14 @@ async function bootBattle(options = {}) {
   const scenarioPromise = useInline
     ? Promise.resolve(JSON.parse(JSON.stringify(options.scenarioInline)))
     : loadJson(scenarioPath);
-  const [units, tiles, sprites, scenarioBase, fx] = await Promise.all([
+  const [unitsRaw, tiles, sprites, scenarioBase, fx] = await Promise.all([
     loadJson("js/config/units.json"),
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/spriteAnimations.json"),
     scenarioPromise,
     loadJson("js/config/attackEffects.json"),
   ]);
+  const units = mergeUnitTemplates(unitsRaw);
   unitRegistry = units;
   tileTypes = tiles.types;
   spriteAnimations = sprites;
@@ -2135,7 +2444,7 @@ async function initApp() {
     loadJson("js/config/onboarding.json"),
     loadJson("js/config/mapCatalog.json").catch(() => ({ maps: [] })),
   ]);
-  unitRegistry = await loadJson("js/config/units.json");
+  unitRegistry = await loadMergedUnitsFromConfig();
   progress  = loadProgress();
   settings  = loadSettings();
   settings.visualStyle = settings.visualStyle === "classic" ? "classic" : "hDef";
@@ -2422,6 +2731,7 @@ function wireUi() {
   /* canvas */
   canvas = document.getElementById("battle-canvas");
   ctx = canvas.getContext("2d");
+  initBattleNotifications();
   canvas.addEventListener("click", onCanvasClick);
   canvas.addEventListener("mousemove", onCanvasMouseMove);
   canvas.addEventListener("mouseleave", () => { const t = document.getElementById("unit-tooltip"); if (t) t.hidden = true; });
@@ -2436,6 +2746,8 @@ function wireUi() {
     const touch = ev.changedTouches[0];
     onCanvasMouseMove({ clientX: touch.clientX, clientY: touch.clientY, currentTarget: canvas });
   }, { passive: false });
+
+  initDevLogoBackdoor();
 }
 
 /* ── Drag-to-scroll gesture helper ──────────────────────

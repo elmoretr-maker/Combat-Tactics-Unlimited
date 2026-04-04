@@ -1,5 +1,8 @@
-import { buildTerrainGrid, moveCostAt } from "./terrain.js";
-import { mapObjectBlocksMoveAt } from "../battle-plane/mapObjects.js";
+import { buildTerrainGrid, moveCostAt, moveCostAtForClass } from "./terrain.js";
+import {
+  hardMapObjectBlocksAllUnits,
+  mapObjectTreeAt,
+} from "../battle-plane/mapObjects.js";
 import { BLOCKED_MOVE_COST } from "../battle-plane/pathfindingCost.js";
 import { reachableTiles, findPath } from "./astar.js";
 import { canAttack, resolveAttack, resolveCounter } from "./combat.js";
@@ -35,12 +38,17 @@ export function createUnitFromTemplate(tpl, owner, x, y, visualStyle = "classic"
     attackEffectProfile: tpl.attackEffectProfile || null,
     deadspace: tpl.deadspace ?? 0,
     sightRange: tpl.sightRange ?? null,
-    canCounter: tpl.canCounter !== false,
+    specialAbility: tpl.specialAbility || "None",
+    usesLos: tpl.usesLos !== false,
+    canCounter: tpl.specialAbility === "Counter-Attack",
     faceRad: Math.PI / 2,
     movedThisTurn: false,
     attackedThisTurn: false,
     prone: false,
     isMoving: false,
+    movementClass:
+      tpl.movementClass ??
+      (tpl.mapRenderMode === "topdown" ? "vehicle" : "infantry"),
   };
 }
 
@@ -91,11 +99,18 @@ export class GameState {
     this.fullRoundsCompleted = 0;
     this._terrainMoveCost = (x, y) =>
       moveCostAt(this.grid, this.tileTypes, x, y);
-    this.costAt = (x, y) => {
-      if (mapObjectBlocksMoveAt(this.mapObjects, x, y)) {
+    this.costAtForUnit = (unit, x, y) => {
+      const cls = unit?.movementClass ?? "infantry";
+      let base = moveCostAtForClass(this.grid, this.tileTypes, x, y, cls);
+      if (base >= BLOCKED_MOVE_COST) return base;
+      if (hardMapObjectBlocksAllUnits(this.mapObjects, x, y)) {
         return BLOCKED_MOVE_COST;
       }
-      return this._terrainMoveCost(x, y);
+      if (mapObjectTreeAt(this.mapObjects, x, y)) {
+        if (cls === "vehicle") return BLOCKED_MOVE_COST;
+        return Math.max(base, 2);
+      }
+      return base;
     };
     this.losCtx = () => ({
       grid: this.grid,
@@ -132,7 +147,7 @@ export class GameState {
     );
     const vis = reachableTiles(this.grid, unit.x, unit.y, unit.move, (x, y) => {
       if (occ.has(x + "," + y)) return 99;
-      return this.costAt(x, y);
+      return this.costAtForUnit(unit, x, y);
     });
     const out = new Map();
     for (const [k, cost] of vis) {
@@ -148,14 +163,13 @@ export class GameState {
     const path = findPath(this.grid, [unit.x, unit.y], [tx, ty], (x, y) => {
       const o = this.unitAt(x, y);
       if (o && o.id !== unit.id) return 99;
-      return this.costAt(x, y);
+      return this.costAtForUnit(unit, x, y);
     });
     if (!path) return false;
     let total = 0;
     for (let i = 1; i < path.length; i++) {
-      const [px, py] = path[i - 1];
       const [nx, ny] = path[i];
-      total += this.costAt(nx, ny);
+      total += this.costAtForUnit(unit, nx, ny);
     }
     if (total > unit.move + 1e-6) return false;
     const sx = unit.x;
@@ -171,27 +185,87 @@ export class GameState {
   }
 
   /**
-   * Returns { dmg, counterDmg } — both are the actual HP removed, 0 if no hit.
+   * Returns damage breakdown including optional preemptive strike from the defender.
    */
   attack(attacker, target) {
     if (!attacker || !target || attacker.owner !== this.currentPlayer) return false;
     if (attacker.attackedThisTurn) return false;
     const ctx = this.losCtx();
     if (!canAttack(attacker, target, this.units, ctx)) return false;
-    const dmg = resolveAttack(attacker, target, ctx);
+
+    let preemptDmg = 0;
+    let preemptProtectedBy = null;
+    let structurePreempt = null;
+
+    /* ── Preemptive Strike: defender fires first (e.g. Medic) ── */
+    if (
+      target.specialAbility === "Preemptive Strike" &&
+      !target.attackedThisTurn &&
+      target.hp > 0
+    ) {
+      if (canAttack(target, attacker, this.units, ctx)) {
+        const pr = resolveAttack(target, attacker, ctx);
+        preemptDmg = pr.dmg;
+        preemptProtectedBy = pr.protectedBy;
+        structurePreempt = this.applyCombatStressToStructure(
+          attacker.x,
+          attacker.y,
+          preemptDmg,
+        );
+        target.attackedThisTurn = true;
+      }
+    }
+
+    if (attacker.hp <= 0) {
+      attacker.attackedThisTurn = true;
+      let structureCollapsed = null;
+      if (structurePreempt?.collapsed) {
+        structureCollapsed = {
+          x: structurePreempt.x,
+          y: structurePreempt.y,
+        };
+      }
+      return {
+        dmg: 0,
+        preemptDmg,
+        preemptProtectedBy,
+        counterDmg: 0,
+        structureCollapsed,
+        targetProtectedBy: null,
+        attackerProtectedBy: null,
+      };
+    }
+
+    const atkRes = resolveAttack(attacker, target, ctx);
+    const dmg = atkRes.dmg;
+    const targetProtectedBy = atkRes.protectedBy;
     const structureHit = this.applyCombatStressToStructure(target.x, target.y, dmg);
     attacker.attackedThisTurn = true;
-    /* Counter-attack: defender fires back immediately if still alive */
-    const counterDmg = resolveCounter(attacker, target, ctx);
+
+    const counterRes = resolveCounter(attacker, target, ctx);
+    const counterDmg = counterRes.dmg;
+    const attackerProtectedBy = counterRes.protectedBy;
     const counterStruct =
       counterDmg > 0 && attacker.hp > 0
         ? this.applyCombatStressToStructure(attacker.x, attacker.y, counterDmg)
         : null;
+
     let structureCollapsed = null;
     if (structureHit?.collapsed) structureCollapsed = { x: structureHit.x, y: structureHit.y };
     else if (counterStruct?.collapsed)
       structureCollapsed = { x: counterStruct.x, y: counterStruct.y };
-    return { dmg, counterDmg, structureCollapsed };
+    else if (structurePreempt?.collapsed)
+      structureCollapsed = { x: structurePreempt.x, y: structurePreempt.y };
+
+    return {
+      dmg,
+      preemptDmg,
+      preemptProtectedBy,
+      counterDmg,
+      structureCollapsed,
+      targetProtectedBy,
+      attackerProtectedBy,
+    };
   }
 
   endTurn() {

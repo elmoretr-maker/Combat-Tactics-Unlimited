@@ -204,6 +204,17 @@ export function refineLibrarianClassification(analysis, originalBaseName) {
   let subtype = defaultSubtypeForKind(kind, analysis);
   let obstacleKind = null;
 
+  const delimTok = (re) => re.test(base) || re.test(base.toLowerCase());
+  if (
+    delimTok(/(^|[_\-.])(vehicle|tank|plane)([_\-.]|$)/i) ||
+    /\b(vehicle|tank|plane)\b/.test(base.toLowerCase())
+  ) {
+    kind = "unit";
+    subtype = "Vehicle";
+    obstacleKind = null;
+    return { kind, subtype, obstacleKind };
+  }
+
   if (
     isWideStrip &&
     /water|coast|liquid|fluid|ocean|sea|animation|lake|pond|river/i.test(base)
@@ -242,6 +253,7 @@ function defaultSubtypeForKind(kind, analysis) {
   if (kind === "building") return toPascalParts(analysis.footprint || "medium");
   if (kind === "ui") return "Button";
   if (kind === "tile") return "Tile";
+  if (kind === "unit") return "Sprite";
   if (kind === "obstacle") return "Prop";
   return "Prop";
 }
@@ -279,6 +291,10 @@ export function planLibrarianRename(analysis, originalFileName, ext) {
   } else if (kind === "ui") {
     category = "ui";
     catP = "Ui";
+  } else if (kind === "unit") {
+    category = "unit";
+    catP = "Unit";
+    footprint = null;
   } else {
     category = "obstacle";
     catP = "Obstacle";
@@ -295,9 +311,46 @@ export function planLibrarianRename(analysis, originalFileName, ext) {
     theme: analysis.theme,
     obstacleKind: obstacleKind || "crate",
     librarianSubtype: subP,
+    unitKind: category === "unit" ? (subP === "Vehicle" ? "vehicle" : "soldier") : undefined,
   };
 }
 
+/**
+ * Filename keyword wins over visual/refine — stable Obstacle_* / Unit_* names.
+ * @param {object} override { category: 'obstacle' | 'unit', obstacleKind?: string, unitKind?: 'vehicle'|'soldier' }
+ */
+export function planRenameForKeywordOverride(analysis, originalFileName, ext, override) {
+  const themeP = toPascalParts(analysis.theme);
+  const id = randomUUID().replace(/-/g, "").slice(0, 8);
+  if (override.category === "obstacle") {
+    const ok = override.obstacleKind || "crate";
+    const subP = toPascalParts(ok);
+    return {
+      category: "obstacle",
+      newFileName: `Obstacle_${themeP}_${subP}_${id}${ext}`,
+      gunClass: analysis.gunClass || "rifle",
+      footprint: analysis.footprint || "medium",
+      theme: analysis.theme,
+      obstacleKind: ok,
+      librarianSubtype: subP,
+    };
+  }
+  if (override.category === "unit") {
+    const isVehicle = override.unitKind === "vehicle";
+    const subP = isVehicle ? "Vehicle" : "Sprite";
+    return {
+      category: "unit",
+      unitKind: isVehicle ? "vehicle" : "soldier",
+      newFileName: `Unit_${themeP}_${subP}_${id}${ext}`,
+      gunClass: analysis.gunClass || "rifle",
+      footprint: null,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: subP,
+    };
+  }
+  return null;
+}
 
 /** @deprecated use planLibrarianRename — kept for scripts that still import the old name */
 export function planVisualRename(analysis, ext) {

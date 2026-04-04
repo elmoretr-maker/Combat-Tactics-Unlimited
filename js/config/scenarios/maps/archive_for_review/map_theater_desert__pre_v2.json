@@ -1,0 +1,49 @@
+{
+  "id": "map_theater_desert",
+  "name": "Desert Warzone",
+  "width": 20,
+  "height": 16,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["desert","desert","desert","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","desert","desert","desert","desert"],
+    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert"],
+    ["desert","desert","hill","hill","desert","desert","desert","desert","hill","hill","hill","hill","desert","desert","desert","desert","hill","hill","desert","desert"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
+    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert"],
+    ["desert","desert","desert","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","desert","desert","desert","desert"]
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":18,"y":2},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":4},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":10},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":19,"y":11},
+    {"templateId":"grunt_red","owner":1,"x":17,"y":7},
+    {"templateId":"grunt_red","owner":1,"x":18,"y":13}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":6},{"x":0,"y":10},
+    {"x":1,"y":4},{"x":1,"y":6},{"x":0,"y":7},{"x":1,"y":11}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":6},{"x":0,"y":10},
+    {"x":1,"y":4},{"x":1,"y":6},{"x":0,"y":7},{"x":1,"y":11}
+  ],
+  "p2DeploymentSlots": [
+    {"x":19,"y":2},{"x":19,"y":4},{"x":19,"y":6},{"x":19,"y":10},
+    {"x":18,"y":4},{"x":18,"y":6},{"x":19,"y":7},{"x":18,"y":11}
+  ]
+}

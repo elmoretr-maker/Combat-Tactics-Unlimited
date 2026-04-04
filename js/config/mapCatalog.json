@@ -2,203 +2,203 @@
   "maps": [
     {
       "id": "map_compact_urban",
-      "name": "The Crossroads",
+      "name": "The Crossroads v2",
       "path": "js/config/scenarios/maps/map_compact_urban.json",
       "sizeCategory": "small",
       "environment": "urban",
       "width": 10,
       "height": 8,
-      "blurb": "City intersection. Buildings guard every corner — take cover, push through, destroy what you can't go around."
+      "blurb": "City intersection. Buildings guard every corner — take cover, push through, destroy what you can't go around. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_compact_wild",
-      "name": "Woodpecker Hill",
+      "name": "Woodpecker Hill v2",
       "path": "js/config/scenarios/maps/map_compact_wild.json",
       "sizeCategory": "small",
       "environment": "wild",
       "width": 10,
       "height": 8,
-      "blurb": "Forested hilltops flank a twin-road corridor. Forest blocks line-of-sight — move fast or get flanked."
+      "blurb": "Forested hilltops flank a twin-road corridor. Forest blocks line-of-sight — move fast or get flanked. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_compact_desert",
-      "name": "Dune Pass",
+      "name": "Dune Pass v2",
       "path": "js/config/scenarios/maps/map_compact_desert.json",
       "sizeCategory": "small",
       "environment": "desert",
       "width": 10,
       "height": 8,
-      "blurb": "Sandy ridgelines and two fast roads through the dunes. Ruins in the center offer grim cover."
+      "blurb": "Sandy ridgelines and two fast roads through the dunes. Ruins in the center offer grim cover. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_compact_arctic",
-      "name": "Frozen Crossing",
+      "name": "Frozen Crossing v2",
       "path": "js/config/scenarios/maps/map_compact_arctic.json",
       "sizeCategory": "small",
       "environment": "arctic",
       "width": 10,
       "height": 8,
-      "blurb": "Frozen river splits the map. Two bridges — control them both or hold the ice line."
+      "blurb": "Frozen river splits the map. Two bridges — control them both or hold the ice line. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_compact_mixed",
-      "name": "Staging Grounds",
+      "name": "Staging Grounds v2",
       "path": "js/config/scenarios/maps/map_compact_mixed.json",
       "sizeCategory": "small",
       "environment": "mixed",
       "width": 10,
       "height": 8,
-      "blurb": "Training area with every terrain type. Hills, forest, ruins, and roads in a compact kill box."
+      "blurb": "Training area with every terrain type. Hills, forest, ruins, and roads in a compact kill box. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_warden_urban",
-      "name": "Occupied District",
+      "name": "Occupied District v2",
       "path": "js/config/scenarios/maps/map_warden_urban.json",
       "sizeCategory": "medium",
       "environment": "urban",
       "width": 12,
       "height": 10,
-      "blurb": "Multi-block city sector. Buildings create corridors and ambush pockets across three city rows."
+      "blurb": "Multi-block city sector. Buildings create corridors and ambush pockets across three city rows. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_warden_wild",
-      "name": "Green Choke",
+      "name": "Green Choke v2",
       "path": "js/config/scenarios/maps/map_warden_wild.json",
       "sizeCategory": "medium",
       "environment": "wild",
       "width": 12,
       "height": 10,
-      "blurb": "Thick forest flanks a river. Two road crossings become life-or-death choke points."
+      "blurb": "Thick forest flanks a river. Two road crossings become life-or-death choke points. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_warden_desert",
-      "name": "Outpost Bravo",
+      "name": "Outpost Bravo v2",
       "path": "js/config/scenarios/maps/map_warden_desert.json",
       "sizeCategory": "medium",
       "environment": "desert",
       "width": 12,
       "height": 10,
-      "blurb": "Desert fortification at the center. Dune ridges offer elevation. Crossing the open costs units."
+      "blurb": "Desert fortification at the center. Dune ridges offer elevation. Crossing the open costs units. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_warden_arctic",
-      "name": "Northern Passage",
+      "name": "Northern Passage v2",
       "path": "js/config/scenarios/maps/map_warden_arctic.json",
       "sizeCategory": "medium",
       "environment": "arctic",
       "width": 12,
       "height": 10,
-      "blurb": "Snow and frozen lakes create a maze. Two road corridors are the only safe routes through."
+      "blurb": "Snow and frozen lakes create a maze. Two road corridors are the only safe routes through. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_warden_mixed",
-      "name": "Factory District",
+      "name": "Factory District v2",
       "path": "js/config/scenarios/maps/map_warden_mixed.json",
       "sizeCategory": "medium",
       "environment": "mixed",
       "width": 12,
       "height": 10,
-      "blurb": "Industrial zone with urban buildings and forested perimeter. Hills provide sniper elevation."
+      "blurb": "Industrial zone with urban buildings and forested perimeter. Hills provide sniper elevation. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_sector_urban",
-      "name": "City Quarter",
+      "name": "City Quarter v2",
       "path": "js/config/scenarios/maps/map_sector_urban.json",
       "sizeCategory": "large",
       "environment": "urban",
       "width": 16,
       "height": 12,
-      "blurb": "A large city grid with four road arteries and dense building clusters. Rubble from destroyed buildings creates dynamic cover."
+      "blurb": "A large city grid with four road arteries and dense building clusters. Rubble from destroyed buildings creates dynamic cover. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_sector_wild",
-      "name": "Forest Valley",
+      "name": "Forest Valley v2",
       "path": "js/config/scenarios/maps/map_sector_wild.json",
       "sizeCategory": "large",
       "environment": "wild",
       "width": 16,
       "height": 12,
-      "blurb": "A river splits the valley floor. Two bridge crossings under dense forest fire — flanking is key."
+      "blurb": "A river splits the valley floor. Two bridge crossings under dense forest fire — flanking is key. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_sector_desert",
-      "name": "Desert Ruins",
+      "name": "Desert Ruins v2",
       "path": "js/config/scenarios/maps/map_sector_desert.json",
       "sizeCategory": "large",
       "environment": "desert",
       "width": 16,
       "height": 12,
-      "blurb": "Abandoned settlement surrounded by open desert. Dunes hide movement; ruins provide the only real cover."
+      "blurb": "Abandoned settlement surrounded by open desert. Dunes hide movement; ruins provide the only real cover. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_sector_arctic",
-      "name": "Tundra Siege",
+      "name": "Tundra Siege v2",
       "path": "js/config/scenarios/maps/map_sector_arctic.json",
       "sizeCategory": "large",
       "environment": "arctic",
       "width": 16,
       "height": 12,
-      "blurb": "Frozen lakes and scattered forests create a deadly puzzle. Two roads thread the only navigable paths."
+      "blurb": "Frozen lakes and scattered forests create a deadly puzzle. Two roads thread the only navigable paths. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_sector_mixed",
-      "name": "River Delta",
+      "name": "River Delta v2",
       "path": "js/config/scenarios/maps/map_sector_mixed.json",
       "sizeCategory": "large",
       "environment": "mixed",
       "width": 16,
       "height": 12,
-      "blurb": "River branches create islands of high ground. Urban strongpoints, hills, and water barriers divide the battlefield."
+      "blurb": "River branches create islands of high ground. Urban strongpoints, hills, and water barriers divide the battlefield. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_theater_urban",
-      "name": "Fallen City",
+      "name": "Fallen City v2",
       "path": "js/config/scenarios/maps/map_theater_urban.json",
       "sizeCategory": "grand",
       "environment": "urban",
       "width": 20,
       "height": 16,
-      "blurb": "A massive urban warzone. Three horizontal boulevards cross a grid of destructible city blocks. Every building can become rubble."
+      "blurb": "A massive urban warzone. Three horizontal boulevards cross a grid of destructible city blocks. Every building can become rubble. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_theater_wild",
-      "name": "The Great Forest",
+      "name": "The Great Forest v2",
       "path": "js/config/scenarios/maps/map_theater_wild.json",
       "sizeCategory": "grand",
       "environment": "wild",
       "width": 20,
       "height": 16,
-      "blurb": "Rivers branch through a vast forested landscape. Hills command the crossings. Long-range units thrive in the clearings."
+      "blurb": "Rivers branch through a vast forested landscape. Hills command the crossings. Long-range units thrive in the clearings. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_theater_desert",
-      "name": "Desert Warzone",
+      "name": "Desert Warzone v2",
       "path": "js/config/scenarios/maps/map_theater_desert.json",
       "sizeCategory": "grand",
       "environment": "desert",
       "width": 20,
       "height": 16,
-      "blurb": "Vast desert with twin oases and three road arteries. Ancient ruins and dune ridges anchor the flanks."
+      "blurb": "Vast desert with twin oases and three road arteries. Ancient ruins and dune ridges anchor the flanks. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_theater_arctic",
-      "name": "Arctic Front",
+      "name": "Arctic Front v2",
       "path": "js/config/scenarios/maps/map_theater_arctic.json",
       "sizeCategory": "grand",
       "environment": "arctic",
       "width": 20,
       "height": 16,
-      "blurb": "Massive frozen battlefield. A central ice lake dominates — two road bridges are the only links. Forest and hills guard the perimeter."
+      "blurb": "Massive frozen battlefield. A central ice lake dominates — two road bridges are the only links. Forest and hills guard the perimeter. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     },
     {
       "id": "map_theater_mixed",
-      "name": "Liberation Campaign",
+      "name": "Liberation Campaign v2",
       "path": "js/config/scenarios/maps/map_theater_mixed.json",
       "sizeCategory": "grand",
       "environment": "mixed",
       "width": 20,
       "height": 16,
-      "blurb": "Grand cross-terrain battle. Urban buildings, forest ridges, desert dunes, frozen lakes, and river barriers all collide in one massive map."
+      "blurb": "Grand cross-terrain battle. Urban buildings, forest ridges, desert dunes, frozen lakes, and river barriers all collide in one massive map. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
     }
   ]
 }

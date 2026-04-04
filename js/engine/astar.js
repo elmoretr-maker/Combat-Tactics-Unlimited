@@ -6,6 +6,8 @@ function key(x, y) { return x + "," + y; }
  * A* pathfinding using 8-directional movement (diagonal allowed).
  * Diagonal steps cost the same as cardinal steps — the terrain moveCost
  * of the destination tile applies in both cases.
+ *
+ * Pass a unit-specific `costAt` from GameState.costAtForUnit (infantry vs vehicle).
  */
 export function findPath(grid, start, goal, costAt) {
   const open = new Set([key(start[0], start[1])]);
@@ -46,6 +48,7 @@ export function findPath(grid, start, goal, costAt) {
 
 /**
  * Flood-fill reachable tiles within moveBudget using 8-directional movement.
+ * `costAt` should come from GameState.costAtForUnit for movement-class rules.
  */
 export function reachableTiles(grid, ox, oy, moveBudget, costAt) {
   const visited = new Map();

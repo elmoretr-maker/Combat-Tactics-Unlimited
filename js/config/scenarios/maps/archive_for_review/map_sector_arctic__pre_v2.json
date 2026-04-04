@@ -1,0 +1,44 @@
+{
+  "id": "map_sector_arctic",
+  "name": "Tundra Siege",
+  "width": 16,
+  "height": 12,
+  "cellSize": 48,
+  "winCondition": { "type": "eliminate" },
+  "terrain": [
+    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"],
+    ["snow","forest","forest","snow","snow","hill","hill","snow","snow","hill","hill","snow","forest","forest","snow","snow"],
+    ["snow","forest","snow","water","water","snow","snow","water","water","snow","snow","water","snow","forest","snow","snow"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["snow","snow","hill","water","water","snow","snow","water","water","snow","snow","water","hill","snow","snow","snow"],
+    ["snow","snow","snow","snow","water","water","water","water","water","water","snow","snow","snow","snow","snow","snow"],
+    ["snow","snow","snow","snow","water","water","water","water","water","water","snow","snow","snow","snow","snow","snow"],
+    ["snow","snow","hill","water","water","snow","snow","water","water","snow","snow","water","hill","snow","snow","snow"],
+    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
+    ["snow","forest","snow","water","water","snow","snow","water","water","snow","snow","water","snow","forest","snow","snow"],
+    ["snow","forest","forest","snow","snow","hill","hill","snow","snow","hill","hill","snow","forest","forest","snow","snow"],
+    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"]
+  ],
+  "units": [],
+  "presetEnemies": [
+    {"templateId":"grunt_red","owner":1,"x":14,"y":3},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":5},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":14,"y":8},
+    {"templateId":"opfor_tank","owner":1,"x":15,"y":5},
+    {"templateId":"opfor_tank","owner":1,"x":15,"y":6},
+    {"templateId":"grunt_red","owner":1,"x":13,"y":5}
+  ],
+  "skirmishDeploy": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":8},
+    {"x":1,"y":5},{"x":1,"y":6},{"x":2,"y":5},{"x":2,"y":6}
+  ],
+  "p1DeploymentSlots": [
+    {"x":0,"y":3},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":8},
+    {"x":1,"y":5},{"x":1,"y":6},{"x":2,"y":5},{"x":2,"y":6}
+  ],
+  "p2DeploymentSlots": [
+    {"x":15,"y":3},{"x":15,"y":5},{"x":15,"y":6},{"x":15,"y":8},
+    {"x":14,"y":5},{"x":14,"y":6},{"x":13,"y":5},{"x":13,"y":6}
+  ]
+}

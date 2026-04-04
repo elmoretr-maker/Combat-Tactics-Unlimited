@@ -1,0 +1,58 @@
+{
+  "id": "map_test_los_building",
+  "name": "LOS test ruin blocks shot",
+  "width": 5,
+  "height": 3,
+  "cellSize": 48,
+  "terrain": [
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ]
+  ],
+  "units": [
+    {
+      "templateId": "sniper",
+      "owner": 0,
+      "x": 0,
+      "y": 1
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 4,
+      "y": 1
+    }
+  ],
+  "mapObjects": [
+    {
+      "id": "ruins_mid",
+      "x": 2,
+      "y": 1,
+      "visualKind": "ruins",
+      "blocksMove": true,
+      "blocksLos": true
+    }
+  ],
+  "winCondition": {
+    "type": "eliminate"
+  },
+  "fogOfWar": false
+}
