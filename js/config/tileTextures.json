@@ -38,6 +38,20 @@
       "sightCost": 0,
       "defenseBonus": 0
     },
+    "water_desert": {
+      "moveCost": 99,
+      "blocksMove": true,
+      "color": "#78C3B4",
+      "sightCost": 0,
+      "defenseBonus": 0
+    },
+    "water_urban": {
+      "moveCost": 99,
+      "blocksMove": true,
+      "color": "#3a5f78",
+      "sightCost": 0,
+      "defenseBonus": 0
+    },
     "desert": {
       "moveCost": 1.5,
       "color": "#c8a84b",

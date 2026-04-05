@@ -1,5 +1,22 @@
 import { terrainColor } from "../engine/terrain.js";
 
+/* All terrain IDs that count as water (used in Pass 3 shore logic) */
+const WATER_TERRAIN_SET = new Set(["water", "water_desert", "water_urban"]);
+
+/* Shore/coast animation sprite (4 horizontal frames, 172×192 px each) */
+const SHORE_SPRITE_URL = "assets/tiles/urban/Water_coasts_animation.png";
+
+/**
+ * Convert a 6-digit CSS hex colour and a 0-1 alpha into an rgba() string.
+ * Using rgba() keeps compatibility with all canvas implementations.
+ */
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
+}
+
 /* ── High-resolution terrain tile overrides ──────────────────
  * Maps each terrain type to a list of high-res PNG paths (repo-relative).
  * Checked BEFORE the pixel-art TILE_MAP fallback below.
@@ -82,6 +99,10 @@ const TILE_MAP = {
   urban:         [118, 119, 120, 121],
   desert:        [14, 26, 14, 18, 26, 25, 14, 27],
   snow:          [129, 130, 131, 132],
+  /* Biome-specific water variants — no matching pixel-art tiles, so these
+     intentionally fall through to terrainColor fill + TERRAIN_DRAW_FALLBACK. */
+  water_desert:  [],
+  water_urban:   [],
   /* Craftpix / procedural terrain aliases — map to existing tile art */
   cp_grass:      [1, 1, 30, 1, 31, 1, 32],
   cp_road:       [94, 95, 96, 97],
@@ -98,16 +119,31 @@ function getCraftpixTileImage(url) {
   if (!url) return null;
   if (_craftpixTileCache.has(url)) return _craftpixTileCache.get(url);
   const img = new Image();
+  const entry = { img, ok: false, promise: null };
+  entry.promise = new Promise((resolve) => {
+    img.onload  = () => { entry.ok = true;  resolve(entry); };
+    img.onerror = () => { entry.ok = false; resolve(entry); };
+  });
   img.src = url;
-  const entry = { img, ok: false };
-  img.onload = () => {
-    entry.ok = true;
-  };
-  img.onerror = () => {
-    entry.ok = false;
-  };
   _craftpixTileCache.set(url, entry);
   return entry;
+}
+
+/**
+ * Preload all high-res terrain tiles + the shore sprite.
+ * Await this in the boot sequence so the first render is fully textured.
+ */
+export async function preloadTerrainTiles() {
+  const urls = new Set([SHORE_SPRITE_URL]);
+  for (const arr of Object.values(HIRES_TILE_MAP)) {
+    for (const url of arr) urls.add(url);
+  }
+  const promises = [];
+  for (const url of urls) {
+    const e = getCraftpixTileImage(url);
+    if (e?.promise) promises.push(e.promise);
+  }
+  await Promise.all(promises);
 }
 
 function getTileImage(idx) {
@@ -197,6 +233,48 @@ const TERRAIN_DRAW_FALLBACK = {
       }
       ctx.stroke();
     }
+  },
+  /* Oasis / desert creek — teal-green water with muted ripples */
+  water_desert(ctx, x, y, cs) {
+    ctx.strokeStyle = "rgba(100,200,185,0.50)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 3; i++) {
+      const wy = y + cs * (0.28 + i * 0.22);
+      ctx.beginPath();
+      ctx.moveTo(x + 4, wy);
+      for (let wx = x + 4; wx < x + cs - 4; wx += 6) {
+        ctx.quadraticCurveTo(wx + 3, wy - 2.5, wx + 6, wy);
+      }
+      ctx.stroke();
+    }
+    /* Subtle sandy-crack detail at the shore fringe — deterministic, no Math.random() */
+    ctx.strokeStyle = "rgba(200,170,80,0.25)";
+    ctx.lineWidth = 0.6;
+    const offsets = [[0.08, 0.12], [0.55, 0.08], [0.25, 0.78], [0.72, 0.72]];
+    for (const [ox, oy] of offsets) {
+      ctx.beginPath();
+      ctx.moveTo(x + cs * ox,        y + cs * oy);
+      ctx.lineTo(x + cs * (ox + 0.08), y + cs * (oy + 0.05));
+      ctx.stroke();
+    }
+  },
+  /* Urban canal / drainage — darker blue-grey water */
+  water_urban(ctx, x, y, cs) {
+    ctx.strokeStyle = "rgba(100,150,190,0.45)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 3; i++) {
+      const wy = y + cs * (0.28 + i * 0.22);
+      ctx.beginPath();
+      ctx.moveTo(x + 4, wy);
+      for (let wx = x + 4; wx < x + cs - 4; wx += 6) {
+        ctx.quadraticCurveTo(wx + 3, wy - 2, wx + 6, wy);
+      }
+      ctx.stroke();
+    }
+    /* Concrete edge hints */
+    ctx.strokeStyle = "rgba(160,170,180,0.30)";
+    ctx.lineWidth = 0.8;
+    ctx.strokeRect(x + 1, y + 1, cs - 2, cs - 2);
   },
   urban(ctx, x, y, cs) {
     ctx.strokeStyle = "rgba(180,180,200,0.4)";
@@ -495,6 +573,108 @@ export function drawGrid(ctx, game, tileTypes, options) {
             : "rgba(0,0,0,0.72)";
         ctx.lineWidth = 1.25;
         ctx.strokeRect(px + 0.5, py + 0.5, cs - 1, cs - 1);
+      }
+    }
+  }
+
+  /* ── Pass 3: shore + road-grass edge overlays ─────────────
+     Runs only on the main tactical map (not plane-stack view).
+     For each water cell: gradient strip on every land-adjacent edge using
+     the neighbour's terrain colour, giving a natural shoreline blend.
+     For each road cell: dark shoulder strip on every grass-adjacent edge.
+  ─────────────────────────────────────────────────────────── */
+  if (!planeStack) {
+    const ROAD_SET  = new Set(["road", "cp_road"]);
+    const GRASS_SET = new Set(["plains", "cp_grass", "forest"]);
+    const stripW = Math.max(4, Math.round(cs * 0.18));
+
+    /* Already cached from preloadTerrainTiles() */
+    const coastEntry = getCraftpixTileImage(SHORE_SPRITE_URL);
+    const hasCoast   = coastEntry?.ok && coastEntry.img.complete &&
+                       coastEntry.img.naturalWidth > 0;
+
+    for (let gy = 0; gy < g.height; gy++) {
+      for (let gx = 0; gx < g.width; gx++) {
+        const t       = g.cells[gy][gx];
+        const isWater = WATER_TERRAIN_SET.has(t);
+        const isRoad  = ROAD_SET.has(t);
+        if (!isWater && !isRoad) continue;
+
+        const px = Math.floor(gx * cs);
+        const py = Math.floor(gy * cs);
+        const pw = Math.floor((gx + 1) * cs) - px;
+        const ph = Math.floor((gy + 1) * cs) - py;
+
+        /* Four edge directions: [neighbour delta, gradient line, strip rect] */
+        const edges = [
+          /* North — land above, strip at top, gradient solid→transparent downward */
+          { dx:  0, dy: -1,
+            lx0: px,      ly0: py,      lx1: px,      ly1: py + stripW,
+            rx:  px,      ry:  py,      rw:  pw,      rh:  stripW,
+            coastAngle: 0 },
+          /* South — land below, strip at bottom, gradient upward */
+          { dx:  0, dy:  1,
+            lx0: px,      ly0: py + ph, lx1: px,      ly1: py + ph - stripW,
+            rx:  px,      ry:  py + ph - stripW, rw: pw, rh: stripW,
+            coastAngle: Math.PI },
+          /* West — land left, strip at left, gradient rightward */
+          { dx: -1, dy:  0,
+            lx0: px,      ly0: py,      lx1: px + stripW, ly1: py,
+            rx:  px,      ry:  py,      rw:  stripW,  rh:  ph,
+            coastAngle: -Math.PI / 2 },
+          /* East — land right, strip at right, gradient leftward */
+          { dx:  1, dy:  0,
+            lx0: px + pw, ly0: py,      lx1: px + pw - stripW, ly1: py,
+            rx:  px + pw - stripW, ry: py, rw: stripW, rh: ph,
+            coastAngle: Math.PI / 2 },
+        ];
+
+        for (const e of edges) {
+          const nx = gx + e.dx;
+          const ny = gy + e.dy;
+          if (nx < 0 || ny < 0 || nx >= g.width || ny >= g.height) continue;
+          const nt = g.cells[ny][nx];
+
+          let overlayColor = null;
+          let overlayAlpha = 0;
+
+          if (isWater && !WATER_TERRAIN_SET.has(nt)) {
+            overlayColor = terrainColor(tileTypes, nt);
+            overlayAlpha = 0.52;
+          } else if (isRoad && GRASS_SET.has(nt)) {
+            overlayColor = "#2a3a1a";
+            overlayAlpha = 0.30;
+          }
+
+          if (!overlayColor) continue;
+
+          /* Gradient fill — land colour fades into the water/road tile */
+          ctx.save();
+          const grd = ctx.createLinearGradient(e.lx0, e.ly0, e.lx1, e.ly1);
+          grd.addColorStop(0, hexToRgba(overlayColor, overlayAlpha));
+          grd.addColorStop(1, hexToRgba(overlayColor, 0));
+          ctx.fillStyle = grd;
+          ctx.fillRect(e.rx, e.ry, e.rw, e.rh);
+          ctx.restore();
+
+          /* Coast sprite detail layer (water/water_urban only; desert stays
+             gradient-only since the sprite's blue tones would look wrong).
+             Clip BEFORE rotating so the clip region stays in original space. */
+          if (isWater && t !== "water_desert" && hasCoast) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(e.rx, e.ry, e.rw, e.rh);
+            ctx.clip();
+            const tcx = px + pw / 2;
+            const tcy = py + ph / 2;
+            ctx.translate(tcx, tcy);
+            ctx.rotate(e.coastAngle);
+            ctx.translate(-tcx, -tcy);
+            ctx.globalAlpha = 0.40;
+            ctx.drawImage(coastEntry.img, 0, 0, 172, 192, px, py, pw, ph);
+            ctx.restore();
+          }
+        }
       }
     }
   }

@@ -6,12 +6,12 @@
     "urban": {
       "baseTerrain": "cp_grass",
       "roadTerrain": "cp_road",
-      "dividerTerrain": "water"
+      "dividerTerrain": "water_urban"
     },
     "desert": {
       "baseTerrain": "desert",
       "roadTerrain": "road",
-      "dividerTerrain": "water"
+      "dividerTerrain": "water_desert"
     },
     "grass": {
       "baseTerrain": "plains",

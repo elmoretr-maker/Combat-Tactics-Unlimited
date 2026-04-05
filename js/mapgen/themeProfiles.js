@@ -21,8 +21,8 @@ function baseThemeProfile(themeId) {
       id: "desert",
       baseTerrain: "desert",
       roadTerrain: "road",
-      dividerTerrain: "water",
-      dividerTypes: ["water"],
+      dividerTerrain: "water_desert",
+      dividerTypes: ["water_desert"],
       obstacleVisualKinds: [],
     };
   }
@@ -40,8 +40,8 @@ function baseThemeProfile(themeId) {
     id: "urban",
     baseTerrain: "cp_grass",
     roadTerrain: "cp_road",
-    dividerTerrain: "water",
-    dividerTypes: ["water"],
+    dividerTerrain: "water_urban",
+    dividerTypes: ["water_urban"],
     obstacleVisualKinds: [],
   };
 }

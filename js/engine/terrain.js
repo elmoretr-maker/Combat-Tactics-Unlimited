@@ -19,7 +19,11 @@ export function buildTerrainGrid(scenario, tileConfig) {
 
 export function moveCostAt(grid, tileTypes, x, y) {
   const type = grid.cells[y][x];
-  const info = tileTypes[type] || tileTypes.plains || { moveCost: 1 };
+  if (!tileTypes[type]) {
+    console.warn(`[terrain] Unknown terrain type "${type}" at (${x},${y}) — defaulting to impassable`);
+    return 99;
+  }
+  const info = tileTypes[type];
   if (info.blocksMove) return 99;
   return info.moveCost ?? 1;
 }
@@ -29,7 +33,11 @@ export function moveCostAt(grid, tileTypes, x, y) {
  */
 export function moveCostAtForClass(grid, tileTypes, x, y, movementClass) {
   const type = grid.cells[y][x];
-  const info = tileTypes[type] || tileTypes.plains || { moveCost: 1 };
+  if (!tileTypes[type]) {
+    console.warn(`[terrain] Unknown terrain type "${type}" at (${x},${y}) — defaulting to impassable`);
+    return 99;
+  }
+  const info = tileTypes[type];
   if (info.blocksMove) return 99;
   if (movementClass === "vehicle" && type === "forest") return 99;
   return info.moveCost ?? 1;
@@ -37,5 +45,9 @@ export function moveCostAtForClass(grid, tileTypes, x, y, movementClass) {
 
 export function terrainColor(tileTypes, type) {
   const info = tileTypes[type];
-  return (info && info.color) || "#445544";
+  if (!info) {
+    console.warn(`[terrain] Unknown terrain type "${type}" in terrainColor — using fallback`);
+    return "#445544";
+  }
+  return info.color || "#445544";
 }

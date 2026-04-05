@@ -178,7 +178,8 @@ export function drawMapObjects(ctx, game, offsetX, offsetY) {
       }
 
       const pyOff = typeof o.pyOffset === "number" && Number.isFinite(o.pyOffset) ? o.pyOffset : 0;
-      py += pyOff;
+      px = Math.round(px);
+      py = Math.round(py + pyOff);
 
       ctx.save();
       ctx.imageSmoothingEnabled = true;

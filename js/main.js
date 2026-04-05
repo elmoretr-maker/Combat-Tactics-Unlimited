@@ -1,6 +1,6 @@
 import { loadJson } from "./loadConfig.js";
 import { GameState } from "./engine/gameState.js";
-import { drawGrid } from "./render/canvasGrid.js";
+import { drawGrid, preloadTerrainTiles } from "./render/canvasGrid.js";
 import { UnitRenderer } from "./render/unitRenderer.js";
 import { BattleVfx } from "./render/battleVfx.js";
 import { FxLayer } from "./render/fxLayer.js";
@@ -2034,6 +2034,7 @@ async function bootProceduralSkirmish(theme = "urban") {
   const [tiles, assetManifest] = await Promise.all([
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/assetManifest.json").catch(() => null),
+    preloadTerrainTiles(),
   ]);
   const scenario = generateProceduralScenario({
     theme,
