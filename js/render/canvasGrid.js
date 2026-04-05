@@ -23,14 +23,20 @@ import { terrainColor } from "../engine/terrain.js";
  * 129-132   = snow / light ground
  */
 const TILE_MAP = {
-  plains:  [1, 1, 1, 30, 1, 31, 1, 1, 32, 1, 30],
-  water:   [0, 0, 9, 0, 0, 10, 0, 11, 0],
-  forest:  [19, 20, 21, 19, 20, 21],
-  hill:    [22, 28, 22, 28],
-  road:    [94, 95, 96, 97],
-  urban:   [118, 119, 120, 121],
-  desert:  [14, 26, 14, 18, 26, 25, 14, 27],
-  snow:    [129, 130, 131, 132],
+  plains:        [1, 1, 1, 30, 1, 31, 1, 1, 32, 1, 30],
+  water:         [0, 0, 9, 0, 0, 10, 0, 11, 0],
+  forest:        [19, 20, 21, 19, 20, 21],
+  hill:          [22, 28, 22, 28],
+  road:          [94, 95, 96, 97],
+  urban:         [118, 119, 120, 121],
+  desert:        [14, 26, 14, 18, 26, 25, 14, 27],
+  snow:          [129, 130, 131, 132],
+  /* Craftpix / procedural terrain aliases — map to existing tile art */
+  cp_grass:      [1, 1, 30, 1, 31, 1, 32],
+  cp_road:       [94, 95, 96, 97],
+  cp_building:   [118, 119, 120, 121],
+  cp_rubble:     [22, 28, 22],
+  building_block:[118, 119, 120, 121],
 };
 
 /* ── Image cache ──────────────────────────────────────────── */
@@ -224,14 +230,20 @@ export function drawGrid(ctx, game, tileTypes, options) {
       if (!planeStack) {
         const craftUrl = tileTypes[t]?.tileImage;
         if (craftUrl) {
+          /* Always fill the base colour first — image may be partially
+             transparent (or a sprite sheet), so never expose raw black canvas. */
+          ctx.fillStyle = terrainColor(tileTypes, t);
+          ctx.fillRect(px, py, pw, ph);
           const cent = getCraftpixTileImage(craftUrl);
           if (cent?.ok && cent.img.complete && cent.img.naturalWidth) {
             ctx.save();
             ctx.imageSmoothingEnabled = true;
             ctx.drawImage(cent.img, px, py, pw, ph);
             ctx.restore();
-            drewImage = true;
+          } else {
+            drawTerrainFallback(ctx, t, px, py, cs);
           }
+          drewImage = true;
         }
       }
       if (!planeStack) {

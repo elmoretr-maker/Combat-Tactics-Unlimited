@@ -54,30 +54,26 @@
       "moveCost": 1,
       "color": "#3d5c3a",
       "sightCost": 0,
-      "defenseBonus": 0.08,
-      "tileImage": "attached_assets/craftpix_pack/city/PNG City/Tiles/_0003_GrassTiles.png"
+      "defenseBonus": 0.08
     },
     "cp_road": {
       "moveCost": 0.5,
       "color": "#5a5348",
       "sightCost": 0,
-      "defenseBonus": 0,
-      "tileImage": "attached_assets/craftpix_pack/city/PNG City/Tiles/_0004_RoadTiles.png"
+      "defenseBonus": 0
     },
     "cp_building": {
       "moveCost": 1.5,
       "color": "#4a4a52",
       "sightCost": 2,
       "defenseBonus": 0.35,
-      "blocksLos": true,
-      "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/small_houses/Details/small_house1_color1_roof.png"
+      "blocksLos": true
     },
     "cp_rubble": {
       "moveCost": 2,
       "color": "#3a3a40",
       "sightCost": 1,
-      "defenseBonus": 0.15,
-      "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png"
+      "defenseBonus": 0.15
     },
     "building_block": {
       "moveCost": 99,
@@ -85,8 +81,7 @@
       "blocksLos": true,
       "color": "#3a3840",
       "sightCost": 0,
-      "defenseBonus": 0,
-      "tileImage": "attached_assets/craftpix_pack/city/PNG City 2/small_houses/Details/small_house1_color1_roof.png"
+      "defenseBonus": 0
     }
   },
   "defaultType": "plains"
