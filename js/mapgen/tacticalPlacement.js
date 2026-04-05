@@ -144,18 +144,73 @@ export function terrainAllowsPlacement(terrainId, allowTerrain) {
 }
 
 /**
- * Trees: no other tree within Chebyshev distance ≤ 1 (i.e. require ≥ 2 for another tree center).
- * @param {{ x: number, y: number, visualKind?: string }[]} mapObjects
+ * Spacing check for a candidate placement.
+ * - Trees:           no other tree within Chebyshev 1 (strict isolation so they form clusters, not lines).
+ * - Any blocking prop: no other blocking prop in the 4 cardinal neighbours (prevents solid walls).
+ *
+ * @param {{ x: number, y: number, visualKind?: string, blocksMove?: boolean }[]} mapObjects
+ * @param {number} x
+ * @param {number} y
+ * @param {string} kindForNew  effective visual kind of the candidate
+ * @param {boolean} [newBlocksMove]
  */
-export function treeSpacingOk(mapObjects, x, y, kindForNew) {
+export function treeSpacingOk(mapObjects, x, y, kindForNew, newBlocksMove = true) {
   const k = (kindForNew || "").toLowerCase();
-  if (k !== "tree") return true;
+
   for (const o of mapObjects) {
-    const ok = (o.visualKind || "").toLowerCase();
-    if (ok !== "tree") continue;
-    if (chebyshev(o.x, o.y, x, y) <= 1) return false;
+    const dist = chebyshev(o.x, o.y, x, y);
+
+    /* Trees: no other tree within Chebyshev 1 */
+    if (k === "tree") {
+      const ok = (o.visualKind || "").toLowerCase();
+      if (ok === "tree" && dist <= 1) return false;
+    }
+
+    /* Any blocking prop: no other blocking prop in the 4 cardinal neighbours (dist === 1, axis-aligned) */
+    if (newBlocksMove && o.blocksMove !== false) {
+      if (dist === 1 && (o.x === x || o.y === y)) return false;
+    }
   }
   return true;
+}
+
+/**
+ * Build a fast Set of cells that are occupied or adjacent (Chebyshev 1) to existing blocking props.
+ * Used to pre-filter candidates before the expensive path check.
+ * @param {{ x: number, y: number, blocksMove?: boolean }[]} mapObjects
+ * @returns {Set<string>}
+ */
+export function buildBlockedNeighbourSet(mapObjects) {
+  const s = new Set();
+  for (const o of mapObjects) {
+    if (o.blocksMove === false) continue;
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        s.add(key(o.x + dx, o.y + dy));
+      }
+    }
+  }
+  return s;
+}
+
+/**
+ * Expand a pathway reserve Set by 1 cardinal tile so props cannot be placed
+ * immediately adjacent to the free lane (would close diagonal bypasses).
+ * @param {Set<string>} reserve
+ * @param {number} w
+ * @param {number} h
+ */
+export function expandPathwayReserve(reserve, w, h) {
+  const expanded = new Set(reserve);
+  for (const k of reserve) {
+    const [x, y] = k.split(",").map(Number);
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && nx < w && ny >= 0 && ny < h) expanded.add(`${nx},${ny}`);
+    }
+  }
+  return expanded;
 }
 
 /** 4-neighbor A* / uniform-step path for orthogonal corridor. */

@@ -4,6 +4,7 @@ import { isBlockedMoveCost, BLOCKED_MOVE_COST } from "./pathfindingCost.js";
 import { makeMapObject, mapObjectBlocksMoveAt } from "./mapObjects.js";
 import {
   computeOrthogonalPathwayReserve,
+  expandPathwayReserve,
   tacticalDensity,
   pickKindIndexFromNoise,
   placementSpecForKind,
@@ -135,11 +136,16 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     u1.length > 0
       ? u1.map((u) => [u.x, u.y])
       : [[grid.width - 2, Math.floor(grid.height / 2)]];
-  const pathwayReserve = computeOrthogonalPathwayReserve(
-    grid.cells,
-    tileTypes,
-    playerSpawns,
-    enemySpawns,
+  /* Expand pathway reserve by 1 tile so props can't flank the free lane */
+  const pathwayReserve = expandPathwayReserve(
+    computeOrthogonalPathwayReserve(
+      grid.cells,
+      tileTypes,
+      playerSpawns,
+      enemySpawns,
+    ),
+    grid.width,
+    grid.height,
   );
 
   const candidates = [];
@@ -148,12 +154,6 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
       if (reserved.has(key(x, y))) continue;
       const t = grid.cells[y][x];
       if (t === "building_block") continue;
-      if (t === "water") {
-        candidates.push([x, y]);
-        continue;
-      }
-      const c = moveCostAt(grid, tileTypes, x, y);
-      if (isBlockedMoveCost(c)) continue;
       candidates.push([x, y]);
     }
   }
@@ -176,6 +176,12 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
 
   const tryPlaceAt = (x, y, force = false) => {
     const t = grid.cells[y][x];
+
+    if (t !== "water") {
+      const c = moveCostAt(grid, tileTypes, x, y);
+      if (isBlockedMoveCost(c)) return false;
+    }
+
     const valid = PROP_TYPES.filter((ob) => {
       const spec = placementSpecForKind(ob.kind, ob.sprite);
       return terrainAllowsPlacement(t, spec.allowTerrain);
@@ -188,8 +194,13 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     const pick = valid[pickKindIndexFromNoise(d, valid.length, x, y, rnd)];
     const vk = effectiveObstacleKind(pick.kind, pick.sprite);
     const spec = placementSpecForKind(pick.kind, pick.sprite);
+    const willBlock = spec.placement !== "air" && spec.blocksMove !== false;
 
-    if (!treeSpacingOk(mapObjects, x, y, vk)) return false;
+    /* Spacing: trees need 1-cell isolation; all blocking props need orthogonal clearance */
+    if (!treeSpacingOk(mapObjects, x, y, vk, willBlock)) return false;
+
+    /* Pathway guard */
+    if (willBlock && pathwayReserve.has(key(x, y))) return false;
 
     const extra = {};
     if (spec.placement === "air") {
@@ -202,8 +213,6 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     }
 
     const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
-    if (pathwayReserve.has(key(x, y)) && obj.blocksMove !== false) return false;
-
     mapObjects.push(obj);
     if (!pathStillExists(grid, tileTypes, mapObjects, scenario)) {
       mapObjects.pop();
@@ -212,19 +221,27 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     return true;
   };
 
+  /* Primary pass */
   for (let i = 0; i < candidates.length && mapObjects.length < target; i++) {
     const [x, y] = candidates[i];
     if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
     tryPlaceAt(x, y, false);
   }
 
-  const minFloor = Math.min(minO, candidates.length);
-  let extraTries = Math.min(220, candidates.length * 4);
-  while (mapObjects.length < minFloor && extraTries-- > 0) {
-    const pair = candidates[Math.floor(rnd() * candidates.length)];
-    if (!pair) break;
-    const [x, y] = pair;
-    if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
-    tryPlaceAt(x, y, true);
+  /* Fill pass: cap at 75% of target so we don't pack solid walls */
+  const fillTarget = Math.min(target, Math.ceil(target * 0.75));
+  if (mapObjects.length < fillTarget) {
+    const fillPool = [...candidates];
+    for (let i = fillPool.length - 1; i > 0; i--) {
+      const j = Math.floor(rnd() * (i + 1));
+      [fillPool[i], fillPool[j]] = [fillPool[j], fillPool[i]];
+    }
+    let fillTries = Math.min(200, fillPool.length);
+    for (const [x, y] of fillPool) {
+      if (mapObjects.length >= fillTarget) break;
+      if (fillTries-- <= 0) break;
+      if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
+      tryPlaceAt(x, y, true);
+    }
   }
 }

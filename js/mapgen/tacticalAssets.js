@@ -9,6 +9,8 @@ import { hasTwoVertexDisjointPathsWithObjects } from "./dividerRule.js";
 import { shuffleInPlace } from "./rng.js";
 import {
   computeOrthogonalPathwayReserve,
+  expandPathwayReserve,
+  buildBlockedNeighbourSet,
   tacticalDensity,
   pickKindIndexFromNoise,
   placementSpecForKind,
@@ -276,14 +278,18 @@ export function placeTacticalAssets(opts) {
   const w = terrain[0].length;
   const h = terrain.length;
   const g = gridFromTerrain(terrain);
-  const pathwayReserve = computeOrthogonalPathwayReserve(
+  const noiseSeed = placementSeed >>> 0;
+
+  /* ── Pathway reserve (expanded 1 tile so props can't flank it) ── */
+  const pathwayRaw = computeOrthogonalPathwayReserve(
     terrain,
     tileTypes,
     playerSpawns,
     enemySpawns,
   );
-  const noiseSeed = placementSeed >>> 0;
+  const pathwayReserve = expandPathwayReserve(pathwayRaw, w, h);
 
+  /* ── Candidate cells ── */
   const candidates = [];
   for (let y = 1; y < h - 1; y++) {
     for (let x = 1; x < w - 1; x++) {
@@ -291,119 +297,119 @@ export function placeTacticalAssets(opts) {
       if (spawns.has(key(x, y))) continue;
       const t = terrain[y][x];
       if (t === "building_block") continue;
-      if (t === "water") {
-        candidates.push([x, y]);
-        continue;
-      }
-      if (moveCostAt(g, tileTypes, x, y) >= 99) continue;
+      /* water cells only valid for water-locked kinds */
       candidates.push([x, y]);
     }
   }
 
+  /* Sort so high-density areas are tried first — creates visual clusters */
   candidates.sort((a, b) => {
     const da = tacticalDensity(noiseSeed, a[0], a[1]);
     const db = tacticalDensity(noiseSeed, b[0], b[1]);
     return db - da;
   });
 
-  const kinds = profile.obstacleVisualKinds;
-  if (kinds.length) {
-    for (const [x, y] of candidates) {
-      if (mapObjects.length >= maxObstacles) break;
+  /**
+   * Try to place a single obstacle.
+   * Returns true if placement was accepted.
+   * @param {number} x
+   * @param {number} y
+   * @param {boolean} relaxNoise  if true, skip the noise-threshold roll (fill pass)
+   */
+  const tryPlace = (x, y, relaxNoise) => {
+    const t = terrain[y][x];
 
-      const d = tacticalDensity(noiseSeed, x, y);
-      const placeChance = 0.14 + d * 0.78;
-      if (rnd() > placeChance) continue;
-
-      const t = terrain[y][x];
-      const validKinds = kinds.filter((ob) => {
+    /* Water cells only hold water-locked kinds; skip everything else early */
+    if (t === "water") {
+      const validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
         const spec = placementSpecForKind(ob.kind, ob.sprite);
-        return terrainAllowsPlacement(t, spec.allowTerrain);
+        return spec.placement === "water";
       });
-      if (!validKinds.length) continue;
+      if (!validKinds.length) return false;
+    }
 
-      const ki = pickKindIndexFromNoise(d, validKinds.length, x, y, rnd);
-      const pick = validKinds[ki];
-      const vk = effectiveObstacleKind(pick.kind, pick.sprite);
-      const spec = placementSpecForKind(pick.kind, pick.sprite);
+    if (moveCostAt(g, tileTypes, x, y) >= 99 && t !== "water") return false;
 
-      if (!treeSpacingOk(mapObjects, x, y, vk)) continue;
+    const d = tacticalDensity(noiseSeed, x, y);
+    if (!relaxNoise && rnd() > 0.18 + d * 0.72) return false;
 
-      /** @type {{ pyOffset?: number, blocksMove?: boolean, blocksLos?: boolean }} */
-      const extra = {};
-      if (spec.placement === "air") {
-        extra.pyOffset = Math.round(-cellSize * 0.36);
-        extra.blocksMove = false;
-        extra.blocksLos = false;
-      } else {
-        if (spec.blocksMove === false) extra.blocksMove = false;
-        if (spec.blocksLos === false) extra.blocksLos = false;
-        if (typeof spec.pyOffset === "number") {
-          extra.pyOffset = Math.round(spec.pyOffset * (cellSize / 48));
-        }
-      }
+    const validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
+      const spec = placementSpecForKind(ob.kind, ob.sprite);
+      return terrainAllowsPlacement(t, spec.allowTerrain);
+    });
+    if (!validKinds.length) return false;
 
-      const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
+    const ki = pickKindIndexFromNoise(d, validKinds.length, x, y, rnd);
+    const pick = validKinds[ki];
+    const vk = effectiveObstacleKind(pick.kind, pick.sprite);
+    const spec = placementSpecForKind(pick.kind, pick.sprite);
+    const willBlock = spec.placement !== "air" && spec.blocksMove !== false;
 
-      if (pathwayReserve.has(key(x, y)) && obj.blocksMove !== false) continue;
+    /* ── Spacing: apply to all blocking props, not just trees ── */
+    if (!treeSpacingOk(mapObjects, x, y, vk, willBlock)) return false;
 
-      const trial = [...mapObjects, obj];
-      if (
-        hasTwoVertexDisjointPathsWithObjects(
-          terrain,
-          tileTypes,
-          trial,
-          playerSpawns,
-          enemySpawns,
-        )
-      ) {
-        mapObjects.push(obj);
+    /* ── Pathway guard: blocking props may not touch the free lane ── */
+    if (willBlock && pathwayReserve.has(key(x, y))) return false;
+
+    const extra = {};
+    if (spec.placement === "air") {
+      extra.pyOffset = Math.round(-cellSize * 0.36);
+      extra.blocksMove = false;
+      extra.blocksLos = false;
+    } else {
+      if (spec.blocksMove === false) extra.blocksMove = false;
+      if (spec.blocksLos === false) extra.blocksLos = false;
+      if (typeof spec.pyOffset === "number") {
+        extra.pyOffset = Math.round(spec.pyOffset * (cellSize / 48));
       }
     }
 
-    /* Fill toward maxObstacles when noise-threshold pass was too sparse. */
-    let fillTries = Math.min(400, candidates.length * 3);
-    while (mapObjects.length < maxObstacles && fillTries-- > 0) {
-      const [x, y] = candidates[Math.floor(rnd() * candidates.length)];
+    const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
+
+    /* ── Disjoint-path guard: still ensure two routes survive ── */
+    const trial = [...mapObjects, obj];
+    if (
+      !hasTwoVertexDisjointPathsWithObjects(
+        terrain,
+        tileTypes,
+        trial,
+        playerSpawns,
+        enemySpawns,
+      )
+    ) {
+      return false;
+    }
+
+    mapObjects.push(obj);
+    return true;
+  };
+
+  const kinds = profile.obstacleVisualKinds;
+  if (kinds.length) {
+    /* ── Primary pass: noise-sorted, respects probability threshold ── */
+    for (const [x, y] of candidates) {
+      if (mapObjects.length >= maxObstacles) break;
       if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
+      tryPlace(x, y, false);
+    }
 
-      const t = terrain[y][x];
-      const validKinds = kinds.filter((ob) => {
-        const sp = placementSpecForKind(ob.kind, ob.sprite);
-        return terrainAllowsPlacement(t, sp.allowTerrain);
-      });
-      if (!validKinds.length) continue;
-
-      const d = tacticalDensity(noiseSeed, x, y);
-      const pick = validKinds[pickKindIndexFromNoise(d, validKinds.length, x, y, rnd)];
-      const vk = effectiveObstacleKind(pick.kind, pick.sprite);
-      const spec = placementSpecForKind(pick.kind, pick.sprite);
-      if (!treeSpacingOk(mapObjects, x, y, vk)) continue;
-
-      const extra = {};
-      if (spec.placement === "air") {
-        extra.pyOffset = Math.round(-cellSize * 0.36);
-        extra.blocksMove = false;
-        extra.blocksLos = false;
-      } else {
-        if (spec.blocksMove === false) extra.blocksMove = false;
-        if (spec.blocksLos === false) extra.blocksLos = false;
+    /* ── Fill pass: reach a minimum floor without opening walls.
+         Uses the same spacing + pathway rules; only relaxes the noise roll.
+         Cap at 75% of maxObstacles so we never pack the board solid. ── */
+    const fillTarget = Math.min(maxObstacles, Math.ceil(maxObstacles * 0.75));
+    if (mapObjects.length < fillTarget) {
+      /* Shuffle candidates for fill so we don't always retry the same dense spots */
+      const fillPool = [...candidates];
+      for (let i = fillPool.length - 1; i > 0; i--) {
+        const j = Math.floor(rnd() * (i + 1));
+        [fillPool[i], fillPool[j]] = [fillPool[j], fillPool[i]];
       }
-
-      const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
-      if (pathwayReserve.has(key(x, y)) && obj.blocksMove !== false) continue;
-
-      const trial = [...mapObjects, obj];
-      if (
-        hasTwoVertexDisjointPathsWithObjects(
-          terrain,
-          tileTypes,
-          trial,
-          playerSpawns,
-          enemySpawns,
-        )
-      ) {
-        mapObjects.push(obj);
+      let fillTries = Math.min(300, fillPool.length);
+      for (const [x, y] of fillPool) {
+        if (mapObjects.length >= fillTarget) break;
+        if (fillTries-- <= 0) break;
+        if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
+        tryPlace(x, y, true);
       }
     }
   }
