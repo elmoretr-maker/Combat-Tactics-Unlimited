@@ -149,8 +149,10 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
   );
 
   const candidates = [];
-  for (let y = 0; y < grid.height; y++) {
-    for (let x = 0; x < grid.width; x++) {
+  /* 1-cell inward margin: props on the outermost row/column look unnatural
+     and can interact poorly with spawn zones placed at grid edges. */
+  for (let y = 1; y < grid.height - 1; y++) {
+    for (let x = 1; x < grid.width - 1; x++) {
       if (reserved.has(key(x, y))) continue;
       const t = grid.cells[y][x];
       if (t === "building_block") continue;
@@ -158,11 +160,14 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     }
   }
 
-  candidates.sort((a, b) => {
-    const da = tacticalDensity(seed ^ 0x51a11ed, a[0], a[1]);
-    const db = tacticalDensity(seed ^ 0x51a11ed, b[0], b[1]);
-    return db - da;
-  });
+  /* Shuffle candidates so props are tried in random spatial order.
+     Noise still controls placement probability via the rnd() gate in tryPlaceAt,
+     so high-density areas still get more props — but no longer in sequential
+     ridge order that causes line formation. */
+  for (let i = candidates.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+  }
 
   const minO = cfg.minObstacles ?? 5;
   const maxO = cfg.maxObstacles ?? 10;

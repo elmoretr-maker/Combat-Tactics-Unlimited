@@ -302,12 +302,11 @@ export function placeTacticalAssets(opts) {
     }
   }
 
-  /* Sort so high-density areas are tried first — creates visual clusters */
-  candidates.sort((a, b) => {
-    const da = tacticalDensity(noiseSeed, a[0], a[1]);
-    const db = tacticalDensity(noiseSeed, b[0], b[1]);
-    return db - da;
-  });
+  /* Shuffle candidates so props are tried in random spatial order.
+     Noise still controls placement probability (high-density cells pass
+     the rnd() gate far more often), but we no longer process cells along
+     a density ridge sequentially — which was the root cause of line formation. */
+  shuffleInPlace(candidates, rnd);
 
   /**
    * Try to place a single obstacle.

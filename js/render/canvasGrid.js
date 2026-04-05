@@ -1,7 +1,58 @@
 import { terrainColor } from "../engine/terrain.js";
 
+/* ── High-resolution terrain tile overrides ──────────────────
+ * Maps each terrain type to a list of high-res PNG paths (repo-relative).
+ * Checked BEFORE the pixel-art TILE_MAP fallback below.
+ * Variant selection uses a deterministic XOR hash (no per-frame randomness)
+ * that avoids the diagonal stripe artifacts of a linear modulo hash.
+ *
+ * Only include tiles confirmed to exist on disk as solid ground textures.
+ * The three urban tiles below are the curated ground-appropriate subset.
+ */
+const HIRES_TILE_MAP = {
+  /* Urban / city ground */
+  urban:       [
+    "assets/tiles/urban/Tile_Urban_Tile_691e5367.png",
+    "assets/tiles/urban/Tile_Urban_Tile_df1dd40d.png",
+    "assets/tiles/urban/Tile_Urban_Tile_ff2db801.png",
+  ],
+  cp_grass:    [
+    "assets/tiles/urban/Tile_Urban_Tile_691e5367.png",
+    "assets/tiles/urban/Tile_Urban_Tile_df1dd40d.png",
+    "assets/tiles/urban/Tile_Urban_Tile_ff2db801.png",
+  ],
+  cp_road:     [
+    "assets/tiles/urban/Tile_Urban_Tile_691e5367.png",
+    "assets/tiles/urban/Tile_Urban_Tile_df1dd40d.png",
+  ],
+  /* Desert ground — all 10 tiles are confirmed solid ground textures */
+  desert:      [
+    "assets/tiles/desert/Tile_Desert_Tile_4c54db55.png",
+    "assets/tiles/desert/Tile_Desert_Tile_8501cf17.png",
+    "assets/tiles/desert/Tile_Desert_Tile_a97a3f77.png",
+    "assets/tiles/desert/Tile_Desert_Tile_c085f0b5.png",
+    "assets/tiles/desert/Tile_Desert_Tile_e374f7b5.png",
+    "assets/tiles/desert/Tile_Desert_Tile_f8a9863d.png",
+    "assets/tiles/desert/Tile_Desert_Tile_f8aca067.png",
+    "assets/tiles/desert/Tile_Desert_Tile_13a4ce6c.png",
+    "assets/tiles/desert/Tile_Desert_Tile_73893cba.png",
+    "assets/tiles/desert/Tile_Desert_Tile_9584eb62.png",
+  ],
+};
+
+/**
+ * Deterministic XOR-based spatial hash — avoids diagonal stripe patterns
+ * that appear with a linear hash like (gx*7 + gy*13) % N.
+ * Returns an integer in [0, len).
+ */
+function hiresVariantIndex(gx, gy, len) {
+  let h = (gx * 374761393) ^ (gy * 668265263);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return ((h ^ (h >>> 16)) >>> 0) % len;
+}
+
 /*
- * TILE MANIFEST
+ * TILE MANIFEST (pixel-art fallback)
  * Maps each terrain type to a list of tile_NNN.png indices.
  * The renderer picks among them deterministically (no random each frame)
  * using the cell position as a seed, so the map looks varied but stable.
@@ -228,8 +279,25 @@ export function drawGrid(ctx, game, tileTypes, options) {
         drewImage = true;
       }
       if (!planeStack) {
+        /* ── High-res tile override (checked before pixel-art fallback) ── */
+        const hiresArr = HIRES_TILE_MAP[t];
+        if (hiresArr && hiresArr.length) {
+          ctx.fillStyle = terrainColor(tileTypes, t);
+          ctx.fillRect(px, py, pw, ph);
+          const hiresUrl = hiresArr[hiresVariantIndex(x, y, hiresArr.length)];
+          const hent = getCraftpixTileImage(hiresUrl);
+          if (hent?.ok && hent.img.complete && hent.img.naturalWidth) {
+            ctx.save();
+            ctx.imageSmoothingEnabled = true;
+            ctx.drawImage(hent.img, px, py, pw, ph);
+            ctx.restore();
+            drewImage = true;
+          }
+        }
+      }
+      if (!planeStack) {
         const craftUrl = tileTypes[t]?.tileImage;
-        if (craftUrl) {
+        if (!drewImage && craftUrl) {
           /* Always fill the base colour first — image may be partially
              transparent (or a sprite sheet), so never expose raw black canvas. */
           ctx.fillStyle = terrainColor(tileTypes, t);

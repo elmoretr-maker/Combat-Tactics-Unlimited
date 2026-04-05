@@ -144,9 +144,14 @@ export function terrainAllowsPlacement(terrainId, allowTerrain) {
 }
 
 /**
- * Spacing check for a candidate placement.
- * - Trees:           no other tree within Chebyshev 1 (strict isolation so they form clusters, not lines).
- * - Any blocking prop: no other blocking prop in the 4 cardinal neighbours (prevents solid walls).
+ * Spacing check for a candidate placement. Per-kind exclusion zones:
+ *
+ * - tree:  no other tree within Chebyshev 2 (5×5 zone). Forces forest blobs,
+ *          not lines. 3-cell minimum gap between tree centres.
+ * - crate: no spacing restriction — small clutter can sit adjacent freely.
+ * - other blocking props (rock, ruins, barrel, …): full Chebyshev-1 exclusion
+ *          (3×3 zone). Prevents every-other-cell diagonal fills that produce
+ *          visible lines while still allowing organic single-cell clusters.
  *
  * @param {{ x: number, y: number, visualKind?: string, blocksMove?: boolean }[]} mapObjects
  * @param {number} x
@@ -160,16 +165,18 @@ export function treeSpacingOk(mapObjects, x, y, kindForNew, newBlocksMove = true
   for (const o of mapObjects) {
     const dist = chebyshev(o.x, o.y, x, y);
 
-    /* Trees: no other tree within Chebyshev 2 — forces forest blobs, not lines.
-       Minimum gap of 3 cells in every direction between tree centres. */
+    /* Trees: no other tree within Chebyshev 2 (3-cell gap, all directions). */
     if (k === "tree") {
-      const ok = (o.visualKind || "").toLowerCase();
-      if (ok === "tree" && dist <= 2) return false;
+      const ov = (o.visualKind || "").toLowerCase();
+      if (ov === "tree" && dist <= 2) return false;
     }
 
-    /* Any blocking prop: no other blocking prop in the 4 cardinal neighbours (dist === 1, axis-aligned) */
-    if (newBlocksMove && o.blocksMove !== false) {
-      if (dist === 1 && (o.x === x || o.y === y)) return false;
+    /* Solid blocking props (rocks, ruins, barrels — not trees or crates):
+       Full Chebyshev-1 exclusion around every placed blocking prop.
+       This closes the diagonal gaps that the old axis-aligned rule left open,
+       which was the source of every-other-cell diagonal lines. */
+    if (k !== "crate" && k !== "tree" && newBlocksMove && o.blocksMove !== false) {
+      if (dist <= 1) return false;
     }
   }
   return true;
