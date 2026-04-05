@@ -199,20 +199,26 @@ export function drawGrid(ctx, game, tileTypes, options) {
   ctx.save();
   ctx.translate(ox, oy);
 
+  /* ── Pass 1: tile fills (edge-to-edge, no inset/padding) ── */
   for (let y = 0; y < g.height; y++) {
     for (let x = 0; x < g.width; x++) {
-      const t = g.cells[y][x];
-      const px = x * cs;
-      const py = y * cs;
+      const t  = g.cells[y][x];
+      /* Integer pixel coords — Math.floor prevents sub-pixel gap artifacts
+         when the CSS-transform zoom produces non-integer CSS-pixel boundaries. */
+      const px = Math.floor(x * cs);
+      const py = Math.floor(y * cs);
+      /* Draw one pixel wider/taller so adjacent tiles share the boundary pixel
+         and no canvas-background bleed-through occurs at any zoom level. */
+      const pw = Math.floor((x + 1) * cs) - px;
+      const ph = Math.floor((y + 1) * cs) - py;
 
-      /* ── Tile image (primary) or colour fallback ── */
       let drewImage = false;
       if (planeStack) {
         ctx.fillStyle =
           (x + y) % 2 === 0
             ? "rgba(255,255,255,0.05)"
             : "rgba(0,0,0,0.07)";
-        ctx.fillRect(px, py, cs, cs);
+        ctx.fillRect(px, py, pw, ph);
         drewImage = true;
       }
       if (!planeStack) {
@@ -222,7 +228,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
           if (cent?.ok && cent.img.complete && cent.img.naturalWidth) {
             ctx.save();
             ctx.imageSmoothingEnabled = true;
-            ctx.drawImage(cent.img, px, py, cs, cs);
+            ctx.drawImage(cent.img, px, py, pw, ph);
             ctx.restore();
             drewImage = true;
           }
@@ -236,7 +242,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
             if (entry.ok && entry.img.complete && entry.img.naturalWidth) {
               ctx.save();
               ctx.imageSmoothingEnabled = false;
-              ctx.drawImage(entry.img, px, py, cs, cs);
+              ctx.drawImage(entry.img, px, py, pw, ph);
               ctx.restore();
               drewImage = true;
             }
@@ -244,34 +250,56 @@ export function drawGrid(ctx, game, tileTypes, options) {
         }
         if (!drewImage) {
           ctx.fillStyle = terrainColor(tileTypes, t);
-          ctx.fillRect(px, py, cs, cs);
+          ctx.fillRect(px, py, pw, ph);
           drawTerrainFallback(ctx, t, px, py, cs);
         }
-      }
-
-      /* ── Grid lines ── */
-      if (planeStack) {
-        ctx.strokeStyle =
-          (x + y) % 2 === 0
-            ? "rgba(255,255,255,0.55)"
-            : "rgba(0,0,0,0.62)";
-        ctx.lineWidth = 1.15;
-      } else {
-        ctx.strokeStyle = "rgba(0,0,0,0.18)";
-        ctx.lineWidth = 0.5;
-      }
-      ctx.strokeRect(px + 0.5, py + 0.5, cs - 1, cs - 1);
-
-      /* ── Subtle terrain label (only when no image loaded) ── */
-      if (!planeStack && !drewImage && tileTypes[t] && t !== "plains") {
-        ctx.save();
-        ctx.font = `bold ${Math.round(cs * 0.2)}px monospace`;
-        ctx.fillStyle = "rgba(255,255,255,0.28)";
-        ctx.textBaseline = "top";
-        ctx.fillText(t[0].toUpperCase(), px + 3, py + 2);
-        ctx.restore();
+        /* Subtle terrain label for non-plains tiles when no image loaded */
+        if (!drewImage && tileTypes[t] && t !== "plains") {
+          ctx.save();
+          ctx.font = `bold ${Math.round(cs * 0.2)}px monospace`;
+          ctx.fillStyle = "rgba(255,255,255,0.28)";
+          ctx.textBaseline = "top";
+          ctx.fillText(t[0].toUpperCase(), px + 3, py + 2);
+          ctx.restore();
+        }
       }
     }
+  }
+
+  /* ── Pass 2: grid lines — single path, lineWidth=1, half-pixel offset for
+       crisp rendering. Drawn AFTER all tiles so no inset gap is created inside
+       each cell. Using Math.floor(n*cs)+0.5 aligns lines to the shared pixel
+       boundary between adjacent tiles at any integer or fractional cell size. ── */
+  {
+    const gw = Math.floor(g.width  * cs);
+    const gh = Math.floor(g.height * cs);
+    ctx.save();
+    ctx.lineWidth = 1;
+    if (planeStack) {
+      for (let xi = 0; xi <= g.width; xi++) {
+        const lx = Math.floor(xi * cs) + 0.5;
+        ctx.strokeStyle = xi % 2 === 0 ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.62)";
+        ctx.beginPath(); ctx.moveTo(lx, 0); ctx.lineTo(lx, gh); ctx.stroke();
+      }
+      for (let yi = 0; yi <= g.height; yi++) {
+        const ly = Math.floor(yi * cs) + 0.5;
+        ctx.strokeStyle = yi % 2 === 0 ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.62)";
+        ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(gw, ly); ctx.stroke();
+      }
+    } else {
+      ctx.strokeStyle = "rgba(0,0,0,0.22)";
+      ctx.beginPath();
+      for (let xi = 0; xi <= g.width; xi++) {
+        const lx = Math.floor(xi * cs) + 0.5;
+        ctx.moveTo(lx, 0); ctx.lineTo(lx, gh);
+      }
+      for (let yi = 0; yi <= g.height; yi++) {
+        const ly = Math.floor(yi * cs) + 0.5;
+        ctx.moveTo(0, ly); ctx.lineTo(gw, ly);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
   }
 
   /* ── Movement reach overlay ── */
