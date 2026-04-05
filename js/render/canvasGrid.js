@@ -3,7 +3,9 @@ import { terrainColor } from "../engine/terrain.js";
 /* All terrain IDs that count as water (used in Pass 3 shore logic) */
 const WATER_TERRAIN_SET = new Set(["water", "water_desert", "water_urban"]);
 
-/* Shore/coast animation sprite (4 horizontal frames, 172×192 px each) */
+/* Shore/coast bitmask tileset — 2 animation columns × 4 topology rows, each frame 176×112 px.
+ * Used by the flow connector layer (dividerRule / assetQuery) for river channel rendering.
+ * Preloaded here so the asset is cached before the flow connector system needs it. */
 const SHORE_SPRITE_URL = "assets/tiles/urban/Water_coasts_animation.png";
 
 /**
@@ -588,10 +590,8 @@ export function drawGrid(ctx, game, tileTypes, options) {
     const GRASS_SET = new Set(["plains", "cp_grass", "forest"]);
     const stripW = Math.max(4, Math.round(cs * 0.18));
 
-    /* Already cached from preloadTerrainTiles() */
-    const coastEntry = getCraftpixTileImage(SHORE_SPRITE_URL);
-    const hasCoast   = coastEntry?.ok && coastEntry.img.complete &&
-                       coastEntry.img.naturalWidth > 0;
+        /* Coast sprite is a bitmask tileset (used by flow connector layer),
+         not a rotateable single frame — gradient-only for Pass 3 shore blending. */
 
     for (let gy = 0; gy < g.height; gy++) {
       for (let gx = 0; gx < g.width; gx++) {
@@ -610,23 +610,19 @@ export function drawGrid(ctx, game, tileTypes, options) {
           /* North — land above, strip at top, gradient solid→transparent downward */
           { dx:  0, dy: -1,
             lx0: px,      ly0: py,      lx1: px,      ly1: py + stripW,
-            rx:  px,      ry:  py,      rw:  pw,      rh:  stripW,
-            coastAngle: 0 },
+            rx:  px,      ry:  py,      rw:  pw,      rh:  stripW },
           /* South — land below, strip at bottom, gradient upward */
           { dx:  0, dy:  1,
             lx0: px,      ly0: py + ph, lx1: px,      ly1: py + ph - stripW,
-            rx:  px,      ry:  py + ph - stripW, rw: pw, rh: stripW,
-            coastAngle: Math.PI },
+            rx:  px,      ry:  py + ph - stripW, rw: pw, rh: stripW },
           /* West — land left, strip at left, gradient rightward */
           { dx: -1, dy:  0,
             lx0: px,      ly0: py,      lx1: px + stripW, ly1: py,
-            rx:  px,      ry:  py,      rw:  stripW,  rh:  ph,
-            coastAngle: -Math.PI / 2 },
+            rx:  px,      ry:  py,      rw:  stripW,  rh:  ph },
           /* East — land right, strip at right, gradient leftward */
           { dx:  1, dy:  0,
             lx0: px + pw, ly0: py,      lx1: px + pw - stripW, ly1: py,
-            rx:  px + pw - stripW, ry: py, rw: stripW, rh: ph,
-            coastAngle: Math.PI / 2 },
+            rx:  px + pw - stripW, ry: py, rw: stripW, rh: ph },
         ];
 
         for (const e of edges) {
@@ -656,24 +652,6 @@ export function drawGrid(ctx, game, tileTypes, options) {
           ctx.fillStyle = grd;
           ctx.fillRect(e.rx, e.ry, e.rw, e.rh);
           ctx.restore();
-
-          /* Coast sprite detail layer (water/water_urban only; desert stays
-             gradient-only since the sprite's blue tones would look wrong).
-             Clip BEFORE rotating so the clip region stays in original space. */
-          if (isWater && t !== "water_desert" && hasCoast) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(e.rx, e.ry, e.rw, e.rh);
-            ctx.clip();
-            const tcx = px + pw / 2;
-            const tcy = py + ph / 2;
-            ctx.translate(tcx, tcy);
-            ctx.rotate(e.coastAngle);
-            ctx.translate(-tcx, -tcy);
-            ctx.globalAlpha = 0.40;
-            ctx.drawImage(coastEntry.img, 0, 0, 172, 192, px, py, pw, ph);
-            ctx.restore();
-          }
         }
       }
     }

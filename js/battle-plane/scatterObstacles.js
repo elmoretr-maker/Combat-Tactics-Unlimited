@@ -1,5 +1,7 @@
 import { findPath } from "../engine/astar.js";
 import { moveCostAt } from "../engine/terrain.js";
+
+const IMPASSABLE_TERRAIN = new Set(["water", "water_desert", "water_urban"]);
 import { isBlockedMoveCost, BLOCKED_MOVE_COST } from "./pathfindingCost.js";
 import { makeMapObject, mapObjectBlocksMoveAt } from "./mapObjects.js";
 import {
@@ -182,7 +184,7 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
   const tryPlaceAt = (x, y, force = false) => {
     const t = grid.cells[y][x];
 
-    if (t !== "water") {
+    if (!IMPASSABLE_TERRAIN.has(t)) {
       const c = moveCostAt(grid, tileTypes, x, y);
       if (isBlockedMoveCost(c)) return false;
     }

@@ -5,6 +5,8 @@
 import { moveCostAt } from "../engine/terrain.js";
 import { makeMapObject } from "../battle-plane/mapObjects.js";
 import { gridFromTerrain } from "./gridCost.js";
+
+const IMPASSABLE_TERRAIN = new Set(["water", "water_desert", "water_urban"]);
 import { hasTwoVertexDisjointPathsWithObjects } from "./dividerRule.js";
 import { shuffleInPlace } from "./rng.js";
 import {
@@ -70,7 +72,7 @@ function tryPlaceOneBuilding(terrain, tileTypes, protectedRibbon, spawns, bw, bh
         break;
       }
       const t = terrain[cy][cx];
-      if (t === "building_block" || t === "water") {
+      if (t === "building_block" || IMPASSABLE_TERRAIN.has(t)) {
         ok = false;
         break;
       }
@@ -100,7 +102,7 @@ function tryPlaceOneBuilding(terrain, tileTypes, protectedRibbon, spawns, bw, bh
     let entry = null;
     for (const [ex, ey] of neigh) {
       if (footprintSet.has(key(ex, ey))) continue;
-      if (terrain[ey][ex] === "water") continue;
+      if (IMPASSABLE_TERRAIN.has(terrain[ey][ex])) continue;
       entry = [ex, ey];
       break;
     }
@@ -319,7 +321,7 @@ export function placeTacticalAssets(opts) {
     const t = terrain[y][x];
 
     /* Water cells only hold water-locked kinds; skip everything else early */
-    if (t === "water") {
+    if (IMPASSABLE_TERRAIN.has(t)) {
       const validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
         const spec = placementSpecForKind(ob.kind, ob.sprite);
         return spec.placement === "water";
@@ -327,7 +329,7 @@ export function placeTacticalAssets(opts) {
       if (!validKinds.length) return false;
     }
 
-    if (moveCostAt(g, tileTypes, x, y) >= 99 && t !== "water") return false;
+    if (moveCostAt(g, tileTypes, x, y) >= 99 && !IMPASSABLE_TERRAIN.has(t)) return false;
 
     const d = tacticalDensity(noiseSeed, x, y);
     if (!relaxNoise && rnd() > 0.18 + d * 0.72) return false;
