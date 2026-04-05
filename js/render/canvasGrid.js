@@ -223,57 +223,76 @@ const TERRAIN_DRAW_FALLBACK = {
     ctx.stroke();
     ctx.setLineDash([]);
   },
-  water(ctx, x, y, cs) {
-    ctx.strokeStyle = "rgba(130,200,255,0.45)";
-    ctx.lineWidth = 1;
+  /* Ocean / river — three animated wave rows travelling right */
+  water(ctx, x, y, cs, timeMs) {
+    /* Base phase advances slowly; each wave row is offset by 2.1 rad so they
+       never align in a distracting synchronised pulse. */
+    const phase = (timeMs / 1100) % (Math.PI * 2);
     for (let i = 0; i < 3; i++) {
+      const rowPhase = phase + i * 2.1;
+      const alpha = 0.38 + 0.07 * Math.sin(rowPhase);
+      ctx.strokeStyle = `rgba(130,200,255,${alpha.toFixed(2)})`;
+      ctx.lineWidth = 1;
       const wy = y + cs * (0.28 + i * 0.22);
       ctx.beginPath();
       ctx.moveTo(x + 4, wy);
       for (let wx = x + 4; wx < x + cs - 4; wx += 6) {
-        ctx.quadraticCurveTo(wx + 3, wy - 3, wx + 6, wy);
+        /* Travelling-wave: phase advances left-to-right across the tile */
+        const posPhase = rowPhase + ((wx - x) / cs) * Math.PI * 2.4;
+        const amp = 2.2 + 0.8 * Math.sin(rowPhase * 0.7);
+        ctx.quadraticCurveTo(wx + 3, wy - amp * Math.sin(posPhase), wx + 6, wy);
       }
       ctx.stroke();
     }
   },
-  /* Oasis / desert creek — teal-green water with muted ripples */
-  water_desert(ctx, x, y, cs) {
-    ctx.strokeStyle = "rgba(100,200,185,0.50)";
-    ctx.lineWidth = 1;
+  /* Oasis / desert creek — teal-green with slow lazy ripples */
+  water_desert(ctx, x, y, cs, timeMs) {
+    const phase = (timeMs / 1500) % (Math.PI * 2);
     for (let i = 0; i < 3; i++) {
+      const rowPhase = phase + i * 1.9;
+      const alpha = 0.42 + 0.08 * Math.sin(rowPhase);
+      ctx.strokeStyle = `rgba(100,200,185,${alpha.toFixed(2)})`;
+      ctx.lineWidth = 1;
       const wy = y + cs * (0.28 + i * 0.22);
       ctx.beginPath();
       ctx.moveTo(x + 4, wy);
       for (let wx = x + 4; wx < x + cs - 4; wx += 6) {
-        ctx.quadraticCurveTo(wx + 3, wy - 2.5, wx + 6, wy);
+        const posPhase = rowPhase + ((wx - x) / cs) * Math.PI * 1.8;
+        const amp = 1.8 + 0.6 * Math.sin(rowPhase * 0.5);
+        ctx.quadraticCurveTo(wx + 3, wy - amp * Math.sin(posPhase), wx + 6, wy);
       }
       ctx.stroke();
     }
-    /* Subtle sandy-crack detail at the shore fringe — deterministic, no Math.random() */
+    /* Subtle sandy-crack detail at the shore fringe — deterministic positions */
     ctx.strokeStyle = "rgba(200,170,80,0.25)";
     ctx.lineWidth = 0.6;
     const offsets = [[0.08, 0.12], [0.55, 0.08], [0.25, 0.78], [0.72, 0.72]];
     for (const [ox, oy] of offsets) {
       ctx.beginPath();
-      ctx.moveTo(x + cs * ox,        y + cs * oy);
+      ctx.moveTo(x + cs * ox,          y + cs * oy);
       ctx.lineTo(x + cs * (ox + 0.08), y + cs * (oy + 0.05));
       ctx.stroke();
     }
   },
-  /* Urban canal / drainage — darker blue-grey water */
-  water_urban(ctx, x, y, cs) {
-    ctx.strokeStyle = "rgba(100,150,190,0.45)";
-    ctx.lineWidth = 1;
+  /* Urban canal / drainage — dark blue-grey with tighter ripples */
+  water_urban(ctx, x, y, cs, timeMs) {
+    const phase = (timeMs / 900) % (Math.PI * 2);
     for (let i = 0; i < 3; i++) {
+      const rowPhase = phase + i * 2.4;
+      const alpha = 0.36 + 0.09 * Math.sin(rowPhase);
+      ctx.strokeStyle = `rgba(100,150,190,${alpha.toFixed(2)})`;
+      ctx.lineWidth = 1;
       const wy = y + cs * (0.28 + i * 0.22);
       ctx.beginPath();
       ctx.moveTo(x + 4, wy);
       for (let wx = x + 4; wx < x + cs - 4; wx += 6) {
-        ctx.quadraticCurveTo(wx + 3, wy - 2, wx + 6, wy);
+        const posPhase = rowPhase + ((wx - x) / cs) * Math.PI * 3.0;
+        const amp = 1.5 + 0.5 * Math.sin(rowPhase * 0.8);
+        ctx.quadraticCurveTo(wx + 3, wy - amp * Math.sin(posPhase), wx + 6, wy);
       }
       ctx.stroke();
     }
-    /* Concrete edge hints */
+    /* Concrete kerb edge — static, no animation needed */
     ctx.strokeStyle = "rgba(160,170,180,0.30)";
     ctx.lineWidth = 0.8;
     ctx.strokeRect(x + 1, y + 1, cs - 2, cs - 2);
@@ -318,11 +337,11 @@ const TERRAIN_DRAW_FALLBACK = {
   },
 };
 
-function drawTerrainFallback(ctx, terrainType, x, y, cs) {
+function drawTerrainFallback(ctx, terrainType, x, y, cs, timeMs = 0) {
   const fn = TERRAIN_DRAW_FALLBACK[terrainType];
   if (!fn) return;
   ctx.save();
-  fn(ctx, x, y, cs);
+  fn(ctx, x, y, cs, timeMs);
   ctx.restore();
 }
 
@@ -389,7 +408,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
             ctx.drawImage(cent.img, px, py, pw, ph);
             ctx.restore();
           } else {
-            drawTerrainFallback(ctx, t, px, py, cs);
+            drawTerrainFallback(ctx, t, px, py, cs, options.timeMs ?? 0);
           }
           drewImage = true;
         }
@@ -411,7 +430,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
         if (!drewImage) {
           ctx.fillStyle = terrainColor(tileTypes, t);
           ctx.fillRect(px, py, pw, ph);
-          drawTerrainFallback(ctx, t, px, py, cs);
+          drawTerrainFallback(ctx, t, px, py, cs, options.timeMs ?? 0);
         }
         /* Subtle terrain label for non-plains tiles when no image loaded */
         if (!drewImage && tileTypes[t] && t !== "plains") {
