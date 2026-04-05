@@ -160,10 +160,11 @@ export function treeSpacingOk(mapObjects, x, y, kindForNew, newBlocksMove = true
   for (const o of mapObjects) {
     const dist = chebyshev(o.x, o.y, x, y);
 
-    /* Trees: no other tree within Chebyshev 1 */
+    /* Trees: no other tree within Chebyshev 2 — forces forest blobs, not lines.
+       Minimum gap of 3 cells in every direction between tree centres. */
     if (k === "tree") {
       const ok = (o.visualKind || "").toLowerCase();
-      if (ok === "tree" && dist <= 1) return false;
+      if (ok === "tree" && dist <= 2) return false;
     }
 
     /* Any blocking prop: no other blocking prop in the 4 cardinal neighbours (dist === 1, axis-aligned) */
