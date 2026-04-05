@@ -81,7 +81,7 @@ export class GameState {
     this.mapObjects = [];
     if (Array.isArray(scenario.mapObjects)) {
       for (const o of scenario.mapObjects) {
-        this.mapObjects.push({
+        const mo = {
           id: o.id || `obj_${o.x}_${o.y}_${Math.random().toString(36).slice(2, 7)}`,
           x: o.x,
           y: o.y,
@@ -89,7 +89,22 @@ export class GameState {
           visualKind: o.visualKind || "crate",
           blocksMove: o.blocksMove !== false,
           blocksLos: o.blocksLos !== false,
-        });
+        };
+        if (o.sourceRect && typeof o.sourceRect === "object") {
+          mo.sourceRect = {
+            x: Number(o.sourceRect.x) || 0,
+            y: Number(o.sourceRect.y) || 0,
+            w: Number(o.sourceRect.w ?? o.sourceRect.width) || 0,
+            h: Number(o.sourceRect.h ?? o.sourceRect.height) || 0,
+          };
+        }
+        if (o.propAnchor === "bottom" || o.propAnchor === "center") {
+          mo.propAnchor = o.propAnchor;
+        }
+        if (typeof o.pyOffset === "number" && Number.isFinite(o.pyOffset)) {
+          mo.pyOffset = o.pyOffset;
+        }
+        this.mapObjects.push(mo);
       }
     }
     this.currentPlayer = 0;

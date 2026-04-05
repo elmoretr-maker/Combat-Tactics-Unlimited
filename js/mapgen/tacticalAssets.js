@@ -8,6 +8,15 @@ import { gridFromTerrain } from "./gridCost.js";
 import { hasTwoVertexDisjointPathsWithObjects } from "./dividerRule.js";
 import { shuffleInPlace } from "./rng.js";
 import {
+  computeOrthogonalPathwayReserve,
+  tacticalDensity,
+  pickKindIndexFromNoise,
+  placementSpecForKind,
+  terrainAllowsPlacement,
+  treeSpacingOk,
+  effectiveObstacleKind,
+} from "./tacticalPlacement.js";
+import {
   findBuildingsByThemeAndFootprint,
   interiorFurnitureKindsForTheme,
 } from "./assetQuery.js";
@@ -224,6 +233,8 @@ function placeInteriorFurniture(buildings, manifest, profile, rnd) {
  * @param {ReturnType<typeof import("./themeProfiles.js").getThemeProfile>} opts.profile
  * @param {() => number} opts.rnd
  * @param {object|null|undefined} [opts.assetManifest]
+ * @param {number} [opts.placementSeed] — deterministic noise field for clusters
+ * @param {number} [opts.cellSize] — canvas cell size (aircraft pyOffset)
  * @param {number} [opts.numBuildings]
  * @param {number} [opts.maxObstacles]
  */
@@ -237,6 +248,8 @@ export function placeTacticalAssets(opts) {
     profile,
     rnd,
     assetManifest = null,
+    placementSeed = 0xaced1234,
+    cellSize = 48,
     numBuildings = 1,
     maxObstacles = 10,
   } = opts;
@@ -262,36 +275,136 @@ export function placeTacticalAssets(opts) {
   const mapObjects = [];
   const w = terrain[0].length;
   const h = terrain.length;
+  const g = gridFromTerrain(terrain);
+  const pathwayReserve = computeOrthogonalPathwayReserve(
+    terrain,
+    tileTypes,
+    playerSpawns,
+    enemySpawns,
+  );
+  const noiseSeed = placementSeed >>> 0;
+
   const candidates = [];
   for (let y = 1; y < h - 1; y++) {
     for (let x = 1; x < w - 1; x++) {
       if (protectedRibbon.has(key(x, y))) continue;
       if (spawns.has(key(x, y))) continue;
       const t = terrain[y][x];
-      if (t === "water" || t === "building_block") continue;
-      const g = gridFromTerrain(terrain);
+      if (t === "building_block") continue;
+      if (t === "water") {
+        candidates.push([x, y]);
+        continue;
+      }
       if (moveCostAt(g, tileTypes, x, y) >= 99) continue;
       candidates.push([x, y]);
     }
   }
-  shuffleInPlace(candidates, rnd);
-  const kinds = profile.obstacleVisualKinds;
 
-  for (const [x, y] of candidates) {
-    if (mapObjects.length >= maxObstacles) break;
-    const pick = kinds[Math.floor(rnd() * kinds.length)];
-    const obj = makeMapObject(x, y, pick.sprite, undefined, pick.kind);
-    const trial = [...mapObjects, obj];
-    if (
-      hasTwoVertexDisjointPathsWithObjects(
-        terrain,
-        tileTypes,
-        trial,
-        playerSpawns,
-        enemySpawns,
-      )
-    ) {
-      mapObjects.push(obj);
+  candidates.sort((a, b) => {
+    const da = tacticalDensity(noiseSeed, a[0], a[1]);
+    const db = tacticalDensity(noiseSeed, b[0], b[1]);
+    return db - da;
+  });
+
+  const kinds = profile.obstacleVisualKinds;
+  if (kinds.length) {
+    for (const [x, y] of candidates) {
+      if (mapObjects.length >= maxObstacles) break;
+
+      const d = tacticalDensity(noiseSeed, x, y);
+      const placeChance = 0.14 + d * 0.78;
+      if (rnd() > placeChance) continue;
+
+      const t = terrain[y][x];
+      const validKinds = kinds.filter((ob) => {
+        const spec = placementSpecForKind(ob.kind, ob.sprite);
+        return terrainAllowsPlacement(t, spec.allowTerrain);
+      });
+      if (!validKinds.length) continue;
+
+      const ki = pickKindIndexFromNoise(d, validKinds.length, x, y, rnd);
+      const pick = validKinds[ki];
+      const vk = effectiveObstacleKind(pick.kind, pick.sprite);
+      const spec = placementSpecForKind(pick.kind, pick.sprite);
+
+      if (!treeSpacingOk(mapObjects, x, y, vk)) continue;
+
+      /** @type {{ pyOffset?: number, blocksMove?: boolean, blocksLos?: boolean }} */
+      const extra = {};
+      if (spec.placement === "air") {
+        extra.pyOffset = Math.round(-cellSize * 0.36);
+        extra.blocksMove = false;
+        extra.blocksLos = false;
+      } else {
+        if (spec.blocksMove === false) extra.blocksMove = false;
+        if (spec.blocksLos === false) extra.blocksLos = false;
+        if (typeof spec.pyOffset === "number") {
+          extra.pyOffset = Math.round(spec.pyOffset * (cellSize / 48));
+        }
+      }
+
+      const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
+
+      if (pathwayReserve.has(key(x, y)) && obj.blocksMove !== false) continue;
+
+      const trial = [...mapObjects, obj];
+      if (
+        hasTwoVertexDisjointPathsWithObjects(
+          terrain,
+          tileTypes,
+          trial,
+          playerSpawns,
+          enemySpawns,
+        )
+      ) {
+        mapObjects.push(obj);
+      }
+    }
+
+    /* Fill toward maxObstacles when noise-threshold pass was too sparse. */
+    let fillTries = Math.min(400, candidates.length * 3);
+    while (mapObjects.length < maxObstacles && fillTries-- > 0) {
+      const [x, y] = candidates[Math.floor(rnd() * candidates.length)];
+      if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
+
+      const t = terrain[y][x];
+      const validKinds = kinds.filter((ob) => {
+        const sp = placementSpecForKind(ob.kind, ob.sprite);
+        return terrainAllowsPlacement(t, sp.allowTerrain);
+      });
+      if (!validKinds.length) continue;
+
+      const d = tacticalDensity(noiseSeed, x, y);
+      const pick = validKinds[pickKindIndexFromNoise(d, validKinds.length, x, y, rnd)];
+      const vk = effectiveObstacleKind(pick.kind, pick.sprite);
+      const spec = placementSpecForKind(pick.kind, pick.sprite);
+      if (!treeSpacingOk(mapObjects, x, y, vk)) continue;
+
+      const extra = {};
+      if (spec.placement === "air") {
+        extra.pyOffset = Math.round(-cellSize * 0.36);
+        extra.blocksMove = false;
+        extra.blocksLos = false;
+      } else {
+        if (spec.blocksMove === false) extra.blocksMove = false;
+        if (spec.blocksLos === false) extra.blocksLos = false;
+      }
+
+      const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
+      if (pathwayReserve.has(key(x, y)) && obj.blocksMove !== false) continue;
+
+      const trial = [...mapObjects, obj];
+      if (
+        hasTwoVertexDisjointPathsWithObjects(
+          terrain,
+          tileTypes,
+          trial,
+          playerSpawns,
+          enemySpawns,
+        )
+      ) {
+        mapObjects.push(obj);
+      }
     }
   }
 

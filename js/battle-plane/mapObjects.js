@@ -64,15 +64,24 @@ export function mapObjectTreeAt(objects, x, y) {
 /**
  * @param {string | null} sprite Asset path (optional if visualKind drives fallback art)
  * @param {"crate"|"barrel"|"ruins"|"tree"|"house"} [visualKind]
+ * @param {{ sourceRect?: { x: number, y: number, w: number, h: number }, propAnchor?: "bottom"|"center", pyOffset?: number, blocksMove?: boolean, blocksLos?: boolean }} [extra]
  */
-export function makeMapObject(x, y, sprite, id, visualKind = "crate") {
-  return {
+export function makeMapObject(x, y, sprite, id, visualKind = "crate", extra = null) {
+  const o = {
     id: id || `obj_${x}_${y}_${Math.random().toString(36).slice(2, 7)}`,
     x,
     y,
     sprite: sprite || null,
     visualKind,
-    blocksMove: true,
-    blocksLos: true,
+    blocksMove: extra?.blocksMove !== undefined ? !!extra.blocksMove : true,
+    blocksLos: extra?.blocksLos !== undefined ? !!extra.blocksLos : true,
   };
+  if (extra?.sourceRect) o.sourceRect = { ...extra.sourceRect };
+  if (extra?.propAnchor === "bottom" || extra?.propAnchor === "center") {
+    o.propAnchor = extra.propAnchor;
+  }
+  if (typeof extra?.pyOffset === "number" && Number.isFinite(extra.pyOffset)) {
+    o.pyOffset = extra.pyOffset;
+  }
+  return o;
 }

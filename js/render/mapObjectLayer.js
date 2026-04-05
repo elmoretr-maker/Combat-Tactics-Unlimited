@@ -1,9 +1,49 @@
 /**
  * Draw scattered map props (CraftPix sprites + fallbacks) for legacy grid mode
  * and battle-plane mode. Shared cache so sprites load once.
+ *
+ * Map object draw fields (optional, from scenario / makeMapObject):
+ * - sourceRect: { x, y, w, h } — region in the sprite image (9-arg drawImage).
+ * - propAnchor: "bottom" | "center" — vertical placement; tall props default to bottom.
  */
 
 const _propEntryCache = new Map();
+
+/** @typedef {{ x: number, y: number, w: number, h: number }} SourceRect */
+
+/**
+ * @param {HTMLImageElement} img
+ * @param {SourceRect | undefined} rect
+ * @returns {SourceRect | null} null if rect invalid or out of bounds
+ */
+function resolveSourceRect(img, rect) {
+  if (!rect) return null;
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+  let sx = Math.floor(Number(rect.x) || 0);
+  let sy = Math.floor(Number(rect.y) || 0);
+  let sw = Math.floor(Number(rect.w) || 0);
+  let sh = Math.floor(Number(rect.h) || 0);
+  if (sw <= 0 || sh <= 0) return null;
+  sx = Math.max(0, Math.min(sx, iw - 1));
+  sy = Math.max(0, Math.min(sy, ih - 1));
+  sw = Math.min(sw, iw - sx);
+  sh = Math.min(sh, ih - sy);
+  if (sw <= 0 || sh <= 0) return null;
+  return { x: sx, y: sy, w: sw, h: sh };
+}
+
+/**
+ * Default vertical anchor when `propAnchor` is omitted.
+ * Tall world props sit on the tile foot; small clutter stays centered.
+ * @param {string} visualKind
+ * @returns {"bottom"|"center"}
+ */
+function defaultPropAnchor(visualKind) {
+  const k = (visualKind || "").toLowerCase();
+  if (k === "tree" || k === "house" || k === "ruins") return "bottom";
+  return "center";
+}
 
 export function getPropImage(src) {
   if (!src) return { img: null, ok: false };
@@ -100,21 +140,53 @@ export function drawMapObjects(ctx, game, offsetX, offsetY) {
   for (const o of game.mapObjects) {
     const vk = o.visualKind || "crate";
     const entry = getPropImage(o.sprite);
-    const px0 = offsetX + o.x * cs + pad;
-    const py0 = offsetY + o.y * cs + pad;
+    const cellLeft = offsetX + o.x * cs;
+    const cellTop = offsetY + o.y * cs;
+    const px0 = cellLeft + pad;
+    const py0 = cellTop + pad;
     const box = cs - pad * 2;
     if (entry.ok && entry.img?.naturalWidth) {
-      const maxS = box;
-      const iw = entry.img.naturalWidth;
-      const ih = entry.img.naturalHeight;
-      const scale = Math.min(maxS / iw, maxS / ih);
-      const dw = iw * scale;
-      const dh = ih * scale;
-      const px = offsetX + o.x * cs + (cs - dw) / 2;
-      const py = offsetY + o.y * cs + (cs - dh) / 2;
+      const img = entry.img;
+      const slice = resolveSourceRect(img, o.sourceRect);
+      const sw = slice ? slice.w : img.naturalWidth;
+      const sh = slice ? slice.h : img.naturalHeight;
+      const sx = slice ? slice.x : 0;
+      const sy = slice ? slice.y : 0;
+
+      const anchor = o.propAnchor || defaultPropAnchor(vk);
+      let dw;
+      let dh;
+      let px;
+      let py;
+
+      if (anchor === "bottom") {
+        /* Width fits inside cell (with horizontal pad); height scales proportionally.
+           Sprite foot sits on the bottom cell edge — may extend upward past the cell. */
+        const maxW = box;
+        const scale = maxW / sw;
+        dw = sw * scale;
+        dh = sh * scale;
+        px = cellLeft + (cs - dw) / 2;
+        py = cellTop + cs - dh;
+      } else {
+        /* Centered clutter: uniform scale to fit the padded inner box. */
+        const scale = Math.min(box / sw, box / sh);
+        dw = sw * scale;
+        dh = sh * scale;
+        px = cellLeft + (cs - dw) / 2;
+        py = cellTop + (cs - dh) / 2;
+      }
+
+      const pyOff = typeof o.pyOffset === "number" && Number.isFinite(o.pyOffset) ? o.pyOffset : 0;
+      py += pyOff;
+
       ctx.save();
       ctx.imageSmoothingEnabled = true;
-      ctx.drawImage(entry.img, px, py, dw, dh);
+      if (slice) {
+        ctx.drawImage(img, sx, sy, sw, sh, px, py, dw, dh);
+      } else {
+        ctx.drawImage(img, px, py, dw, dh);
+      }
       ctx.restore();
     } else {
       drawPropFallback(ctx, vk, px0, py0, box);

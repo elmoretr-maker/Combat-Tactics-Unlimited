@@ -82,6 +82,8 @@ export function generateProceduralScenario(spec) {
       profile,
       rnd,
       assetManifest,
+      placementSeed: s >>> 0,
+      cellSize,
       numBuildings: spec.numBuildings ?? 1,
       maxObstacles: spec.maxObstacles ?? 12,
     });

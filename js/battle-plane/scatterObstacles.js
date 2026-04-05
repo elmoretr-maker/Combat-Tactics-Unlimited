@@ -2,6 +2,15 @@ import { findPath } from "../engine/astar.js";
 import { moveCostAt } from "../engine/terrain.js";
 import { isBlockedMoveCost, BLOCKED_MOVE_COST } from "./pathfindingCost.js";
 import { makeMapObject, mapObjectBlocksMoveAt } from "./mapObjects.js";
+import {
+  computeOrthogonalPathwayReserve,
+  tacticalDensity,
+  pickKindIndexFromNoise,
+  placementSpecForKind,
+  terrainAllowsPlacement,
+  treeSpacingOk,
+  effectiveObstacleKind,
+} from "../mapgen/tacticalPlacement.js";
 
 /**
  * Scatter props — CraftPix PNG City / PNG City 2 (same licensed tree as `tileTextures.json` cp_*).
@@ -40,6 +49,10 @@ function mulberry32(seed) {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+function key(x, y) {
+  return `${x},${y}`;
 }
 
 function teamCentroid(units, owner) {
@@ -96,36 +109,60 @@ function pathStillExists(grid, tileTypes, mapObjects, scenario) {
   return !!findPath(grid, start, end, costAt);
 }
 
-const SCATTER_FLOOR = new Set(["cp_grass", "plains", "desert", "snow"]);
-
 /**
- * Random 5–10 obstacle props into `mapObjects` (movement + LOS). Does not mutate terrain type.
+ * Random obstacle props into `mapObjects` (movement + LOS) with tactical rules:
+ * terrain-locked kinds (ships/planes/strips), tree spacing, noise clusters,
+ * orthogonal pathway free of blocking props.
  */
 export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
   const cfg = scenario.proceduralBoard;
   if (!cfg?.enabled) return;
 
   const str = String(cfg.seed ?? scenario.id ?? "board");
-  const seed = str.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-  const rnd = mulberry32(seed >>> 0);
+  const seed0 = str.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  const seed = seed0 >>> 0;
+  const rnd = mulberry32(seed);
   const reserved = reserveCriticalCells(grid, tileTypes, scenario);
+  const cs = grid.cellSize || scenario.cellSize || 48;
+
+  const u0 = (scenario.units || []).filter((u) => u.owner === 0);
+  const u1 = (scenario.units || []).filter((u) => u.owner === 1);
+  const playerSpawns =
+    u0.length > 0
+      ? u0.map((u) => [u.x, u.y])
+      : [[1, Math.floor(grid.height / 2)]];
+  const enemySpawns =
+    u1.length > 0
+      ? u1.map((u) => [u.x, u.y])
+      : [[grid.width - 2, Math.floor(grid.height / 2)]];
+  const pathwayReserve = computeOrthogonalPathwayReserve(
+    grid.cells,
+    tileTypes,
+    playerSpawns,
+    enemySpawns,
+  );
 
   const candidates = [];
   for (let y = 0; y < grid.height; y++) {
     for (let x = 0; x < grid.width; x++) {
-      if (reserved.has(`${x},${y}`)) continue;
+      if (reserved.has(key(x, y))) continue;
       const t = grid.cells[y][x];
-      if (!SCATTER_FLOOR.has(t)) continue;
+      if (t === "building_block") continue;
+      if (t === "water") {
+        candidates.push([x, y]);
+        continue;
+      }
       const c = moveCostAt(grid, tileTypes, x, y);
       if (isBlockedMoveCost(c)) continue;
       candidates.push([x, y]);
     }
   }
 
-  for (let i = candidates.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
-  }
+  candidates.sort((a, b) => {
+    const da = tacticalDensity(seed ^ 0x51a11ed, a[0], a[1]);
+    const db = tacticalDensity(seed ^ 0x51a11ed, b[0], b[1]);
+    return db - da;
+  });
 
   const minO = cfg.minObstacles ?? 5;
   const maxO = cfg.maxObstacles ?? 10;
@@ -135,9 +172,38 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     minO + Math.floor(rnd() * (span + 1)),
   );
 
-  const tryPlace = (x, y) => {
-    const pick = PROP_TYPES[Math.floor(rnd() * PROP_TYPES.length)];
-    const obj = makeMapObject(x, y, pick.sprite, undefined, pick.kind);
+  const noiseSeed = seed ^ 0x51a11ed;
+
+  const tryPlaceAt = (x, y, force = false) => {
+    const t = grid.cells[y][x];
+    const valid = PROP_TYPES.filter((ob) => {
+      const spec = placementSpecForKind(ob.kind, ob.sprite);
+      return terrainAllowsPlacement(t, spec.allowTerrain);
+    });
+    if (!valid.length) return false;
+
+    const d = tacticalDensity(noiseSeed, x, y);
+    if (!force && rnd() > 0.2 + d * 0.75) return false;
+
+    const pick = valid[pickKindIndexFromNoise(d, valid.length, x, y, rnd)];
+    const vk = effectiveObstacleKind(pick.kind, pick.sprite);
+    const spec = placementSpecForKind(pick.kind, pick.sprite);
+
+    if (!treeSpacingOk(mapObjects, x, y, vk)) return false;
+
+    const extra = {};
+    if (spec.placement === "air") {
+      extra.pyOffset = Math.round(-cs * 0.36);
+      extra.blocksMove = false;
+      extra.blocksLos = false;
+    } else {
+      if (spec.blocksMove === false) extra.blocksMove = false;
+      if (spec.blocksLos === false) extra.blocksLos = false;
+    }
+
+    const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
+    if (pathwayReserve.has(key(x, y)) && obj.blocksMove !== false) return false;
+
     mapObjects.push(obj);
     if (!pathStillExists(grid, tileTypes, mapObjects, scenario)) {
       mapObjects.pop();
@@ -146,14 +212,12 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     return true;
   };
 
-  for (let i = 0; i < target; i++) {
-    const pair = candidates[i];
-    if (!pair) break;
-    const [x, y] = pair;
-    tryPlace(x, y);
+  for (let i = 0; i < candidates.length && mapObjects.length < target; i++) {
+    const [x, y] = candidates[i];
+    if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
+    tryPlaceAt(x, y, false);
   }
 
-  /* Dense boards: path checks reject many props — keep trying random cells until min count or budget */
   const minFloor = Math.min(minO, candidates.length);
   let extraTries = Math.min(220, candidates.length * 4);
   while (mapObjects.length < minFloor && extraTries-- > 0) {
@@ -161,6 +225,6 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     if (!pair) break;
     const [x, y] = pair;
     if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
-    tryPlace(x, y);
+    tryPlaceAt(x, y, true);
   }
 }
