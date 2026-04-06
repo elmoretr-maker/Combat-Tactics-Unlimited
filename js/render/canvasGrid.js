@@ -110,7 +110,7 @@ const TILE_MAP = {
   cp_road:       [94, 95, 96, 97],
   cp_building:   [118, 119, 120, 121],
   cp_rubble:     [22, 28, 22],
-  building_block:[118, 119, 120, 121],
+  building_block:[119, 118, 119],
 };
 
 /* ── Image cache ──────────────────────────────────────────── */

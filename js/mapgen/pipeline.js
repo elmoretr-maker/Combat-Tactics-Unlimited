@@ -84,7 +84,9 @@ export function generateProceduralScenario(spec) {
       assetManifest,
       placementSeed: s >>> 0,
       cellSize,
-      numBuildings: spec.numBuildings ?? 1,
+      /* Desert has no building tile art — skip buildings so urban cobblestone
+         footprints don't appear on sandy terrain. */
+      numBuildings: spec.numBuildings ?? (profile.id === "desert" ? 0 : 1),
       maxObstacles: spec.maxObstacles ?? 12,
     });
 

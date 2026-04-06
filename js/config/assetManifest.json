@@ -2726,7 +2726,10 @@
         { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png", "tags": ["obstacle","desert","crate"] },
         { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_da742248.png", "tags": ["obstacle","desert","crate"] },
         { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_f28d20d4.png", "tags": ["obstacle","desert","crate"] },
-        { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png", "tags": ["obstacle","desert","crate"] }
+        { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png", "tags": ["obstacle","desert","crate"] },
+        { "kind": "ruins", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png", "tags": ["obstacle","desert","ruins"] },
+        { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_495b9524.png", "tags": ["obstacle","desert","crate"] },
+        { "kind": "crate", "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_9c85a7ed.png", "tags": ["obstacle","desert","crate"] }
       ],
       "grass": [
         { "kind": "tree",  "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_4668262c.png", "tags": ["obstacle","grass","tree"] },
