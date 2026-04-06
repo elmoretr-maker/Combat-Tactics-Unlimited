@@ -106,6 +106,9 @@ export function generateProceduralScenario(spec) {
     const skirmishDeploy = playerSpawns.map(([x, y]) => ({ x, y }));
     const presetEnemies = defaultPresetEnemies(width, height, terrain, tileTypes);
     const flowConnectors = buildFlowConnectorLayer(terrain, profile, assetManifest, theme);
+    const bridgeCells = div.connectorLog
+      .filter((e) => e && ["water", "water_desert", "water_urban"].includes(e.before))
+      .map((e) => ({ x: e.x, y: e.y }));
 
     /** @type {object} */
     const scenario = {
@@ -120,6 +123,8 @@ export function generateProceduralScenario(spec) {
       skirmishDeploy,
       mapObjects: step3.mapObjects,
       buildings: step3.buildings,
+      /* Top-level copy so renderers do not depend on nested generator (survives merges / tools). */
+      bridgeCells,
       generator: {
         version: 1,
         seed: s,

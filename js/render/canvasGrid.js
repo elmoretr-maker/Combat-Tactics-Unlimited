@@ -19,13 +19,40 @@ function hexToRgba(hex, alpha) {
   return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
 }
 
-/** Exact (x,y) where `applyDividerRule` replaced divider water with a road ford. */
+/**
+ * Cells that should render a ford/bridge deck: generator log, top-level bridgeCells,
+ * then a terrain heuristic so crossings still paint if metadata is missing.
+ */
 function dividerBridgeKeySet(game) {
   const s = new Set();
+  const top = game?.scenario?.bridgeCells;
+  if (Array.isArray(top)) {
+    for (const c of top) {
+      if (c && Number.isFinite(c.x) && Number.isFinite(c.y)) s.add(`${c.x},${c.y}`);
+    }
+  }
   const log = game?.scenario?.generator?.connectorLog;
-  if (!Array.isArray(log)) return s;
-  for (const e of log) {
-    if (e && WATER_TERRAIN_SET.has(e.before)) s.add(`${e.x},${e.y}`);
+  if (Array.isArray(log)) {
+    for (const e of log) {
+      if (e && WATER_TERRAIN_SET.has(e.before)) s.add(`${e.x},${e.y}`);
+    }
+  }
+  if (s.size > 0 || !game?.grid?.cells) return s;
+
+  const cells = game.grid.cells;
+  const h = cells.length;
+  const w = h ? cells[0].length : 0;
+  const ROAD = new Set(["road", "cp_road"]);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const t = cells[y][x];
+      if (!ROAD.has(t)) continue;
+      const wN = y > 0 && WATER_TERRAIN_SET.has(cells[y - 1][x]);
+      const wS = y < h - 1 && WATER_TERRAIN_SET.has(cells[y + 1][x]);
+      const wE = x < w - 1 && WATER_TERRAIN_SET.has(cells[y][x + 1]);
+      const wW = x > 0 && WATER_TERRAIN_SET.has(cells[y][x - 1]);
+      if ((wE && wW) || (wN && wS)) s.add(`${x},${y}`);
+    }
   }
   return s;
 }
@@ -107,6 +134,18 @@ function drawDividerBridgeDeck(ctx, cells, gx, gy, px, py, pw, ph, cs) {
     ctx.lineTo(px + rl, iy1);
     ctx.stroke();
   }
+  /* High-contrast verification ring + label — makes ford cells impossible to confuse with sand road art. */
+  ctx.strokeStyle = "#00ffc8";
+  ctx.lineWidth = Math.max(3, Math.round(cs * 0.08));
+  ctx.strokeRect(px + ctx.lineWidth / 2, py + ctx.lineWidth / 2, pw - ctx.lineWidth, ph - ctx.lineWidth);
+  ctx.font = `bold ${Math.max(10, Math.round(cs * 0.22))}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(0,0,0,0.85)";
+  ctx.strokeText("BRIDGE", px + pw / 2, py + ph / 2);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText("BRIDGE", px + pw / 2, py + ph / 2);
   ctx.restore();
 }
 
@@ -443,7 +482,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
   const ox = options.offsetX ?? 0;
   const oy = options.offsetY ?? 0;
   const planeStack = options.stackMode === "plane";
-  const bridgeKeys = planeStack ? new Set() : dividerBridgeKeySet(game);
+  const bridgeKeys = dividerBridgeKeySet(game);
   ctx.save();
   ctx.translate(ox, oy);
 
@@ -537,8 +576,8 @@ export function drawGrid(ctx, game, tileTypes, options) {
     }
   }
 
-  /* ── Pass 1b: divider fords (exact bridge cells from generator.connectorLog) ── */
-  if (!planeStack && bridgeKeys.size) {
+  /* ── Pass 1b: divider fords — runs in legacy and plane-stack modes (always on top of terrain pass). ── */
+  if (bridgeKeys.size) {
     for (let y = 0; y < g.height; y++) {
       for (let x = 0; x < g.width; x++) {
         if (!bridgeKeys.has(`${x},${y}`)) continue;
