@@ -4,7 +4,6 @@
  */
 
 import { getThemeProfile } from "./themeProfiles.js";
-import { mulberry32 } from "./rng.js";
 
 /**
  * @param {object} opts
@@ -26,7 +25,6 @@ export function generateFoundation(opts) {
     assetManifest = null,
   } = opts;
   const profile = getThemeProfile(theme, assetManifest);
-  const rnd = mulberry32(seed);
   const terrain = [];
   for (let y = 0; y < height; y++) {
     const row = [];
@@ -36,10 +34,13 @@ export function generateFoundation(opts) {
     terrain.push(row);
   }
 
+  /* Continuous divider strip — gaps were read as “wrong” land bridges and mixed
+   * animated vs static cells in the same river row. Connectors from Step 2 are
+   * the only intentional crossings. */
   if (addRiverStrip && height >= 5 && width >= 7) {
     const mid = Math.floor(height / 2);
     for (let x = 1; x < width - 1; x++) {
-      if (rnd() < 0.9) terrain[mid][x] = profile.dividerTerrain;
+      terrain[mid][x] = profile.dividerTerrain;
     }
   }
 

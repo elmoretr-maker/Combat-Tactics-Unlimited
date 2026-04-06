@@ -125,6 +125,8 @@ export function generateProceduralScenario(spec) {
         seed: s,
         theme,
         dividerConnectorCount: div.connectorLog.length,
+        /** Cells where impassable divider was replaced with a road/ford (exact bridge positions). */
+        connectorLog: div.connectorLog,
         flowConnectors,
       },
       winCondition: { type: "eliminate" },

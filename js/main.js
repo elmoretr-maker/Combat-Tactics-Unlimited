@@ -2492,10 +2492,10 @@ function wireUi() {
         void bootUrbanSiege();
         return;
       }
-      const procV2 = t.closest("#btn-v2-procedural");
+      const procV2 = t.closest("[data-proc-theme]");
       if (procV2) {
         ev.preventDefault();
-        void bootProceduralSkirmish(procV2.getAttribute("data-theme") || "urban");
+        void bootProceduralSkirmish(procV2.getAttribute("data-proc-theme") || "urban");
         return;
       }
       const btn = t.closest("[data-screen]");

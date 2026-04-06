@@ -19,6 +19,97 @@ function hexToRgba(hex, alpha) {
   return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
 }
 
+/** Exact (x,y) where `applyDividerRule` replaced divider water with a road ford. */
+function dividerBridgeKeySet(game) {
+  const s = new Set();
+  const log = game?.scenario?.generator?.connectorLog;
+  if (!Array.isArray(log)) return s;
+  for (const e of log) {
+    if (e && WATER_TERRAIN_SET.has(e.before)) s.add(`${e.x},${e.y}`);
+  }
+  return s;
+}
+
+/**
+ * Opaque wooden ford / bridge deck over the sandy road art underneath.
+ * Only used for `dividerBridgeKeySet` cells — not every road tile beside water.
+ */
+function drawDividerBridgeDeck(ctx, cells, gx, gy, px, py, pw, ph, cs) {
+  const gh = cells.length;
+  const gw = gh ? cells[0].length : 0;
+  const hasWaterN = gy > 0 && WATER_TERRAIN_SET.has(cells[gy - 1][gx]);
+  const hasWaterS = gy < gh - 1 && WATER_TERRAIN_SET.has(cells[gy + 1][gx]);
+  const hasWaterE = gx < gw - 1 && WATER_TERRAIN_SET.has(cells[gy][gx + 1]);
+  const hasWaterW = gx > 0 && WATER_TERRAIN_SET.has(cells[gy][gx - 1]);
+  const isVerticalBridge = hasWaterN || hasWaterS;
+  const margin = Math.max(2, Math.round(cs * 0.04));
+  const plankCount = 6;
+
+  ctx.save();
+  /* Stone abutments against open water */
+  ctx.fillStyle = "#3d3d45";
+  const pier = Math.max(margin, Math.round(cs * 0.07));
+  if (hasWaterW) ctx.fillRect(px, py + margin, pier, ph - margin * 2);
+  if (hasWaterE) ctx.fillRect(px + pw - pier, py + margin, pier, ph - margin * 2);
+  if (hasWaterN) ctx.fillRect(px + margin, py, pw - margin * 2, pier);
+  if (hasWaterS) ctx.fillRect(px + margin, py + ph - pier, pw - margin * 2, pier);
+
+  const ix0 = px + (hasWaterW ? pier : margin);
+  const iy0 = py + (hasWaterN ? pier : margin);
+  const ix1 = px + pw - (hasWaterE ? pier : margin);
+  const iy1 = py + ph - (hasWaterS ? pier : margin);
+  const iw = Math.max(1, ix1 - ix0);
+  const ih = Math.max(1, iy1 - iy0);
+
+  ctx.fillStyle = "#6b4e2e";
+  ctx.fillRect(ix0, iy0, iw, ih);
+  ctx.strokeStyle = "rgba(40, 22, 8, 0.65)";
+  ctx.lineWidth = Math.max(1, Math.round(cs * 0.02));
+  for (let pi = 1; pi < plankCount; pi++) {
+    const frac = pi / plankCount;
+    ctx.beginPath();
+    if (isVerticalBridge) {
+      const lx = ix0 + Math.round(iw * frac);
+      ctx.moveTo(lx, iy0);
+      ctx.lineTo(lx, iy1);
+    } else {
+      const ly = iy0 + Math.round(ih * frac);
+      ctx.moveTo(ix0, ly);
+      ctx.lineTo(ix1, ly);
+    }
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = "#d4a84b";
+  ctx.lineWidth = Math.max(2, Math.round(cs * 0.055));
+  const rl = Math.round(ctx.lineWidth / 2);
+  if (hasWaterN) {
+    ctx.beginPath();
+    ctx.moveTo(ix0, py + rl);
+    ctx.lineTo(ix1, py + rl);
+    ctx.stroke();
+  }
+  if (hasWaterS) {
+    ctx.beginPath();
+    ctx.moveTo(ix0, py + ph - rl);
+    ctx.lineTo(ix1, py + ph - rl);
+    ctx.stroke();
+  }
+  if (hasWaterE) {
+    ctx.beginPath();
+    ctx.moveTo(px + pw - rl, iy0);
+    ctx.lineTo(px + pw - rl, iy1);
+    ctx.stroke();
+  }
+  if (hasWaterW) {
+    ctx.beginPath();
+    ctx.moveTo(px + rl, iy0);
+    ctx.lineTo(px + rl, iy1);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
 /* ── High-resolution terrain tile overrides ──────────────────
  * Maps each terrain type to a list of high-res PNG paths (repo-relative).
  * Checked BEFORE the pixel-art TILE_MAP fallback below.
@@ -352,6 +443,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
   const ox = options.offsetX ?? 0;
   const oy = options.offsetY ?? 0;
   const planeStack = options.stackMode === "plane";
+  const bridgeKeys = planeStack ? new Set() : dividerBridgeKeySet(game);
   ctx.save();
   ctx.translate(ox, oy);
 
@@ -441,6 +533,20 @@ export function drawGrid(ctx, game, tileTypes, options) {
           ctx.fillText(t[0].toUpperCase(), px + 3, py + 2);
           ctx.restore();
         }
+      }
+    }
+  }
+
+  /* ── Pass 1b: divider fords (exact bridge cells from generator.connectorLog) ── */
+  if (!planeStack && bridgeKeys.size) {
+    for (let y = 0; y < g.height; y++) {
+      for (let x = 0; x < g.width; x++) {
+        if (!bridgeKeys.has(`${x},${y}`)) continue;
+        const px = Math.floor(x * cs);
+        const py = Math.floor(y * cs);
+        const pw = Math.floor((x + 1) * cs) - px;
+        const ph = Math.floor((y + 1) * cs) - py;
+        drawDividerBridgeDeck(ctx, g.cells, x, y, px, py, pw, ph, cs);
       }
     }
   }

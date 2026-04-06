@@ -89,50 +89,81 @@ export function applyFoundationHints(baseProfile, manifest, themeId) {
  */
 export function resolveFlowConnectorAsset(manifest, themeId, variant, opts = {}) {
   if (!manifest?.assets?.length) return null;
-  const flowKind = opts.flowKind ?? "water";
+  const wantedKind = opts.flowKind ?? "water";
   const tagFlow = `flow:${variant}`;
 
   const matchesTheme = (a) =>
     a.theme == null || a.theme === themeId || a.theme === "urban";
 
-  const exact = manifest.assets.find(
-    (a) =>
-      a.type === "tile" &&
-      matchesTheme(a) &&
-      a.flowConnector === true &&
-      a.flowVariant === variant &&
-      (a.flowKind == null || a.flowKind === flowKind),
-  );
-  if (exact) return { path: exact.path, spriteSheetFrame: 0 };
-
-  const byTag = manifest.assets.find(
-    (a) =>
-      a.type === "tile" &&
-      matchesTheme(a) &&
-      a.flowConnector === true &&
-      (a.tags || []).includes(tagFlow) &&
-      (a.flowKind == null || a.flowKind === flowKind),
-  );
-  if (byTag) return { path: byTag.path, spriteSheetFrame: 0 };
-
-  const sheet = manifest.assets.find(
-    (a) =>
-      a.type === "tile" &&
-      matchesTheme(a) &&
-      a.flowConnector === true &&
-      a.spriteSheet?.layout === "horizontal" &&
-      (a.tags || []).includes("flowConnector") &&
-      (a.flowKind == null || a.flowKind === flowKind),
-  );
-  if (sheet?.spriteSheet?.columns) {
-    const col = Math.min(
-      Math.max(0, variantToMaskIndex(variant)),
-      sheet.spriteSheet.columns - 1,
+  const tryKind = (flowKind) => {
+    const exact = manifest.assets.find(
+      (a) =>
+        a.type === "tile" &&
+        matchesTheme(a) &&
+        a.flowConnector === true &&
+        a.flowVariant === variant &&
+        (a.flowKind == null || a.flowKind === flowKind),
     );
-    return { path: sheet.path, spriteSheetFrame: col };
-  }
+    if (exact) return { path: exact.path, spriteSheetFrame: 0, flowSheet: null };
 
-  return null;
+    const byTag = manifest.assets.find(
+      (a) =>
+        a.type === "tile" &&
+        matchesTheme(a) &&
+        a.flowConnector === true &&
+        (a.tags || []).includes(tagFlow) &&
+        (a.flowKind == null || a.flowKind === flowKind),
+    );
+    if (byTag) return { path: byTag.path, spriteSheetFrame: 0, flowSheet: null };
+
+    const sheet = manifest.assets.find(
+      (a) =>
+        a.type === "tile" &&
+        matchesTheme(a) &&
+        a.flowConnector === true &&
+        a.spriteSheet?.columns &&
+        ["horizontal", "grid"].includes(a.spriteSheet.layout || "horizontal") &&
+        (a.flowKind == null || a.flowKind === flowKind),
+    );
+    if (!sheet?.spriteSheet?.columns) return null;
+
+    const maskIdx = variantToMaskIndex(variant);
+    const cols = sheet.spriteSheet.columns;
+    const rows = sheet.spriteSheet.rows ?? 1;
+    const layout = sheet.spriteSheet.layout || "horizontal";
+
+    if (layout === "horizontal") {
+      const col = Math.min(Math.max(0, maskIdx), cols - 1);
+      const fw = sheet.spriteSheet.frameW;
+      const fh = sheet.spriteSheet.frameH;
+      return {
+        path: sheet.path,
+        spriteSheetFrame: col,
+        flowSheet:
+          fw && fh
+            ? { columns: cols, rows: 1, frameW: fw, frameH: fh }
+            : null,
+      };
+    }
+
+    const total = cols * rows;
+    const frameIdx = total > 0 ? maskIdx % total : 0;
+    return {
+      path: sheet.path,
+      spriteSheetFrame: frameIdx,
+      flowSheet: {
+        columns: cols,
+        rows,
+        frameW: sheet.spriteSheet.frameW,
+        frameH: sheet.spriteSheet.frameH,
+      },
+    };
+  };
+
+  let r = tryKind(wantedKind);
+  /* Fords use `road` terrain; reuse the water-channel sheet when no road-specific flow tile exists. */
+  if (!r && wantedKind === "road") r = tryKind("water");
+  return r;
 }
 
 /** Variant id → mask value (sprite-sheet column when frames are ordered 0–15 by mask). */

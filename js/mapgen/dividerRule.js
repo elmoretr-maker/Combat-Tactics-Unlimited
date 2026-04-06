@@ -108,6 +108,7 @@ export function buildFlowConnectorLayer(terrain, profile, manifest, themeId) {
           variant,
           spritePath: resolved?.path ?? null,
           spriteSheetFrame: resolved?.spriteSheetFrame ?? mask,
+          flowSheet: resolved?.flowSheet ?? null,
         });
       } else if (roadSet.has(tid)) {
         const mask = computeCardinalFlowMask(terrain, x, y, roadSet);
@@ -123,6 +124,7 @@ export function buildFlowConnectorLayer(terrain, profile, manifest, themeId) {
           variant,
           spritePath: resolved?.path ?? null,
           spriteSheetFrame: resolved?.spriteSheetFrame ?? mask,
+          flowSheet: resolved?.flowSheet ?? null,
         });
       }
     }

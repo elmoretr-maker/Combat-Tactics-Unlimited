@@ -1237,9 +1237,9 @@
       ]
     },
     {
-      "id": "assets_tiles_urban_Tile_Urban_WaterStrip_64d87f88_png",
-      "path": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-      "fileName": "Tile_Urban_WaterStrip_64d87f88.png",
+      "id": "assets_tiles_urban_Water_coasts_animation_png_connector",
+      "path": "assets/tiles/urban/Water_coasts_animation.png",
+      "fileName": "Water_coasts_animation.png",
       "ext": "png",
       "type": "tile",
       "theme": "urban",
@@ -1253,10 +1253,11 @@
       "flowConnector": true,
       "flowKind": "water",
       "spriteSheet": {
-        "layout": "horizontal",
-        "columns": 4,
-        "frameW": 172,
-        "frameH": 192
+        "layout": "grid",
+        "columns": 2,
+        "rows": 4,
+        "frameW": 176,
+        "frameH": 112
       }
     },
     {

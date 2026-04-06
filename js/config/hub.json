@@ -8,10 +8,19 @@
   "soloModes": [
     {
       "id": "procedural_skirmish",
-      "title": "Procedural skirmish",
-      "description": "Random 16×12 map: river, bridges, two flanking routes, buildings, and CraftPix props.",
+      "title": "Procedural skirmish (urban)",
+      "description": "Random 16×12 urban map: river, fords, two flanking routes, buildings, and CraftPix props.",
       "action": "procedural",
       "procTheme": "urban",
+      "iconKey": "maps",
+      "requiresAcademy": false
+    },
+    {
+      "id": "procedural_skirmish_desert",
+      "title": "Procedural skirmish (desert)",
+      "description": "Random 16×12 desert map: oasis channel, fords, dunes, and theme props (no urban building footprints).",
+      "action": "procedural",
+      "procTheme": "desert",
       "iconKey": "maps",
       "requiresAcademy": false
     },
