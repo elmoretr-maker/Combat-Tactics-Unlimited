@@ -1,5 +1,5 @@
 # CTU Librarian — classification audit
-# generatedAt: 2026-04-07T02:24:07.694Z
+# generatedAt: 2026-04-07T02:48:59.904Z
 # Path | Assigned category | Reason
 
 assets/buildings/large/Building_Urban_Large_062c9af9.png	building	Manifest bucket: building (large) | tier: "high"
@@ -76,17 +76,17 @@ assets/tiles/grass/Tile_Grass_Tile_f3b57cd9.png	tile	Manifest bucket: tile (gras
 assets/tiles/urban/Bridges.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/decorative_cracks_coasts_animation_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/decorative_cracks_coasts_animation.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/decorative_cracks_floor_1.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/decorative_cracks_floor.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/decorative_cracks_floor_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
+assets/tiles/urban/decorative_cracks_floor.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/decorative_cracks_walls_1.png	tile	Manifest bucket: tile (urban)
 assets/tiles/urban/decorative_cracks_walls.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/doors_lever_chest_animation_1.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/doors_lever_chest_animation.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/fire_animation_1.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/fire_animation.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/doors_lever_chest_animation_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
+assets/tiles/urban/doors_lever_chest_animation.png	tile	Manifest bucket: tile (urban) | tier: "high"
+assets/tiles/urban/fire_animation_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
+assets/tiles/urban/fire_animation.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/fire_animation2_1.png	tile	Manifest bucket: tile (urban)
 assets/tiles/urban/fire_animation2.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/Objects_1.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Objects_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Objects.png	tile	Manifest bucket: tile (urban)
 assets/tiles/urban/Tile_Urban_Tile_035027a6.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_04058ad6.png	tile	Manifest bucket: tile (urban) | tier: "high"
@@ -122,11 +122,11 @@ assets/tiles/urban/Tile_Urban_Tile_3f3b8472.png	tile	Manifest bucket: tile (urba
 assets/tiles/urban/Tile_Urban_Tile_3fcf144f.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_4041eb77.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_42c1c65f.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/Tile_Urban_Tile_449d0fed.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Tile_Urban_Tile_449d0fed.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_478e862d.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/Tile_Urban_Tile_48275b5d.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Tile_Urban_Tile_48275b5d.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_4d1d1d7c.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/Tile_Urban_Tile_58442700.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Tile_Urban_Tile_58442700.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_5e76ef76.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_61117f4d.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_691e5367.png	tile	Manifest bucket: tile (urban)
@@ -136,7 +136,7 @@ assets/tiles/urban/Tile_Urban_Tile_6e0db011.png	tile	Manifest bucket: tile (urba
 assets/tiles/urban/Tile_Urban_Tile_6e423210.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_70db1034.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_72c66d82.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/Tile_Urban_Tile_742dc73d.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Tile_Urban_Tile_742dc73d.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_77e684fd.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_79f2214c.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_7a16ca18.png	tile	Manifest bucket: tile (urban) | tier: "high"
@@ -176,13 +176,13 @@ assets/tiles/urban/Tile_Urban_Tile_b22a13a0.png	tile	Manifest bucket: tile (urba
 assets/tiles/urban/Tile_Urban_Tile_b2ba58a8.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_b4187275.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_b45ce142.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/Tile_Urban_Tile_b84d19eb.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Tile_Urban_Tile_b84d19eb.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_b99dcbb5.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_ba9bf5d8.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_bca2abe4.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_bd000b01.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_bde71ed0.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/Tile_Urban_Tile_c61db489.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/Tile_Urban_Tile_c61db489.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_c73be9b0.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_ca0fcd9e.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_cc206b9e.png	tile	Manifest bucket: tile (urban) | tier: "high"
@@ -209,10 +209,10 @@ assets/tiles/urban/Tile_Urban_Tile_fc7b20f8.png	tile	Manifest bucket: tile (urba
 assets/tiles/urban/Tile_Urban_Tile_fd07f0f1.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_Tile_ff2db801.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/trap_animation_1.png	tile	Manifest bucket: tile (urban)
-assets/tiles/urban/trap_animation.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/trap_animation_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
+assets/tiles/urban/trap_animation.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/walls_floor_1.png	tile	Manifest bucket: tile (urban) | tier: "high"
-assets/tiles/urban/walls_floor.png	tile	Manifest bucket: tile (urban)
+assets/tiles/urban/walls_floor.png	tile	Manifest bucket: tile (urban) | tier: "high"
 assets/tiles/urban/Water_animation.png	tile	Manifest bucket: tile (urban)
 assets/tiles/urban/Water_animation10.png	tile	Manifest bucket: tile (urban)
 assets/tiles/urban/Water_animation11.png	tile	Manifest bucket: tile (urban)

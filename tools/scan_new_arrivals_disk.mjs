@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Raw disk scan of assets/New_Arrivals — no Git.
+ * Raw disk scan of assets/New_Arrivals (no Git).
  * Run: node tools/scan_new_arrivals_disk.mjs
  *
  * If this prints 0 rasters but Explorer shows PNGs, check OneDrive
@@ -60,6 +60,24 @@ if (fs.existsSync(NEW_ARRIVALS)) {
 hits.sort((a, b) => a.rel.localeCompare(b.rel));
 console.log("Root:", NEW_ARRIVALS);
 console.log("Raster files found:", hits.length);
+
+const norm = (p) => p.replace(/\\/g, "/").toLowerCase();
+const inUrban = hits.filter((h) => {
+  const segs = norm(h.rel).split("/");
+  return segs.some((s) => s === "urban");
+});
+const inWeaponColor = hits.filter((h) => norm(h.rel).includes("weapon_color"));
+console.log("  in URBAN path segment:", inUrban.length);
+console.log("  in Weapon_Color path:", inWeaponColor.length);
+if (inUrban.length) {
+  console.log("\nFirst 5 PNG/JPG under URBAN:");
+  inUrban.slice(0, 5).forEach((h) => console.log(h.full));
+}
+if (inWeaponColor.length) {
+  console.log("\nFirst 5 PNG/JPG under Weapon_Color:");
+  inWeaponColor.slice(0, 5).forEach((h) => console.log(h.full));
+}
+
 if (hits.length) {
   console.log("\nFirst file (proof path):");
   console.log(hits[0].full);

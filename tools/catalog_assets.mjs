@@ -526,7 +526,7 @@ function newArrivalsUrbanPixelRoute(w, h, fileName, relPosix) {
     return {
       category: "building",
       footprint,
-      reason: `URBAN path segment + 512×512 → assets/buildings/${footprint} (urban in filename)`,
+      reason: `URBAN path segment + 512×512 → assets/buildings/urban/ (manifest footprint ${footprint})`,
     };
   }
   if (Math.max(w, h) < 256) {
@@ -839,7 +839,17 @@ async function ingestNewArrivals() {
       };
     } else if (cat === "building") {
       const footprint = plan?.footprint ?? classifyBuildingFootprint(name, rel);
-      destDir = path.join(ROOT, "assets", "buildings", footprint);
+      const urban512 =
+        meta.urbanBrain &&
+        visual &&
+        Number(visual.width) === 512 &&
+        Number(visual.height) === 512;
+      destDir = path.join(
+        ROOT,
+        "assets",
+        "buildings",
+        urban512 ? "urban" : footprint,
+      );
       meta = {
         ...meta,
         type: "building",
@@ -847,7 +857,9 @@ async function ingestNewArrivals() {
         tags: [footprint, "building"],
       };
     } else if (cat === "tile") {
-      const theme = visual?.theme ?? classifyTileTheme(name, rel);
+      const theme = meta.urbanBrain
+        ? "urban"
+        : visual?.theme ?? classifyTileTheme(name, rel);
       destDir = path.join(ROOT, "assets", "tiles", theme);
       meta = {
         ...meta,
@@ -889,7 +901,9 @@ async function ingestNewArrivals() {
           : ["unit", paletteTheme, "mapSprite"],
       };
     } else {
-      const theme = visual?.theme ?? classifyTileTheme(name, rel);
+      const theme = meta.urbanBrain
+        ? "urban"
+        : visual?.theme ?? classifyTileTheme(name, rel);
       const obstacleTheme = obstacleThemeForPalette(theme);
       const okind = plan?.obstacleKind ?? classifyObstacleKind(outName);
       destDir = path.join(ROOT, "assets", "obstacles", obstacleTheme);
@@ -944,7 +958,11 @@ function collectAssetsUnder(relRoot) {
       record.footprint = null;
       record.tags = ["gun", gunClass];
     } else if (bucket === "buildings") {
-      const footprint = rel.split("/")[2];
+      const pathSeg = rel.split("/")[2];
+      const footprint =
+        pathSeg === "urban"
+          ? classifyBuildingFootprint(name, rel)
+          : pathSeg;
       record.type = "building";
       record.footprint = footprint;
       record.theme = inferBuildingTheme(name);
@@ -1450,6 +1468,12 @@ async function enrichTierAndTileFit(assets) {
           if (w === 64 && h === 64) {
             a.tier = "legacy";
           } else if (isSquarePo2HighTier(w, h)) {
+            a.tier = "high";
+          } else if (
+            posixPath.includes("/tiles/urban/") &&
+            Math.min(w, h) >= 128
+          ) {
+            /* 128px-detail urban layers (e.g. 128×240) — procedural index parity with HD squares */
             a.tier = "high";
           } else {
             a.tier = w >= TILE_HD && h >= TILE_HD ? "high" : "standard";
