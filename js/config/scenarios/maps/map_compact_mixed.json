@@ -239,7 +239,7 @@
       "id": "obj_2_6_n17na",
       "x": 2,
       "y": 6,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_92c0f35a.png",
+      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_92c0f35a.png",
       "visualKind": "crate",
       "blocksMove": true,
       "blocksLos": true
@@ -248,7 +248,7 @@
       "id": "obj_4_6_b1jj0",
       "x": 4,
       "y": 6,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_38a709a5.png",
+      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_38a709a5.png",
       "visualKind": "crate",
       "blocksMove": true,
       "blocksLos": true
@@ -266,7 +266,7 @@
       "id": "obj_7_6_z5gr3",
       "x": 7,
       "y": 6,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_a7e47133.png",
+      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_a7e47133.png",
       "visualKind": "crate",
       "blocksMove": true,
       "blocksLos": true
@@ -275,7 +275,7 @@
       "id": "obj_5_6_7jlk5",
       "x": 5,
       "y": 6,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_94fd0651.png",
+      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_94fd0651.png",
       "visualKind": "crate",
       "blocksMove": true,
       "blocksLos": true
@@ -284,7 +284,7 @@
       "id": "obj_7_5_jxyei",
       "x": 7,
       "y": 5,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_08f98307.png",
+      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_08f98307.png",
       "visualKind": "crate",
       "blocksMove": true,
       "blocksLos": true
@@ -302,7 +302,7 @@
       "id": "obj_5_5_ob70l",
       "x": 5,
       "y": 5,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_162f599e.png",
+      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_162f599e.png",
       "visualKind": "crate",
       "blocksMove": true,
       "blocksLos": true

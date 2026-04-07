@@ -50,6 +50,7 @@ export function generateProceduralScenario(spec) {
     const playerSpawns = defaultPlayerSpawns(width, height);
     const enemySpawns = defaultEnemySpawns(width, height);
 
+    const fordRnd = mulberry32((s ^ 0xf07dface) >>> 0);
     const div = applyDividerRule(
       t0,
       tileTypes,
@@ -58,6 +59,8 @@ export function generateProceduralScenario(spec) {
       {
         dividerTypes: profile.dividerTypes,
         connectorTerrain: profile.roadTerrain,
+        naturalFordTerrain: profile.baseTerrain,
+        fordRnd,
       },
     );
 
@@ -107,7 +110,13 @@ export function generateProceduralScenario(spec) {
     const presetEnemies = defaultPresetEnemies(width, height, terrain, tileTypes);
     const flowConnectors = buildFlowConnectorLayer(terrain, profile, assetManifest, theme);
     const bridgeCells = div.connectorLog
-      .filter((e) => e && ["water", "water_desert", "water_urban"].includes(e.before))
+      .filter(
+        (e) =>
+          e &&
+          ["water", "water_desert", "water_urban"].includes(e.before) &&
+          e.fordStyle !== "natural" &&
+          [profile.roadTerrain, "road", "cp_road"].includes(e.after),
+      )
       .map((e) => ({ x: e.x, y: e.y }));
 
     /** @type {object} */

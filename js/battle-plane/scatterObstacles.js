@@ -13,6 +13,7 @@ import {
   terrainAllowsPlacement,
   treeSpacingOk,
   effectiveObstacleKind,
+  wouldCompleteOrthogonalBlockingLineOfThree,
 } from "../mapgen/tacticalPlacement.js";
 
 /**
@@ -206,6 +207,19 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     /* Spacing: trees need 1-cell isolation; all blocking props need orthogonal clearance */
     if (!treeSpacingOk(mapObjects, x, y, vk, willBlock)) return false;
 
+    if (
+      wouldCompleteOrthogonalBlockingLineOfThree(
+        mapObjects,
+        x,
+        y,
+        grid.width,
+        grid.height,
+        willBlock,
+      )
+    ) {
+      return false;
+    }
+
     /* Pathway guard */
     if (willBlock && pathwayReserve.has(key(x, y))) return false;
 
@@ -217,6 +231,11 @@ export function generateBattleObstacles(scenario, grid, tileTypes, mapObjects) {
     } else {
       if (spec.blocksMove === false) extra.blocksMove = false;
       if (spec.blocksLos === false) extra.blocksLos = false;
+    }
+
+    const vkLow = (vk || "").toLowerCase();
+    if (vkLow === "tree" || vkLow === "ruins" || vkLow === "house") {
+      extra.propAnchor = "bottom";
     }
 
     const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);

@@ -8,6 +8,76 @@ import { gridFromTerrain, terrainCostAt } from "./gridCost.js";
 
 const BLOCKED = 99;
 
+/** Terrains that count as “urban ground” for `urban_ok` manifest tags. */
+export const URBAN_TERRAIN = new Set([
+  "cp_grass",
+  "cp_road",
+  "urban",
+  "cp_building",
+  "building_block",
+  "cp_rubble",
+]);
+
+/** @param {{ tags?: string[] } | null | undefined} ob */
+export function obstacleHasTag(ob, tag) {
+  const t = (tag || "").toLowerCase();
+  return (ob?.tags || []).some((x) => String(x).toLowerCase() === t);
+}
+
+/**
+ * Manifest tag gate: `water_only` (water cells only), `urban_ok` (urban profile or urban terrain).
+ * @param {{ kind: string, sprite: string, tags?: string[] }} ob
+ * @param {string} terrainId
+ * @param {"urban"|"desert"|"grass"} profileId
+ * @param {boolean} isWaterCell
+ */
+export function obstaclePassesPlacementTags(ob, terrainId, profileId, isWaterCell) {
+  if (obstacleHasTag(ob, "water_only") && !isWaterCell) return false;
+  if (obstacleHasTag(ob, "urban_ok")) {
+    if (profileId !== "urban" && !URBAN_TERRAIN.has(terrainId)) return false;
+  }
+  return true;
+}
+
+/**
+ * Reject if placing a new blocking prop would create a run of ≥3 blocking props in a row
+ * on the same row or column (orthogonal only).
+ */
+export function wouldCompleteOrthogonalBlockingLineOfThree(
+  mapObjects,
+  x,
+  y,
+  w,
+  h,
+  willBlockNew,
+) {
+  if (!willBlockNew) return false;
+
+  const blocksAt = (tx, ty) => {
+    if (tx < 0 || ty < 0 || tx >= w || ty >= h) return false;
+    for (const o of mapObjects) {
+      if (o.x !== tx || o.y !== ty) continue;
+      if (o.blocksMove === false) continue;
+      const k = (o.visualKind || "").toLowerCase();
+      if (k === "plane") continue;
+      return true;
+    }
+    return false;
+  };
+
+  let left = 0;
+  for (let tx = x - 1; tx >= 0 && blocksAt(tx, y); tx--) left++;
+  let right = 0;
+  for (let tx = x + 1; tx < w && blocksAt(tx, y); tx++) right++;
+  if (left + right + 1 >= 3) return true;
+
+  let up = 0;
+  for (let ty = y - 1; ty >= 0 && blocksAt(x, ty); ty--) up++;
+  let down = 0;
+  for (let ty = y + 1; ty < h && blocksAt(x, ty); ty++) down++;
+  return up + down + 1 >= 3;
+}
+
 /** Walkable “open lane” terrains for the reserved 4-neighbor pathway (grass / dirt / road). */
 export const PATHWAY_TERRAIN = new Set([
   "plains",

@@ -352,6 +352,53 @@ export function planRenameForKeywordOverride(analysis, originalFileName, ext, ov
   return null;
 }
 
+/**
+ * New_Arrivals path contains a folder segment `URBAN` + known pixel size → category + stable name.
+ * Theme is always urban; building footprint comes from filename/path heuristics when 512².
+ */
+export function planRenameForUrbanBrain(analysis, originalFileName, ext, spec) {
+  const themeP = "Urban";
+  const id = randomUUID().replace(/-/g, "").slice(0, 8);
+  if (spec.category === "tile") {
+    return {
+      category: "tile",
+      newFileName: `Tile_${themeP}_Tile_${id}${ext}`,
+      gunClass: analysis.gunClass || "rifle",
+      footprint: null,
+      theme: "urban",
+      obstacleKind: "crate",
+      librarianSubtype: "Tile",
+    };
+  }
+  if (spec.category === "building") {
+    const fp = spec.footprint || "medium";
+    const fpP = toPascalParts(fp);
+    return {
+      category: "building",
+      newFileName: `Building_${themeP}_${fpP}_${id}${ext}`,
+      gunClass: analysis.gunClass || "rifle",
+      footprint: fp,
+      theme: "urban",
+      obstacleKind: "crate",
+      librarianSubtype: fpP,
+    };
+  }
+  if (spec.category === "obstacle") {
+    const ok = spec.obstacleKind || "crate";
+    const subP = toPascalParts(ok);
+    return {
+      category: "obstacle",
+      newFileName: `Obstacle_${themeP}_${subP}_${id}${ext}`,
+      gunClass: analysis.gunClass || "rifle",
+      footprint: null,
+      theme: "urban",
+      obstacleKind: ok,
+      librarianSubtype: subP,
+    };
+  }
+  return null;
+}
+
 /** @deprecated use planLibrarianRename — kept for scripts that still import the old name */
 export function planVisualRename(analysis, ext) {
   const id = randomUUID().slice(0, 8);

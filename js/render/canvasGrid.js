@@ -3,6 +3,8 @@ import { terrainColor } from "../engine/terrain.js";
 /* All terrain IDs that count as water (used in Pass 3 shore logic) */
 const WATER_TERRAIN_SET = new Set(["water", "water_desert", "water_urban"]);
 
+const ROAD_TERRAIN_SET = new Set(["road", "cp_road"]);
+
 /* Shore/coast bitmask tileset — 2 animation columns × 4 topology rows, each frame 176×112 px.
  * Used by the flow connector layer (dividerRule / assetQuery) for river channel rendering.
  * Preloaded here so the asset is cached before the flow connector system needs it. */
@@ -34,7 +36,10 @@ function dividerBridgeKeySet(game) {
   const log = game?.scenario?.generator?.connectorLog;
   if (Array.isArray(log)) {
     for (const e of log) {
-      if (e && WATER_TERRAIN_SET.has(e.before)) s.add(`${e.x},${e.y}`);
+      if (!e || !WATER_TERRAIN_SET.has(e.before)) continue;
+      if (e.fordStyle === "natural") continue;
+      if (!ROAD_TERRAIN_SET.has(e.after)) continue;
+      s.add(`${e.x},${e.y}`);
     }
   }
   if (s.size > 0 || !game?.grid?.cells) return s;
@@ -42,11 +47,10 @@ function dividerBridgeKeySet(game) {
   const cells = game.grid.cells;
   const h = cells.length;
   const w = h ? cells[0].length : 0;
-  const ROAD = new Set(["road", "cp_road"]);
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const t = cells[y][x];
-      if (!ROAD.has(t)) continue;
+      if (!ROAD_TERRAIN_SET.has(t)) continue;
       const wN = y > 0 && WATER_TERRAIN_SET.has(cells[y - 1][x]);
       const wS = y < h - 1 && WATER_TERRAIN_SET.has(cells[y + 1][x]);
       const wE = x < w - 1 && WATER_TERRAIN_SET.has(cells[y][x + 1]);
@@ -55,6 +59,99 @@ function dividerBridgeKeySet(game) {
     }
   }
   return s;
+}
+
+/** @returns {Map<string, object>} key "x,y" → flow connector row from generator */
+function flowConnectorIndex(game) {
+  const map = new Map();
+  const list = game?.scenario?.generator?.flowConnectors;
+  if (!Array.isArray(list)) return map;
+  for (const e of list) {
+    if (e && e.spritePath && Number.isFinite(e.x) && Number.isFinite(e.y)) {
+      map.set(`${e.x},${e.y}`, e);
+    }
+  }
+  return map;
+}
+
+/**
+ * Draw manifest flow tile (single image or sprite-sheet frame) edge-to-edge in cell — no padding.
+ * @returns {boolean} true if something was drawn
+ */
+function drawFlowConnectorRaster(ctx, entry, px, py, pw, ph) {
+  if (!entry?.spritePath) return false;
+  const ent = getCraftpixTileImage(entry.spritePath);
+  if (!ent?.ok || !ent.img.complete || !ent.img.naturalWidth) return false;
+  const fs = entry.flowSheet;
+  if (
+    fs?.frameW &&
+    fs?.frameH &&
+    fs.columns &&
+    Number.isFinite(entry.spriteSheetFrame)
+  ) {
+    const col = entry.spriteSheetFrame % fs.columns;
+    const row = Math.floor(entry.spriteSheetFrame / fs.columns);
+    const sx = col * fs.frameW;
+    const sy = row * fs.frameH;
+    ctx.drawImage(ent.img, sx, sy, fs.frameW, fs.frameH, px, py, pw, ph);
+    return true;
+  }
+  ctx.drawImage(ent.img, px, py, pw, ph);
+  return true;
+}
+
+/** Land-adjacency bitmask (N=1,E=2,S=4,W=8) for a water cell — map edge to coast art */
+function landAdjacencyMask4(cells, gx, gy, gw, gh) {
+  const landAt = (tx, ty) => {
+    if (tx < 0 || ty < 0 || tx >= gw || ty >= gh) return true;
+    return !WATER_TERRAIN_SET.has(cells[ty][tx]);
+  };
+  let m = 0;
+  if (landAt(gx, gy - 1)) m |= 1;
+  if (landAt(gx + 1, gy)) m |= 2;
+  if (landAt(gx, gy + 1)) m |= 4;
+  if (landAt(gx - 1, gy)) m |= 8;
+  return m;
+}
+
+/**
+ * Shore tileset: 2 animation columns × 4 topology rows (176×112 px cells in asset).
+ * Picks row from how many sides touch land; column from time.
+ */
+function drawWaterShoreSprite(ctx, cells, gx, gy, px, py, pw, ph, timeMs) {
+  const mask = landAdjacencyMask4(cells, gx, gy, cells[0].length, cells.length);
+  if (mask === 0) return false;
+  const ent = getCraftpixTileImage(SHORE_SPRITE_URL);
+  if (!ent?.ok || !ent.img.complete || !ent.img.naturalWidth) return false;
+  const iw = ent.img.naturalWidth;
+  const ih = ent.img.naturalHeight;
+  const cols = 2;
+  const rows = 4;
+  const fw = Math.floor(iw / cols);
+  const fh = Math.floor(ih / rows);
+  if (fw < 4 || fh < 4) return false;
+  let bits = 0;
+  for (const b of [1, 2, 4, 8]) if (mask & b) bits++;
+  const row = Math.min(rows - 1, Math.max(0, bits - 1));
+  const col =
+    timeMs != null
+      ? Math.floor(timeMs / 320) % cols
+      : 0;
+  ctx.save();
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(
+    ent.img,
+    col * fw,
+    row * fh,
+    fw,
+    fh,
+    px,
+    py,
+    pw,
+    ph,
+  );
+  ctx.restore();
+  return true;
 }
 
 /**
@@ -134,18 +231,6 @@ function drawDividerBridgeDeck(ctx, cells, gx, gy, px, py, pw, ph, cs) {
     ctx.lineTo(px + rl, iy1);
     ctx.stroke();
   }
-  /* High-contrast verification ring + label — makes ford cells impossible to confuse with sand road art. */
-  ctx.strokeStyle = "#00ffc8";
-  ctx.lineWidth = Math.max(3, Math.round(cs * 0.08));
-  ctx.strokeRect(px + ctx.lineWidth / 2, py + ctx.lineWidth / 2, pw - ctx.lineWidth, ph - ctx.lineWidth);
-  ctx.font = `bold ${Math.max(10, Math.round(cs * 0.22))}px sans-serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = "rgba(0,0,0,0.85)";
-  ctx.strokeText("BRIDGE", px + pw / 2, py + ph / 2);
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText("BRIDGE", px + pw / 2, py + ph / 2);
   ctx.restore();
 }
 
@@ -266,7 +351,11 @@ function getCraftpixTileImage(url) {
  * Await this in the boot sequence so the first render is fully textured.
  */
 export async function preloadTerrainTiles() {
-  const urls = new Set([SHORE_SPRITE_URL]);
+  const urls = new Set([
+    SHORE_SPRITE_URL,
+    /* Procedural river channel (flowConnector water, horizontal mask frames) */
+    "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+  ]);
   for (const arr of Object.values(HIRES_TILE_MAP)) {
     for (const url of arr) urls.add(url);
   }
@@ -576,7 +665,33 @@ export function drawGrid(ctx, game, tileTypes, options) {
     }
   }
 
-  /* ── Pass 1b: divider fords — runs in legacy and plane-stack modes (always on top of terrain pass). ── */
+  const flowByCell = flowConnectorIndex(game);
+
+  /* ── Pass 1a: water flow art + shore (manifest flowConnectors when present; else coast sheet) ── */
+  if (!planeStack) {
+    for (let y = 0; y < g.height; y++) {
+      for (let x = 0; x < g.width; x++) {
+        const t = g.cells[y][x];
+        if (!WATER_TERRAIN_SET.has(t)) continue;
+        const px = Math.floor(x * cs);
+        const py = Math.floor(y * cs);
+        const pw = Math.floor((x + 1) * cs) - px;
+        const ph = Math.floor((y + 1) * cs) - py;
+        const e = flowByCell.get(`${x},${y}`);
+        let drewChannel =
+          !!(
+            e &&
+            WATER_TERRAIN_SET.has(e.terrainId) &&
+            drawFlowConnectorRaster(ctx, e, px, py, pw, ph)
+          );
+        if (!drewChannel) {
+          drawWaterShoreSprite(ctx, g.cells, x, y, px, py, pw, ph, options.timeMs ?? 0);
+        }
+      }
+    }
+  }
+
+  /* ── Pass 1b: bridge / ford — manifest flow tile when available, else procedural deck ── */
   if (bridgeKeys.size) {
     for (let y = 0; y < g.height; y++) {
       for (let x = 0; x < g.width; x++) {
@@ -585,6 +700,16 @@ export function drawGrid(ctx, game, tileTypes, options) {
         const py = Math.floor(y * cs);
         const pw = Math.floor((x + 1) * cs) - px;
         const ph = Math.floor((y + 1) * cs) - py;
+        const e = flowByCell.get(`${x},${y}`);
+        const t = g.cells[y][x];
+        if (
+          e &&
+          ROAD_TERRAIN_SET.has(t) &&
+          ROAD_TERRAIN_SET.has(e.terrainId) &&
+          drawFlowConnectorRaster(ctx, e, px, py, pw, ph)
+        ) {
+          continue;
+        }
         drawDividerBridgeDeck(ctx, g.cells, x, y, px, py, pw, ph, cs);
       }
     }

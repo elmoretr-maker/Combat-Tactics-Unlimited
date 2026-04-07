@@ -7,10 +7,14 @@
     "serve": "python tools/serve_dev.py",
     "serve:node": "npx --yes serve . -l 8080",
     "catalog-assets": "node tools/catalog_assets.mjs",
+    "catalog-assets:cleanup": "node tools/catalog_assets.mjs --cleanup --cleanup-include-primary",
+    "catalog-assets:cleanup-preview": "node tools/catalog_assets.mjs --cleanup-dry-run --cleanup-include-primary",
+    "cleanup-scan": "node tools/librarian_cleanup.mjs --dry-run --include-primary",
     "migrate-maps": "node tools/migrate_maps.mjs",
     "verify-tree-collision": "node js/battle-plane/verifyTreeCollision.mjs",
     "verify-los-building": "node js/battle-plane/verifyLosBuilding.mjs",
-    "visual-report": "node tools/catalog_assets.mjs --visual-report"
+    "visual-report": "node tools/catalog_assets.mjs --visual-report",
+    "scan-new-arrivals": "node tools/scan_new_arrivals_disk.mjs"
   },
   "devDependencies": {
     "sharp": "^0.34.5"

@@ -41,3 +41,12 @@ Assets: `assets/buttons/red button glow off.png` / `red button glow on.png`. The
 ## 5. Local server
 
 ES modules and `fetch()` for JSON **fail on `file://`**. Use **`npm start`** / `python tools/serve_dev.py` or VS Code Live Server from the **project root**.
+
+## 6. Arena render modes (`mat` vs `tiled`)
+
+- **Source of truth:** `scenario.battlePlaneLayer?.enabled` — when true, the arena uses the battle-mat stack (static mat + grid overlay); when false/omitted, the legacy **tiled** per-cell terrain renderer runs.
+- **Code helper:** `getArenaRenderMode(scenario)` in `js/render/renderMode.js` returns `"mat"` or `"tiled"` so call sites avoid duplicating the flag expression (e.g. fog-of-war early-out in `main.js`).
+- **Draw path:** `drawGrid(..., { stackMode })` in `js/render/canvasGrid.js` branches on the same scenario flag; keep a single simulation (`GameState`, `terrain`, `mapObjects`).
+- **`flowConnectors` in hand-authored JSON:** treated as **documentation / tooling** only until a dedicated draw phase; the runtime does not require connector sprites to match gameplay.
+
+**Verify the right build:** hard refresh, serve **repo root**, confirm the scenario you load is the one you intend (e.g. mat lab uses `plane_layer_demo.json`).

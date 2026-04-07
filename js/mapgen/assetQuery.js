@@ -37,15 +37,19 @@ export function findBuildingsByThemeAndFootprint(manifest, theme, footprint) {
 }
 
 /**
- * Obstacle props for tactical scatter (kind + sprite path).
+ * Obstacle props for tactical scatter (kind + sprite path + optional manifest tags).
  * @param {object|null|undefined} manifest
  * @param {"urban"|"desert"|"grass"} themeId
- * @returns {{ kind: string, sprite: string }[]}
+ * @returns {{ kind: string, sprite: string, tags?: string[] }[]}
  */
 export function obstacleVisualKindsForTheme(manifest, themeId) {
   const list = manifest?.index?.obstaclesByTheme?.[themeId];
   if (!list?.length) return [];
-  return list.map((o) => ({ kind: o.kind, sprite: o.sprite }));
+  return list.map((o) => ({
+    kind: o.kind,
+    sprite: o.sprite,
+    tags: Array.isArray(o.tags) ? [...o.tags] : [],
+  }));
 }
 
 /**
@@ -95,12 +99,16 @@ export function resolveFlowConnectorAsset(manifest, themeId, variant, opts = {})
   const matchesTheme = (a) =>
     a.theme == null || a.theme === themeId || a.theme === "urban";
 
+  const flowTileOk = (a) =>
+    a.type === "tile" &&
+    a.flowConnector === true &&
+    a.tier !== "legacy";
+
   const tryKind = (flowKind) => {
     const exact = manifest.assets.find(
       (a) =>
-        a.type === "tile" &&
+        flowTileOk(a) &&
         matchesTheme(a) &&
-        a.flowConnector === true &&
         a.flowVariant === variant &&
         (a.flowKind == null || a.flowKind === flowKind),
     );
@@ -108,9 +116,8 @@ export function resolveFlowConnectorAsset(manifest, themeId, variant, opts = {})
 
     const byTag = manifest.assets.find(
       (a) =>
-        a.type === "tile" &&
+        flowTileOk(a) &&
         matchesTheme(a) &&
-        a.flowConnector === true &&
         (a.tags || []).includes(tagFlow) &&
         (a.flowKind == null || a.flowKind === flowKind),
     );
@@ -118,9 +125,8 @@ export function resolveFlowConnectorAsset(manifest, themeId, variant, opts = {})
 
     const sheet = manifest.assets.find(
       (a) =>
-        a.type === "tile" &&
+        flowTileOk(a) &&
         matchesTheme(a) &&
-        a.flowConnector === true &&
         a.spriteSheet?.columns &&
         ["horizontal", "grid"].includes(a.spriteSheet.layout || "horizontal") &&
         (a.flowKind == null || a.flowKind === flowKind),

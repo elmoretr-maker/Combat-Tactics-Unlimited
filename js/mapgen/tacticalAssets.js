@@ -12,14 +12,16 @@ import { shuffleInPlace } from "./rng.js";
 import {
   computeOrthogonalPathwayReserve,
   expandPathwayReserve,
-  buildBlockedNeighbourSet,
   tacticalDensity,
   pickKindIndexFromNoise,
   placementSpecForKind,
   terrainAllowsPlacement,
   treeSpacingOk,
   effectiveObstacleKind,
+  obstaclePassesPlacementTags,
+  wouldCompleteOrthogonalBlockingLineOfThree,
 } from "./tacticalPlacement.js";
+import { applyPlacementRatioMix } from "./placementRatios.js";
 import {
   findBuildingsByThemeAndFootprint,
   interiorFurnitureKindsForTheme,
@@ -27,6 +29,24 @@ import {
 
 function key(x, y) {
   return `${x},${y}`;
+}
+
+/** True if any 4-neighbor cell is water / divider water. */
+function cellTouchesWater(terrain, x, y) {
+  const h = terrain.length;
+  const w = terrain[0].length;
+  for (const [dx, dy] of [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ]) {
+    const nx = x + dx;
+    const ny = y + dy;
+    if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+    if (IMPASSABLE_TERRAIN.has(terrain[ny][nx])) return true;
+  }
+  return false;
 }
 
 function spawnKeySet(playerSpawns, enemySpawns) {
@@ -319,25 +339,26 @@ export function placeTacticalAssets(opts) {
    */
   const tryPlace = (x, y, relaxNoise) => {
     const t = terrain[y][x];
+    const isWaterCell = IMPASSABLE_TERRAIN.has(t);
 
-    /* Water cells only hold water-locked kinds; skip everything else early */
-    if (IMPASSABLE_TERRAIN.has(t)) {
-      const validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
-        const spec = placementSpecForKind(ob.kind, ob.sprite);
-        return spec.placement === "water";
-      });
-      if (!validKinds.length) return false;
-    }
-
-    if (moveCostAt(g, tileTypes, x, y) >= 99 && !IMPASSABLE_TERRAIN.has(t)) return false;
+    if (moveCostAt(g, tileTypes, x, y) >= 99 && !isWaterCell) return false;
 
     const d = tacticalDensity(noiseSeed, x, y);
     if (!relaxNoise && rnd() > 0.18 + d * 0.72) return false;
 
-    const validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
+    let validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
       const spec = placementSpecForKind(ob.kind, ob.sprite);
-      return terrainAllowsPlacement(t, spec.allowTerrain);
+      if (isWaterCell) {
+        if (spec.placement !== "water") return false;
+      } else if (!terrainAllowsPlacement(t, spec.allowTerrain)) {
+        return false;
+      }
+      return obstaclePassesPlacementTags(ob, t, profile.id, isWaterCell);
     });
+    if (!validKinds.length) return false;
+
+    const tw = cellTouchesWater(terrain, x, y);
+    validKinds = applyPlacementRatioMix(profile.id, validKinds, tw, rnd);
     if (!validKinds.length) return false;
 
     const ki = pickKindIndexFromNoise(d, validKinds.length, x, y, rnd);
@@ -348,6 +369,19 @@ export function placeTacticalAssets(opts) {
 
     /* ── Spacing: apply to all blocking props, not just trees ── */
     if (!treeSpacingOk(mapObjects, x, y, vk, willBlock)) return false;
+
+    if (
+      wouldCompleteOrthogonalBlockingLineOfThree(
+        mapObjects,
+        x,
+        y,
+        w,
+        h,
+        willBlock,
+      )
+    ) {
+      return false;
+    }
 
     /* ── Pathway guard: blocking props may not touch the free lane ── */
     if (willBlock && pathwayReserve.has(key(x, y))) return false;
@@ -363,6 +397,11 @@ export function placeTacticalAssets(opts) {
       if (typeof spec.pyOffset === "number") {
         extra.pyOffset = Math.round(spec.pyOffset * (cellSize / 48));
       }
+    }
+
+    const vkLow = (vk || "").toLowerCase();
+    if (vkLow === "tree" || vkLow === "ruins" || vkLow === "house") {
+      extra.propAnchor = "bottom";
     }
 
     const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);

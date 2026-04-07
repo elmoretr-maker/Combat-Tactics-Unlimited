@@ -223,6 +223,8 @@ export function placeConnectorsForConnectivity(
     dividerTypes = ["water"],
     connectorTerrain = "road",
     maxOpens = 80,
+    fordRnd = null,
+    naturalFordTerrain = null,
   } = {},
 ) {
   const cells = cloneTerrain(terrain);
@@ -239,8 +241,19 @@ export function placeConnectorsForConnectivity(
     );
     const [x, y] = cand[0];
     const before = cells[y][x];
-    cells[y][x] = connectorTerrain;
-    opens.push({ x, y, before, after: connectorTerrain });
+    let after = connectorTerrain;
+    let fordStyle = "bridge";
+    if (
+      naturalFordTerrain &&
+      typeof naturalFordTerrain === "string" &&
+      fordRnd &&
+      fordRnd() < 0.5
+    ) {
+      after = naturalFordTerrain;
+      fordStyle = "natural";
+    }
+    cells[y][x] = after;
+    opens.push({ x, y, before, after, fordStyle });
     n++;
   }
   return { terrain: cells, opens };
@@ -320,6 +333,8 @@ export function widenUntilTwoDisjointPaths(
     dividerTypes = ["water"],
     connectorTerrain = "road",
     maxExtraOpens = 60,
+    fordRnd = null,
+    naturalFordTerrain = null,
   } = {},
 ) {
   const cells = cloneTerrain(terrain);
@@ -340,9 +355,20 @@ export function widenUntilTwoDisjointPaths(
     );
     const [x, y] = cand[0];
     const before = cells[y][x];
-    if (before === connectorTerrain) break;
-    cells[y][x] = connectorTerrain;
-    opens.push({ x, y, before, after: connectorTerrain });
+    let after = connectorTerrain;
+    let fordStyle = "bridge";
+    if (
+      naturalFordTerrain &&
+      typeof naturalFordTerrain === "string" &&
+      fordRnd &&
+      fordRnd() < 0.5
+    ) {
+      after = naturalFordTerrain;
+      fordStyle = "natural";
+    }
+    if (before === after) break;
+    cells[y][x] = after;
+    opens.push({ x, y, before, after, fordStyle });
     n++;
   }
   return { terrain: cells, opens };
@@ -369,13 +395,25 @@ export function applyDividerRule(
   const connectorTerrain = options.connectorTerrain ?? "road";
   const maxOpens = options.maxOpens ?? 80;
   const maxExtraOpens = options.maxExtraOpens ?? 60;
+  const fordRnd = options.fordRnd ?? null;
+  const naturalFordTerrain = options.naturalFordTerrain ?? null;
 
-  const log = [];
-  const a = placeConnectorsForConnectivity(terrain, tileTypes, playerSpawns, enemySpawns, {
+  const fordOpts = {
     dividerTypes,
     connectorTerrain,
     maxOpens,
-  });
+    fordRnd,
+    naturalFordTerrain,
+  };
+
+  const log = [];
+  const a = placeConnectorsForConnectivity(
+    terrain,
+    tileTypes,
+    playerSpawns,
+    enemySpawns,
+    fordOpts,
+  );
   log.push(...a.opens);
 
   const connected = spawnsConnected(a.terrain, tileTypes, playerSpawns, enemySpawns);
@@ -395,7 +433,13 @@ export function applyDividerRule(
         tileTypes,
         playerSpawns,
         enemySpawns,
-        { dividerTypes, connectorTerrain, maxExtraOpens },
+        {
+          dividerTypes,
+          connectorTerrain,
+          maxExtraOpens,
+          fordRnd,
+          naturalFordTerrain,
+        },
       );
       log.push(...w.opens);
       cells = w.terrain;

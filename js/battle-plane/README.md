@@ -11,7 +11,7 @@ This folder is **not** the legacy battle renderer. It adds an optional stack:
 
 Default game settings use **fog on**. With the plane stack, fog was drawn **after** the grid lines, which hid the tactical grid and **all enemies** outside LOS — it looked like “no units / no features.” Mitigations:
 
-- **`computeVisibleCells`** in `main.js` returns **`null`** (no fog) when `battlePlaneLayer.enabled` is true, until LOS fog is redesigned for props.
+- **`computeVisibleCells`** in `main.js` returns **`null`** (no fog) when `getArenaRenderMode(scenario) === "mat"` (`js/render/renderMode.js`), until LOS fog is redesigned for props.
 - Scenarios may set **`"fogOfWar": false`** (see `plane_layer_demo.json`).
 
 ## When it runs

@@ -1,6 +1,7 @@
 import { loadJson } from "./loadConfig.js";
 import { GameState } from "./engine/gameState.js";
 import { drawGrid, preloadTerrainTiles } from "./render/canvasGrid.js";
+import { getArenaRenderMode } from "./render/renderMode.js";
 import { UnitRenderer } from "./render/unitRenderer.js";
 import { BattleVfx } from "./render/battleVfx.js";
 import { FxLayer } from "./render/fxLayer.js";
@@ -183,7 +184,7 @@ function computeVisibleCells() {
   if (!game) return null;
   if (!settings.fogOfWar) return null;
   /* Plane stack + scattered props: LOS fog hides the mat, grid, and enemies. Disable until tuned. */
-  if (game.scenario?.battlePlaneLayer?.enabled) return null;
+  if (getArenaRenderMode(game.scenario) === "mat") return null;
   if (game.scenario?.fogOfWar === false) return null;
   const visible = new Set();
   const losCtx = game.losCtx();
@@ -2176,7 +2177,7 @@ async function bootBattle(options = {}) {
   spriteAnimations = sprites;
   attackEffects = fx;
   const scenario = mergeScenarioForBattle(scenarioBase, mode, loadout, academyConfig);
-  if (options.matLabTheater && scenario.battlePlaneLayer?.enabled) {
+  if (options.matLabTheater && getArenaRenderMode(scenario) === "mat") {
     scenario.battlePlaneLayer.theater = options.matLabTheater;
     scenario.battlePlaneLayer.randomizeTheater = false;
   }

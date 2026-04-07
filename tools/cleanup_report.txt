@@ -1,0 +1,94 @@
+CTU Librarian cleanup report
+Generated: 2026-04-06T23:58:03.078Z
+Mode: DRY RUN (no files were moved)
+
+=== [MOVED TO DELETION] (isolation folder; not permanently deleted) ===
+[MOVED TO DELETION]: assets/buildings/medium/Building_Urban_Medium_0d971c64.png (Reason: Low resolution (404x507; need >=512x512 for building))
+    -> (dry-run) assets/archive_for_deletion/buildings/medium/Building_Urban_Medium_0d971c64.png
+[MOVED TO DELETION]: assets/buildings/medium/Building_Urban_Medium_2c00745f.png (Reason: Low resolution (378x443; need >=512x512 for building))
+    -> (dry-run) assets/archive_for_deletion/buildings/medium/Building_Urban_Medium_2c00745f.png
+[MOVED TO DELETION]: assets/buildings/medium/Building_Urban_Medium_343b2d7b.png (Reason: Low resolution (650x378; need >=512x512 for building))
+    -> (dry-run) assets/archive_for_deletion/buildings/medium/Building_Urban_Medium_343b2d7b.png
+[MOVED TO DELETION]: assets/buildings/medium/Building_Urban_Medium_9c86ff08.png (Reason: Low resolution (337x501; need >=512x512 for building))
+    -> (dry-run) assets/archive_for_deletion/buildings/medium/Building_Urban_Medium_9c86ff08.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_03496e70.png (Reason: Low resolution (221x301; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_03496e70.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_076483e5.png (Reason: Low resolution (176x288; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_076483e5.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_08f98307.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_08f98307.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_0b03f02e.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_0b03f02e.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_14d8ec31.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_14d8ec31.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_162f599e.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_162f599e.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_2b6f735f.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_2b6f735f.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png (Reason: Low resolution (122x94; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_2db0cbbd.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_3278bfec.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_3278bfec.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png (Reason: Low resolution (243x397; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_34a10abb.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_38a709a5.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_38a709a5.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_4668262c.png (Reason: Low resolution (187x244; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_4668262c.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_495b9524.png (Reason: Low resolution (315x178; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_495b9524.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_52c89ad7.png (Reason: Low resolution (375x189; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_52c89ad7.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_55924153.png (Reason: Low resolution (181x234; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_55924153.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_6524b622.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_6524b622.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_68f47d7c.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_68f47d7c.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_7725e0b7.png (Reason: Low resolution (87x162; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_7725e0b7.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_786c0f3a.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_786c0f3a.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_7eaf67b8.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_7eaf67b8.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_8bc2f606.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_8bc2f606.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_8d64a4eb.png (Reason: Low resolution (181x136; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_8d64a4eb.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_92c0f35a.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_92c0f35a.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_94fd0651.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_94fd0651.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png (Reason: Low resolution (235x358; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_9c85a7ed.png (Reason: Low resolution (262x181; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_9c85a7ed.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_9db0b8a8.png (Reason: Low resolution (206x367; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_9db0b8a8.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_a7e47133.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_a7e47133.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_ab4081d7.png (Reason: Low resolution (176x288; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_ab4081d7.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_b238d5ef.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_b238d5ef.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png (Reason: Low resolution (106x79; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_bea5c318.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_c6521eb2.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_c6521eb2.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_d016b68c.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_d016b68c.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_da742248.png (Reason: Low resolution (148x101; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_da742248.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_dd3edbb6.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_dd3edbb6.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_e8851ee9.png (Reason: Low resolution (69x107; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_e8851ee9.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_f02f29b1.png (Reason: Low resolution (48x62; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_f02f29b1.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_f28d20d4.png (Reason: Low resolution (163x103; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_f28d20d4.png
+[MOVED TO DELETION]: assets/obstacles/urban/Obstacle_Urban_Prop_f8de985c.png (Reason: Low resolution (235x358; need >=256x256 for tile))
+    -> (dry-run) assets/archive_for_deletion/obstacles/urban/Obstacle_Urban_Prop_f8de985c.png
+
+=== [KEPT / INGESTED] ===
+Standalone cleanup scan only (no ingest). Run `node tools/catalog_assets.mjs --cleanup` for full librarian + manifest.
