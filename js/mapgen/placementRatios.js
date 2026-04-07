@@ -3,7 +3,6 @@
  * Works with manifest tags: `water_only`, `urban_ok`, optional `water_adjacent` (desert riparian 20% branch).
  */
 
-import { effectiveObstacleKind } from "./tacticalPlacement.js";
 
 /** @param {{ tags?: string[] } | null | undefined} ob */
 function hasTag(ob, tag) {
@@ -25,8 +24,10 @@ export function applyPlacementRatioMix(profileId, validKinds, touchesWater, rnd)
     const trees = [];
     const nonTrees = [];
     for (const ob of validKinds) {
-      const eff = effectiveObstacleKind(ob.kind, ob.sprite);
-      if (eff === "tree") trees.push(ob);
+      const eff = String(
+        ob.ctu?.classification?.subtype || ob.kind || "crate",
+      ).toLowerCase();
+      if (eff === "tree" || eff === "foliage") trees.push(ob);
       else nonTrees.push(ob);
     }
     if (trees.length && nonTrees.length) {

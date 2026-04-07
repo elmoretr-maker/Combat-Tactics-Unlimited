@@ -1,10 +1,6 @@
 /**
  * Step 1 — Theme maps to terrain type keys in js/config/tileTextures.json.
- * Optional `assetManifest` (from js/config/assetManifest.json) overrides
- * foundation hints and obstacle sprites via js/mapgen/assetQuery.js.
- *
- * CraftPix linkage when no manifest obstacles exist is filled by the Librarian
- * into assetManifest.json (legacy CraftPix paths).
+ * Scatter props come only from manifest.assets with merged `.ctu.asset.json` metadata.
  */
 
 import {
@@ -53,22 +49,7 @@ function baseThemeProfile(themeId) {
 export function getThemeProfile(themeId, manifest = null) {
   let p = baseThemeProfile(themeId);
   p = applyFoundationHints(p, manifest, themeId);
-  const obs = obstacleVisualKindsForTheme(manifest, themeId);
-  if (obs.length) {
-    p.obstacleVisualKinds = obs;
-  } else {
-    /* last-resort if manifest missing index */
-    const CP = "attached_assets/craftpix_pack/city";
-    p.obstacleVisualKinds = [
-      { kind: "tree", sprite: `${CP}/PNG City/Trees Bushes/TDS04_0022_Tree1.png` },
-      {
-        kind: "ruins",
-        sprite: `${CP}/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png`,
-      },
-      { kind: "crate", sprite: `${CP}/PNG City/Crates Barrels/TDS04_0018_Box1.png` },
-      { kind: "barrel", sprite: `${CP}/PNG City/Crates Barrels/TDS04_0016_Barrel.png` },
-    ];
-  }
+  p.obstacleVisualKinds = obstacleVisualKindsForTheme(manifest, themeId);
   return p;
 }
 

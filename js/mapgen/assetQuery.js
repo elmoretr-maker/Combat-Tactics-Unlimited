@@ -2,6 +2,11 @@
  * Query js/config/assetManifest.json (loaded in browser via fetch) for mapgen.
  */
 
+import { manifestAssetLogicalType } from "./manifestLogicalType.js";
+import { scatterObstacleEntriesFromManifest } from "./ctuMapgen.js";
+
+export { manifestAssetLogicalType };
+
 /**
  * @param {object|null|undefined} manifest
  * @param {object} [filters]
@@ -15,7 +20,7 @@
 export function findAssets(manifest, filters = {}) {
   if (!manifest?.assets?.length) return [];
   return manifest.assets.filter((a) => {
-    if (filters.type && a.type !== filters.type) return false;
+    if (filters.type && manifestAssetLogicalType(a) !== filters.type) return false;
     if (filters.theme != null && a.theme != null && a.theme !== filters.theme) return false;
     if (filters.footprint && a.footprint !== filters.footprint) return false;
     if (filters.gunClass && a.gunClass !== filters.gunClass) return false;
@@ -37,19 +42,13 @@ export function findBuildingsByThemeAndFootprint(manifest, theme, footprint) {
 }
 
 /**
- * Obstacle props for tactical scatter (kind + sprite path + optional manifest tags).
+ * Obstacle props for tactical scatter — built from manifest.assets + ctu (not index paths).
  * @param {object|null|undefined} manifest
  * @param {"urban"|"desert"|"grass"} themeId
- * @returns {{ kind: string, sprite: string, tags?: string[] }[]}
+ * @returns {{ kind: string, sprite: string, tags?: string[], manifestAsset?: object, ctu: object }[]}
  */
 export function obstacleVisualKindsForTheme(manifest, themeId) {
-  const list = manifest?.index?.obstaclesByTheme?.[themeId];
-  if (!list?.length) return [];
-  return list.map((o) => ({
-    kind: o.kind,
-    sprite: o.sprite,
-    tags: Array.isArray(o.tags) ? [...o.tags] : [],
-  }));
+  return scatterObstacleEntriesFromManifest(manifest, themeId);
 }
 
 /**
@@ -100,7 +99,7 @@ export function resolveFlowConnectorAsset(manifest, themeId, variant, opts = {})
     a.theme == null || a.theme === themeId || a.theme === "urban";
 
   const flowTileOk = (a) =>
-    a.type === "tile" &&
+    manifestAssetLogicalType(a) === "tile" &&
     a.flowConnector === true &&
     a.tier !== "legacy";
 

@@ -3,21 +3,23 @@
  * Asset Librarian — scans assets/New_Arrivals/, sorts files into permanent dirs,
  * regenerates js/config/assetManifest.json.
  *
+ * New_Arrivals raster ingest is CTU-only: each image must have a sibling `.ctu.asset.json` with a
+ * non-unknown `classification.type`. Destination comes from `pipeline.folderLayoutHint` (when valid
+ * under assets/) or `suggestedDestRelFromMetadata` + placement-derived theme hints — never from
+ * filename or folder path. Rasters without valid CTU are moved to `New_Arrivals/review/`.
+ *
  * Run: node tools/catalog_assets.mjs
  *      npm run catalog-assets
  *
  * Flags: --visual-report (write tools/visual_assessment_report.json)
- *        --filename-only   (skip sharp; keep source filenames — legacy)
  *        --cleanup | --cleanup-dry-run  (isolate low-res / superseded → assets/archive_for_deletion/)
  *        --cleanup-include-primary  (scan obstacles + buildings; not tiles)
  *        --cleanup-include-tiles    (also scan tiles — aggressive vs legacy 64² cells)
  *        --skip-new-arrivals        (manifest rebuild only; no ingest/promote)
+ *        --enforce-ctu-sidecars     (move obstacles/units rasters missing `.ctu.asset.json` → New_Arrivals/review)
+ *        --enforce-ctu-sidecars-dry-run  (log only; no moves)
  *
  * Each manifest rebuild writes tools/classification_audit.txt (path, assigned category, reason).
- *
- * Path-based keyword overrides (ingest + audit): GUI/HUD/Minimap/Menu → ui;
- * Weapon/Guns/Explosions → vfx under assets/vfx/ (not in mapgen index); Tanks/Vehicles/Soldiers → units.
- * Canonical assets/guns/** does not get reclassified as vfx (gameplay weapon library).
  */
 
 import fs from "fs";
@@ -28,13 +30,16 @@ import {
   analyzeImageVisual,
   isGenericFileName,
   planLibrarianRename,
-  planRenameForKeywordOverride,
-  planRenameForUrbanBrain,
 } from "./visual_analysis.mjs";
 import {
   runCleanupIsolate,
   formatCleanupReport,
 } from "./librarian_cleanup.mjs";
+import {
+  METADATA_SUFFIX,
+  compactPlacementTagsFromSurfaces,
+  suggestedDestRelFromMetadata,
+} from "./asset_metadata.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -67,8 +72,6 @@ const NEW_ARRIVALS_SOURCE_EXT = new Set([
 
 const ARGS = new Set(process.argv.slice(2));
 const FLAG_VISUAL_REPORT = ARGS.has("--visual-report");
-/** Skip sharp; keep original filenames (legacy ingest). */
-const FLAG_FILENAME_ONLY = ARGS.has("--filename-only");
 /** Move low-res / superseded rasters to assets/archive_for_deletion/ */
 const FLAG_CLEANUP = ARGS.has("--cleanup");
 const FLAG_CLEANUP_DRY_RUN = ARGS.has("--cleanup-dry-run");
@@ -78,6 +81,9 @@ const FLAG_CLEANUP_INCLUDE_PRIMARY = ARGS.has("--cleanup-include-primary");
 const FLAG_CLEANUP_INCLUDE_TILES = ARGS.has("--cleanup-include-tiles");
 /** Regenerate manifest only (no New_Arrivals ingest / promote) */
 const FLAG_SKIP_NEW_ARRIVALS = ARGS.has("--skip-new-arrivals");
+/** Move rasters under assets/obstacles + assets/units missing `.ctu.asset.json` to New_Arrivals/review */
+const FLAG_ENFORCE_CTU_SIDECARS = ARGS.has("--enforce-ctu-sidecars");
+const FLAG_ENFORCE_CTU_SIDECARS_DRY = ARGS.has("--enforce-ctu-sidecars-dry-run");
 
 function obstacleThemeForPalette(theme) {
   if (theme === "desert" || theme === "grass") return theme;
@@ -87,132 +93,6 @@ function obstacleThemeForPalette(theme) {
 function appendLibrarianLog(message) {
   const line = `[${new Date().toISOString()}] ${message}\n`;
   fs.appendFileSync(LIBRARIAN_LOG_PATH, line, "utf8");
-}
-
-/**
- * Filename keywords override visual dimensions. Checked after path+name joined.
- * @returns {{ category: 'obstacle'|'unit', unitKind?: 'vehicle'|'soldier', obstacleKind?: string, reason: string } | null}
- */
-function keywordOverrideCategory(fileName, relDirFromNewArrivals) {
-  const s = `${relDirFromNewArrivals}/${fileName}`.replace(/\\/g, "/").toLowerCase();
-  const base = path.basename(fileName, path.extname(fileName)).toLowerCase();
-  /* Underscores are \w in JS — \b fails for tmp_soldier_idle; use delimiter-aware tokens. */
-  const delimTok = (re) => re.test(base) || re.test(s);
-  if (delimTok(/(^|[_\-.])(vehicle|tank|plane)([_\-.]|$)/i) || /\b(vehicle|tank|plane)\b/.test(s)) {
-    return {
-      category: "unit",
-      unitKind: "vehicle",
-      reason:
-        "Keyword override: 'vehicle', 'tank', or 'plane' in filename/path → assets/units/vehicles (overrides visual dimensions).",
-    };
-  }
-  if (delimTok(/(^|[_\-.])(unit|soldier)([_\-.]|$)/i) || /\b(unit|soldier)\b/.test(s)) {
-    return {
-      category: "unit",
-      reason:
-        "Keyword override: 'unit' or 'soldier' in filename/path → category Unit (overrides visual dimensions).",
-    };
-  }
-  if (delimTok(/(^|[_\-.])(tree|bush)([_\-.]|$)/i) || /\b(tree|bush)\b/.test(s)) {
-    return {
-      category: "obstacle",
-      obstacleKind: "tree",
-      reason:
-        "Keyword override: 'tree' or 'bush' in filename/path → Obstacle/tree (overrides visual Building).",
-    };
-  }
-  if (delimTok(/(^|[_\-.])(rock|boulder|stone)([_\-.]|$)/i) || /\b(rock|boulder|stone)\b/.test(s)) {
-    return {
-      category: "obstacle",
-      obstacleKind: "ruins",
-      reason:
-        "Keyword override: 'rock', 'boulder', or 'stone' in filename/path → Obstacle/ruins (overrides visual Building).",
-    };
-  }
-  return null;
-}
-
-/**
- * Strict path-based category (folder names in path). Checked before dimensions / visual.
- * @param {string} posixPath repo-relative path with forward slashes (e.g. New_Arrivals/pack/HUD/x.png)
- * @returns {{ category: 'ui'|'vfx'|'unit', unitKind?: 'vehicle'|'soldier', reason: string } | null}
- */
-function pathKeywordOverrideFromPath(posixPath) {
-  const norm = posixPath.replace(/\\/g, "/").replace(/\/+/g, "/").replace(/^\/+|\/+$/g, "").toLowerCase();
-  const parts = norm.split("/").filter(Boolean);
-  const suppressVfxUi = /^assets\/guns\//i.test(norm);
-
-  let uiTag = null;
-  let vfxTag = null;
-  let unitVehicle = false;
-  let unitSoldier = false;
-
-  for (const seg of parts) {
-    const s = seg.toLowerCase();
-    /* Tier 1 (Galaxy path): tank / vehicle / Weapon_Color_* → unit vehicle BEFORE generic "weapon" → vfx. */
-    if (!unitVehicle) {
-      if (/weapon[_\s-]?color/i.test(s)) unitVehicle = true;
-      else if (/\btanks?\b/.test(s)) unitVehicle = true;
-      else if (/\bvehicles?\b/.test(s)) unitVehicle = true;
-    }
-    if (!unitSoldier && s.includes("soldier")) unitSoldier = true;
-
-    if (!uiTag) {
-      if (s === "ui") uiTag = "GUI";
-      else if (s.includes("minimap")) uiTag = "Minimap";
-      else if (s.includes("hud")) uiTag = "HUD";
-      else if (s.includes("gui")) uiTag = "GUI";
-      else if (s.includes("menu")) uiTag = "Menu";
-    }
-    if (!suppressVfxUi && !vfxTag) {
-      if (s === "vfx") vfxTag = "Explosions";
-      else if (s.includes("explosion")) vfxTag = "Explosions";
-      else if (
-        s.includes("weapon") &&
-        !/weapon[_\s-]?color/i.test(s)
-      ) {
-        vfxTag = "Weapon";
-      } else if (s === "guns") vfxTag = "Guns";
-    }
-  }
-
-  if (uiTag) {
-    const uiKind =
-      uiTag === "Minimap"
-        ? "minimap"
-        : uiTag === "HUD"
-          ? "hud"
-          : uiTag === "Menu"
-            ? "menu"
-            : "panels";
-    return {
-      category: "ui",
-      uiKind,
-      reason: `Keyword override: /${uiTag}/`,
-    };
-  }
-  if (vfxTag) {
-    return {
-      category: "vfx",
-      reason: `Keyword override: /${vfxTag}/`,
-    };
-  }
-  if (unitVehicle) {
-    return {
-      category: "unit",
-      unitKind: "vehicle",
-      reason:
-        "Keyword override: path contains Weapon_Color, Tank(s), or Vehicle(s) → units/vehicles",
-    };
-  }
-  if (unitSoldier) {
-    return {
-      category: "unit",
-      unitKind: "soldier",
-      reason: "Keyword override: path contains Soldiers",
-    };
-  }
-  return null;
 }
 
 function manifestBucketLabel(record) {
@@ -231,32 +111,15 @@ function manifestBucketLabel(record) {
 }
 
 /**
- * Assigned category for audit: path override when present, else manifest type.
+ * Assigned category for audit (manifest record.type; units → "units" label).
  */
 function assignedCategoryForAudit(record) {
-  const ov = pathKeywordOverrideFromPath(record.path);
-  if (ov) {
-    if (ov.category === "unit") return "units";
-    if (ov.category === "vfx") return "vfx";
-    return ov.category;
-  }
   if (record.type === "unit") return "units";
   return record.type;
 }
 
 function classificationAuditReason(record) {
-  const ov = pathKeywordOverrideFromPath(record.path);
-  const parts = [];
-  const storedNorm = record.type === "unit" ? "units" : record.type;
-  if (ov) {
-    parts.push(ov.reason);
-    const assigned = assignedCategoryForAudit(record);
-    if (assigned !== storedNorm) {
-      parts.push(`manifest still "${record.type}" until re-homed`);
-    }
-  } else {
-    parts.push(manifestBucketLabel(record));
-  }
+  const parts = [manifestBucketLabel(record)];
   if (record.metadata === "scrap") parts.push('metadata: "scrap"');
   if (record.tier === "high") parts.push('tier: "high"');
   return parts.join(" | ");
@@ -300,30 +163,33 @@ function writeClassificationAudit(assets, generatedAt) {
  * 5) Default     — rifle (long-gun assumption for ambiguous weapon art)
  */
 function classifyGunClass(fileName, relDirFromNewArrivals) {
-  const s = `${relDirFromNewArrivals}/${fileName}`.replace(/\\/g, "/").toLowerCase();
-
+  const base = path.basename(fileName, path.extname(fileName)).toLowerCase();
   if (
     /\b(machine[\s_-]*gun|machinegun|minigun|gatling|submachine|sub[\s_-]*machine|\bsmg\b|\blmg\b|\bhmg\b|m249|m240|m60|pkm|saw\b|sten|uzi|mp5|mp7|p90|vector|thompson)\b/i.test(
-      s,
+      base,
     )
   ) {
     return "machine_gun";
   }
   if (
     /\b(handgun|pistol|revolver|sidearm|glock|beretta|m1911|1911|desert[\s_-]*eagle|\bdeagle\b|walther|makarov)\b/i.test(
-      s,
+      base,
     )
   ) {
     return "handgun";
   }
   if (
     /\b(rifle|sniper|carbine|dmr|\bar[\s_-]*15\b|\bak[\s_-]*47\b|bolt[\s_-]*action|lever[\s_-]*action|shotgun)\b/i.test(
-      s,
+      base,
     )
   ) {
     return "rifle";
   }
+  if (/^gun[_\s-]/i.test(base) || /[_\s-]gun[_\s-]/i.test(base) || /^gun\d/i.test(base)) {
+    return "rifle";
+  }
 
+  const s = `${relDirFromNewArrivals}/${fileName}`.replace(/\\/g, "/").toLowerCase();
   if (/(^|\/)rifles?(\/|$)/i.test(s) || /\/rifle\//i.test(s)) return "rifle";
   if (/(^|\/)handguns?(\/|$)|\/pistol\//i.test(s)) return "handgun";
   if (/(^|\/)machine[\s_-]*guns?(\/|$)|\/smg\/|\/lmg\//i.test(s)) return "machine_gun";
@@ -398,46 +264,6 @@ function applyTileFlowConnectorHints(record) {
   record.tags = [...tags];
 }
 
-/**
- * Decide high-level category for a file dropped in New_Arrivals.
- */
-function classifyCategory(fileName, relDir) {
-  const s = `${relDir}/${fileName}`.replace(/\\/g, "/").toLowerCase();
-
-  if (/(^|\/)combat[\s_-]*buttons(\/|$)/i.test(s)) return "ui";
-  if (/\bpicsart\b/i.test(s)) return "ui";
-  if (
-    /(^|\/)dungeon[\s_-]*tiles(\/|$)|(^|\/)tiled_files(\/|$)|(^|\/)png_n_tiled(\/|$)/i.test(
-      s,
-    )
-  ) {
-    return "tile";
-  }
-  if (
-    /\b(walls_floor|water_animation|water_coasts|decorative_cracks|doors_lever|trap_animation|bridges\.png)\b/i.test(
-      s,
-    )
-  ) {
-    return "tile";
-  }
-
-  if (/(^|\/)guns?(\/|$)|\bweapon\b|\bfirearm\b/.test(s)) return "gun";
-  if (/(^|\/)buildings?(\/|$)|\bhouse\b|\broof\b|\bstructure\b|\barchitecture\b/.test(s)) {
-    return "building";
-  }
-  if (/(^|\/)tiles?(\/|$)|\bterrain\b|\bground\b|\bfloor\b|\bgrass\s*tile\b/.test(s)) {
-    return "tile";
-  }
-  if (/\btree\b|\bbush\b|\bcrate\b|\bbarrel\b|\bprop\b|\bobstacle\b|\bruins?\b/.test(s)) {
-    return "obstacle";
-  }
-  if (/\b(pistol|rifle|smg|lmg|gun|firearm|m4|ak47)\b/.test(s)) return "gun";
-  if (/\b(bunker|warehouse|house|hut|shack|fort)\b/.test(s)) return "building";
-  if (/\b(desert|urban|sand|street)[\s_-]*tile\b|\btileset\b/.test(s)) return "tile";
-
-  return "obstacle";
-}
-
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
 }
@@ -454,6 +280,41 @@ function uniqueDest(destBase) {
     i++;
   } while (fs.existsSync(candidate));
   return candidate;
+}
+
+const REVIEW_DIR_FOR_CTU_ENFORCE = path.join(NEW_ARRIVALS, "review");
+
+/**
+ * Strict CTU: rasters without a sibling `.ctu.asset.json` cannot stay in scatter paths.
+ */
+function enforceCtuSidecarsToReview() {
+  const dry = FLAG_ENFORCE_CTU_SIDECARS_DRY;
+  const roots = [path.join(ROOT, "assets", "obstacles"), path.join(ROOT, "assets", "units")];
+  let moved = 0;
+  ensureDir(REVIEW_DIR_FOR_CTU_ENFORCE);
+  for (const root of roots) {
+    if (!fs.existsSync(root)) continue;
+    for (const { full, name } of walkFiles(root, "")) {
+      const ext = path.extname(name);
+      const base = full.slice(0, -ext.length);
+      const sidecar = `${base}${METADATA_SUFFIX}`;
+      if (fs.existsSync(sidecar)) continue;
+      const relFrom = posixRel(full);
+      if (dry) {
+        console.log("[catalog][enforce-ctu dry-run] missing sidecar → would move:", relFrom);
+        continue;
+      }
+      const dest = uniqueDest(path.join(REVIEW_DIR_FOR_CTU_ENFORCE, name));
+      fs.renameSync(full, dest);
+      appendLibrarianLog(`ENFORCE_CTU missing sidecar → review: ${relFrom} → ${posixRel(dest)}`);
+      moved += 1;
+    }
+  }
+  if (dry || moved) {
+    console.log(
+      `[catalog] enforce CTU sidecars: ${dry ? "dry-run (no moves)" : `moved ${moved} file(s)`}`,
+    );
+  }
 }
 
 function* walkFiles(dir, baseRel = "") {
@@ -502,44 +363,6 @@ function* walkNewArrivalsAllFiles(dir, baseRel = "") {
   }
 }
 
-/** Path contains a folder segment named `urban` (case-insensitive), not e.g. suburban. */
-function newArrivalsPathHasUrbanFolderSegment(relPosix, fileName) {
-  const parts = `${relPosix}/${fileName}`.replace(/\\/g, "/").toLowerCase().split("/");
-  return parts.some((seg) => seg === "urban");
-}
-
-/**
- * Meta-Brain: .../URBAN/... + pixel size → tile | building | obstacle (urban theme).
- * @returns {{ category: 'tile'|'building'|'obstacle', footprint?: string, obstacleKind?: string, reason: string } | null}
- */
-function newArrivalsUrbanPixelRoute(w, h, fileName, relPosix) {
-  if (!w || !h) return null;
-  if (w === 256 && h === 256) {
-    return {
-      category: "tile",
-      reason:
-        "URBAN path segment + 256×256 → assets/tiles/urban (tier from enrich; tileFit padding 0)",
-    };
-  }
-  if (w === 512 && h === 512) {
-    const footprint = classifyBuildingFootprint(fileName, relPosix);
-    return {
-      category: "building",
-      footprint,
-      reason: `URBAN path segment + 512×512 → assets/buildings/urban/ (manifest footprint ${footprint})`,
-    };
-  }
-  if (Math.max(w, h) < 256) {
-    return {
-      category: "obstacle",
-      obstacleKind: classifyObstacleKind(fileName),
-      reason:
-        "URBAN path segment + max(w,h) < 256 → assets/obstacles/urban",
-    };
-  }
-  return null;
-}
-
 function collectNewArrivalsSourceInventoryLines() {
   const rows = [];
   for (const { rel, name } of walkNewArrivalsAllFiles(NEW_ARRIVALS, "")) {
@@ -553,6 +376,39 @@ function collectNewArrivalsSourceInventoryLines() {
 
 function posixRel(fromRootAbs) {
   return path.relative(ROOT, fromRootAbs).split(path.sep).join("/");
+}
+
+/**
+ * When present, `record.ctu` is authoritative for placement/behavior vs folder-derived manifest fields.
+ */
+function mergeCtuSidecarIntoRecord(record, imageAbsPath) {
+  const ext = path.extname(imageAbsPath);
+  const base = ext ? imageAbsPath.slice(0, -ext.length) : imageAbsPath;
+  const sidecarPath = `${base}${METADATA_SUFFIX}`;
+  try {
+    if (!fs.existsSync(sidecarPath)) return;
+    const side = JSON.parse(fs.readFileSync(sidecarPath, "utf8"));
+    if (!side || typeof side !== "object") return;
+    let placement = side.placement;
+    if (placement && typeof placement === "object" && !Array.isArray(placement)) {
+      const legacy = placement.allowedSurfaces;
+      if (Array.isArray(legacy)) placement = compactPlacementTagsFromSurfaces(legacy);
+    }
+    if (Array.isArray(placement) && placement.length === 0) {
+      placement = compactPlacementTagsFromSurfaces([]);
+    }
+    record.ctu = {
+      schemaVersion: side.schemaVersion,
+      classification: side.classification,
+      placement,
+      behavior: side.behavior,
+      rulesApplied: side.rulesApplied,
+      clipSuggestions: side.clipSuggestions,
+      pipeline: side.pipeline,
+    };
+  } catch {
+    /* ignore missing or invalid sidecar */
+  }
 }
 
 /** relRoot as passed to collectAssetsUnder, e.g. "assets/obstacles" (no trailing slash). */
@@ -655,280 +511,133 @@ function promoteVehiclesFromObstacles() {
   return promoted;
 }
 
-/**
- * @param {{ visualAll?: boolean }} opts
- */
+/** Theme subfolder hint from CTU `placement` tags only (no path inference). */
+function themeHintFromCtuPlacement(ctu) {
+  let p = ctu?.placement;
+  if (p && typeof p === "object" && !Array.isArray(p)) {
+    const legacy = p.allowedSurfaces;
+    if (Array.isArray(legacy)) p = compactPlacementTagsFromSurfaces(legacy);
+    else p = null;
+  }
+  if (!Array.isArray(p)) return null;
+  if (p.includes("desert")) return "desert";
+  if (p.includes("grass")) return "grass";
+  if (p.includes("urban")) return "urban";
+  if (p.includes("interior")) return "urban";
+  if (p.includes("land") || p.includes("any")) return "urban";
+  return null;
+}
+
+/** Optional `pipeline.folderLayoutHint` to absolute dir under `assets/`. */
+function safeFolderLayoutHintDir(ctu) {
+  const hint = ctu?.pipeline?.folderLayoutHint;
+  if (typeof hint !== "string") return null;
+  const h = hint.replace(/\\/g, "/").trim().replace(/\/+$/, "");
+  if (!h.startsWith("assets/") || h.includes("..")) return null;
+  const abs = path.normalize(path.join(ROOT, ...h.split("/")));
+  const assetsRoot = path.normalize(path.join(ROOT, "assets"));
+  if (abs !== assetsRoot && !abs.startsWith(assetsRoot + path.sep)) return null;
+  try {
+    if (fs.existsSync(abs) && fs.statSync(abs).isFile()) return path.dirname(abs);
+  } catch {
+    return null;
+  }
+  return abs;
+}
+
+function ingestDestDirFromCtu(ctu) {
+  const fromHint = safeFolderLayoutHintDir(ctu);
+  if (fromHint) return fromHint;
+  const theme = themeHintFromCtuPlacement(ctu) || "urban";
+  const rel = suggestedDestRelFromMetadata({ classification: ctu.classification }, theme);
+  return path.normalize(path.join(ROOT, ...rel.split("/")));
+}
+
+/** New_Arrivals raster ingest: sibling `.ctu.asset.json` required; no path/filename classification. */
 async function ingestNewArrivals() {
   ensureDir(NEW_ARRIVALS);
   ensureDir(path.dirname(LIBRARIAN_LOG_PATH));
+  ensureDir(REVIEW_DIR_FOR_CTU_ENFORCE);
   const moves = [];
   for (const { full, rel, name } of walkFiles(NEW_ARRIVALS, "")) {
-    const ext = path.extname(name).toLowerCase();
     const relPosix = rel.replace(/\\/g, "/");
-    const pathOv = pathKeywordOverrideFromPath(`${relPosix}/${name}`);
-    let cat = classifyCategory(name, rel);
-    if (pathOv) {
-      if (pathOv.category === "vfx") cat = "vfx";
-      else if (pathOv.category === "ui") cat = "ui";
-      else cat = "unit";
-    }
-    let destDir;
-    let meta = {};
-    let outName = name;
-    let plan = null;
-    let visual = null;
-    const reasoning = [];
-    if (pathOv) reasoning.push(pathOv.reason);
-    const kw = pathOv ? null : keywordOverrideCategory(name, rel);
-    const runSharp = IMAGE_EXT.has(ext) && (!FLAG_FILENAME_ONLY || kw || pathOv);
+    if (relPosix === "review" || relPosix.startsWith("review/")) continue;
 
-    if (runSharp) {
+    const ext = path.extname(name).toLowerCase();
+    const sidecarPath = `${full.slice(0, -ext.length)}${METADATA_SUFFIX}`;
+    const hadSidecarFile = fs.existsSync(sidecarPath);
+
+    let ctu = null;
+    let ctuOk = false;
+    if (hadSidecarFile) {
       try {
-        visual = await analyzeImageVisual(full);
-        reasoning.push(
-          `Sharp: ${visual.width}×${visual.height}px, aspect ${visual.aspect}, dominant ${visual.dominantHex}, theme ${visual.theme}, inferredType ${visual.assetType}, alphaMean ${visual.meanAlpha}, transparencyHigh=${visual.transparencyHigh}`,
-        );
-        if (pathOv?.category === "ui" || pathOv?.category === "vfx") {
-          reasoning.push(
-            `Path override locks ${pathOv.category}; original filename kept (category ignores visual dimensions).`,
-          );
-        } else if (pathOv?.category === "unit") {
-          plan = planRenameForKeywordOverride(visual, name, ext, {
-            category: "unit",
-            unitKind: pathOv.unitKind || "soldier",
-          });
-          cat = plan.category;
-          outName = plan.newFileName;
-          meta.keywordOverride = "unit";
-          reasoning.push("Path override: Tanks/Vehicles/Soldiers + unit rename.");
-        } else if (kw) {
-          plan = planRenameForKeywordOverride(
-            visual,
-            name,
-            ext,
-            kw.category === "obstacle"
-              ? { category: "obstacle", obstacleKind: kw.obstacleKind ?? "crate" }
-              : { category: "unit", unitKind: kw.unitKind },
-          );
-          cat = plan.category;
-          outName = plan.newFileName;
-          reasoning.push(kw.reason);
-          meta.keywordOverride = kw.category;
-        } else if (!FLAG_FILENAME_ONLY) {
-          const urbanSpec =
-            newArrivalsPathHasUrbanFolderSegment(relPosix, name) &&
-            !pathOv &&
-            !kw
-              ? newArrivalsUrbanPixelRoute(
-                  visual.width,
-                  visual.height,
-                  name,
-                  relPosix,
-                )
-              : null;
-          if (urbanSpec) {
-            plan = planRenameForUrbanBrain(visual, name, ext, {
-              category: urbanSpec.category,
-              footprint: urbanSpec.footprint,
-              obstacleKind: urbanSpec.obstacleKind,
-            });
-            cat = plan.category;
-            outName = plan.newFileName;
-            reasoning.push(urbanSpec.reason);
-            meta.urbanBrain = true;
-          } else {
-            plan = planLibrarianRename(visual, name, ext);
-            cat = plan.category;
-            outName = plan.newFileName;
-            reasoning.push(
-              `Visual+librarian rename → ${outName} (subtype ${plan.librarianSubtype}); visual alone would align with inferred ${visual.assetType}`,
-            );
-          }
-        } else {
-          reasoning.push("Filename-only mode: kept original name; Sharp run skipped except keyword paths above.");
-        }
-        meta.visualAnalysis = {
-          width: visual.width,
-          height: visual.height,
-          aspect: visual.aspect,
-          dominantHex: visual.dominantHex,
-          inferredTheme: visual.theme,
-          inferredType: visual.assetType,
-          meanAlpha: visual.meanAlpha,
-          transparencyHigh: visual.transparencyHigh,
-        };
-        if (plan) meta.librarianSubtype = plan.librarianSubtype;
-      } catch (e) {
-        console.warn("Visual analysis failed:", rel, e?.message || e);
-        reasoning.push(`Sharp error: ${e?.message || e}`);
-        const th =
-          classifyTileTheme(name, rel) === "desert"
-            ? "desert"
-            : /\bgrass\b/i.test(`${rel}/${name}`)
-              ? "grass"
-              : "urban";
-        visual = {
-          width: 1,
-          height: 1,
-          aspect: 1,
-          avgRgb: { r: 128, g: 128, b: 128 },
-          dominantHex: "#808080",
-          theme: th,
-          assetType: "obstacle",
-          gunClass: "rifle",
-          footprint: "medium",
-          meanAlpha: 255,
-          transparencyHigh: false,
-        };
-        meta.visualAnalysis = {
-          width: visual.width,
-          height: visual.height,
-          aspect: visual.aspect,
-          dominantHex: visual.dominantHex,
-          inferredTheme: visual.theme,
-          inferredType: visual.assetType,
-          meanAlpha: visual.meanAlpha,
-          transparencyHigh: visual.transparencyHigh,
-        };
-        if (pathOv?.category === "ui" || pathOv?.category === "vfx") {
-          reasoning.push(`Path override ${pathOv.category} after Sharp failure; filename kept.`);
-        } else if (pathOv?.category === "unit") {
-          plan = planRenameForKeywordOverride(visual, name, ext, {
-            category: "unit",
-            unitKind: pathOv.unitKind || "soldier",
-          });
-          cat = plan.category;
-          outName = plan.newFileName;
-          meta.keywordOverride = "unit";
-          meta.librarianSubtype = plan.librarianSubtype;
-          reasoning.push(`Stub theme ${th} used for path-override unit rename after Sharp failure.`);
-        } else if (kw) {
-          plan = planRenameForKeywordOverride(
-            visual,
-            name,
-            ext,
-            kw.category === "obstacle"
-              ? { category: "obstacle", obstacleKind: kw.obstacleKind ?? "crate" }
-              : { category: "unit", unitKind: kw.unitKind },
-          );
-          cat = plan.category;
-          outName = plan.newFileName;
-          meta.keywordOverride = kw.category;
-          meta.librarianSubtype = plan.librarianSubtype;
-          reasoning.push(`Stub theme ${th} used for keyword rename after Sharp failure.`);
-        } else if (!FLAG_FILENAME_ONLY) {
-          plan = planLibrarianRename(visual, name, ext);
-          cat = plan.category;
-          outName = plan.newFileName;
-          meta.librarianSubtype = plan.librarianSubtype;
-          reasoning.push(`Stub theme ${th} used for librarian rename after Sharp failure.`);
-        }
+        ctu = JSON.parse(fs.readFileSync(sidecarPath, "utf8"));
+        ctuOk = Boolean(ctu && typeof ctu === "object");
+      } catch {
+        ctu = null;
+        ctuOk = false;
       }
-    } else if (IMAGE_EXT.has(ext)) {
-      reasoning.push("Filename-only ingest, no keyword override — using path heuristics only.");
     }
 
-    if (cat === "gun") {
-      const gunClass = plan?.gunClass ?? classifyGunClass(name, rel);
-      destDir = path.join(ROOT, "assets", "guns", gunClass);
-      meta = {
-        ...meta,
-        type: "gun",
-        gunClass,
-        tags: [gunClass],
-      };
-    } else if (cat === "building") {
-      const footprint = plan?.footprint ?? classifyBuildingFootprint(name, rel);
-      const urban512 =
-        meta.urbanBrain &&
-        visual &&
-        Number(visual.width) === 512 &&
-        Number(visual.height) === 512;
-      destDir = path.join(
-        ROOT,
-        "assets",
-        "buildings",
-        urban512 ? "urban" : footprint,
+    const type = ctuOk ? ctu.classification?.type : null;
+    const typeOk = Boolean(type && type !== "unknown");
+
+    if (!ctuOk || !typeOk) {
+      const dest = uniqueDest(path.join(REVIEW_DIR_FOR_CTU_ENFORCE, name));
+      fs.renameSync(full, dest);
+      if (hadSidecarFile && fs.existsSync(sidecarPath)) {
+        const sideDest = uniqueDest(path.join(REVIEW_DIR_FOR_CTU_ENFORCE, path.basename(sidecarPath)));
+        fs.renameSync(sidecarPath, sideDest);
+      }
+      const why = !hadSidecarFile ? "missing_ctu_sidecar" : !ctuOk ? "invalid_ctu_json" : "ctu_classification_unknown";
+      appendLibrarianLog(`INGEST review (${why}): New_Arrivals/${rel} -> ${posixRel(dest)}`);
+      moves.push({ from: `New_Arrivals/${rel}`, to: posixRel(dest), meta: { reason: why } });
+      continue;
+    }
+
+    let destDir;
+    try {
+      destDir = ingestDestDirFromCtu(ctu);
+    } catch (err) {
+      const dest = uniqueDest(path.join(REVIEW_DIR_FOR_CTU_ENFORCE, name));
+      fs.renameSync(full, dest);
+      if (fs.existsSync(sidecarPath)) {
+        const sideDest = uniqueDest(path.join(REVIEW_DIR_FOR_CTU_ENFORCE, path.basename(sidecarPath)));
+        fs.renameSync(sidecarPath, sideDest);
+      }
+      appendLibrarianLog(
+        `INGEST review (dest_resolution_error): New_Arrivals/${rel} -> ${posixRel(dest)} | ${err?.message || err}`,
       );
-      meta = {
-        ...meta,
-        type: "building",
-        footprint,
-        tags: [footprint, "building"],
-      };
-    } else if (cat === "tile") {
-      const theme = meta.urbanBrain
-        ? "urban"
-        : visual?.theme ?? classifyTileTheme(name, rel);
-      destDir = path.join(ROOT, "assets", "tiles", theme);
-      meta = {
-        ...meta,
-        type: "tile",
-        theme,
-        tags: [theme, "tile"],
-      };
-    } else if (cat === "ui") {
-      const uiSub = pathOv?.uiKind || "buttons";
-      destDir = path.join(ROOT, "assets", "ui", uiSub);
-      meta = {
-        ...meta,
-        type: "ui",
-        uiKind: uiSub,
-        tags: ["ui", uiSub],
-      };
-    } else if (cat === "vfx") {
-      destDir = path.join(ROOT, "assets", "vfx");
-      meta = {
-        ...meta,
-        type: "vfx",
-        tags: ["vfx", "mapgenExcluded"],
-      };
-    } else if (cat === "unit") {
-      const paletteTheme = obstacleThemeForPalette(visual?.theme ?? classifyTileTheme(name, rel));
-      const isVehicle =
-        pathOv?.unitKind === "vehicle" ||
-        kw?.unitKind === "vehicle" ||
-        plan?.unitKind === "vehicle";
-      const subDir = isVehicle ? "vehicles" : paletteTheme;
-      destDir = path.join(ROOT, "assets", "units", subDir);
-      meta = {
-        ...meta,
-        type: "unit",
-        unitKind: isVehicle ? "vehicle" : "soldier",
-        theme: paletteTheme,
-        tags: isVehicle
-          ? ["unit", "vehicle", paletteTheme, "mapSprite"]
-          : ["unit", paletteTheme, "mapSprite"],
-      };
-    } else {
-      const theme = meta.urbanBrain
-        ? "urban"
-        : visual?.theme ?? classifyTileTheme(name, rel);
-      const obstacleTheme = obstacleThemeForPalette(theme);
-      const okind = plan?.obstacleKind ?? classifyObstacleKind(outName);
-      destDir = path.join(ROOT, "assets", "obstacles", obstacleTheme);
-      const pr = classifyPlacementRuleFromFileName(outName);
-      const otags = [obstacleTheme, "obstacle", okind];
-      if (pr) otags.push(`placement:${pr}`);
-      meta = {
-        ...meta,
-        type: "obstacle",
-        theme: obstacleTheme,
-        obstacleKind: okind,
-        placementRule: pr || undefined,
-        tags: otags,
-      };
+      moves.push({
+        from: `New_Arrivals/${rel}`,
+        to: posixRel(dest),
+        meta: { reason: "dest_resolution_error" },
+      });
+      continue;
     }
 
     ensureDir(destDir);
-    let destPath = path.join(destDir, outName);
+    let destPath = path.join(destDir, name);
     destPath = uniqueDest(destPath);
     fs.renameSync(full, destPath);
-    const logTo = posixRel(destPath);
-    appendLibrarianLog(
-      `MOVE New_Arrivals/${rel} → ${logTo} | ${reasoning.join(" || ")}`,
-    );
-    moves.push({ from: `New_Arrivals/${rel}`, to: logTo, meta });
+
+    const newSidecarPath = `${destPath.slice(0, -ext.length)}${METADATA_SUFFIX}`;
+    if (fs.existsSync(sidecarPath) && path.resolve(sidecarPath) !== path.resolve(newSidecarPath)) {
+      fs.renameSync(sidecarPath, newSidecarPath);
+    }
+
+    const hintUsed = Boolean(safeFolderLayoutHintDir(ctu));
+    const reasoning = [
+      `CTU ingest type=${type} subtype=${ctu.classification?.subtype ?? "?"}`,
+      hintUsed ? "folderLayoutHint" : "suggestedDest",
+      posixRel(destDir),
+    ];
+    appendLibrarianLog(`MOVE New_Arrivals/${rel} -> ${posixRel(destPath)} || ${reasoning.join(" || ")}`);
+    moves.push({
+      from: `New_Arrivals/${rel}`,
+      to: posixRel(destPath),
+      meta: { ctuIngest: true, classification: ctu.classification },
+    });
   }
   return moves;
 }
@@ -1018,6 +727,7 @@ function collectAssetsUnder(relRoot) {
     } else {
       continue;
     }
+    mergeCtuSidecarIntoRecord(record, full);
     out.push(record);
   }
   return out;
@@ -1722,6 +1432,10 @@ async function main() {
   }
 
   appendLibrarianLog(`======== catalog_assets run ========`);
+
+  if (FLAG_ENFORCE_CTU_SIDECARS || FLAG_ENFORCE_CTU_SIDECARS_DRY) {
+    enforceCtuSidecarsToReview();
+  }
 
   let cleanupResult = null;
   if (FLAG_CLEANUP || FLAG_CLEANUP_DRY_RUN) {

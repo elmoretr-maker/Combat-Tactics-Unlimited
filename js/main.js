@@ -2164,12 +2164,13 @@ async function bootBattle(options = {}) {
   const scenarioPromise = useInline
     ? Promise.resolve(JSON.parse(JSON.stringify(options.scenarioInline)))
     : loadJson(scenarioPath);
-  const [unitsRaw, tiles, sprites, scenarioBase, fx] = await Promise.all([
+  const [unitsRaw, tiles, sprites, scenarioBase, fx, assetManifest] = await Promise.all([
     loadJson("js/config/units.json"),
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/spriteAnimations.json"),
     scenarioPromise,
     loadJson("js/config/attackEffects.json"),
+    loadJson("js/config/assetManifest.json").catch(() => null),
   ]);
   const units = mergeUnitTemplates(unitsRaw);
   unitRegistry = units;
@@ -2177,6 +2178,8 @@ async function bootBattle(options = {}) {
   spriteAnimations = sprites;
   attackEffects = fx;
   const scenario = mergeScenarioForBattle(scenarioBase, mode, loadout, academyConfig);
+  scenario.assetManifest =
+    assetManifest && typeof assetManifest === "object" ? assetManifest : null;
   if (options.matLabTheater && getArenaRenderMode(scenario) === "mat") {
     scenario.battlePlaneLayer.theater = options.matLabTheater;
     scenario.battlePlaneLayer.randomizeTheater = false;

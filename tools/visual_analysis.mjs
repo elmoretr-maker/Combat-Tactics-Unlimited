@@ -399,6 +399,104 @@ export function planRenameForUrbanBrain(analysis, originalFileName, ext, spec) {
   return null;
 }
 
+/**
+ * Rename when ingest category is already decided from the filename (not visual inference).
+ * Mirrors planLibrarianRename buckets without re-running refineLibrarianClassification.
+ */
+export function planRenameFixedCategory(analysis, originalFileName, ext, fixed) {
+  const themeP = toPascalParts(analysis.theme);
+  const id = randomUUID().replace(/-/g, "").slice(0, 8);
+  const category = fixed.category;
+  const gunClass = fixed.gunClass ?? analysis.gunClass ?? "rifle";
+  const footprint =
+    fixed.footprint ??
+    analysis.footprint ??
+    inferBuildingFootprintFromDimensions(analysis.width, analysis.height);
+
+  if (category === "tile") {
+    return {
+      category: "tile",
+      newFileName: `Tile_${themeP}_Tile_${id}${ext}`,
+      gunClass,
+      footprint: null,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: "Tile",
+    };
+  }
+  if (category === "building") {
+    const fpP = toPascalParts(footprint);
+    return {
+      category: "building",
+      newFileName: `Building_${themeP}_${fpP}_${id}${ext}`,
+      gunClass,
+      footprint,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: fpP,
+    };
+  }
+  if (category === "gun") {
+    const gcP = toPascalParts(gunClass);
+    return {
+      category: "gun",
+      newFileName: `Gun_${themeP}_${gcP}_${id}${ext}`,
+      gunClass,
+      footprint: null,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: gcP,
+    };
+  }
+  if (category === "ui") {
+    return {
+      category: "ui",
+      newFileName: `Ui_${themeP}_Panel_${id}${ext}`,
+      gunClass,
+      footprint: null,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: "Panel",
+    };
+  }
+  if (category === "vfx") {
+    return {
+      category: "vfx",
+      newFileName: `Vfx_${themeP}_Effect_${id}${ext}`,
+      gunClass,
+      footprint: null,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: "Effect",
+    };
+  }
+  if (category === "unit") {
+    const isVehicle = fixed.unitKind === "vehicle";
+    const subP = isVehicle ? "Vehicle" : "Sprite";
+    return {
+      category: "unit",
+      unitKind: isVehicle ? "vehicle" : "soldier",
+      newFileName: `Unit_${themeP}_${subP}_${id}${ext}`,
+      gunClass,
+      footprint: null,
+      theme: analysis.theme,
+      obstacleKind: "crate",
+      librarianSubtype: subP,
+    };
+  }
+  const ok = fixed.obstacleKind ?? "crate";
+  const subP = toPascalParts(ok);
+  return {
+    category: "obstacle",
+    newFileName: `Obstacle_${themeP}_${subP}_${id}${ext}`,
+    gunClass,
+    footprint: null,
+    theme: analysis.theme,
+    obstacleKind: ok,
+    librarianSubtype: subP,
+  };
+}
+
 /** @deprecated use planLibrarianRename — kept for scripts that still import the old name */
 export function planVisualRename(analysis, ext) {
   const id = randomUUID().slice(0, 8);

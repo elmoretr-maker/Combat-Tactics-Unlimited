@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-07T02:48:59.904Z",
+  "generatedAt": "2026-04-07T17:53:07.685Z",
   "description": "Master catalog for procedural mapgen and tooling. Paths are repo-relative (forward slashes).",
   "foundationHints": {
     "urban": {

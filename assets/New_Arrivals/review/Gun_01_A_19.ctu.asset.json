@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "classification": {
+    "type": "weapon",
+    "subtype": "gun"
+  },
+  "placement": {
+    "mode": "none"
+  },
+  "behavior": {
+    "walkable": false,
+    "blocking": false
+  },
+  "render": {
+    "layer": "object",
+    "anchor": "center"
+  },
+  "tags": [],
+  "source": {
+    "origin": "auto-generated",
+    "confidence": 0.6
+  }
+}

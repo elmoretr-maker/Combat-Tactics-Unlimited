@@ -8,37 +8,6 @@ import { gridFromTerrain, terrainCostAt } from "./gridCost.js";
 
 const BLOCKED = 99;
 
-/** Terrains that count as “urban ground” for `urban_ok` manifest tags. */
-export const URBAN_TERRAIN = new Set([
-  "cp_grass",
-  "cp_road",
-  "urban",
-  "cp_building",
-  "building_block",
-  "cp_rubble",
-]);
-
-/** @param {{ tags?: string[] } | null | undefined} ob */
-export function obstacleHasTag(ob, tag) {
-  const t = (tag || "").toLowerCase();
-  return (ob?.tags || []).some((x) => String(x).toLowerCase() === t);
-}
-
-/**
- * Manifest tag gate: `water_only` (water cells only), `urban_ok` (urban profile or urban terrain).
- * @param {{ kind: string, sprite: string, tags?: string[] }} ob
- * @param {string} terrainId
- * @param {"urban"|"desert"|"grass"} profileId
- * @param {boolean} isWaterCell
- */
-export function obstaclePassesPlacementTags(ob, terrainId, profileId, isWaterCell) {
-  if (obstacleHasTag(ob, "water_only") && !isWaterCell) return false;
-  if (obstacleHasTag(ob, "urban_ok")) {
-    if (profileId !== "urban" && !URBAN_TERRAIN.has(terrainId)) return false;
-  }
-  return true;
-}
-
 /**
  * Reject if placing a new blocking prop would create a run of ≥3 blocking props in a row
  * on the same row or column (orthogonal only).
@@ -116,101 +85,6 @@ export function effectiveObstacleKind(kind, sprite = "") {
     return "plane";
   }
   return k;
-}
-
-/**
- * @returns {{ placement: "terrain"|"water"|"air"|"strip", allowTerrain: Set<string>|null, pyOffset?: number, blocksMove?: boolean, blocksLos?: boolean }}
- */
-export function placementSpecForKind(kind, sprite = "") {
-  const eff = effectiveObstacleKind(kind, sprite);
-  const s = (sprite || "").toLowerCase();
-
-  if (
-    eff === "ship" ||
-    /ship|boat|vessel|dinghy|yacht|hull/.test(eff) ||
-    /ship|boat|vessel/.test(s)
-  ) {
-    return {
-      placement: "water",
-      allowTerrain: new Set(["water"]),
-      blocksMove: true,
-      blocksLos: true,
-    };
-  }
-
-  if (
-    eff === "plane" ||
-    /plane|jet|aircraft|heli|chopper|uav|drone|fighter|bomber/.test(eff) ||
-    /plane|jet|heli|aircraft|fighter|bomber/.test(s)
-  ) {
-    return {
-      placement: "air",
-      allowTerrain: new Set([
-        "plains",
-        "cp_grass",
-        "road",
-        "cp_road",
-        "desert",
-        "snow",
-        "urban",
-        "forest",
-        "hill",
-      ]),
-      pyOffset: -17,
-      blocksMove: false,
-      blocksLos: false,
-    };
-  }
-
-  if (eff === "strip") {
-    return {
-      placement: "strip",
-      allowTerrain: new Set(["road", "cp_road"]),
-      blocksMove: true,
-      blocksLos: false,
-    };
-  }
-
-  if (eff === "tree") {
-    return {
-      placement: "terrain",
-      allowTerrain: TREE_GROUND,
-      blocksMove: true,
-      blocksLos: true,
-    };
-  }
-
-  if (eff === "house" || eff === "ruins") {
-    return {
-      placement: "terrain",
-      allowTerrain: new Set([
-        ...TREE_GROUND,
-        "urban",
-        "cp_building",
-        "cp_rubble",
-        "building_block",
-      ]),
-      blocksMove: true,
-      blocksLos: true,
-    };
-  }
-
-  /* crate, barrel, default clutter */
-  return {
-    placement: "terrain",
-    allowTerrain: new Set([
-      ...TREE_GROUND,
-      "urban",
-      "snow",
-    ]),
-    blocksMove: true,
-    blocksLos: eff === "barrel" ? false : true,
-  };
-}
-
-export function terrainAllowsPlacement(terrainId, allowTerrain) {
-  if (!allowTerrain || !allowTerrain.size) return true;
-  return allowTerrain.has(terrainId);
 }
 
 /**
@@ -431,4 +305,31 @@ export function pickKindIndexFromNoise(n01, len, x, y, rnd) {
   const jitter = hash01(777, x, y);
   const t = (n01 * 0.82 + jitter * 0.18) % 1;
   return Math.min(len - 1, Math.floor(t * len));
+}
+
+/** Tier biases scatter frequency only — not pool membership. */
+export function tierScatterWeight(tier) {
+  if (tier === "high") return 2;
+  if (tier === "legacy") return 0.5;
+  return 1;
+}
+
+/**
+ * Noise-biased pick weighted by manifest tier.
+ * @param {number} n01 tactical density ~[0,1]
+ * @param {{ manifestAsset?: { tier?: string } }[]} entries
+ */
+export function pickScatterEntryIndex(n01, entries, x, y, rnd) {
+  const len = entries.length;
+  if (len <= 1) return 0;
+  const weights = entries.map((e) => tierScatterWeight(e.manifestAsset?.tier));
+  const total = weights.reduce((a, b) => a + b, 0);
+  if (total <= 0) return pickKindIndexFromNoise(n01, len, x, y, rnd);
+  const jitter = hash01(777, x, y);
+  let u = (n01 * 0.82 + jitter * 0.18) * total;
+  for (let i = 0; i < len; i++) {
+    u -= weights[i];
+    if (u <= 0) return i;
+  }
+  return len - 1;
 }

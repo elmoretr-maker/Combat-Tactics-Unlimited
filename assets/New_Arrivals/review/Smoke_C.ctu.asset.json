@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "classification": {
+    "type": "effect",
+    "subtype": "explosion"
+  },
+  "placement": {
+    "mode": "none"
+  },
+  "behavior": {
+    "walkable": false,
+    "blocking": false
+  },
+  "render": {
+    "layer": "effect",
+    "anchor": "center"
+  },
+  "tags": [],
+  "source": {
+    "origin": "auto-generated",
+    "confidence": 0.6
+  }
+}

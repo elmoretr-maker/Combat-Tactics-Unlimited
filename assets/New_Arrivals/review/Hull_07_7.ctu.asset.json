@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "classification": {
+    "type": "environment",
+    "subtype": "unknown"
+  },
+  "placement": {
+    "mode": "surface",
+    "surfaces": [
+      "land"
+    ]
+  },
+  "behavior": {
+    "walkable": false,
+    "blocking": true
+  },
+  "render": {
+    "layer": "object",
+    "anchor": "bottom"
+  },
+  "tags": [],
+  "source": {
+    "origin": "auto-generated",
+    "confidence": 0.6
+  }
+}

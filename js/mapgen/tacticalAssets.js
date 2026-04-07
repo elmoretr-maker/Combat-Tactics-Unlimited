@@ -13,14 +13,15 @@ import {
   computeOrthogonalPathwayReserve,
   expandPathwayReserve,
   tacticalDensity,
-  pickKindIndexFromNoise,
-  placementSpecForKind,
-  terrainAllowsPlacement,
+  pickScatterEntryIndex,
   treeSpacingOk,
-  effectiveObstacleKind,
-  obstaclePassesPlacementTags,
   wouldCompleteOrthogonalBlockingLineOfThree,
 } from "./tacticalPlacement.js";
+import {
+  terrainMatchesCtuPlacement,
+  mapObjectExtraFromCtuBehavior,
+  scatterVisualKind,
+} from "./ctuMapgen.js";
 import { applyPlacementRatioMix } from "./placementRatios.js";
 import {
   findBuildingsByThemeAndFootprint,
@@ -346,26 +347,22 @@ export function placeTacticalAssets(opts) {
     const d = tacticalDensity(noiseSeed, x, y);
     if (!relaxNoise && rnd() > 0.18 + d * 0.72) return false;
 
-    let validKinds = (profile.obstacleVisualKinds || []).filter((ob) => {
-      const spec = placementSpecForKind(ob.kind, ob.sprite);
-      if (isWaterCell) {
-        if (spec.placement !== "water") return false;
-      } else if (!terrainAllowsPlacement(t, spec.allowTerrain)) {
-        return false;
-      }
-      return obstaclePassesPlacementTags(ob, t, profile.id, isWaterCell);
-    });
+    let validKinds = (profile.obstacleVisualKinds || []).filter((ob) =>
+      ob.ctu ? terrainMatchesCtuPlacement(ob.ctu, terrain, x, y) : false,
+    );
     if (!validKinds.length) return false;
 
     const tw = cellTouchesWater(terrain, x, y);
     validKinds = applyPlacementRatioMix(profile.id, validKinds, tw, rnd);
     if (!validKinds.length) return false;
 
-    const ki = pickKindIndexFromNoise(d, validKinds.length, x, y, rnd);
+    const ki = pickScatterEntryIndex(d, validKinds, x, y, rnd);
     const pick = validKinds[ki];
-    const vk = effectiveObstacleKind(pick.kind, pick.sprite);
-    const spec = placementSpecForKind(pick.kind, pick.sprite);
-    const willBlock = spec.placement !== "air" && spec.blocksMove !== false;
+    if (!terrainMatchesCtuPlacement(pick.ctu, terrain, x, y)) return false;
+
+    const vk = scatterVisualKind(pick);
+    const extra = mapObjectExtraFromCtuBehavior(pick.ctu, cellSize);
+    const willBlock = extra.blocksMove !== false;
 
     /* ── Spacing: apply to all blocking props, not just trees ── */
     if (!treeSpacingOk(mapObjects, x, y, vk, willBlock)) return false;
@@ -386,22 +383,16 @@ export function placeTacticalAssets(opts) {
     /* ── Pathway guard: blocking props may not touch the free lane ── */
     if (willBlock && pathwayReserve.has(key(x, y))) return false;
 
-    const extra = {};
-    if (spec.placement === "air") {
-      extra.pyOffset = Math.round(-cellSize * 0.36);
-      extra.blocksMove = false;
-      extra.blocksLos = false;
-    } else {
-      if (spec.blocksMove === false) extra.blocksMove = false;
-      if (spec.blocksLos === false) extra.blocksLos = false;
-      if (typeof spec.pyOffset === "number") {
-        extra.pyOffset = Math.round(spec.pyOffset * (cellSize / 48));
-      }
+    const prevTerrain = terrain[y][x];
+    const isBridge =
+      pick.ctu?.classification?.subtype === "bridge" && pick.ctu?.behavior?.walkable === true;
+    if (isBridge) {
+      terrain[y][x] = profile.roadTerrain;
     }
 
     const vkLow = (vk || "").toLowerCase();
     if (vkLow === "tree" || vkLow === "ruins" || vkLow === "house") {
-      extra.propAnchor = "bottom";
+      extra.propAnchor = extra.propAnchor || "bottom";
     }
 
     const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
@@ -417,6 +408,7 @@ export function placeTacticalAssets(opts) {
         enemySpawns,
       )
     ) {
+      terrain[y][x] = prevTerrain;
       return false;
     }
 
