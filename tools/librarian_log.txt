@@ -1988,3 +1988,4 @@
 [2026-04-07T06:01:47.017Z] INGEST review (missing_ctu_sidecar): New_Arrivals/new tanks/SCML/Fire_Shots/Flash_B_04.png -> assets/New_Arrivals/review/Flash_B_04_5.png
 [2026-04-07T06:01:47.018Z] INGEST review (missing_ctu_sidecar): New_Arrivals/new tanks/SCML/Fire_Shots/Flash_B_05.png -> assets/New_Arrivals/review/Flash_B_05_5.png
 [2026-04-07T17:53:05.927Z] ======== catalog_assets run ========
+[2026-04-08T02:01:59.135Z] ======== catalog_assets run ========

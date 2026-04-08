@@ -1,5 +1,5 @@
 # CTU Librarian — classification audit
-# generatedAt: 2026-04-07T17:53:07.685Z
+# generatedAt: 2026-04-08T02:02:01.458Z
 # Path | Assigned category | Reason
 
 assets/buildings/large/Building_Urban_Large_062c9af9.png	building	Manifest bucket: building (large) | tier: "high"
@@ -16,6 +16,18 @@ assets/buildings/medium/Building_Urban_Medium_86e9833e.png	building	Manifest buc
 assets/buildings/medium/Building_Urban_Medium_9c86ff08.png	building	Manifest bucket: building (medium)
 assets/buildings/medium/Building_Urban_Medium_b77a3b56.png	building	Manifest bucket: building (medium) | tier: "high"
 assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png	building	Manifest bucket: building (medium) | tier: "high"
+assets/effects/explosions/light_tank/dead/0.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/fx/Light_Shell_1.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/fx/Light_Shell_2.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/fx/Light_Shell.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/run/0.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/run/1.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/run/2.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/run/3.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/run/4.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/run/5.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/shot/0.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
+assets/effects/muzzle/light_tank/shot/1.png	vfx	Manifest bucket: vfx (assets/vfx) | tier: "high"
 assets/guns/handgun/Gun_Urban_Handgun_62e67c6a.png	gun	Manifest bucket: gun (handgun)
 assets/guns/handgun/Gun_Urban_Handgun_a1ac8683.png	gun	Manifest bucket: gun (handgun)
 assets/obstacles/desert/Obstacle_Desert_Prop_21560d0e.png	obstacle	Manifest bucket: obstacle (desert, crate)

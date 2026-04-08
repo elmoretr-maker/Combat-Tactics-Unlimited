@@ -41,7 +41,7 @@ const CACHE_PATH = path.join(ROOT, "tools", "smart_catalog_cache.json");
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".tiff"]);
 
 /** Bump when on-disk cache schema changes */
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const MODEL_ID = "Xenova/clip-vit-base-patch32";
 
 const HYPOTHESIS = { hypothesis_template: "This is a photo of {}." };
@@ -89,7 +89,7 @@ const CTU_CATEGORIES = [
   },
   {
     id: "soldiers_infantry",
-    dest: "assets/units/urban",
+    dest: "assets/units/infantry",
     prompts: [
       "soldier, infantry squad member, or special forces operator sprite for a tactical wargame",
       "infantry unit or tactical operator character portrait or sprite",
@@ -137,7 +137,7 @@ const CTU_CATEGORIES = [
   },
   {
     id: "terrain_tiles",
-    dest: "assets/tiles/urban",
+    dest: "assets/tiles/terrain/urban",
     prompts: [
       "ground tile, terrain patch, repeating floor texture, grass sand or pavement map cell",
       "isometric or top-down ground texture tile for a tile map",
@@ -145,7 +145,7 @@ const CTU_CATEGORIES = [
   },
   {
     id: "buildings_structures",
-    dest: "assets/buildings/medium",
+    dest: "assets/tiles/structures/medium",
     prompts: [
       "house, warehouse, bunker, hangar, or large building roof seen from top-down orthographic view",
       "rooftop, structure, or architectural mass seen from above",
@@ -153,7 +153,7 @@ const CTU_CATEGORIES = [
   },
   {
     id: "vfx_combat",
-    dest: "assets/vfx",
+    dest: "assets/effects/explosions",
     prompts: [
       "explosion, muzzle flash, impact burst, smoke cloud, fire, or combat visual effect sprite",
       "particle burst, flash, or animated combat effect strip",
@@ -666,7 +666,7 @@ function attachMetadataToDecisions(decisions) {
       reviewPending: d.decision === "review",
       ingestError: d.decision === "error",
     });
-    const layoutHint = suggestedDestRelFromMetadata(d.assetMetadata, theme);
+    const layoutHint = suggestedDestRelFromMetadata(d.assetMetadata, theme, fn);
     d.assetMetadata.pipeline.folderLayoutHint = layoutHint;
     if (d.decision === "auto") {
       d.destRel = layoutHint;

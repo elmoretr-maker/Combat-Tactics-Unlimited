@@ -3,6 +3,10 @@
  * Asset Librarian — scans assets/New_Arrivals/, sorts files into permanent dirs,
  * regenerates js/config/assetManifest.json.
  *
+ * Layout targets: units/{vehicles,infantry}, tiles/terrain/{theme}, tiles/structures/*,
+ * effects/{explosions,muzzle,smoke} (+ legacy vfx/), ui/*, guns/*, obstacles/{theme}.
+ * See tools/asset_layout.mjs and tools/asset_pipeline_REPORT.txt.
+ *
  * New_Arrivals raster ingest is CTU-only: each image must have a sibling `.ctu.asset.json` with a
  * non-unknown `classification.type`. Destination comes from `pipeline.folderLayoutHint` (when valid
  * under assets/) or `suggestedDestRelFromMetadata` + placement-derived theme hints — never from
@@ -40,6 +44,12 @@ import {
   compactPlacementTagsFromSurfaces,
   suggestedDestRelFromMetadata,
 } from "./asset_metadata.mjs";
+import {
+  assetBucketForRel,
+  tileThemeFromRel,
+  buildingFootprintSegmentFromRel,
+  effectsSubfolderFromBaseName,
+} from "./asset_layout.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -411,17 +421,10 @@ function mergeCtuSidecarIntoRecord(record, imageAbsPath) {
   }
 }
 
-/** relRoot as passed to collectAssetsUnder, e.g. "assets/obstacles" (no trailing slash). */
+/** @deprecated use assetBucketForRel(rel) on each file path */
 function assetBucket(relRoot) {
   const n = relRoot.replace(/\\/g, "/").replace(/\/+$/, "");
-  if (n === "assets/guns" || n.startsWith("assets/guns/")) return "guns";
-  if (n === "assets/buildings" || n.startsWith("assets/buildings/")) return "buildings";
-  if (n === "assets/tiles" || n.startsWith("assets/tiles/")) return "tiles";
-  if (n === "assets/obstacles" || n.startsWith("assets/obstacles/")) return "obstacles";
-  if (n === "assets/vfx" || n.startsWith("assets/vfx/")) return "vfx";
-  if (n === "assets/ui" || n.startsWith("assets/ui/")) return "ui";
-  if (n === "assets/units" || n.startsWith("assets/units/")) return "units";
-  return null;
+  return assetBucketForRel(n);
 }
 
 /**
@@ -545,11 +548,15 @@ function safeFolderLayoutHintDir(ctu) {
   return abs;
 }
 
-function ingestDestDirFromCtu(ctu) {
+function ingestDestDirFromCtu(ctu, rasterBaseName = "") {
   const fromHint = safeFolderLayoutHintDir(ctu);
   if (fromHint) return fromHint;
   const theme = themeHintFromCtuPlacement(ctu) || "urban";
-  const rel = suggestedDestRelFromMetadata({ classification: ctu.classification }, theme);
+  const rel = suggestedDestRelFromMetadata(
+    { classification: ctu.classification },
+    theme,
+    rasterBaseName,
+  );
   return path.normalize(path.join(ROOT, ...rel.split("/")));
 }
 
@@ -597,7 +604,7 @@ async function ingestNewArrivals() {
 
     let destDir;
     try {
-      destDir = ingestDestDirFromCtu(ctu);
+      destDir = ingestDestDirFromCtu(ctu, name);
     } catch (err) {
       const dest = uniqueDest(path.join(REVIEW_DIR_FOR_CTU_ENFORCE, name));
       fs.renameSync(full, dest);
@@ -658,7 +665,7 @@ function collectAssetsUnder(relRoot) {
       ext: ext.slice(1),
     };
 
-    const bucket = assetBucket(relRoot);
+    const bucket = assetBucketForRel(rel);
     if (bucket === "guns") {
       const gunClass = rel.split("/")[2];
       record.type = "gun";
@@ -667,17 +674,19 @@ function collectAssetsUnder(relRoot) {
       record.footprint = null;
       record.tags = ["gun", gunClass];
     } else if (bucket === "buildings") {
-      const pathSeg = rel.split("/")[2];
+      const seg = buildingFootprintSegmentFromRel(rel);
       const footprint =
-        pathSeg === "urban"
+        !seg || seg === "urban"
           ? classifyBuildingFootprint(name, rel)
-          : pathSeg;
+          : ["small", "medium", "large", "fortified"].includes(seg)
+            ? seg
+            : classifyBuildingFootprint(name, rel);
       record.type = "building";
       record.footprint = footprint;
       record.theme = inferBuildingTheme(name);
       record.tags = ["building", footprint, record.theme].filter(Boolean);
     } else if (bucket === "tiles") {
-      const theme = rel.split("/")[2];
+      const theme = tileThemeFromRel(rel);
       record.type = "tile";
       record.theme = theme;
       record.footprint = null;
@@ -796,7 +805,7 @@ function buildIndex(assets) {
     guns: { handgun: [], rifle: [], machine_gun: [] },
     buildings: { small: [], medium: [], large: [], fortified: [] },
     tiles: { desert: [], urban: [], grass: [] },
-    unitsByTheme: { urban: [], desert: [], grass: [] },
+    unitsByTheme: { urban: [], desert: [], grass: [], infantry: [] },
     vehicles: [],
     obstaclesByTheme: { urban: [], desert: [], grass: [] },
     interiorFurnitureByTheme: { urban: [], desert: [], grass: [] },
@@ -897,7 +906,8 @@ function stemMatchesFunctionalKeyword(stemLower) {
 /** Path or basename (lowercase) is shielded from scrap; small assets may be re-homed from tiles/obstacles. */
 function isFunctionalShield(posixPath, stemLower) {
   const p = posixPath.replace(/\\/g, "/").toLowerCase();
-  if (p.includes("assets/ui/") || p.includes("assets/vfx/")) return true;
+  if (p.includes("assets/ui/") || p.includes("assets/vfx/") || p.includes("assets/effects/"))
+    return true;
   const segs = p.split("/").filter(Boolean);
   if (segs.some((s) => s === "icons" || s === "buttons")) return true;
   return stemMatchesFunctionalKeyword(stemLower);
@@ -940,7 +950,8 @@ function isLikelyTerrainOrMapAnimationFile(name) {
 
 function destRootForFunctionalMisplaced(baseLower) {
   if (isVfxName(baseLower) || isAnimationFrameName(baseLower)) {
-    return path.join(ROOT, "assets", "vfx");
+    const sub = effectsSubfolderFromBaseName(baseLower);
+    return path.join(ROOT, "assets", "effects", sub);
   }
   return path.join(ROOT, "assets", "ui", functionalUiSubfolder(baseLower));
 }
@@ -948,7 +959,8 @@ function destRootForFunctionalMisplaced(baseLower) {
 function archiveRescueDestination(baseName) {
   const bl = baseName.toLowerCase();
   const stem = path.basename(baseName, path.extname(baseName)).toLowerCase();
-  if (isVfxName(bl) || isAnimationFrameName(bl)) return path.join(ROOT, "assets", "vfx");
+  if (isVfxName(bl) || isAnimationFrameName(bl))
+    return path.join(ROOT, "assets", "effects", effectsSubfolderFromBaseName(bl));
   if (stemMatchesFunctionalKeyword(stem)) {
     return path.join(ROOT, "assets", "ui", functionalUiSubfolder(bl));
   }
@@ -1180,7 +1192,7 @@ async function enrichTierAndTileFit(assets) {
           } else if (isSquarePo2HighTier(w, h)) {
             a.tier = "high";
           } else if (
-            posixPath.includes("/tiles/urban/") &&
+            (posixPath.includes("/tiles/urban/") || posixPath.includes("/tiles/terrain/")) &&
             Math.min(w, h) >= 128
           ) {
             /* 128px-detail urban layers (e.g. 128×240) — procedural index parity with HD squares */
@@ -1261,6 +1273,7 @@ async function rebuildManifest(priorFoundationHints) {
     collectAssetsUnder("assets/tiles"),
     collectAssetsUnder("assets/obstacles"),
     collectAssetsUnder("assets/vfx"),
+    collectAssetsUnder("assets/effects"),
     collectAssetsUnder("assets/ui"),
     collectAssetsUnder("assets/units"),
   ];

@@ -5,6 +5,7 @@
 
 import path from "path";
 import fs from "fs-extra";
+import { effectsSubfolderFromBaseName } from "./asset_layout.mjs";
 
 export const ASSET_METADATA_SCHEMA_VERSION = 2;
 /** Sidecar filename: Tile_Foo.png -> Tile_Foo.ctu.asset.json */
@@ -213,25 +214,36 @@ export function buildAssetMetadata(fileName, clipTop3, primaryClipId, options = 
  * @param {object} metadata - from buildAssetMetadata
  * @param {'urban'|'desert'|'grass'} themeHint
  */
-export function suggestedDestRelFromMetadata(metadata, themeHint = "urban") {
+/**
+ * Default relative destination dir under repo root for a finalized CTU record.
+ * @param {object} metadata - expects metadata.classification { type, subtype }
+ * @param {'urban'|'desert'|'grass'} themeHint
+ * @param {string} [fileNameHint] optional basename for effect subfolder heuristics
+ */
+export function suggestedDestRelFromMetadata(metadata, themeHint = "urban", fileNameHint = "") {
   const t = metadata?.classification?.type;
   const st = metadata?.classification?.subtype;
   const th = themeHint === "desert" || themeHint === "grass" ? themeHint : "urban";
+  const baseLower = (fileNameHint || "").toLowerCase();
 
   switch (t) {
     case "unit":
-      if (st === "soldier") return `assets/units/${th}`;
+      if (st === "soldier") return "assets/units/infantry";
       return "assets/units/vehicles";
     case "weapon":
       return "assets/guns/rifle";
     case "ui":
       return "assets/ui/panels";
-    case "effect":
-      return "assets/vfx";
+    case "effect": {
+      if (st === "smoke" || /smoke|smog|dust/i.test(st)) return "assets/effects/smoke";
+      if (st === "muzzle" || /muzzle|flash|shot/i.test(st)) return "assets/effects/muzzle";
+      const folder = baseLower ? effectsSubfolderFromBaseName(baseLower) : "explosions";
+      return `assets/effects/${folder}`;
+    }
     case "building":
-      return "assets/buildings/medium";
+      return "assets/tiles/structures/medium";
     case "environment":
-      if (st === "tile") return `assets/tiles/${th}`;
+      if (st === "tile") return `assets/tiles/terrain/${th}`;
       return `assets/obstacles/${th}`;
     case "obstacle":
       return `assets/obstacles/${th}`;
