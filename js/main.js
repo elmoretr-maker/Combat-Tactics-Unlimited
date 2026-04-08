@@ -2,10 +2,11 @@ import { loadJson } from "./loadConfig.js";
 import { GameState } from "./engine/gameState.js";
 import { drawGrid, preloadTerrainTiles } from "./render/canvasGrid.js";
 import { getArenaRenderMode } from "./render/renderMode.js";
-import { UnitRenderer } from "./render/unitRenderer.js";
+import { UnitRenderer, attackVisualDurationMs } from "./render/unitRenderer.js";
+import { computeFacing, syncFacingAndFaceRad, facingToFaceRad } from "./engine/facing.js";
 import { BattleVfx } from "./render/battleVfx.js";
 import { FxLayer } from "./render/fxLayer.js";
-import { manhattan, chebyshev } from "./engine/grid.js";
+import { chebyshev } from "./engine/grid.js";
 import { canAttack } from "./engine/combat.js";
 import {
   hasLineOfSight,
@@ -1303,6 +1304,7 @@ function toggleBattleFullscreen() {
 function startLerp(unit, x0, y0, x1, y1) {
   const dist = Math.abs(x1 - x0) + Math.abs(y1 - y0);
   const dur = moveTweenDurationMs(dist, !!settings.reduceMotion);
+  unit.state = "move";
   lerp = { unitId: unit.id, x0, y0, x1, y1, t0: performance.now(), dur };
 }
 function updateLerp() {
@@ -1315,6 +1317,7 @@ function updateLerp() {
   const t = Math.min(1, (performance.now() - lerp.t0) / Math.max(1, lerp.dur));
   if (t >= 1) {
     u.isMoving = false;
+    if (u.hp > 0 && u.state === "move") u.state = "idle";
     lerp = null;
   }
 }
@@ -1374,34 +1377,41 @@ function spawnAttackVfx(attacker, target) {
   const { ox, oy, cs } = gridPixelOrigin();
   battleVfx.spawnFromProfile(prof, { x: ox + attacker.x * cs, y: oy + attacker.y * cs }, { x: ox + target.x * cs, y: oy + target.y * cs }, cs);
 }
-function doAttack(attacker, target) {
-  const result = game.attack(attacker, target);
-  if (!result) return false;
+
+function applyPreemptAttackUi(attacker, target, pre) {
+  if (pre.preemptDmg <= 0) return;
+  pushLog(
+    `⚡ ${target.displayName} preemptive → ${attacker.displayName}: -${pre.preemptDmg} HP`,
+    "battle-log__item--atk",
+  );
+  if (pre.preemptProtectedBy) {
+    showBattleToast(`Target protected by ${pre.preemptProtectedBy}!`);
+  }
+  const cellSz = game.scenario?.cellSize ?? 48;
+  const apx0 = gridOffsetX + attacker.x * cellSz + cellSz / 2;
+  const apy0 = gridOffsetY + attacker.y * cellSz + cellSz * 0.3;
+  spawnFloater(`⚡-${pre.preemptDmg}`, apx0, apy0, "#ffcc44");
+}
+
+function applyMainStrikeUi(attacker, target, pre, main) {
   const {
     dmg,
-    preemptDmg,
-    preemptProtectedBy,
     counterDmg,
     structureCollapsed,
     targetProtectedBy,
     attackerProtectedBy,
-  } = result;
-  attacker._fireVisualUntil = performance.now() + 420;
-  attacker._attackTargetPos = { x: target.x, y: target.y };
-  if (attacker.mapRenderMode === "topdown") {
-    attacker.faceRad = Math.atan2(target.y - attacker.y, target.x - attacker.x);
+  } = main;
+  let structureCollapsedUse = structureCollapsed;
+  if (!structureCollapsedUse && pre.structurePreempt?.collapsed) {
+    structureCollapsedUse = {
+      x: pre.structurePreempt.x,
+      y: pre.structurePreempt.y,
+    };
   }
-  const targetDied    = target.hp <= 0;
-  const attackerDied  = attacker.hp <= 0;
-  if (preemptDmg > 0) {
-    pushLog(
-      `⚡ ${target.displayName} preemptive → ${attacker.displayName}: -${preemptDmg} HP`,
-      "battle-log__item--atk",
-    );
-    if (preemptProtectedBy) {
-      showBattleToast(`Target protected by ${preemptProtectedBy}!`);
-    }
-  }
+
+  const targetDied = target.hp <= 0;
+  const attackerDied = attacker.hp <= 0;
+
   if (dmg > 0) {
     pushLog(
       `⚔ ${attacker.displayName} → ${target.displayName}: -${dmg} HP${targetDied ? " 💀" : ""}`,
@@ -1412,24 +1422,35 @@ function doAttack(attacker, target) {
     showBattleToast(`Target protected by ${targetProtectedBy}!`);
   }
   if (counterDmg > 0) {
-    pushLog(`↩ ${target.displayName} counter: -${counterDmg} HP${attackerDied ? " 💀" : ""}`, "battle-log__item--move");
+    pushLog(
+      `↩ ${target.displayName} counter: -${counterDmg} HP${attackerDied ? " 💀" : ""}`,
+      "battle-log__item--move",
+    );
   }
   if (counterDmg > 0 && attackerProtectedBy) {
     showBattleToast(`Target protected by ${attackerProtectedBy}!`);
   }
 
-  /* kill tracking */
-  if (targetDied)   { if (target.owner   === 0) battleStats.p1Kills++; else battleStats.p0Kills++; }
-  if (attackerDied) { if (attacker.owner === 0) battleStats.p1Kills++; else battleStats.p0Kills++; }
+  if (targetDied) {
+    if (target.owner === 0) battleStats.p1Kills++;
+    else battleStats.p0Kills++;
+  }
+  if (attackerDied) {
+    if (attacker.owner === 0) battleStats.p1Kills++;
+    else battleStats.p0Kills++;
+  }
 
-  /* death animations + world FX */
   const csFx = game.scenario?.cellSize ?? 48;
   const { ox: oxf, oy: oyf } = gridPixelOrigin();
   const spawnWorldFx = (gx, gy) => {
     if (!battleFx) return;
-    battleFx.explosionAndSmoke(oxf + gx * csFx + csFx / 2, oyf + gy * csFx + csFx / 2, csFx);
+    battleFx.explosionAndSmoke(
+      oxf + gx * csFx + csFx / 2,
+      oyf + gy * csFx + csFx / 2,
+      csFx,
+    );
   };
-  if (structureCollapsed) spawnWorldFx(structureCollapsed.x, structureCollapsed.y);
+  if (structureCollapsedUse) spawnWorldFx(structureCollapsedUse.x, structureCollapsedUse.y);
   if (targetDied) {
     spawnDying(target);
     spawnWorldFx(target.x, target.y);
@@ -1439,13 +1460,7 @@ function doAttack(attacker, target) {
     spawnWorldFx(attacker.x, attacker.y);
   }
 
-  /* floating damage numbers */
   const cellSz = game.scenario?.cellSize ?? 48;
-  const apx0 = gridOffsetX + attacker.x * cellSz + cellSz / 2;
-  const apy0 = gridOffsetY + attacker.y * cellSz + cellSz * 0.3;
-  if (preemptDmg > 0) {
-    spawnFloater(`⚡-${preemptDmg}`, apx0, apy0, "#ffcc44");
-  }
   const tpx = gridOffsetX + target.x * cellSz + cellSz / 2;
   const tpy = gridOffsetY + target.y * cellSz + cellSz * 0.3;
   if (dmg > 0) {
@@ -1457,7 +1472,6 @@ function doAttack(attacker, target) {
     spawnFloater(`↩-${counterDmg}`, apx, apy, "#ffcc44");
   }
 
-  /* canvas VFX flash (always visible even without image assets) */
   const tcx = gridOffsetX + target.x * cellSz + cellSz / 2;
   const tcy = gridOffsetY + target.y * cellSz + cellSz / 2;
   spawnFlash(tcx, tcy, attacker.attackType === "indirect" ? "#ffaa44" : "#ff5555");
@@ -1469,7 +1483,96 @@ function doAttack(attacker, target) {
   AudioManager.play(isIndirect ? "AttackIndirect" : "AttackImpact");
   if (counterDmg > 0) setTimeout(() => AudioManager.play("Counter"), 150);
   spawnAttackVfx(attacker, target);
-  return true;
+}
+
+/**
+ * Validates range/LOS, runs preempt immediately, then wind-up animation before damage + VFX.
+ * @returns {Promise<boolean>}
+ */
+function doAttack(attacker, target) {
+  return new Promise((resolve) => {
+    if (!game || !attacker || !target) {
+      resolve(false);
+      return;
+    }
+    if (attacker.owner !== game.currentPlayer) {
+      resolve(false);
+      return;
+    }
+    if (attacker.attackedThisTurn) {
+      resolve(false);
+      return;
+    }
+    if (!canAttack(attacker, target, game.units, game.losCtx())) {
+      resolve(false);
+      return;
+    }
+
+    const pre = game.attackExecutePreemptiveOnly(attacker, target);
+    applyPreemptAttackUi(attacker, target, pre);
+
+    if (!pre.attackerAlive) {
+      attacker.attackedThisTurn = true;
+      attacker.state = "idle";
+      const structureCollapsed = pre.structurePreempt?.collapsed
+        ? { x: pre.structurePreempt.x, y: pre.structurePreempt.y }
+        : null;
+      const attackerDied = attacker.hp <= 0;
+      if (attackerDied) {
+        if (attacker.owner === 0) battleStats.p1Kills++;
+        else battleStats.p0Kills++;
+      }
+      const csFx = game.scenario?.cellSize ?? 48;
+      const { ox: oxf, oy: oyf } = gridPixelOrigin();
+      if (structureCollapsed && battleFx) {
+        battleFx.explosionAndSmoke(
+          oxf + structureCollapsed.x * csFx + csFx / 2,
+          oyf + structureCollapsed.y * csFx + csFx / 2,
+          csFx,
+        );
+      }
+      if (attackerDied) {
+        spawnDying(attacker);
+        if (battleFx) {
+          battleFx.explosionAndSmoke(
+            oxf + attacker.x * csFx + csFx / 2,
+            oyf + attacker.y * csFx + csFx / 2,
+            csFx,
+          );
+        }
+      }
+      syncHud();
+      resolve(true);
+      return;
+    }
+
+    attacker.facing = computeFacing(
+      { x: attacker.x, y: attacker.y },
+      { x: target.x, y: target.y },
+    );
+    syncFacingAndFaceRad(attacker);
+    attacker.attackedThisTurn = true;
+    attacker.state = "attack";
+    attacker._attackTargetPos = { x: target.x, y: target.y };
+    let windup = attackVisualDurationMs(spriteAnimations, attacker.mapSpriteSet);
+    if (!windup || windup < 1) windup = 420;
+    attacker._fireVisualUntil = performance.now() + windup;
+
+    if (attacker._attackWindupTimer) clearTimeout(attacker._attackWindupTimer);
+    attacker._attackWindupTimer = setTimeout(() => {
+      attacker._attackWindupTimer = null;
+      attacker._fireVisualUntil = null;
+      attacker._attackTargetPos = null;
+      const main = game.attackExecuteMainAndCounter(attacker, target);
+      applyMainStrikeUi(attacker, target, pre, main);
+      if (attacker.hp > 0) attacker.state = "idle";
+      else attacker.state = "idle";
+      syncHud();
+      resolve(true);
+    }, windup);
+
+    syncHud();
+  });
 }
 
 /* ── Click handler ────────────────────────────────────── */
@@ -1491,11 +1594,13 @@ function onCanvasClick(ev) {
     /* Enemy: attack */
     if (clicked && clicked.owner !== currentOwner && clicked.hp > 0) {
       if (canAttackNow(sel, clicked)) {
-        if (doAttack(sel, clicked)) {
-          battleHints.attackedOnce = true;
-          game.checkWinner();
-        }
-        syncHud();
+        void doAttack(sel, clicked).then((ok) => {
+          if (ok) {
+            battleHints.attackedOnce = true;
+            game.checkWinner();
+          }
+          syncHud();
+        });
         return;
       }
       flashInvalidTile(x, y);
@@ -1745,18 +1850,7 @@ function explainAttackFailure(attacker, target) {
 function facingRadForDraw(u, moving) {
   if (u.mapRenderMode !== "topdown" || u.hp <= 0) return u.faceRad;
   if (moving) return u.faceRad;
-  if (u._attackTargetPos && u._fireVisualUntil && performance.now() < u._fireVisualUntil) {
-    return Math.atan2(u._attackTargetPos.y - u.y, u._attackTargetPos.x - u.x);
-  }
-  const pos = lerpPos(u);
-  let best = null; let bestD = Infinity;
-  for (const o of game.units) {
-    if (o.owner === u.owner || o.hp <= 0) continue;
-    const d = manhattan(pos.x, pos.y, o.x, o.y);
-    if (d < bestD) { bestD = d; best = o; }
-  }
-  if (!best) return u.faceRad;
-  return Math.atan2(best.y - pos.y, best.x - pos.x);
+  return facingToFaceRad(u.facing || "down");
 }
 
 function drawCoverShieldIcon(ctx, cx, cy, scale) {
@@ -1871,22 +1965,8 @@ function drawFrame(ts) {
     const px = gridOffsetX + pos.x * cs;
     const py = gridOffsetY + pos.y * cs;
     const moving = (lerp && lerp.unitId === u.id) || !!u.isMoving;
-    let facingLeft = false;
-    if (moving && lerp.x1 < lerp.x0) {
-      facingLeft = true;
-    } else if (!moving) {
-      if (u._attackTargetPos && u._fireVisualUntil && performance.now() < u._fireVisualUntil) {
-        facingLeft = u._attackTargetPos.x < u.x;
-      } else {
-        let nearest = null; let nearD = Infinity;
-        for (const o of game.units) {
-          if (o.owner === u.owner || o.hp <= 0) continue;
-          const d = Math.abs(o.x - u.x) + Math.abs(o.y - u.y);
-          if (d < nearD) { nearD = d; nearest = o; }
-        }
-        if (nearest) facingLeft = nearest.x < u.x;
-      }
-    }
+    const renderMode = u.mapRenderMode || "side";
+    const facingLeft = renderMode !== "topdown" && u.facing === "left";
 
     /* Dim units that have spent BOTH their move and attack this turn */
     const spent = u.owner === currentOwner && u.movedThisTurn && u.attackedThisTurn;
@@ -1942,7 +2022,7 @@ function aiScoreTarget(attacker, target) {
   return killRatio * 2 + threat;
 }
 
-function aiTurn() {
+async function aiTurn() {
   if (!game || game.winner != null) return;
   const aiUnits  = game.units.filter((u) => u.owner === 1 && u.hp > 0);
   const hum      = game.units.filter((u) => u.owner === 0 && u.hp > 0);
@@ -1966,7 +2046,7 @@ function aiTurn() {
         const t = diff === "easy"
           ? sorted[Math.floor(Math.random() * sorted.length)]
           : sorted[0];
-        if (doAttack(u, t)) game.checkWinner();
+        if (await doAttack(u, t)) game.checkWinner();
         if (game.winner != null) break;
         /* Don't move after attacking if indirect unit */
         if (u.attackType === "indirect") continue;
@@ -2021,7 +2101,7 @@ function aiTurn() {
       const shootable2 = hum.filter((h) => canAttack(u, h, game.units, losCtx));
       if (shootable2.length) {
         const t = shootable2.sort((a, b) => aiScoreTarget(u, b) - aiScoreTarget(u, a))[0];
-        if (doAttack(u, t)) game.checkWinner();
+        if (await doAttack(u, t)) game.checkWinner();
         if (game.winner != null) break;
       }
     }
@@ -2548,13 +2628,23 @@ function wireUi() {
   /* battle buttons */
   document.getElementById("btn-end-turn")?.addEventListener("click", () => {
     if (!game || game.winner != null || aiRunning) return;
+    if (game.units.some((u) => u.hp > 0 && u.state === "attack")) {
+      showBattleToast("Wait for the attack animation to finish.");
+      return;
+    }
     AudioManager.play("TurnEnd");
     game.endTurn();
     syncHud();
     if (game.winner != null) return;
     if (game.hotseat) { showInterstitial(game.currentPlayer); return; }
     aiRunning = true;
-    setTimeout(() => { aiTurn(); aiRunning = false; }, 400);
+    setTimeout(async () => {
+      try {
+        await aiTurn();
+      } finally {
+        aiRunning = false;
+      }
+    }, 400);
   });
   document.getElementById("btn-restart")?.addEventListener("click", () => {
     document.getElementById("battle-result-overlay").hidden = true;

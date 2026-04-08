@@ -7,5 +7,10 @@
     "muzzle": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire2.png",
     "projectile": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire3.png",
     "durationMs": 260
+  },
+  "light_tank_cannon": {
+    "muzzle": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Cannon_fire/Cannon_fire2.png",
+    "projectile": "attached_assets/sprites/light_tank/fx/Light_Shell.png",
+    "durationMs": 300
   }
 }

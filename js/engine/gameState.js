@@ -7,6 +7,7 @@ import { BLOCKED_MOVE_COST } from "../battle-plane/pathfindingCost.js";
 import { reachableTiles, findPath } from "./astar.js";
 import { canAttack, resolveAttack, resolveCounter } from "./combat.js";
 import { inBounds } from "./grid.js";
+import { computeFacing, initializeSpawnFacing, syncFacingAndFaceRad } from "./facing.js";
 
 function uid() {
   return "u" + Math.random().toString(36).slice(2, 10);
@@ -42,6 +43,10 @@ export function createUnitFromTemplate(tpl, owner, x, y, visualStyle = "classic"
     usesLos: tpl.usesLos !== false,
     canCounter: tpl.specialAbility === "Counter-Attack",
     faceRad: Math.PI / 2,
+    /** @type {"up"|"down"|"left"|"right"} */
+    facing: "down",
+    /** @type {"idle"|"move"|"attack"|"hit"} */
+    state: "idle",
     movedThisTurn: false,
     attackedThisTurn: false,
     prone: false,
@@ -137,6 +142,7 @@ export class GameState {
           ? this.scenario.losSightBudget
           : Infinity,
     });
+    initializeSpawnFacing(this.units);
   }
 
   unitAt(x, y) {
@@ -192,27 +198,23 @@ export class GameState {
     unit.x = tx;
     unit.y = ty;
     unit.isMoving = true;
-    if (unit.mapRenderMode === "topdown" && (tx !== sx || ty !== sy)) {
-      unit.faceRad = Math.atan2(ty - sy, tx - sx);
+    if (tx !== sx || ty !== sy) {
+      unit.facing = computeFacing({ x: sx, y: sy }, { x: tx, y: ty });
+      syncFacingAndFaceRad(unit);
     }
     unit.movedThisTurn = true;
     return true;
   }
 
   /**
-   * Returns damage breakdown including optional preemptive strike from the defender.
+   * Preemptive defender strike only (Medic, etc.). Does not mark attacker attackedThisTurn.
+   * @returns {{ preemptDmg: number, preemptProtectedBy: string|null, structurePreempt: object|null, attackerAlive: boolean }}
    */
-  attack(attacker, target) {
-    if (!attacker || !target || attacker.owner !== this.currentPlayer) return false;
-    if (attacker.attackedThisTurn) return false;
+  attackExecutePreemptiveOnly(attacker, target) {
     const ctx = this.losCtx();
-    if (!canAttack(attacker, target, this.units, ctx)) return false;
-
     let preemptDmg = 0;
     let preemptProtectedBy = null;
     let structurePreempt = null;
-
-    /* ── Preemptive Strike: defender fires first (e.g. Medic) ── */
     if (
       target.specialAbility === "Preemptive Strike" &&
       !target.attackedThisTurn &&
@@ -230,32 +232,32 @@ export class GameState {
         target.attackedThisTurn = true;
       }
     }
+    return {
+      preemptDmg,
+      preemptProtectedBy,
+      structurePreempt,
+      attackerAlive: attacker.hp > 0,
+    };
+  }
 
-    if (attacker.hp <= 0) {
-      attacker.attackedThisTurn = true;
-      let structureCollapsed = null;
-      if (structurePreempt?.collapsed) {
-        structureCollapsed = {
-          x: structurePreempt.x,
-          y: structurePreempt.y,
-        };
-      }
-      return {
-        dmg: 0,
-        preemptDmg,
-        preemptProtectedBy,
-        counterDmg: 0,
-        structureCollapsed,
-        targetProtectedBy: null,
-        attackerProtectedBy: null,
-      };
-    }
-
+  /**
+   * Main hit + counter after wind-up. Caller must have already validated range/LOS and set attacker.attackedThisTurn.
+   */
+  attackExecuteMainAndCounter(attacker, target) {
+    const ctx = this.losCtx();
     const atkRes = resolveAttack(attacker, target, ctx);
     const dmg = atkRes.dmg;
     const targetProtectedBy = atkRes.protectedBy;
     const structureHit = this.applyCombatStressToStructure(target.x, target.y, dmg);
-    attacker.attackedThisTurn = true;
+
+    if (dmg > 0 && target.hp > 0) {
+      target.state = "hit";
+      if (target._hitStateTimer) clearTimeout(target._hitStateTimer);
+      target._hitStateTimer = setTimeout(() => {
+        target._hitStateTimer = null;
+        if (target.hp > 0) target.state = "idle";
+      }, 200);
+    }
 
     const counterRes = resolveCounter(attacker, target, ctx);
     const counterDmg = counterRes.dmg;
@@ -265,17 +267,22 @@ export class GameState {
         ? this.applyCombatStressToStructure(attacker.x, attacker.y, counterDmg)
         : null;
 
+    if (counterDmg > 0 && attacker.hp > 0) {
+      attacker.state = "hit";
+      if (attacker._hitStateTimer) clearTimeout(attacker._hitStateTimer);
+      attacker._hitStateTimer = setTimeout(() => {
+        attacker._hitStateTimer = null;
+        if (attacker.hp > 0) attacker.state = "idle";
+      }, 200);
+    }
+
     let structureCollapsed = null;
     if (structureHit?.collapsed) structureCollapsed = { x: structureHit.x, y: structureHit.y };
     else if (counterStruct?.collapsed)
       structureCollapsed = { x: counterStruct.x, y: counterStruct.y };
-    else if (structurePreempt?.collapsed)
-      structureCollapsed = { x: structurePreempt.x, y: structurePreempt.y };
 
     return {
       dmg,
-      preemptDmg,
-      preemptProtectedBy,
       counterDmg,
       structureCollapsed,
       targetProtectedBy,
@@ -283,11 +290,76 @@ export class GameState {
     };
   }
 
+  /**
+   * Returns damage breakdown including optional preemptive strike from the defender.
+   */
+  attack(attacker, target) {
+    if (!attacker || !target || attacker.owner !== this.currentPlayer) return false;
+    if (attacker.attackedThisTurn) return false;
+    const ctx = this.losCtx();
+    if (!canAttack(attacker, target, this.units, ctx)) return false;
+
+    const pre = this.attackExecutePreemptiveOnly(attacker, target);
+
+    if (!pre.attackerAlive) {
+      attacker.attackedThisTurn = true;
+      let structureCollapsed = null;
+      if (pre.structurePreempt?.collapsed) {
+        structureCollapsed = {
+          x: pre.structurePreempt.x,
+          y: pre.structurePreempt.y,
+        };
+      }
+      return {
+        dmg: 0,
+        preemptDmg: pre.preemptDmg,
+        preemptProtectedBy: pre.preemptProtectedBy,
+        counterDmg: 0,
+        structureCollapsed,
+        targetProtectedBy: null,
+        attackerProtectedBy: null,
+      };
+    }
+
+    attacker.facing = computeFacing(
+      { x: attacker.x, y: attacker.y },
+      { x: target.x, y: target.y },
+    );
+    syncFacingAndFaceRad(attacker);
+
+    const main = this.attackExecuteMainAndCounter(attacker, target);
+    attacker.attackedThisTurn = true;
+
+    let structureCollapsed = main.structureCollapsed;
+    if (!structureCollapsed && pre.structurePreempt?.collapsed) {
+      structureCollapsed = { x: pre.structurePreempt.x, y: pre.structurePreempt.y };
+    }
+
+    return {
+      dmg: main.dmg,
+      preemptDmg: pre.preemptDmg,
+      preemptProtectedBy: pre.preemptProtectedBy,
+      counterDmg: main.counterDmg,
+      structureCollapsed,
+      targetProtectedBy: main.targetProtectedBy,
+      attackerProtectedBy: main.attackerProtectedBy,
+    };
+  }
+
   endTurn() {
     for (const u of this.units) {
+      if (u._hitStateTimer) {
+        clearTimeout(u._hitStateTimer);
+        u._hitStateTimer = null;
+      }
+      if (u._attackWindupTimer) {
+        clearTimeout(u._attackWindupTimer);
+        u._attackWindupTimer = null;
+      }
       u.movedThisTurn = false;
       u.attackedThisTurn = false;
       u.isMoving = false;
+      u.state = "idle";
     }
     const was = this.currentPlayer;
     this.currentPlayer = this.currentPlayer === 0 ? 1 : 0;

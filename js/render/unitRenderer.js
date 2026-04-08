@@ -1,14 +1,41 @@
+/** Milliseconds to play one full attack clip (wind-up before damage). */
+export function attackVisualDurationMs(spriteAnimations, setId) {
+  const cfg = spriteAnimations?.[setId];
+  if (!cfg) return 0;
+  if (cfg.treadVehicle) {
+    const n = cfg.frameCounts?.shot ?? 0;
+    if (n <= 0) return 0;
+    const spd = 95;
+    return n * spd;
+  }
+  const ac = cfg.attackClip;
+  if (ac && (cfg.frameCounts?.[ac] ?? 0) > 0) {
+    const n = cfg.frameCounts[ac];
+    const spd = 220;
+    return n * spd;
+  }
+  return 0;
+}
+
 export class UnitRenderer {
   constructor(spriteAnimations) {
     this.spriteAnimations = spriteAnimations;
     this.cache = new Map();
   }
 
-  resolveFramePath(setId, clip, index) {
+  resolveFramePath(setId, clip, index, facing) {
     const cfg = this.spriteAnimations[setId];
     const clips = cfg?.craftpixClips;
     if (clips) {
-      const arr = clips[clip] || clips.idle || [];
+      const dirKey =
+        facing && ["up", "down", "left", "right"].includes(facing)
+          ? `${clip}_${facing}`
+          : null;
+      const arr =
+        (dirKey && clips[dirKey]?.length ? clips[dirKey] : null) ||
+        clips[clip] ||
+        clips.idle ||
+        [];
       if (!arr.length) return "";
       const i = Math.min(index, arr.length - 1);
       return arr[i];
@@ -16,8 +43,8 @@ export class UnitRenderer {
     return `attached_assets/sprites/${setId}/${clip}/${index}.png`;
   }
 
-  framePath(setId, clip, index) {
-    return this.resolveFramePath(setId, clip, index);
+  framePath(setId, clip, index, facing) {
+    return this.resolveFramePath(setId, clip, index, facing);
   }
 
   getImage(path) {
@@ -39,15 +66,17 @@ export class UnitRenderer {
   pickClip(unit, isMoving) {
     if (unit.hp <= 0) return "dead";
     const cfg = this.spriteAnimations[unit.mapSpriteSet];
-    const firing =
+    const legacyFire =
       unit._fireVisualUntil && performance.now() < unit._fireVisualUntil;
+    const attacking =
+      unit.state === "attack" || (legacyFire && unit.state !== "move");
 
     if (cfg?.treadVehicle) {
-      if (firing && (cfg.frameCounts?.shot ?? 0) > 0) return "shot";
+      if (attacking && (cfg.frameCounts?.shot ?? 0) > 0) return "shot";
       return "run";
     }
-    if (isMoving) return "run";
-    if (unit.prone && cfg?.specialAbility === "prone" && firing) {
+    if (isMoving || unit.state === "move") return "run";
+    if (unit.prone && cfg?.specialAbility === "prone" && attacking) {
       return "shot";
     }
     if (
@@ -57,14 +86,14 @@ export class UnitRenderer {
     ) {
       return "prone";
     }
-    if (firing && cfg?.attackClip) {
+    if (attacking && cfg?.attackClip) {
       const ac = cfg.attackClip;
       if ((cfg.frameCounts?.[ac] ?? 0) > 0) return ac;
     }
     return "idle";
   }
 
-  frameIndex(setId, clip, timeMs, isMoving) {
+  frameIndex(setId, clip, timeMs, isMoving, unit) {
     const cfg = this.spriteAnimations[setId];
     if (cfg?.treadVehicle) {
       if (clip === "dead") return 0;
@@ -74,7 +103,8 @@ export class UnitRenderer {
         return Math.floor(timeMs / spd) % n;
       }
       const n = cfg.frameCounts?.run ?? 1;
-      if (!isMoving) return 0;
+      const animateRun = isMoving || unit?.state === "move";
+      if (!animateRun) return 0;
       const spd = 70;
       return Math.floor(timeMs / spd) % n;
     }
@@ -119,10 +149,10 @@ export class UnitRenderer {
     const setId = unit.mapSpriteSet;
     const mode = unit.mapRenderMode || "side";
     const clip = this.pickClip(unit, isMoving);
-    const fi = this.frameIndex(setId, clip, timeMs, isMoving);
+    const fi = this.frameIndex(setId, clip, timeMs, isMoving, unit);
     const diskClip = this.storageClip(setId, clip);
     const cfgSheet = setId ? this.spriteAnimations[setId]?.spriteSheet : null;
-    const path = setId ? this.framePath(setId, diskClip, fi) : "";
+    const path = setId ? this.framePath(setId, diskClip, fi, unit.facing) : "";
     const bob = mode === "side" ? Math.sin(timeMs / 300) * (isMoving ? 3 : 1.5) : 0;
     const cx = px + cellSize / 2;
     const cy = py + cellSize / 2 + bob;

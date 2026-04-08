@@ -102,9 +102,9 @@
     "isOutdoor": true,
     "damage": 40,
     "armor": 8,
-    "mapSpriteSet": "tank_t",
+    "mapSpriteSet": "light_tank",
     "mapRenderMode": "topdown",
-    "attackEffectProfile": "rocket",
+    "attackEffectProfile": "light_tank_cannon",
     "portrait": "light_tank.png",
     "codexDesc": "Armoured assault vehicle. High HP and solid armor. Can counter-attack with its cannon at up to 2 tiles. Barrel rotates to face the enemy. Effective at punching through infantry lines."
   },

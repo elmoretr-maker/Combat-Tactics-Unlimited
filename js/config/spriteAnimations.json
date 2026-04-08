@@ -56,6 +56,29 @@
       "dead": 1
     }
   },
+  "light_tank": {
+    "attackClip": "shot",
+    "treadVehicle": true,
+    "frameCounts": {
+      "run": 6,
+      "shot": 2,
+      "dead": 1
+    },
+    "craftpixClips": {
+      "run": [
+        "attached_assets/sprites/light_tank/run/0.png",
+        "attached_assets/sprites/light_tank/run/1.png",
+        "attached_assets/sprites/light_tank/run/2.png",
+        "attached_assets/sprites/light_tank/run/3.png",
+        "attached_assets/sprites/light_tank/run/4.png",
+        "attached_assets/sprites/light_tank/run/5.png"
+      ],
+      "shot": [
+        "attached_assets/sprites/light_tank/shot/0.png",
+        "attached_assets/sprites/light_tank/shot/1.png"
+      ]
+    }
+  },
   "acs_tank_cp": {
     "attackClip": "shot",
     "treadVehicle": true,
