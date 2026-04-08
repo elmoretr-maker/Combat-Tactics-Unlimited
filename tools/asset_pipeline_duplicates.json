@@ -1,0 +1,3960 @@
+{
+  "generatedAt": "2026-04-08T02:06:39.763Z",
+  "groups": [
+    {
+      "hash": "360b2e3d1bffef35b7760c577dc082d2fab7f14acb61f2f3df263dabccebac01",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_A.png",
+        "assets/New_Arrivals/review/Gun_01_A_10.png",
+        "assets/New_Arrivals/review/Gun_01_A_12.png",
+        "assets/New_Arrivals/review/Gun_01_A_14.png",
+        "assets/New_Arrivals/review/Gun_01_A_16.png",
+        "assets/New_Arrivals/review/Gun_01_A_18.png",
+        "assets/New_Arrivals/review/Gun_01_A_2.png",
+        "assets/New_Arrivals/review/Gun_01_A_20.png",
+        "assets/New_Arrivals/review/Gun_01_A_22.png",
+        "assets/New_Arrivals/review/Gun_01_A_4.png",
+        "assets/New_Arrivals/review/Gun_01_A_6.png",
+        "assets/New_Arrivals/review/Gun_01_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_3715047f.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_74acbab0.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_8613aa47.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_df1eb80d.png"
+      ]
+    },
+    {
+      "hash": "631052b40ca07c0da764f0b6a7774c0569ed9102ac0264c24c1483643b37ca99",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_A_1.png",
+        "assets/New_Arrivals/review/Gun_01_A_11.png",
+        "assets/New_Arrivals/review/Gun_01_A_13.png",
+        "assets/New_Arrivals/review/Gun_01_A_15.png",
+        "assets/New_Arrivals/review/Gun_01_A_17.png",
+        "assets/New_Arrivals/review/Gun_01_A_19.png",
+        "assets/New_Arrivals/review/Gun_01_A_21.png",
+        "assets/New_Arrivals/review/Gun_01_A_23.png",
+        "assets/New_Arrivals/review/Gun_01_A_3.png",
+        "assets/New_Arrivals/review/Gun_01_A_5.png",
+        "assets/New_Arrivals/review/Gun_01_A_7.png",
+        "assets/New_Arrivals/review/Gun_01_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_0f600911.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5fa082b4.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b4ffe513.png",
+        "assets/units/vehicles/Tile_Urban_Tile_e361cf18.png"
+      ]
+    },
+    {
+      "hash": "066f35cb7ee0ad452bb5520b5008c06613010300e00efba22836d1589ffd9896",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_A.png",
+        "assets/New_Arrivals/review/Gun_02_A_10.png",
+        "assets/New_Arrivals/review/Gun_02_A_12.png",
+        "assets/New_Arrivals/review/Gun_02_A_14.png",
+        "assets/New_Arrivals/review/Gun_02_A_16.png",
+        "assets/New_Arrivals/review/Gun_02_A_18.png",
+        "assets/New_Arrivals/review/Gun_02_A_2.png",
+        "assets/New_Arrivals/review/Gun_02_A_20.png",
+        "assets/New_Arrivals/review/Gun_02_A_22.png",
+        "assets/New_Arrivals/review/Gun_02_A_4.png",
+        "assets/New_Arrivals/review/Gun_02_A_6.png",
+        "assets/New_Arrivals/review/Gun_02_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_2cf0fecf.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_67b45d9a.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_8a643e86.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_c1261501.png"
+      ]
+    },
+    {
+      "hash": "8cf28125a1d82f92bdd551207f60f6c72fb558de7473fd3fd069e99d206a02b2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_A_1.png",
+        "assets/New_Arrivals/review/Gun_02_A_11.png",
+        "assets/New_Arrivals/review/Gun_02_A_13.png",
+        "assets/New_Arrivals/review/Gun_02_A_15.png",
+        "assets/New_Arrivals/review/Gun_02_A_17.png",
+        "assets/New_Arrivals/review/Gun_02_A_19.png",
+        "assets/New_Arrivals/review/Gun_02_A_21.png",
+        "assets/New_Arrivals/review/Gun_02_A_23.png",
+        "assets/New_Arrivals/review/Gun_02_A_3.png",
+        "assets/New_Arrivals/review/Gun_02_A_5.png",
+        "assets/New_Arrivals/review/Gun_02_A_7.png",
+        "assets/New_Arrivals/review/Gun_02_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_36c9d537.png",
+        "assets/units/vehicles/Tile_Urban_Tile_3c47faa8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_55d18733.png",
+        "assets/units/vehicles/Tile_Urban_Tile_da70e98c.png"
+      ]
+    },
+    {
+      "hash": "afce896e899bb3e760565ae2b60f8534163788942b7b433477c031a9b34cecb2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_A.png",
+        "assets/New_Arrivals/review/Gun_03_A_10.png",
+        "assets/New_Arrivals/review/Gun_03_A_12.png",
+        "assets/New_Arrivals/review/Gun_03_A_14.png",
+        "assets/New_Arrivals/review/Gun_03_A_16.png",
+        "assets/New_Arrivals/review/Gun_03_A_18.png",
+        "assets/New_Arrivals/review/Gun_03_A_2.png",
+        "assets/New_Arrivals/review/Gun_03_A_20.png",
+        "assets/New_Arrivals/review/Gun_03_A_22.png",
+        "assets/New_Arrivals/review/Gun_03_A_4.png",
+        "assets/New_Arrivals/review/Gun_03_A_6.png",
+        "assets/New_Arrivals/review/Gun_03_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_06e9cf22.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_4d0667dc.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_91c7e675.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_b76befdc.png"
+      ]
+    },
+    {
+      "hash": "ec687897d6068b693f5b4a2adcbd9a49b2159ea7f2d474f9d8bb32faa8696af6",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_A_1.png",
+        "assets/New_Arrivals/review/Gun_03_A_11.png",
+        "assets/New_Arrivals/review/Gun_03_A_13.png",
+        "assets/New_Arrivals/review/Gun_03_A_15.png",
+        "assets/New_Arrivals/review/Gun_03_A_17.png",
+        "assets/New_Arrivals/review/Gun_03_A_19.png",
+        "assets/New_Arrivals/review/Gun_03_A_21.png",
+        "assets/New_Arrivals/review/Gun_03_A_23.png",
+        "assets/New_Arrivals/review/Gun_03_A_3.png",
+        "assets/New_Arrivals/review/Gun_03_A_5.png",
+        "assets/New_Arrivals/review/Gun_03_A_7.png",
+        "assets/New_Arrivals/review/Gun_03_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5370798d.png",
+        "assets/units/vehicles/Tile_Urban_Tile_9bc4e4e2.png",
+        "assets/units/vehicles/Tile_Urban_Tile_d783204d.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f09401bb.png"
+      ]
+    },
+    {
+      "hash": "2064c10828125f890f7b1f5a590cb145635ce244e07c57ee8dbcfcc2b407a1fe",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_A.png",
+        "assets/New_Arrivals/review/Gun_04_A_10.png",
+        "assets/New_Arrivals/review/Gun_04_A_12.png",
+        "assets/New_Arrivals/review/Gun_04_A_14.png",
+        "assets/New_Arrivals/review/Gun_04_A_16.png",
+        "assets/New_Arrivals/review/Gun_04_A_18.png",
+        "assets/New_Arrivals/review/Gun_04_A_2.png",
+        "assets/New_Arrivals/review/Gun_04_A_20.png",
+        "assets/New_Arrivals/review/Gun_04_A_22.png",
+        "assets/New_Arrivals/review/Gun_04_A_4.png",
+        "assets/New_Arrivals/review/Gun_04_A_6.png",
+        "assets/New_Arrivals/review/Gun_04_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_80400b35.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_9fac8db1.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_bfcfe6fe.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_c199f69e.png"
+      ]
+    },
+    {
+      "hash": "b429775fbc9eea23807d4f67d11002197a6f74462cde802a22d771809c62b861",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_A_1.png",
+        "assets/New_Arrivals/review/Gun_04_A_11.png",
+        "assets/New_Arrivals/review/Gun_04_A_13.png",
+        "assets/New_Arrivals/review/Gun_04_A_15.png",
+        "assets/New_Arrivals/review/Gun_04_A_17.png",
+        "assets/New_Arrivals/review/Gun_04_A_19.png",
+        "assets/New_Arrivals/review/Gun_04_A_21.png",
+        "assets/New_Arrivals/review/Gun_04_A_23.png",
+        "assets/New_Arrivals/review/Gun_04_A_3.png",
+        "assets/New_Arrivals/review/Gun_04_A_5.png",
+        "assets/New_Arrivals/review/Gun_04_A_7.png",
+        "assets/New_Arrivals/review/Gun_04_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_06901bbc.png",
+        "assets/units/vehicles/Tile_Urban_Tile_726fd8e8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_752efca0.png",
+        "assets/units/vehicles/Tile_Urban_Tile_e696c47d.png"
+      ]
+    },
+    {
+      "hash": "149949df56ad659c98297490b46d349e90065d1cf1cf43708eacaedf10a08039",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_A.png",
+        "assets/New_Arrivals/review/Gun_05_A_10.png",
+        "assets/New_Arrivals/review/Gun_05_A_12.png",
+        "assets/New_Arrivals/review/Gun_05_A_14.png",
+        "assets/New_Arrivals/review/Gun_05_A_16.png",
+        "assets/New_Arrivals/review/Gun_05_A_18.png",
+        "assets/New_Arrivals/review/Gun_05_A_2.png",
+        "assets/New_Arrivals/review/Gun_05_A_20.png",
+        "assets/New_Arrivals/review/Gun_05_A_22.png",
+        "assets/New_Arrivals/review/Gun_05_A_4.png",
+        "assets/New_Arrivals/review/Gun_05_A_6.png",
+        "assets/New_Arrivals/review/Gun_05_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_05ca5815.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_38f13b23.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_7f6b09c9.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_ba1c4dc0.png"
+      ]
+    },
+    {
+      "hash": "10134b25bb0441ad491a82d26e0b4b77517963766aaafc03e329128ab021013d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_A_1.png",
+        "assets/New_Arrivals/review/Gun_05_A_11.png",
+        "assets/New_Arrivals/review/Gun_05_A_13.png",
+        "assets/New_Arrivals/review/Gun_05_A_15.png",
+        "assets/New_Arrivals/review/Gun_05_A_17.png",
+        "assets/New_Arrivals/review/Gun_05_A_19.png",
+        "assets/New_Arrivals/review/Gun_05_A_21.png",
+        "assets/New_Arrivals/review/Gun_05_A_23.png",
+        "assets/New_Arrivals/review/Gun_05_A_3.png",
+        "assets/New_Arrivals/review/Gun_05_A_5.png",
+        "assets/New_Arrivals/review/Gun_05_A_7.png",
+        "assets/New_Arrivals/review/Gun_05_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_0e8c1c9a.png",
+        "assets/units/vehicles/Tile_Urban_Tile_531b4789.png",
+        "assets/units/vehicles/Tile_Urban_Tile_7b82e1cd.png",
+        "assets/units/vehicles/Tile_Urban_Tile_c1eae88f.png"
+      ]
+    },
+    {
+      "hash": "c8cbd2c3c143f8a2116301fb8e868176b61f44c038ba327ceb323ee56a10e7c7",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_A.png",
+        "assets/New_Arrivals/review/Gun_06_A_10.png",
+        "assets/New_Arrivals/review/Gun_06_A_12.png",
+        "assets/New_Arrivals/review/Gun_06_A_14.png",
+        "assets/New_Arrivals/review/Gun_06_A_16.png",
+        "assets/New_Arrivals/review/Gun_06_A_18.png",
+        "assets/New_Arrivals/review/Gun_06_A_2.png",
+        "assets/New_Arrivals/review/Gun_06_A_20.png",
+        "assets/New_Arrivals/review/Gun_06_A_22.png",
+        "assets/New_Arrivals/review/Gun_06_A_4.png",
+        "assets/New_Arrivals/review/Gun_06_A_6.png",
+        "assets/New_Arrivals/review/Gun_06_A_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_188bec22.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_37cef603.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_821a8249.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_91135a0a.png"
+      ]
+    },
+    {
+      "hash": "d6c3fe43a34557c96895320ea7efcd5940fbad04678cc53772eb6e39ee9fc5f8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_A_1.png",
+        "assets/New_Arrivals/review/Gun_06_A_11.png",
+        "assets/New_Arrivals/review/Gun_06_A_13.png",
+        "assets/New_Arrivals/review/Gun_06_A_15.png",
+        "assets/New_Arrivals/review/Gun_06_A_17.png",
+        "assets/New_Arrivals/review/Gun_06_A_19.png",
+        "assets/New_Arrivals/review/Gun_06_A_21.png",
+        "assets/New_Arrivals/review/Gun_06_A_23.png",
+        "assets/New_Arrivals/review/Gun_06_A_3.png",
+        "assets/New_Arrivals/review/Gun_06_A_5.png",
+        "assets/New_Arrivals/review/Gun_06_A_7.png",
+        "assets/New_Arrivals/review/Gun_06_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_211ce869.png",
+        "assets/units/vehicles/Tile_Urban_Tile_9cf4b12c.png",
+        "assets/units/vehicles/Tile_Urban_Tile_c21caa69.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f8e15c29.png"
+      ]
+    },
+    {
+      "hash": "3823d0585acad40d7bd35b115563c35e829c7185c36d338deb27ea935b3ce236",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_A.png",
+        "assets/New_Arrivals/review/Gun_07_A_10.png",
+        "assets/New_Arrivals/review/Gun_07_A_12.png",
+        "assets/New_Arrivals/review/Gun_07_A_14.png",
+        "assets/New_Arrivals/review/Gun_07_A_16.png",
+        "assets/New_Arrivals/review/Gun_07_A_18.png",
+        "assets/New_Arrivals/review/Gun_07_A_2.png",
+        "assets/New_Arrivals/review/Gun_07_A_20.png",
+        "assets/New_Arrivals/review/Gun_07_A_22.png",
+        "assets/New_Arrivals/review/Gun_07_A_4.png",
+        "assets/New_Arrivals/review/Gun_07_A_6.png",
+        "assets/New_Arrivals/review/Gun_07_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_0d0bd96b.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_4411ff19.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_c2d19dd1.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_ddd018d6.png"
+      ]
+    },
+    {
+      "hash": "bba583b11765950cc87ecb021e602fe4b9647e2158db350992f76d7d6e3a6928",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_A_1.png",
+        "assets/New_Arrivals/review/Gun_07_A_11.png",
+        "assets/New_Arrivals/review/Gun_07_A_13.png",
+        "assets/New_Arrivals/review/Gun_07_A_15.png",
+        "assets/New_Arrivals/review/Gun_07_A_17.png",
+        "assets/New_Arrivals/review/Gun_07_A_19.png",
+        "assets/New_Arrivals/review/Gun_07_A_21.png",
+        "assets/New_Arrivals/review/Gun_07_A_23.png",
+        "assets/New_Arrivals/review/Gun_07_A_3.png",
+        "assets/New_Arrivals/review/Gun_07_A_5.png",
+        "assets/New_Arrivals/review/Gun_07_A_7.png",
+        "assets/New_Arrivals/review/Gun_07_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_06aa0132.png",
+        "assets/units/vehicles/Tile_Urban_Tile_1006f78a.png",
+        "assets/units/vehicles/Tile_Urban_Tile_57b5c3fc.png",
+        "assets/units/vehicles/Tile_Urban_Tile_a348672a.png"
+      ]
+    },
+    {
+      "hash": "21c578ce78954b9bcbd28aab6b61e13945b133bfdf14444b31e12e2f53cdaf8d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_A.png",
+        "assets/New_Arrivals/review/Gun_08_A_10.png",
+        "assets/New_Arrivals/review/Gun_08_A_12.png",
+        "assets/New_Arrivals/review/Gun_08_A_14.png",
+        "assets/New_Arrivals/review/Gun_08_A_16.png",
+        "assets/New_Arrivals/review/Gun_08_A_18.png",
+        "assets/New_Arrivals/review/Gun_08_A_2.png",
+        "assets/New_Arrivals/review/Gun_08_A_20.png",
+        "assets/New_Arrivals/review/Gun_08_A_22.png",
+        "assets/New_Arrivals/review/Gun_08_A_4.png",
+        "assets/New_Arrivals/review/Gun_08_A_6.png",
+        "assets/New_Arrivals/review/Gun_08_A_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_38245168.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_773faf24.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_a93e806f.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_c02d6e78.png"
+      ]
+    },
+    {
+      "hash": "315d80f4335e05f96fdddbe187331bc168a598873ad7a7b912371500829ed589",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_A_1.png",
+        "assets/New_Arrivals/review/Gun_08_A_11.png",
+        "assets/New_Arrivals/review/Gun_08_A_13.png",
+        "assets/New_Arrivals/review/Gun_08_A_15.png",
+        "assets/New_Arrivals/review/Gun_08_A_17.png",
+        "assets/New_Arrivals/review/Gun_08_A_19.png",
+        "assets/New_Arrivals/review/Gun_08_A_21.png",
+        "assets/New_Arrivals/review/Gun_08_A_23.png",
+        "assets/New_Arrivals/review/Gun_08_A_3.png",
+        "assets/New_Arrivals/review/Gun_08_A_5.png",
+        "assets/New_Arrivals/review/Gun_08_A_7.png",
+        "assets/New_Arrivals/review/Gun_08_A_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_2be27877.png",
+        "assets/units/vehicles/Tile_Urban_Tile_a7b701af.png",
+        "assets/units/vehicles/Tile_Urban_Tile_df29d873.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f976d64c.png"
+      ]
+    },
+    {
+      "hash": "15fd4d9a62019d0e4daa49edb06d4725ede28c711c999900667c13eb38c8763c",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_005.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_005_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_005_2.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_002.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_002_2.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_004.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_004_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_004_2.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_008.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_008_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_008_2.png",
+        "assets/vfx/Tile_Urban_Tile_66622ce8.png",
+        "assets/vfx/Tile_Urban_Tile_a3ea5441.png",
+        "assets/vfx/Tile_Urban_Tile_adabd207.png",
+        "assets/vfx/Tile_Urban_Tile_f62073f7.png"
+      ]
+    },
+    {
+      "hash": "f27c02c5c0877f0f3fd9698703927b2007a91860d64efa01835bdcdfd7e7ea89",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_001.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_001_2.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_007.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_007_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_007_2.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_009.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_009_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_009_2.png",
+        "assets/vfx/Tile_Urban_Tile_6cb0d830.png",
+        "assets/vfx/Tile_Urban_Tile_f64c3249.png",
+        "assets/vfx/Tile_Urban_Tile_f86da818.png"
+      ]
+    },
+    {
+      "hash": "3f6d3eb3b498f846af95032009f8e548415459713b9b2e711ad529630ac91619",
+      "paths": [
+        "assets/New_Arrivals/review/Exhaust_Fire.png",
+        "assets/New_Arrivals/review/Exhaust_Fire_1.png",
+        "assets/New_Arrivals/review/Exhaust_Fire_2.png",
+        "assets/New_Arrivals/review/Exhaust_Fire_3.png",
+        "assets/New_Arrivals/review/Exhaust_Fire_4.png",
+        "assets/New_Arrivals/review/Exhaust_Fire_5.png",
+        "assets/vfx/Tile_Urban_Tile_1aa21b46.png",
+        "assets/vfx/Tile_Urban_Tile_82c638da.png"
+      ]
+    },
+    {
+      "hash": "19146d1159434b009f80b0fb3735bcece3219f1d0caecded2c062928758e9123",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_A.png",
+        "assets/New_Arrivals/review/Explosion_A_1.png",
+        "assets/New_Arrivals/review/Explosion_A_2.png",
+        "assets/New_Arrivals/review/Explosion_A_3.png",
+        "assets/New_Arrivals/review/Explosion_A_4.png",
+        "assets/New_Arrivals/review/Explosion_A_5.png",
+        "assets/vfx/Tile_Urban_Tile_8687d94e.png",
+        "assets/vfx/Tile_Urban_Tile_a3a6ac34.png"
+      ]
+    },
+    {
+      "hash": "8a4a5b9470a0a6a85faca5c23a24c428ada22d5f51d9c73e69763a47c35d4ec3",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_B.png",
+        "assets/New_Arrivals/review/Explosion_B_1.png",
+        "assets/New_Arrivals/review/Explosion_B_2.png",
+        "assets/New_Arrivals/review/Explosion_B_3.png",
+        "assets/New_Arrivals/review/Explosion_B_4.png",
+        "assets/New_Arrivals/review/Explosion_B_5.png",
+        "assets/vfx/Tile_Urban_Tile_4ace4588.png",
+        "assets/vfx/Tile_Urban_Tile_e47537f7.png"
+      ]
+    },
+    {
+      "hash": "365667a8b39436294dd5acb3f238ba1e7e4282558f6fac1c79207528a0ddad3a",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_C.png",
+        "assets/New_Arrivals/review/Explosion_C_1.png",
+        "assets/New_Arrivals/review/Explosion_C_2.png",
+        "assets/New_Arrivals/review/Explosion_C_3.png",
+        "assets/New_Arrivals/review/Explosion_C_4.png",
+        "assets/New_Arrivals/review/Explosion_C_5.png",
+        "assets/vfx/Tile_Urban_Tile_0eefe590.png",
+        "assets/vfx/Tile_Urban_Tile_4763315e.png"
+      ]
+    },
+    {
+      "hash": "791843525fb47ac7c05c701e7af6269cb44596373061af843956e0c045dd901e",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_D.png",
+        "assets/New_Arrivals/review/Explosion_D_1.png",
+        "assets/New_Arrivals/review/Explosion_D_2.png",
+        "assets/New_Arrivals/review/Explosion_D_3.png",
+        "assets/New_Arrivals/review/Explosion_D_4.png",
+        "assets/New_Arrivals/review/Explosion_D_5.png",
+        "assets/vfx/Tile_Urban_Tile_41f6ac82.png",
+        "assets/vfx/Tile_Urban_Tile_6cd44c43.png"
+      ]
+    },
+    {
+      "hash": "af96f77b3de48e0b99392fd4b80bfd1d058bb87bec398cf1c03bc76c5a4d49bb",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_E.png",
+        "assets/New_Arrivals/review/Explosion_E_1.png",
+        "assets/New_Arrivals/review/Explosion_E_2.png",
+        "assets/New_Arrivals/review/Explosion_E_3.png",
+        "assets/New_Arrivals/review/Explosion_E_4.png",
+        "assets/New_Arrivals/review/Explosion_E_5.png",
+        "assets/vfx/Tile_Urban_Tile_38c466e5.png",
+        "assets/vfx/Tile_Urban_Tile_945ca322.png"
+      ]
+    },
+    {
+      "hash": "92171caba7f0b61eaa742d11329b0843dba94a7deef0de28f1368dc0408694b3",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_F.png",
+        "assets/New_Arrivals/review/Explosion_F_1.png",
+        "assets/New_Arrivals/review/Explosion_F_2.png",
+        "assets/New_Arrivals/review/Explosion_F_3.png",
+        "assets/New_Arrivals/review/Explosion_F_4.png",
+        "assets/New_Arrivals/review/Explosion_F_5.png",
+        "assets/vfx/Tile_Urban_Tile_0c20fd0a.png",
+        "assets/vfx/Tile_Urban_Tile_fee0fb77.png"
+      ]
+    },
+    {
+      "hash": "a402ad450d522ed279aed335a2f95ebf0fb12eceb20d5d8d1c0e79275f5eb025",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_G.png",
+        "assets/New_Arrivals/review/Explosion_G_1.png",
+        "assets/New_Arrivals/review/Explosion_G_2.png",
+        "assets/New_Arrivals/review/Explosion_G_3.png",
+        "assets/New_Arrivals/review/Explosion_G_4.png",
+        "assets/New_Arrivals/review/Explosion_G_5.png",
+        "assets/vfx/Tile_Urban_Tile_0c0262ff.png",
+        "assets/vfx/Tile_Urban_Tile_eb3c1d60.png"
+      ]
+    },
+    {
+      "hash": "d883718324940eab1ac70fabfd667e3c53474a21860e37098b0a2bf112fc3184",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_H.png",
+        "assets/New_Arrivals/review/Explosion_H_1.png",
+        "assets/New_Arrivals/review/Explosion_H_2.png",
+        "assets/New_Arrivals/review/Explosion_H_3.png",
+        "assets/New_Arrivals/review/Explosion_H_4.png",
+        "assets/New_Arrivals/review/Explosion_H_5.png",
+        "assets/vfx/Tile_Urban_Tile_46d87f46.png",
+        "assets/vfx/Tile_Urban_Tile_a238f4db.png"
+      ]
+    },
+    {
+      "hash": "45e515b9d5cf1f51fa3624a2171bbf500647bc4a8d9357ab35238d1668ac7ebf",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_A.png",
+        "assets/New_Arrivals/review/Flame_A_1.png",
+        "assets/New_Arrivals/review/Flame_A_2.png",
+        "assets/New_Arrivals/review/Flame_A_3.png",
+        "assets/New_Arrivals/review/Flame_A_4.png",
+        "assets/New_Arrivals/review/Flame_A_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_7cac8b02.png",
+        "assets/vfx/Tile_Urban_Tile_c89d07c5.png"
+      ]
+    },
+    {
+      "hash": "1f98c8b84b2c8e141f9baf3276a92e93f79971428cbb7725a26417ada38bfa02",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_B.png",
+        "assets/New_Arrivals/review/Flame_B_1.png",
+        "assets/New_Arrivals/review/Flame_B_2.png",
+        "assets/New_Arrivals/review/Flame_B_3.png",
+        "assets/New_Arrivals/review/Flame_B_4.png",
+        "assets/New_Arrivals/review/Flame_B_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_035027a6.png",
+        "assets/vfx/Tile_Urban_Tile_c830febe.png"
+      ]
+    },
+    {
+      "hash": "b19b965453d6456330088f4f98c2a245d3913140f37d668175cad20208ec42ee",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_C.png",
+        "assets/New_Arrivals/review/Flame_C_1.png",
+        "assets/New_Arrivals/review/Flame_C_2.png",
+        "assets/New_Arrivals/review/Flame_C_3.png",
+        "assets/New_Arrivals/review/Flame_C_4.png",
+        "assets/New_Arrivals/review/Flame_C_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_3736fc3c.png",
+        "assets/vfx/Tile_Urban_Tile_91b67aef.png"
+      ]
+    },
+    {
+      "hash": "32aa892e30f49a43770bf0e2852a2bd0460b3fcc87f4ea3105ebe4c441e848a0",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_D.png",
+        "assets/New_Arrivals/review/Flame_D_1.png",
+        "assets/New_Arrivals/review/Flame_D_2.png",
+        "assets/New_Arrivals/review/Flame_D_3.png",
+        "assets/New_Arrivals/review/Flame_D_4.png",
+        "assets/New_Arrivals/review/Flame_D_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_8525d147.png",
+        "assets/vfx/Tile_Urban_Tile_ddddd441.png"
+      ]
+    },
+    {
+      "hash": "32d408af6894df110e48fc1b606c9677b0106aa5d136f8558a862a9be811d6a3",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_E.png",
+        "assets/New_Arrivals/review/Flame_E_1.png",
+        "assets/New_Arrivals/review/Flame_E_2.png",
+        "assets/New_Arrivals/review/Flame_E_3.png",
+        "assets/New_Arrivals/review/Flame_E_4.png",
+        "assets/New_Arrivals/review/Flame_E_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_3e24258d.png",
+        "assets/vfx/Tile_Urban_Tile_a78011d4.png"
+      ]
+    },
+    {
+      "hash": "2ff40562f36fdd95ce0ac4e7d9b35ab6c6b56f408d25f627ce5048a9aa469f08",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_F.png",
+        "assets/New_Arrivals/review/Flame_F_1.png",
+        "assets/New_Arrivals/review/Flame_F_2.png",
+        "assets/New_Arrivals/review/Flame_F_3.png",
+        "assets/New_Arrivals/review/Flame_F_4.png",
+        "assets/New_Arrivals/review/Flame_F_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_84db05af.png",
+        "assets/vfx/Tile_Urban_Tile_fc7432f0.png"
+      ]
+    },
+    {
+      "hash": "1e99d013c2d481fdbe4a8b0479a765d462fa9a4a48413cb11a649ecceae37ebf",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_G.png",
+        "assets/New_Arrivals/review/Flame_G_1.png",
+        "assets/New_Arrivals/review/Flame_G_2.png",
+        "assets/New_Arrivals/review/Flame_G_3.png",
+        "assets/New_Arrivals/review/Flame_G_4.png",
+        "assets/New_Arrivals/review/Flame_G_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_8291c228.png",
+        "assets/vfx/Tile_Urban_Tile_d42ec136.png"
+      ]
+    },
+    {
+      "hash": "e4fbf3d0c192cc84d66177e468e6cfb602090390bfd2552ce069a318f130d5f7",
+      "paths": [
+        "assets/New_Arrivals/review/Flame_H.png",
+        "assets/New_Arrivals/review/Flame_H_1.png",
+        "assets/New_Arrivals/review/Flame_H_2.png",
+        "assets/New_Arrivals/review/Flame_H_3.png",
+        "assets/New_Arrivals/review/Flame_H_4.png",
+        "assets/New_Arrivals/review/Flame_H_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_4d1d1d7c.png",
+        "assets/vfx/Tile_Urban_Tile_9080653e.png"
+      ]
+    },
+    {
+      "hash": "49109db399c34575a373195cceed144aec5486aca4b7d341a93ce4d8f5aec2a1",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_A_01.png",
+        "assets/New_Arrivals/review/Flash_A_01_1.png",
+        "assets/New_Arrivals/review/Flash_A_01_2.png",
+        "assets/New_Arrivals/review/Flash_A_01_3.png",
+        "assets/New_Arrivals/review/Flash_A_01_4.png",
+        "assets/New_Arrivals/review/Flash_A_01_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_0c83efd1.png",
+        "assets/vfx/Tile_Urban_Tile_fcbef5da.png"
+      ]
+    },
+    {
+      "hash": "2624706f8e673a96b8387b63778139b04f4a5c52fb15db495f8dbd734a433849",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_A_02.png",
+        "assets/New_Arrivals/review/Flash_A_02_1.png",
+        "assets/New_Arrivals/review/Flash_A_02_2.png",
+        "assets/New_Arrivals/review/Flash_A_02_3.png",
+        "assets/New_Arrivals/review/Flash_A_02_4.png",
+        "assets/New_Arrivals/review/Flash_A_02_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2735ca9a.png",
+        "assets/vfx/Tile_Urban_Tile_e5faff10.png"
+      ]
+    },
+    {
+      "hash": "1303c09214d44c7e7ff4fad62a8ab84485ab6a4fb0b77a853e114ca7a4fcf7e9",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_A_03.png",
+        "assets/New_Arrivals/review/Flash_A_03_1.png",
+        "assets/New_Arrivals/review/Flash_A_03_2.png",
+        "assets/New_Arrivals/review/Flash_A_03_3.png",
+        "assets/New_Arrivals/review/Flash_A_03_4.png",
+        "assets/New_Arrivals/review/Flash_A_03_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_fd07f0f1.png",
+        "assets/vfx/Tile_Urban_Tile_5213dbae.png"
+      ]
+    },
+    {
+      "hash": "ffa683df2112a88a4fcb9b535b1526af0812b76cb94eea268f0925323eda0cb5",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_A_04.png",
+        "assets/New_Arrivals/review/Flash_A_04_1.png",
+        "assets/New_Arrivals/review/Flash_A_04_2.png",
+        "assets/New_Arrivals/review/Flash_A_04_3.png",
+        "assets/New_Arrivals/review/Flash_A_04_4.png",
+        "assets/New_Arrivals/review/Flash_A_04_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_42c1c65f.png",
+        "assets/vfx/Tile_Urban_Tile_eb17818f.png"
+      ]
+    },
+    {
+      "hash": "c80832bc0b9c9ae6e6443132c2bf9bb6da1de46609e3fc622037566a4c2e6ddd",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_A_05.png",
+        "assets/New_Arrivals/review/Flash_A_05_1.png",
+        "assets/New_Arrivals/review/Flash_A_05_2.png",
+        "assets/New_Arrivals/review/Flash_A_05_3.png",
+        "assets/New_Arrivals/review/Flash_A_05_4.png",
+        "assets/New_Arrivals/review/Flash_A_05_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d075113a.png",
+        "assets/vfx/Tile_Urban_Tile_b6786252.png"
+      ]
+    },
+    {
+      "hash": "b5a04f466c22476716694a4e5f4ffa3ae784b00f9763db1be981008b00372eee",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_B_01.png",
+        "assets/New_Arrivals/review/Flash_B_01_1.png",
+        "assets/New_Arrivals/review/Flash_B_01_2.png",
+        "assets/New_Arrivals/review/Flash_B_01_3.png",
+        "assets/New_Arrivals/review/Flash_B_01_4.png",
+        "assets/New_Arrivals/review/Flash_B_01_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b11e696d.png",
+        "assets/vfx/Tile_Urban_Tile_cad09adc.png"
+      ]
+    },
+    {
+      "hash": "eb583a4e4c27f2e8ddcc4525090ae2c59c2a3bf261eb43d66fb8db463a25f59c",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_B_02.png",
+        "assets/New_Arrivals/review/Flash_B_02_1.png",
+        "assets/New_Arrivals/review/Flash_B_02_2.png",
+        "assets/New_Arrivals/review/Flash_B_02_3.png",
+        "assets/New_Arrivals/review/Flash_B_02_4.png",
+        "assets/New_Arrivals/review/Flash_B_02_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_6aa393d3.png",
+        "assets/vfx/Tile_Urban_Tile_9618d22a.png"
+      ]
+    },
+    {
+      "hash": "ffac8d084935a1f40ec626d650befae60ef389e19d48d44f5bfeb1f2bb5f0226",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_B_03.png",
+        "assets/New_Arrivals/review/Flash_B_03_1.png",
+        "assets/New_Arrivals/review/Flash_B_03_2.png",
+        "assets/New_Arrivals/review/Flash_B_03_3.png",
+        "assets/New_Arrivals/review/Flash_B_03_4.png",
+        "assets/New_Arrivals/review/Flash_B_03_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2a23621c.png",
+        "assets/vfx/Tile_Urban_Tile_ab453120.png"
+      ]
+    },
+    {
+      "hash": "f57b97b242632d541fa32b3365d4c1ff53d2b41137dde30dff26c168633d941e",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_B_04.png",
+        "assets/New_Arrivals/review/Flash_B_04_1.png",
+        "assets/New_Arrivals/review/Flash_B_04_2.png",
+        "assets/New_Arrivals/review/Flash_B_04_3.png",
+        "assets/New_Arrivals/review/Flash_B_04_4.png",
+        "assets/New_Arrivals/review/Flash_B_04_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_9e40cc90.png",
+        "assets/vfx/Tile_Urban_Tile_680d3123.png"
+      ]
+    },
+    {
+      "hash": "55197446a27a01736d11763376e62b2c9d99defc8a0296d0ac9b5b76d5ce7b02",
+      "paths": [
+        "assets/New_Arrivals/review/Flash_B_05.png",
+        "assets/New_Arrivals/review/Flash_B_05_1.png",
+        "assets/New_Arrivals/review/Flash_B_05_2.png",
+        "assets/New_Arrivals/review/Flash_B_05_3.png",
+        "assets/New_Arrivals/review/Flash_B_05_4.png",
+        "assets/New_Arrivals/review/Flash_B_05_5.png",
+        "assets/tiles/urban/Tile_Urban_Tile_ba9bf5d8.png",
+        "assets/vfx/Tile_Urban_Tile_b6a2454d.png"
+      ]
+    },
+    {
+      "hash": "49f6c9506de760319431db47c97783c31f62b211310b366ecac4fabcf7bb522d",
+      "paths": [
+        "assets/New_Arrivals/review/Smoke_A.png",
+        "assets/New_Arrivals/review/Smoke_A_1.png",
+        "assets/New_Arrivals/review/Smoke_A_2.png",
+        "assets/New_Arrivals/review/Smoke_A_3.png",
+        "assets/New_Arrivals/review/Smoke_A_4.png",
+        "assets/New_Arrivals/review/Smoke_A_5.png",
+        "assets/vfx/Tile_Urban_Tile_e53ac4a7.png",
+        "assets/vfx/Tile_Urban_Tile_f96fffa9.png"
+      ]
+    },
+    {
+      "hash": "b1985fd7caf9c3fcf5b3301bd3d201fdd569827542391b0943fccd5d9a1fa33c",
+      "paths": [
+        "assets/New_Arrivals/review/Smoke_B.png",
+        "assets/New_Arrivals/review/Smoke_B_1.png",
+        "assets/New_Arrivals/review/Smoke_B_2.png",
+        "assets/New_Arrivals/review/Smoke_B_3.png",
+        "assets/New_Arrivals/review/Smoke_B_4.png",
+        "assets/New_Arrivals/review/Smoke_B_5.png",
+        "assets/vfx/Tile_Urban_Tile_36b06019.png",
+        "assets/vfx/Tile_Urban_Tile_7b33a83a.png"
+      ]
+    },
+    {
+      "hash": "f336a4bcd3afeac398dca7cfa620d00c3bbe95c8881ad6bc6be38dc43100dd13",
+      "paths": [
+        "assets/New_Arrivals/review/Smoke_C.png",
+        "assets/New_Arrivals/review/Smoke_C_1.png",
+        "assets/New_Arrivals/review/Smoke_C_2.png",
+        "assets/New_Arrivals/review/Smoke_C_3.png",
+        "assets/New_Arrivals/review/Smoke_C_4.png",
+        "assets/New_Arrivals/review/Smoke_C_5.png",
+        "assets/vfx/Tile_Urban_Tile_687539c1.png",
+        "assets/vfx/Tile_Urban_Tile_ca4c481a.png"
+      ]
+    },
+    {
+      "hash": "9b8dd817aa91c7fe0378dce7f58faf206460ef03f2bcdd687db8ca5a9a7cdea6",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_000.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_000_2.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_006.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_006_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_006_2.png",
+        "assets/vfx/Tile_Urban_Tile_2a894273.png",
+        "assets/vfx/Tile_Urban_Tile_70cc8d95.png"
+      ]
+    },
+    {
+      "hash": "0939a42666e131d8ec1196c412ec061080d96127eb8936a25cc9d51f5fb87b3b",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_004.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_004_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_004_2.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_005.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_005_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_005_2.png",
+        "assets/vfx/Tile_Urban_Tile_01888c22.png",
+        "assets/vfx/Tile_Urban_Tile_5ba2fbd6.png"
+      ]
+    },
+    {
+      "hash": "518fcae47a73cbe8f9c978bf112ac073faab4f2a109a39b036e9d739e22000c8",
+      "paths": [
+        "assets/New_Arrivals/review/Light_Shell.png",
+        "assets/New_Arrivals/review/Light_Shell_1.png",
+        "assets/New_Arrivals/review/Light_Shell_2.png",
+        "assets/effects/muzzle/light_tank/fx/Light_Shell.png",
+        "assets/effects/muzzle/light_tank/fx/Light_Shell_1.png",
+        "assets/effects/muzzle/light_tank/fx/Light_Shell_2.png",
+        "assets/vfx/Tile_Urban_Tile_54aba833.png"
+      ]
+    },
+    {
+      "hash": "1a8810e3d94ae2aa5cdfac87dac6ec6528c02f0be5718ab2ef499fa7007fd49c",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Explosion_A_000.png",
+        "assets/New_Arrivals/review/Bomb_Idle_A_000.png",
+        "assets/New_Arrivals/review/Bomb_Idle_A_007.png",
+        "assets/New_Arrivals/review/Bomb_Idle_A_008.png",
+        "assets/New_Arrivals/review/Bomb_Idle_A_009.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_A_001.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_A_003.png"
+      ]
+    },
+    {
+      "hash": "2c7ad1310e0c93c289b6d81f3ad8da03944f0b49de10285640667c6a8ccf6b60",
+      "paths": [
+        "assets/New_Arrivals/review/Light_01.png",
+        "assets/New_Arrivals/review/Light_01_1.png",
+        "assets/effects/explosions/light_tank/dead/0.png",
+        "assets/effects/muzzle/light_tank/run/0.png",
+        "assets/effects/muzzle/light_tank/run/1.png"
+      ]
+    },
+    {
+      "hash": "9daada333b725b1e38bab2934156dada90c2389401a32521c4f41456e03642e8",
+      "paths": [
+        "assets/New_Arrivals/review/Light_02.png",
+        "assets/New_Arrivals/review/Light_02_1.png",
+        "assets/effects/muzzle/light_tank/run/2.png",
+        "assets/effects/muzzle/light_tank/run/3.png",
+        "assets/effects/muzzle/light_tank/shot/0.png"
+      ]
+    },
+    {
+      "hash": "3efd1a929e1c9241c5cfd407caae4ceea2e47a69c1c42f22e785f3464783b95b",
+      "paths": [
+        "assets/New_Arrivals/review/Light_03.png",
+        "assets/New_Arrivals/review/Light_03_1.png",
+        "assets/effects/muzzle/light_tank/run/4.png",
+        "assets/effects/muzzle/light_tank/run/5.png",
+        "assets/effects/muzzle/light_tank/shot/1.png"
+      ]
+    },
+    {
+      "hash": "adc233f38227cba60d3d029a35215b73ce2a5e80890a7ac3613a2c23a4521060",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Idle_B_000.png",
+        "assets/New_Arrivals/review/Bomb_Idle_B_007.png",
+        "assets/New_Arrivals/review/Bomb_Idle_B_008.png",
+        "assets/New_Arrivals/review/Bomb_Idle_B_009.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_B_000.png"
+      ]
+    },
+    {
+      "hash": "6968931f84207729185db1637a90f457555ce7126698d164052081613a5d0549",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Idle_C_000.png",
+        "assets/New_Arrivals/review/Bomb_Idle_C_007.png",
+        "assets/New_Arrivals/review/Bomb_Idle_C_008.png",
+        "assets/New_Arrivals/review/Bomb_Idle_C_009.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_C_000.png"
+      ]
+    },
+    {
+      "hash": "4a75c1bd4731fdd90be26c86a5f144b1d0c6e484787f5ee19261e30ae336947a",
+      "paths": [
+        "assets/buildings/medium/Building_Urban_Medium_b77a3b56.png",
+        "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_d8c014dc.png",
+        "assets/tiles/urban/Bridges.png"
+      ]
+    },
+    {
+      "hash": "1542fa1a525588dcad68e376c5d1f6a8e35b48a94e7b37a4d1ab58f2156e8c80",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-33-07-132 (1).png",
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-33-07-132.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-33-07-132 (1).png",
+        "assets/ui/buttons/Picsart_26-04-04_00-33-07-132.png"
+      ]
+    },
+    {
+      "hash": "24518114b22ae280c759cdfd27eae5b2cb5f53db8b1f90420f14653f9b336bf2",
+      "paths": [
+        "assets/New_Arrivals/review/Granade_Shell.png",
+        "assets/New_Arrivals/review/Granade_Shell_1.png",
+        "assets/New_Arrivals/review/Granade_Shell_2.png",
+        "assets/vfx/Tile_Urban_Tile_a7f65f30.png"
+      ]
+    },
+    {
+      "hash": "5b7fcd9301f204f99bb03b583b2e5cf4541ccfaefe6cfc28ae02eeb3d1dd2364",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01.png",
+        "assets/New_Arrivals/review/Gun_01_16.png",
+        "assets/New_Arrivals/review/Gun_01_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_18da3df1.png"
+      ]
+    },
+    {
+      "hash": "c07ab9edcadd51c0224042f658c646afe124160d39d19fe653062f8d177687b4",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_1.png",
+        "assets/New_Arrivals/review/Gun_01_17.png",
+        "assets/New_Arrivals/review/Gun_01_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f94a8ddc.png"
+      ]
+    },
+    {
+      "hash": "0a378b5fe2174c626c4561d64b1f48f6ef957e3188994d79e8e187541747981d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_10.png",
+        "assets/New_Arrivals/review/Gun_01_18.png",
+        "assets/New_Arrivals/review/Gun_01_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_8b474436.png"
+      ]
+    },
+    {
+      "hash": "320a114573694dfa9fdffe97605c485339596444767a1b12bfc396f736708b42",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_11.png",
+        "assets/New_Arrivals/review/Gun_01_19.png",
+        "assets/New_Arrivals/review/Gun_01_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_75bd33c9.png"
+      ]
+    },
+    {
+      "hash": "bc64c3b2b988b186eb5505d0563a76e5e453f535be2e108439ab91cf7820e738",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_12.png",
+        "assets/New_Arrivals/review/Gun_01_20.png",
+        "assets/New_Arrivals/review/Gun_01_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_61edd2ca.png"
+      ]
+    },
+    {
+      "hash": "6f7385142605b42298ed5d40719da497eabebb6eb0ac29aa70d6a6fc265279a9",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_13.png",
+        "assets/New_Arrivals/review/Gun_01_21.png",
+        "assets/New_Arrivals/review/Gun_01_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b7eaebb5.png"
+      ]
+    },
+    {
+      "hash": "a523ce046cf44e829c18fa3c913166b37a1f95b2cd3be16153935a93ac1fde00",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_14.png",
+        "assets/New_Arrivals/review/Gun_01_22.png",
+        "assets/New_Arrivals/review/Gun_01_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_0b2733e0.png"
+      ]
+    },
+    {
+      "hash": "50a034d0315ebe70c00194d028e2db6ae5a194d774a857e71280dfc53a758d9a",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_15.png",
+        "assets/New_Arrivals/review/Gun_01_23.png",
+        "assets/New_Arrivals/review/Gun_01_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ab112414.png"
+      ]
+    },
+    {
+      "hash": "79aad4b4e0565dff6b6248781a6fa198877d65e52169c55d741b74af210eb704",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B.png",
+        "assets/New_Arrivals/review/Gun_01_B_16.png",
+        "assets/New_Arrivals/review/Gun_01_B_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_49798643.png"
+      ]
+    },
+    {
+      "hash": "659bfef654f5dbc0c4a14026734a62b440d53520aa443a3ad73d9bfba9ce6c4f",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_1.png",
+        "assets/New_Arrivals/review/Gun_01_B_17.png",
+        "assets/New_Arrivals/review/Gun_01_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_df0ffeaa.png"
+      ]
+    },
+    {
+      "hash": "fcc92bfb26af02e0e8bb69ea29d97327e372a75c0ac70f58fa9f0cca3a6ce7f2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_10.png",
+        "assets/New_Arrivals/review/Gun_01_B_18.png",
+        "assets/New_Arrivals/review/Gun_01_B_2.png",
+        "assets/units/vehicles/Tile_Urban_Tile_48cac8d8.png"
+      ]
+    },
+    {
+      "hash": "19c911eef57d53b74e0a87231a747f57787db1195091e53ea22677f8463468e8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_11.png",
+        "assets/New_Arrivals/review/Gun_01_B_19.png",
+        "assets/New_Arrivals/review/Gun_01_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_570ea304.png"
+      ]
+    },
+    {
+      "hash": "0e08d95e2b3dd8362e2fd6e696cbf3c83ab5e0630b59f7e028b1f37a718d27b7",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_12.png",
+        "assets/New_Arrivals/review/Gun_01_B_20.png",
+        "assets/New_Arrivals/review/Gun_01_B_4.png",
+        "assets/units/vehicles/Tile_Urban_Tile_d1231ba6.png"
+      ]
+    },
+    {
+      "hash": "5543d75962a12ddb51d1c55942f5e9671e05a751d096bc2869ddc24313ba1335",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_13.png",
+        "assets/New_Arrivals/review/Gun_01_B_21.png",
+        "assets/New_Arrivals/review/Gun_01_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_6b8cb683.png"
+      ]
+    },
+    {
+      "hash": "7f73606d0e30950662c7e27b141aeb325bccb7849746dd74082dc1746066b9c2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_14.png",
+        "assets/New_Arrivals/review/Gun_01_B_22.png",
+        "assets/New_Arrivals/review/Gun_01_B_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5c73600d.png"
+      ]
+    },
+    {
+      "hash": "e49002cd665a04ef2cb395ab2d397995fc056d6f983ac4a6955099af1a2be3ba",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_01_B_15.png",
+        "assets/New_Arrivals/review/Gun_01_B_23.png",
+        "assets/New_Arrivals/review/Gun_01_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_1af86289.png"
+      ]
+    },
+    {
+      "hash": "2c8bc504c373af4980d16f98dfa257979af9ee18cb21970e89f93a916dca20f9",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02.png",
+        "assets/New_Arrivals/review/Gun_02_16.png",
+        "assets/New_Arrivals/review/Gun_02_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_2879b739.png"
+      ]
+    },
+    {
+      "hash": "f2e4ba92d80065b71948b17cff758bf22a6d1ff1700b12acb254b2a37a7edc07",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_1.png",
+        "assets/New_Arrivals/review/Gun_02_17.png",
+        "assets/New_Arrivals/review/Gun_02_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_138ae2d4.png"
+      ]
+    },
+    {
+      "hash": "25557f304a4f282894ed5d1f434e6fec1232d59db904237fcf7743be570bce04",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_10.png",
+        "assets/New_Arrivals/review/Gun_02_18.png",
+        "assets/New_Arrivals/review/Gun_02_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_35c0583e.png"
+      ]
+    },
+    {
+      "hash": "2463ee8f40231fe1b1e7fee5c45b555f510b8857fce26d31dd3966d0a6681ba8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_11.png",
+        "assets/New_Arrivals/review/Gun_02_19.png",
+        "assets/New_Arrivals/review/Gun_02_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ded8f54a.png"
+      ]
+    },
+    {
+      "hash": "25d66fb90a244538ff7ff445cc4b34a36ae0b85e3a6fda4d749bf2a76d9a2827",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_12.png",
+        "assets/New_Arrivals/review/Gun_02_20.png",
+        "assets/New_Arrivals/review/Gun_02_4.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_88b79284.png"
+      ]
+    },
+    {
+      "hash": "105d0c4a6c803ea11175c0335e36c2b355ff61aec391bf3006630e11436b33c2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_13.png",
+        "assets/New_Arrivals/review/Gun_02_21.png",
+        "assets/New_Arrivals/review/Gun_02_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_4280a1dc.png"
+      ]
+    },
+    {
+      "hash": "1a844c132ef6eec6b1f7ad825dc72bb4d59637238b8de77cabca41ed59a43146",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_14.png",
+        "assets/New_Arrivals/review/Gun_02_22.png",
+        "assets/New_Arrivals/review/Gun_02_6.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_e3825758.png"
+      ]
+    },
+    {
+      "hash": "ae472ba1a68b8f9fed5f01d5d6c0fcc4619c93ee96e5e3cb1f12d9ea0d7547d5",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_15.png",
+        "assets/New_Arrivals/review/Gun_02_23.png",
+        "assets/New_Arrivals/review/Gun_02_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b04c1735.png"
+      ]
+    },
+    {
+      "hash": "796a9e0fa952564397ef88564a4a8b143317dea0ad52356faea639c605a23ea9",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B.png",
+        "assets/New_Arrivals/review/Gun_02_B_16.png",
+        "assets/New_Arrivals/review/Gun_02_B_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_0ec3c295.png"
+      ]
+    },
+    {
+      "hash": "e635569652c1d119301248fb701eb21bf89a87aa9b1b7022aa657f1a0bd6da63",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_1.png",
+        "assets/New_Arrivals/review/Gun_02_B_17.png",
+        "assets/New_Arrivals/review/Gun_02_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_eb5c6d20.png"
+      ]
+    },
+    {
+      "hash": "f0babd336923d1d55835c7bfd421590411c3fbd828effc75fe0f146a86e97cf8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_10.png",
+        "assets/New_Arrivals/review/Gun_02_B_18.png",
+        "assets/New_Arrivals/review/Gun_02_B_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_802761ba.png"
+      ]
+    },
+    {
+      "hash": "caccd82f4fb8bbf114fa68e5c1194058d69dd87937d01bd77a3d3817fc4185f8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_11.png",
+        "assets/New_Arrivals/review/Gun_02_B_19.png",
+        "assets/New_Arrivals/review/Gun_02_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_4c78043c.png"
+      ]
+    },
+    {
+      "hash": "92c6897595c1b8559ecafc772d4fa31542b0353f1414ac8505277ab94c3bc1d3",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_12.png",
+        "assets/New_Arrivals/review/Gun_02_B_20.png",
+        "assets/New_Arrivals/review/Gun_02_B_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_335d6beb.png"
+      ]
+    },
+    {
+      "hash": "23edcf49d366375b5fd726fc1cecfe07f667f4f62aa8a46a10b9dd439cea6ace",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_13.png",
+        "assets/New_Arrivals/review/Gun_02_B_21.png",
+        "assets/New_Arrivals/review/Gun_02_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_fd35edb8.png"
+      ]
+    },
+    {
+      "hash": "fa991897efd498da2003c55ba4675d0596f891f8289467a5e4593e0e06beeb82",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_14.png",
+        "assets/New_Arrivals/review/Gun_02_B_22.png",
+        "assets/New_Arrivals/review/Gun_02_B_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_4ad9f8ea.png"
+      ]
+    },
+    {
+      "hash": "232adcd0ec20e54a868a4db8ebb3aafbf2619cfd2ee0de61926120f8546f27b1",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_02_B_15.png",
+        "assets/New_Arrivals/review/Gun_02_B_23.png",
+        "assets/New_Arrivals/review/Gun_02_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_4d4e6362.png"
+      ]
+    },
+    {
+      "hash": "99006f47e0ba5bee9dd0d5eb45787f0a212d314f4ad20bef8e287efb2847e31f",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03.png",
+        "assets/New_Arrivals/review/Gun_03_16.png",
+        "assets/New_Arrivals/review/Gun_03_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_ae10e4df.png"
+      ]
+    },
+    {
+      "hash": "369d0b3fd73ede7ac27b2fd39df008318fabf29eaf7e349f12d355267a9e95d7",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_1.png",
+        "assets/New_Arrivals/review/Gun_03_17.png",
+        "assets/New_Arrivals/review/Gun_03_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_fdf20218.png"
+      ]
+    },
+    {
+      "hash": "47167b10982f958abc6bfaa263d150d37cce655f469a5641e031d072f772f233",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_10.png",
+        "assets/New_Arrivals/review/Gun_03_18.png",
+        "assets/New_Arrivals/review/Gun_03_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_fec42e6e.png"
+      ]
+    },
+    {
+      "hash": "a87343579133fb365b4b9120b9e40be8bd709e0b771ec005a1426c0d96118d6f",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_11.png",
+        "assets/New_Arrivals/review/Gun_03_19.png",
+        "assets/New_Arrivals/review/Gun_03_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_7b762ba3.png"
+      ]
+    },
+    {
+      "hash": "bfa60453d016b47e1a5ad550f9a83c2da5de4744c415b122324be0507d77eb5d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_12.png",
+        "assets/New_Arrivals/review/Gun_03_20.png",
+        "assets/New_Arrivals/review/Gun_03_4.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_4b6c7f2c.png"
+      ]
+    },
+    {
+      "hash": "7b8b4d0ce7d095306ba53def027ea7b4d51fb5ee49cecff14fae16017e28ec68",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_13.png",
+        "assets/New_Arrivals/review/Gun_03_21.png",
+        "assets/New_Arrivals/review/Gun_03_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_25871c41.png"
+      ]
+    },
+    {
+      "hash": "8065604d79bc31ac1bb87d958bf1ac2add1082815281c89867961f4c08b09216",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_14.png",
+        "assets/New_Arrivals/review/Gun_03_22.png",
+        "assets/New_Arrivals/review/Gun_03_6.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_4b5510ab.png"
+      ]
+    },
+    {
+      "hash": "fcc0c9e5dbc8622011419527a2301d9f676ff4996c6d9c31e83386b8f818fcac",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_15.png",
+        "assets/New_Arrivals/review/Gun_03_23.png",
+        "assets/New_Arrivals/review/Gun_03_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f7df0e26.png"
+      ]
+    },
+    {
+      "hash": "02a46c0a7a885b00a5541ad2a8a7f5ec0b5e3f03eff8fcd2e3f188c5ecaaee1f",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B.png",
+        "assets/New_Arrivals/review/Gun_03_B_16.png",
+        "assets/New_Arrivals/review/Gun_03_B_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_08400258.png"
+      ]
+    },
+    {
+      "hash": "1b40385d28b3cbc3044f56c3d5dfe8d412084d8e4a7ae8d32c10e0ccfb89efa6",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_1.png",
+        "assets/New_Arrivals/review/Gun_03_B_17.png",
+        "assets/New_Arrivals/review/Gun_03_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_4b86398c.png"
+      ]
+    },
+    {
+      "hash": "b8b5fea47af475ba86a78ddf3ce4d22b730716efc5d96e41820ca81b896c2b8a",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_10.png",
+        "assets/New_Arrivals/review/Gun_03_B_18.png",
+        "assets/New_Arrivals/review/Gun_03_B_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_436600ec.png"
+      ]
+    },
+    {
+      "hash": "3335e83ce5e6cf61dc092999f0a06727f0a15ffae6fcac244c3c15599936d409",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_11.png",
+        "assets/New_Arrivals/review/Gun_03_B_19.png",
+        "assets/New_Arrivals/review/Gun_03_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_2ac14794.png"
+      ]
+    },
+    {
+      "hash": "a74e0aae4140e95a8276c6368925a38d34411e6ffc0eea15ea203909525835cf",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_12.png",
+        "assets/New_Arrivals/review/Gun_03_B_20.png",
+        "assets/New_Arrivals/review/Gun_03_B_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_5a8c3b64.png"
+      ]
+    },
+    {
+      "hash": "a4a57bbfdb4f4199406a560134c96fa5b500e5bcfc5542b244aa5cfdc34254e1",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_13.png",
+        "assets/New_Arrivals/review/Gun_03_B_21.png",
+        "assets/New_Arrivals/review/Gun_03_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_e6d48f39.png"
+      ]
+    },
+    {
+      "hash": "a449d2534dfc5698e8e40c1f1e47a31bb369a32ad96eae13378d1007163c5f60",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_14.png",
+        "assets/New_Arrivals/review/Gun_03_B_22.png",
+        "assets/New_Arrivals/review/Gun_03_B_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_f35a247d.png"
+      ]
+    },
+    {
+      "hash": "fe6a9449f528fbde9dd25aa24850cd5485a3a4ab0324dc1914496f42ceb8d5c1",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_03_B_15.png",
+        "assets/New_Arrivals/review/Gun_03_B_23.png",
+        "assets/New_Arrivals/review/Gun_03_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_2469e316.png"
+      ]
+    },
+    {
+      "hash": "1653c332161d0aa0a95b1cb22e790e6943b86a29d6b83b1d8292388c7462ca42",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04.png",
+        "assets/New_Arrivals/review/Gun_04_16.png",
+        "assets/New_Arrivals/review/Gun_04_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_97049d0d.png"
+      ]
+    },
+    {
+      "hash": "96f834970fdf33d6f4a2a6f3d86fbdab9abca5cc8dbab8093b2ea6962b26f409",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_1.png",
+        "assets/New_Arrivals/review/Gun_04_17.png",
+        "assets/New_Arrivals/review/Gun_04_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_284a83e8.png"
+      ]
+    },
+    {
+      "hash": "a4653259cbf2e3e1bab401b5c2997d6b3ca9742db16d82a682c6497ed9610fad",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_10.png",
+        "assets/New_Arrivals/review/Gun_04_18.png",
+        "assets/New_Arrivals/review/Gun_04_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_c04af75c.png"
+      ]
+    },
+    {
+      "hash": "bf3163048fae2b01f364e08d3e30a4f5e1ab1877799bc02c5742c05ef42410a3",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_11.png",
+        "assets/New_Arrivals/review/Gun_04_19.png",
+        "assets/New_Arrivals/review/Gun_04_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f40abcb0.png"
+      ]
+    },
+    {
+      "hash": "23756917709e55ddc485e2af5ee55ef4f76e77f1f66d9aa26b17025613cee985",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_12.png",
+        "assets/New_Arrivals/review/Gun_04_20.png",
+        "assets/New_Arrivals/review/Gun_04_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_fef8744c.png"
+      ]
+    },
+    {
+      "hash": "1f57f8f3ed372133700938429b51daf6e5d125bcdf3322b67d02f0b60ab501fd",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_13.png",
+        "assets/New_Arrivals/review/Gun_04_21.png",
+        "assets/New_Arrivals/review/Gun_04_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_4ec270f5.png"
+      ]
+    },
+    {
+      "hash": "ae49c9ee20d81583dde7334489571fc75322d3442a9e2af4b7970cd937905f31",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_14.png",
+        "assets/New_Arrivals/review/Gun_04_22.png",
+        "assets/New_Arrivals/review/Gun_04_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_4654b8d4.png"
+      ]
+    },
+    {
+      "hash": "ab43eafe243a33b87527760c66a13ed24f2c0ae851df71a86f2afef74f088888",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_15.png",
+        "assets/New_Arrivals/review/Gun_04_23.png",
+        "assets/New_Arrivals/review/Gun_04_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_923e0353.png"
+      ]
+    },
+    {
+      "hash": "257f2d41f806a3b7e3b7f2d01599f16d2042ed8de92e4e40a354b6be9b2d0090",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B.png",
+        "assets/New_Arrivals/review/Gun_04_B_16.png",
+        "assets/New_Arrivals/review/Gun_04_B_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_48a4c84c.png"
+      ]
+    },
+    {
+      "hash": "6403d54c7dde26d4268b2aa7f1cb180b8356e73811f07a9c3d94e1a487d21f61",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_1.png",
+        "assets/New_Arrivals/review/Gun_04_B_17.png",
+        "assets/New_Arrivals/review/Gun_04_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_7016cf99.png"
+      ]
+    },
+    {
+      "hash": "ae1e6ae5912fe101507279b8907a4d17093c6cd8c7a703198e467cbecac5e249",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_10.png",
+        "assets/New_Arrivals/review/Gun_04_B_18.png",
+        "assets/New_Arrivals/review/Gun_04_B_2.png",
+        "assets/units/vehicles/Tile_Urban_Tile_96c34237.png"
+      ]
+    },
+    {
+      "hash": "5d009c8d54d08fb4275a2d49630e800d9495b9512675b53abd1b2e5ce1f51007",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_11.png",
+        "assets/New_Arrivals/review/Gun_04_B_19.png",
+        "assets/New_Arrivals/review/Gun_04_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ce961c5f.png"
+      ]
+    },
+    {
+      "hash": "90518c0170c7ac0bde89cd3415e4fd92480eb2d8a5c3f0305a38b113f07c27f2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_12.png",
+        "assets/New_Arrivals/review/Gun_04_B_20.png",
+        "assets/New_Arrivals/review/Gun_04_B_4.png",
+        "assets/units/vehicles/Tile_Urban_Tile_e529f041.png"
+      ]
+    },
+    {
+      "hash": "ad5508d6f3d91fac06713ce7242328e59bcf64e4ebbac6b2b00f9ec517d40550",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_13.png",
+        "assets/New_Arrivals/review/Gun_04_B_21.png",
+        "assets/New_Arrivals/review/Gun_04_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ba118fac.png"
+      ]
+    },
+    {
+      "hash": "1e6249d8788a0aceaaf90e39290b2f88a51760200f3b08d47f62bbe8b313d242",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_14.png",
+        "assets/New_Arrivals/review/Gun_04_B_22.png",
+        "assets/New_Arrivals/review/Gun_04_B_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ce3e2e93.png"
+      ]
+    },
+    {
+      "hash": "087a247f4e87e5223eee514e57b8e5ce17786ac27dadf1c127c1e2e1d4d9a6cf",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_04_B_15.png",
+        "assets/New_Arrivals/review/Gun_04_B_23.png",
+        "assets/New_Arrivals/review/Gun_04_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b87be2c7.png"
+      ]
+    },
+    {
+      "hash": "47c26ef3e23b2a413bde37a8ad63512e89094a67834993e2d8292dfec1217873",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05.png",
+        "assets/New_Arrivals/review/Gun_05_16.png",
+        "assets/New_Arrivals/review/Gun_05_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_34e0bbbb.png"
+      ]
+    },
+    {
+      "hash": "65c0dedb6a008cd91e6d8ee1d9967460634bd111f2eb082847c9c5d1e354c5a6",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_1.png",
+        "assets/New_Arrivals/review/Gun_05_17.png",
+        "assets/New_Arrivals/review/Gun_05_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_2c47414a.png"
+      ]
+    },
+    {
+      "hash": "d47e6a4b2ccd958ac0103172f3d4ab40706d1751742887689640309926a66227",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_10.png",
+        "assets/New_Arrivals/review/Gun_05_18.png",
+        "assets/New_Arrivals/review/Gun_05_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_02ffd017.png"
+      ]
+    },
+    {
+      "hash": "e36a905391e1ef43fa87572b5107200cdeea66208de305c7c1fa89c848b5e355",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_11.png",
+        "assets/New_Arrivals/review/Gun_05_19.png",
+        "assets/New_Arrivals/review/Gun_05_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_37205116.png"
+      ]
+    },
+    {
+      "hash": "820c322963a112ec03a8947fbe5118daca262d31c09ea390d0c78d5870e3d8ec",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_12.png",
+        "assets/New_Arrivals/review/Gun_05_20.png",
+        "assets/New_Arrivals/review/Gun_05_4.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_18360da3.png"
+      ]
+    },
+    {
+      "hash": "df39874f4a59691b8476351496188bfd00b99da3e7c8b1635761e807f1ff4050",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_13.png",
+        "assets/New_Arrivals/review/Gun_05_21.png",
+        "assets/New_Arrivals/review/Gun_05_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_3ef3c3b6.png"
+      ]
+    },
+    {
+      "hash": "8463493622122e3047609f4d09e10f956587548160f91a91d5295219f39ecee8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_14.png",
+        "assets/New_Arrivals/review/Gun_05_22.png",
+        "assets/New_Arrivals/review/Gun_05_6.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_34a7a688.png"
+      ]
+    },
+    {
+      "hash": "4957882fb9e297da687c9be77b0d78c0dff4691ff028778e2f7f95ae9b091258",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_15.png",
+        "assets/New_Arrivals/review/Gun_05_23.png",
+        "assets/New_Arrivals/review/Gun_05_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ebb0ba82.png"
+      ]
+    },
+    {
+      "hash": "894a5872dcdb63b1e157584061f6bb848eeec28e3532a6d6caf7252c41881f6a",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B.png",
+        "assets/New_Arrivals/review/Gun_05_B_16.png",
+        "assets/New_Arrivals/review/Gun_05_B_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_efd987c9.png"
+      ]
+    },
+    {
+      "hash": "1d560a076b390dc9a05c3cbb4353997fb0ce5415d86e6c753ef457fc1ec77ec4",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_1.png",
+        "assets/New_Arrivals/review/Gun_05_B_17.png",
+        "assets/New_Arrivals/review/Gun_05_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_9c9d6c68.png"
+      ]
+    },
+    {
+      "hash": "870304be8b33f20774589182d6cedaaac5543a042e04701849c5a31958cdb8b4",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_10.png",
+        "assets/New_Arrivals/review/Gun_05_B_18.png",
+        "assets/New_Arrivals/review/Gun_05_B_2.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5c1b1ba9.png"
+      ]
+    },
+    {
+      "hash": "e4b2e2c2b40d50c52bd241b1cc15c18d936248f1008d4dc103038e84cab41e20",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_11.png",
+        "assets/New_Arrivals/review/Gun_05_B_19.png",
+        "assets/New_Arrivals/review/Gun_05_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ae2443db.png"
+      ]
+    },
+    {
+      "hash": "2709bf14845f62f418fec9f5ea0a3abfd0f93cdd2abaf62f473d5b706ccd811b",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_12.png",
+        "assets/New_Arrivals/review/Gun_05_B_20.png",
+        "assets/New_Arrivals/review/Gun_05_B_4.png",
+        "assets/units/vehicles/Tile_Urban_Tile_986d59c1.png"
+      ]
+    },
+    {
+      "hash": "daa9106eeebc59e49e35a6796a03d8219deeb6efdfa32eab905e4327ed28e956",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_13.png",
+        "assets/New_Arrivals/review/Gun_05_B_21.png",
+        "assets/New_Arrivals/review/Gun_05_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_cec31341.png"
+      ]
+    },
+    {
+      "hash": "c166f0ce3609ac93a0bb1650c6eeaf2e59bd62ac75cc0773d66efaf89e61aacb",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_14.png",
+        "assets/New_Arrivals/review/Gun_05_B_22.png",
+        "assets/New_Arrivals/review/Gun_05_B_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_0554732e.png"
+      ]
+    },
+    {
+      "hash": "d01129db632e7e20272d7000448549b564a06bfbe2bfcc5e174d0a4fbe1d9434",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_05_B_15.png",
+        "assets/New_Arrivals/review/Gun_05_B_23.png",
+        "assets/New_Arrivals/review/Gun_05_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_7826db52.png"
+      ]
+    },
+    {
+      "hash": "a8329d252a85a667938d9f1a08969ff8b2bc2bffbb7493af22a966bf2b997d7b",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06.png",
+        "assets/New_Arrivals/review/Gun_06_16.png",
+        "assets/New_Arrivals/review/Gun_06_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_a99b299b.png"
+      ]
+    },
+    {
+      "hash": "b9f8079d8f3a25ef8e23f994a526fabb42ccf62e0751e44a3dc04821dd08f3e5",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_1.png",
+        "assets/New_Arrivals/review/Gun_06_17.png",
+        "assets/New_Arrivals/review/Gun_06_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_3748828d.png"
+      ]
+    },
+    {
+      "hash": "02d31617c635c646d4d1227110f9db819ed29ce8d42cd5be7cbdf6e694a9737e",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_10.png",
+        "assets/New_Arrivals/review/Gun_06_18.png",
+        "assets/New_Arrivals/review/Gun_06_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_f479cb2e.png"
+      ]
+    },
+    {
+      "hash": "d3f77d05728740975488f6d633ce80bf6fd9588c699978639a425b9ee1df4498",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_11.png",
+        "assets/New_Arrivals/review/Gun_06_19.png",
+        "assets/New_Arrivals/review/Gun_06_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_9d77145e.png"
+      ]
+    },
+    {
+      "hash": "43569ea7cfd8acd3cc7ac52d02b908969c8216657fab96a67b944bd98877297d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_12.png",
+        "assets/New_Arrivals/review/Gun_06_20.png",
+        "assets/New_Arrivals/review/Gun_06_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_d7630101.png"
+      ]
+    },
+    {
+      "hash": "14e0159188f153085ba2d05fc4cfeb6f3bdb9abd7e58eda771a9ac7e1a0af728",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_13.png",
+        "assets/New_Arrivals/review/Gun_06_21.png",
+        "assets/New_Arrivals/review/Gun_06_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_201f55c2.png"
+      ]
+    },
+    {
+      "hash": "1cb743420ee0104e129064940da13dd13d0d1edf05c422997228727d15551112",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_14.png",
+        "assets/New_Arrivals/review/Gun_06_22.png",
+        "assets/New_Arrivals/review/Gun_06_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_691dfe5e.png"
+      ]
+    },
+    {
+      "hash": "81e685053d51989941d9e475e9dd5cfffd91df08e8145aad4543732b686dd7d4",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_15.png",
+        "assets/New_Arrivals/review/Gun_06_23.png",
+        "assets/New_Arrivals/review/Gun_06_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_09d5fe4c.png"
+      ]
+    },
+    {
+      "hash": "22c8ae6145f67bb1995652a386c4293ca5962066c9e46a9f565b419d9160a9b7",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B.png",
+        "assets/New_Arrivals/review/Gun_06_B_16.png",
+        "assets/New_Arrivals/review/Gun_06_B_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_435c032d.png"
+      ]
+    },
+    {
+      "hash": "726be595251fa2859c928b32e0942e9e374b0363baf858a94f0c16498fbd06ad",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_1.png",
+        "assets/New_Arrivals/review/Gun_06_B_17.png",
+        "assets/New_Arrivals/review/Gun_06_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_3c3f708e.png"
+      ]
+    },
+    {
+      "hash": "85c75eb2b33eb1edc89017f1dcfe4f72e07e87439719d8d1c788a7601662a7b9",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_10.png",
+        "assets/New_Arrivals/review/Gun_06_B_18.png",
+        "assets/New_Arrivals/review/Gun_06_B_2.png",
+        "assets/units/vehicles/Tile_Urban_Tile_a25d699d.png"
+      ]
+    },
+    {
+      "hash": "dc298f518a5696d68a502a9cd3b93013a4100182d2514063cbeb7bc3c1eed40b",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_11.png",
+        "assets/New_Arrivals/review/Gun_06_B_19.png",
+        "assets/New_Arrivals/review/Gun_06_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_9b43c94e.png"
+      ]
+    },
+    {
+      "hash": "e95dc6667735f43cb00e5c6f2be871d21e210bf91d39257b0dac58581a5f73ab",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_12.png",
+        "assets/New_Arrivals/review/Gun_06_B_20.png",
+        "assets/New_Arrivals/review/Gun_06_B_4.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b028ca67.png"
+      ]
+    },
+    {
+      "hash": "42a49932eaca6bcdfcfea0626cfc29ffcca9873cee08ede10b5c7b3159c59b1d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_13.png",
+        "assets/New_Arrivals/review/Gun_06_B_21.png",
+        "assets/New_Arrivals/review/Gun_06_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_cbb7419e.png"
+      ]
+    },
+    {
+      "hash": "4de1690a76014ab468e4d31936e7a018fdaf75bca83b9e45d61bb399ef5c21dd",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_14.png",
+        "assets/New_Arrivals/review/Gun_06_B_22.png",
+        "assets/New_Arrivals/review/Gun_06_B_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_c5dbc40c.png"
+      ]
+    },
+    {
+      "hash": "cadc30a9d03bf9263e41cef7e0daa3d0180a772d448234b69677d263d320bf9c",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_06_B_15.png",
+        "assets/New_Arrivals/review/Gun_06_B_23.png",
+        "assets/New_Arrivals/review/Gun_06_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_0879bf47.png"
+      ]
+    },
+    {
+      "hash": "9da0146b7ac1d8c1d7a0289e43af01a891fcee36b2f8c9059146508dc55f09d5",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07.png",
+        "assets/New_Arrivals/review/Gun_07_16.png",
+        "assets/New_Arrivals/review/Gun_07_8.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_fe2625c6.png"
+      ]
+    },
+    {
+      "hash": "11e2859b637f7cb10edf94ac0ba303054f8cc98241329ca8139ec9cabea76b4a",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_1.png",
+        "assets/New_Arrivals/review/Gun_07_17.png",
+        "assets/New_Arrivals/review/Gun_07_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_bf222300.png"
+      ]
+    },
+    {
+      "hash": "42d188e54163359cecfbd8243bd92609803d17ab2e69ea696640dcf34eaae78b",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_10.png",
+        "assets/New_Arrivals/review/Gun_07_18.png",
+        "assets/New_Arrivals/review/Gun_07_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_d4c9bcea.png"
+      ]
+    },
+    {
+      "hash": "a0faa089549f9abff1e98705eead32670da4de9f19083956d654b4086fa8df9a",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_11.png",
+        "assets/New_Arrivals/review/Gun_07_19.png",
+        "assets/New_Arrivals/review/Gun_07_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_6944ca35.png"
+      ]
+    },
+    {
+      "hash": "679acafc591d8e449b386d104153635587fe2adf474bd317dfe9ef5e09f7dcc5",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_12.png",
+        "assets/New_Arrivals/review/Gun_07_20.png",
+        "assets/New_Arrivals/review/Gun_07_4.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_54d46c1e.png"
+      ]
+    },
+    {
+      "hash": "6a13bc306e6297e3863cb1d69275770092670490da1ce553b99b6cbee4efa15b",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_13.png",
+        "assets/New_Arrivals/review/Gun_07_21.png",
+        "assets/New_Arrivals/review/Gun_07_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_2833bd22.png"
+      ]
+    },
+    {
+      "hash": "1895385b1bb34c4c1759a7ee41f80f4a2b169cbbc4a8cbc4c3cbf6ef3e228fbf",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_14.png",
+        "assets/New_Arrivals/review/Gun_07_22.png",
+        "assets/New_Arrivals/review/Gun_07_6.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_97a5190f.png"
+      ]
+    },
+    {
+      "hash": "9f67955fc33209da1a13243fe0c92109c33474cb327cf8fbab6e72e5574047ac",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_15.png",
+        "assets/New_Arrivals/review/Gun_07_23.png",
+        "assets/New_Arrivals/review/Gun_07_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_77caeb20.png"
+      ]
+    },
+    {
+      "hash": "5221864890e4a71398b4c5320f7b8ad659e6c2f3a8ca74899d903a975d789bb0",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B.png",
+        "assets/New_Arrivals/review/Gun_07_B_16.png",
+        "assets/New_Arrivals/review/Gun_07_B_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_91977811.png"
+      ]
+    },
+    {
+      "hash": "8d3024a91d2402a2e95d0197314f235fbbb1dd9bde8613b03d51587d4a4c1d38",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_1.png",
+        "assets/New_Arrivals/review/Gun_07_B_17.png",
+        "assets/New_Arrivals/review/Gun_07_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_04d59aa5.png"
+      ]
+    },
+    {
+      "hash": "01ff5bcc0d53321dc186f82db89b11672975d4e18f12ed325b7d051fc22ca668",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_10.png",
+        "assets/New_Arrivals/review/Gun_07_B_18.png",
+        "assets/New_Arrivals/review/Gun_07_B_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_76ceae1f.png"
+      ]
+    },
+    {
+      "hash": "e78b6eedc5286ac7d727b7fd4b72d1709f6973410cf0a451e214629fe7a4041e",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_11.png",
+        "assets/New_Arrivals/review/Gun_07_B_19.png",
+        "assets/New_Arrivals/review/Gun_07_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5427d9b4.png"
+      ]
+    },
+    {
+      "hash": "c9d2c900d2ac40eb398385622cebb00507a4db172a67f72abd06d5464fd92cb8",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_12.png",
+        "assets/New_Arrivals/review/Gun_07_B_20.png",
+        "assets/New_Arrivals/review/Gun_07_B_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_e6b998d3.png"
+      ]
+    },
+    {
+      "hash": "38476c6ba4af0a8b9f9ea5f193b9875b4736e0c614163ceac89890b19b364fa6",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_13.png",
+        "assets/New_Arrivals/review/Gun_07_B_21.png",
+        "assets/New_Arrivals/review/Gun_07_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_69f8d579.png"
+      ]
+    },
+    {
+      "hash": "21f7fc8fd08bfc80b3196fd6767cde19a42587e0bef949fdb469b1697d49c52e",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_14.png",
+        "assets/New_Arrivals/review/Gun_07_B_22.png",
+        "assets/New_Arrivals/review/Gun_07_B_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_0e9a7ca3.png"
+      ]
+    },
+    {
+      "hash": "bc71fd76ea8ad25aca805cd53e3b8c202f0d0644a053d5f0ba7b217e676a96db",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_07_B_15.png",
+        "assets/New_Arrivals/review/Gun_07_B_23.png",
+        "assets/New_Arrivals/review/Gun_07_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_c44dce57.png"
+      ]
+    },
+    {
+      "hash": "171da4f352d1e0b2ab13b7cf9ddeccb169edc3e8be3e00a63fa073f082c38005",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08.png",
+        "assets/New_Arrivals/review/Gun_08_16.png",
+        "assets/New_Arrivals/review/Gun_08_8.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_2da03bf3.png"
+      ]
+    },
+    {
+      "hash": "ad456fb2b42da3635c25fcd3aba7b57dfe278ab77d09482bd4a572b9d4065661",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_1.png",
+        "assets/New_Arrivals/review/Gun_08_17.png",
+        "assets/New_Arrivals/review/Gun_08_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_18b10720.png"
+      ]
+    },
+    {
+      "hash": "10acf0b43234c215ea18589a2ffe3cd1517a2577fe143d6a1ad8f13e1731549e",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_10.png",
+        "assets/New_Arrivals/review/Gun_08_18.png",
+        "assets/New_Arrivals/review/Gun_08_2.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_288c4154.png"
+      ]
+    },
+    {
+      "hash": "33361032d2708c9c78e5ffd8bdbefa572969fc9ccdfd72a397958ba2c20dd3cd",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_11.png",
+        "assets/New_Arrivals/review/Gun_08_19.png",
+        "assets/New_Arrivals/review/Gun_08_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5c422b18.png"
+      ]
+    },
+    {
+      "hash": "24a55453708085a8d6ca712d7dad2e94e4eb76da243d645f68106c3ab825658d",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_12.png",
+        "assets/New_Arrivals/review/Gun_08_20.png",
+        "assets/New_Arrivals/review/Gun_08_4.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_f4517c54.png"
+      ]
+    },
+    {
+      "hash": "1403225a59b1e079254c4360ecb8c874e773b720ae41fd7640a1f54c79444a70",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_13.png",
+        "assets/New_Arrivals/review/Gun_08_21.png",
+        "assets/New_Arrivals/review/Gun_08_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f5e6e788.png"
+      ]
+    },
+    {
+      "hash": "aea4fa4b00ca1185964a7f2a8a213580fd9312be7137648ea89480b4522479ba",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_14.png",
+        "assets/New_Arrivals/review/Gun_08_22.png",
+        "assets/New_Arrivals/review/Gun_08_6.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_29c29508.png"
+      ]
+    },
+    {
+      "hash": "74e05a0c176e4198f8b63f7a155001d48bc2cfd2b6bfc75e72964088aca74aa9",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_15.png",
+        "assets/New_Arrivals/review/Gun_08_23.png",
+        "assets/New_Arrivals/review/Gun_08_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_af56ad68.png"
+      ]
+    },
+    {
+      "hash": "f872dc4fdfbdb383323563cad0f15edf8d25382323c7982e8fc764d2a9265bf2",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B.png",
+        "assets/New_Arrivals/review/Gun_08_B_16.png",
+        "assets/New_Arrivals/review/Gun_08_B_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_539aa77b.png"
+      ]
+    },
+    {
+      "hash": "02fc600057dc513caa38975a762bc81a323ac6572422fcf854b0c3b2ccf2c9ef",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_1.png",
+        "assets/New_Arrivals/review/Gun_08_B_17.png",
+        "assets/New_Arrivals/review/Gun_08_B_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_142059b8.png"
+      ]
+    },
+    {
+      "hash": "760ba147bbea3327cf0252c9f690d118626061477bcef9286ce757557dff7ccf",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_10.png",
+        "assets/New_Arrivals/review/Gun_08_B_18.png",
+        "assets/New_Arrivals/review/Gun_08_B_2.png",
+        "assets/units/vehicles/Tile_Urban_Tile_fac7a31d.png"
+      ]
+    },
+    {
+      "hash": "dce0d3f533d0d023d8d9dc7751395728e6bd32dea772d9cbe750a035fec2a800",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_11.png",
+        "assets/New_Arrivals/review/Gun_08_B_19.png",
+        "assets/New_Arrivals/review/Gun_08_B_3.png",
+        "assets/units/vehicles/Tile_Urban_Tile_110cbe24.png"
+      ]
+    },
+    {
+      "hash": "387b3e946894f225fdcfd4cf36fdc3f305623d5c2231423057a5c594de832177",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_12.png",
+        "assets/New_Arrivals/review/Gun_08_B_20.png",
+        "assets/New_Arrivals/review/Gun_08_B_4.png",
+        "assets/units/vehicles/Tile_Urban_Tile_1647d0ea.png"
+      ]
+    },
+    {
+      "hash": "f4c3fbaedc9cb11718b5616143d09132626d13e4ff0adc05668b91a4e02019b7",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_13.png",
+        "assets/New_Arrivals/review/Gun_08_B_21.png",
+        "assets/New_Arrivals/review/Gun_08_B_5.png",
+        "assets/units/vehicles/Tile_Urban_Tile_a9fe06ab.png"
+      ]
+    },
+    {
+      "hash": "ee262f88dec3c6e307676ac2cabd0165382a921fc1915d780d291a0444eeeccf",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_14.png",
+        "assets/New_Arrivals/review/Gun_08_B_22.png",
+        "assets/New_Arrivals/review/Gun_08_B_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_de3a48e7.png"
+      ]
+    },
+    {
+      "hash": "6cbdf018d894fd8a6b3bc6a6bc9e64215a3d8b3a1ce6e71c9b0b5a93187a23d5",
+      "paths": [
+        "assets/New_Arrivals/review/Gun_08_B_15.png",
+        "assets/New_Arrivals/review/Gun_08_B_23.png",
+        "assets/New_Arrivals/review/Gun_08_B_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b3fc8802.png"
+      ]
+    },
+    {
+      "hash": "8560ecc0e2fb9acbfd43b988fe65ddaa2362f8f01c1c258df7c05c9abbe09745",
+      "paths": [
+        "assets/New_Arrivals/review/Heavy_Shell.png",
+        "assets/New_Arrivals/review/Heavy_Shell_1.png",
+        "assets/New_Arrivals/review/Heavy_Shell_2.png",
+        "assets/vfx/Tile_Urban_Tile_3d873699.png"
+      ]
+    },
+    {
+      "hash": "fd574d7a313c655ce86232f50a33ff238b18905ebc95352ef41086aca7408bcc",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_01.png",
+        "assets/New_Arrivals/review/Hull_01_4.png",
+        "assets/New_Arrivals/review/Hull_01_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_1415a4f5.png"
+      ]
+    },
+    {
+      "hash": "6ff8bfb7123cd1503a01c31acb66e3e3edfb6266c73d37bd1db77f0d1798dbb7",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_01_1.png",
+        "assets/New_Arrivals/review/Hull_01_5.png",
+        "assets/New_Arrivals/review/Hull_01_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_7c4539e7.png"
+      ]
+    },
+    {
+      "hash": "3e650972f6a3283aecbe2dd2ae9a1f2b49b54a840faa50f574ede3e742af80f6",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_01_10.png",
+        "assets/New_Arrivals/review/Hull_01_2.png",
+        "assets/New_Arrivals/review/Hull_01_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_b57cb7bf.png"
+      ]
+    },
+    {
+      "hash": "e508e3f4ed9e281980f5a4dcdb25918b7570e6816b9a6e95eaae34b15a2b8227",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_01_11.png",
+        "assets/New_Arrivals/review/Hull_01_3.png",
+        "assets/New_Arrivals/review/Hull_01_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_d2b46e97.png"
+      ]
+    },
+    {
+      "hash": "3f99c57232b6230b9290945d4c0d2fc0c29fe08065fdfff863396162ad1727cf",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_02.png",
+        "assets/New_Arrivals/review/Hull_02_4.png",
+        "assets/New_Arrivals/review/Hull_02_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_2009919f.png"
+      ]
+    },
+    {
+      "hash": "640231d0144c039e2ff185eddf340d6018afd84fda2a3c8f5d63ac284bdfb494",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_02_1.png",
+        "assets/New_Arrivals/review/Hull_02_5.png",
+        "assets/New_Arrivals/review/Hull_02_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_a04a77b1.png"
+      ]
+    },
+    {
+      "hash": "aefd5262d539e4fd721850653b5c75a5b2700f5b654fd99f7da2914fc2b400ab",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_02_10.png",
+        "assets/New_Arrivals/review/Hull_02_2.png",
+        "assets/New_Arrivals/review/Hull_02_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_83b19167.png"
+      ]
+    },
+    {
+      "hash": "3fe36ea04f8074eb62cd8da962d4b2cefcbfaccd873047357595bb799dd25768",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_02_11.png",
+        "assets/New_Arrivals/review/Hull_02_3.png",
+        "assets/New_Arrivals/review/Hull_02_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_02cc3e8a.png"
+      ]
+    },
+    {
+      "hash": "beb3e1679e2b0341e81deffe6157f8a552698f3142b5e3fd15c3bc5007623f80",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_03.png",
+        "assets/New_Arrivals/review/Hull_03_4.png",
+        "assets/New_Arrivals/review/Hull_03_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5a1ee2af.png"
+      ]
+    },
+    {
+      "hash": "6dda4496b1472430153b1f888d12e7bd9222e7d773d4e7577de4d6abf95b6525",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_03_1.png",
+        "assets/New_Arrivals/review/Hull_03_5.png",
+        "assets/New_Arrivals/review/Hull_03_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_9d47967c.png"
+      ]
+    },
+    {
+      "hash": "db59bdaf90371e40e54fb2fa475ed069d062b5a44cda6be8388c19a1e66cae1f",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_03_10.png",
+        "assets/New_Arrivals/review/Hull_03_2.png",
+        "assets/New_Arrivals/review/Hull_03_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f5905d6f.png"
+      ]
+    },
+    {
+      "hash": "db625dcc6bc817f03a399c8c3fb1ca1fbb1e8312cd90aaa2998d119d1a32fe23",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_03_11.png",
+        "assets/New_Arrivals/review/Hull_03_3.png",
+        "assets/New_Arrivals/review/Hull_03_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f35fc3f7.png"
+      ]
+    },
+    {
+      "hash": "d2f9b9e0e2e7de5b7e0d1d246112d7b27d87a25d29aead5038b29585c02672ff",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_04.png",
+        "assets/New_Arrivals/review/Hull_04_4.png",
+        "assets/New_Arrivals/review/Hull_04_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_1b593df5.png"
+      ]
+    },
+    {
+      "hash": "6d9894bbaa69c6121f9a0f44cedbb77e4e8da8113956f220f37f8fb8e93f164a",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_04_1.png",
+        "assets/New_Arrivals/review/Hull_04_5.png",
+        "assets/New_Arrivals/review/Hull_04_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_443633cd.png"
+      ]
+    },
+    {
+      "hash": "46fe28db8c78156617bdf8130a81ecf1a9032ff47ef622f16e95232bebc0bd40",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_04_10.png",
+        "assets/New_Arrivals/review/Hull_04_2.png",
+        "assets/New_Arrivals/review/Hull_04_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_24dc1697.png"
+      ]
+    },
+    {
+      "hash": "d5360c6db64642c1760ad66367fa08730f39d2bc04eacb9ca812a9a14e5eb7ee",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_04_11.png",
+        "assets/New_Arrivals/review/Hull_04_3.png",
+        "assets/New_Arrivals/review/Hull_04_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_e70dd950.png"
+      ]
+    },
+    {
+      "hash": "bd3e34b52cbbd45f271c62bb9d5321d28531fe2986e1578163230d404678e10e",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_05.png",
+        "assets/New_Arrivals/review/Hull_05_4.png",
+        "assets/New_Arrivals/review/Hull_05_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f692f6d7.png"
+      ]
+    },
+    {
+      "hash": "8ed8c4b44405391e13748109731b6536feeb723c21ee276814baf7a9b5b5c854",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_05_1.png",
+        "assets/New_Arrivals/review/Hull_05_5.png",
+        "assets/New_Arrivals/review/Hull_05_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_73f8ee87.png"
+      ]
+    },
+    {
+      "hash": "7704120eaa81ef61d5624587494fc7f7536f0c68a1d347e5838020c7ff05b4c8",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_05_10.png",
+        "assets/New_Arrivals/review/Hull_05_2.png",
+        "assets/New_Arrivals/review/Hull_05_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_1f4c3dc3.png"
+      ]
+    },
+    {
+      "hash": "b838f541e6dc6673cc8cffc92c5e2fb5047ba3759da439b2f87fcefa023a8e7d",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_05_11.png",
+        "assets/New_Arrivals/review/Hull_05_3.png",
+        "assets/New_Arrivals/review/Hull_05_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_bcc0a4f7.png"
+      ]
+    },
+    {
+      "hash": "9c944a7f647c390accdea3fc5073cbe8a993c2cb5ce6cfbccb578f99352e4e04",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_06.png",
+        "assets/New_Arrivals/review/Hull_06_4.png",
+        "assets/New_Arrivals/review/Hull_06_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_682ffce3.png"
+      ]
+    },
+    {
+      "hash": "9707901d03791796e16b291ebf67b8df420416b5177ff15f85c424b5f82438e0",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_06_1.png",
+        "assets/New_Arrivals/review/Hull_06_5.png",
+        "assets/New_Arrivals/review/Hull_06_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_5877804c.png"
+      ]
+    },
+    {
+      "hash": "8c96bb7cb121ad546f8f38e848cca600243d5d6352afac54916d0f648f4226a2",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_06_10.png",
+        "assets/New_Arrivals/review/Hull_06_2.png",
+        "assets/New_Arrivals/review/Hull_06_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_d5495013.png"
+      ]
+    },
+    {
+      "hash": "351a63a35025639de815788a72677dc884121e0b02831746bf6f16f57c6d6913",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_06_11.png",
+        "assets/New_Arrivals/review/Hull_06_3.png",
+        "assets/New_Arrivals/review/Hull_06_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_bd3fb6d9.png"
+      ]
+    },
+    {
+      "hash": "b02abbb2975bda4664afae1611132b7df7a3961ee38dd2e20a043000349c2ba0",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_07.png",
+        "assets/New_Arrivals/review/Hull_07_4.png",
+        "assets/New_Arrivals/review/Hull_07_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f644ab72.png"
+      ]
+    },
+    {
+      "hash": "b81391b886e18928463cd4d8048c465d22a8c75517afa0fe3bffc791809f7179",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_07_1.png",
+        "assets/New_Arrivals/review/Hull_07_5.png",
+        "assets/New_Arrivals/review/Hull_07_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_ba990fd6.png"
+      ]
+    },
+    {
+      "hash": "e529e740e25a507a38891a336f4e59c0cfa9c042357ad3b873750908d3a829db",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_07_10.png",
+        "assets/New_Arrivals/review/Hull_07_2.png",
+        "assets/New_Arrivals/review/Hull_07_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_caddd339.png"
+      ]
+    },
+    {
+      "hash": "14b0c04dbe7ffb9555cb02f616e0eec44d7758d9a99285c2a07eb1eb52a5de6c",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_07_11.png",
+        "assets/New_Arrivals/review/Hull_07_3.png",
+        "assets/New_Arrivals/review/Hull_07_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_77417c00.png"
+      ]
+    },
+    {
+      "hash": "20db36a25e505c665c92cd1b33ec3c5e2d32167cd83a0cb4ea98734cdfe69f3f",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_08.png",
+        "assets/New_Arrivals/review/Hull_08_4.png",
+        "assets/New_Arrivals/review/Hull_08_8.png",
+        "assets/units/vehicles/Tile_Urban_Tile_7fd28abb.png"
+      ]
+    },
+    {
+      "hash": "6dc2f3effe0138bbe2c60722e4b2886b733dfa8deb4c5cea2318d2e1a9646634",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_08_1.png",
+        "assets/New_Arrivals/review/Hull_08_5.png",
+        "assets/New_Arrivals/review/Hull_08_9.png",
+        "assets/units/vehicles/Tile_Urban_Tile_f9c41876.png"
+      ]
+    },
+    {
+      "hash": "38698b5e7add06a0f375439bf78d1ff19ae4608786ded9d4022f99c9d4975813",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_08_10.png",
+        "assets/New_Arrivals/review/Hull_08_2.png",
+        "assets/New_Arrivals/review/Hull_08_6.png",
+        "assets/units/vehicles/Tile_Urban_Tile_0468e2f3.png"
+      ]
+    },
+    {
+      "hash": "66a035a55d526830a51fac8c9e2ff2de9911d1da934f35f2cb41c4fbe37907a6",
+      "paths": [
+        "assets/New_Arrivals/review/Hull_08_11.png",
+        "assets/New_Arrivals/review/Hull_08_3.png",
+        "assets/New_Arrivals/review/Hull_08_7.png",
+        "assets/units/vehicles/Tile_Urban_Tile_44fdd30a.png"
+      ]
+    },
+    {
+      "hash": "73834b1f24241abe1835844d1f70d43a8cf169179789ee471414cc4cc523a5a3",
+      "paths": [
+        "assets/New_Arrivals/review/Laser.png",
+        "assets/New_Arrivals/review/Laser_1.png",
+        "assets/New_Arrivals/review/Laser_2.png",
+        "assets/vfx/Tile_Urban_Tile_91eccc74.png"
+      ]
+    },
+    {
+      "hash": "6bbb66978285cc6315692ae65518f27b70a61dc523e663a2e12b98a8efff42da",
+      "paths": [
+        "assets/New_Arrivals/review/Medium_Shell.png",
+        "assets/New_Arrivals/review/Medium_Shell_1.png",
+        "assets/New_Arrivals/review/Medium_Shell_2.png",
+        "assets/vfx/Tile_Urban_Tile_0d24f720.png"
+      ]
+    },
+    {
+      "hash": "adedce17a6e5e932282dc9f3b1f19fcaefc3aa478d611cf86e63d3c4bb8a2763",
+      "paths": [
+        "assets/New_Arrivals/review/Plasma.png",
+        "assets/New_Arrivals/review/Plasma_1.png",
+        "assets/New_Arrivals/review/Plasma_2.png",
+        "assets/vfx/Tile_Urban_Tile_784976b3.png"
+      ]
+    },
+    {
+      "hash": "07200ce6609af0c151bf3d2edcbe5d843f748f51ce890c427a1d336414df2463",
+      "paths": [
+        "assets/New_Arrivals/review/Shotgun_Shells.png",
+        "assets/New_Arrivals/review/Shotgun_Shells_1.png",
+        "assets/New_Arrivals/review/Shotgun_Shells_2.png",
+        "assets/vfx/Tile_Urban_Tile_0ffc488f.png"
+      ]
+    },
+    {
+      "hash": "1997d3dd19af3f5c27f353ebcd7bb4751bf18651adbeafd95ca531d29c103770",
+      "paths": [
+        "assets/New_Arrivals/review/Sniper_Shell.png",
+        "assets/New_Arrivals/review/Sniper_Shell_1.png",
+        "assets/New_Arrivals/review/Sniper_Shell_2.png",
+        "assets/vfx/Tile_Urban_Tile_5295eb24.png"
+      ]
+    },
+    {
+      "hash": "01e3609ed6fcb69aea8fc718c0e0871cb58f66eb8ea2e8aabab8c70a81ec89df",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_000.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_dcee328f.png"
+      ]
+    },
+    {
+      "hash": "981e2a894f82d17c0d1227ca166b4ca8c23600b68eced07c4c173bacc3f6264e",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_001.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_ff2f9645.png"
+      ]
+    },
+    {
+      "hash": "ec6eb332408db16f075e46db81d51d61bb806c4ce18ba06e8d97b3b96dddfae5",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_002.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_2532b63d.png"
+      ]
+    },
+    {
+      "hash": "c7bd78518010de0bd6c089f11c67eaa2ae2b289a6ace98165872d51792448bcc",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_003.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_4e01f9f4.png"
+      ]
+    },
+    {
+      "hash": "be112825e0b449873e393702be8abb333b144fed5746d1c0a132556ebb38813a",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_004.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_004_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_004_2.png",
+        "assets/vfx/Tile_Urban_Tile_dc9d8c5e.png"
+      ]
+    },
+    {
+      "hash": "69d8a3fe38358baab40bd28d73f89eb5f92e682cbdf2a314056527923c5c7909",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_006.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_006_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_006_2.png",
+        "assets/vfx/Tile_Urban_Tile_c744ae77.png"
+      ]
+    },
+    {
+      "hash": "b0221ecc2b323980b2a5fdbebc924831aa9eda4a03398bc47e2e0472b88c1efb",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_007.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_007_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_007_2.png",
+        "assets/vfx/Tile_Urban_Tile_9b1ac9aa.png"
+      ]
+    },
+    {
+      "hash": "43ad7882c620645e8e93f938c1f1cb2a17cd69c4f064fd7b79e206cdc1bd8f40",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_008.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_008_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_008_2.png",
+        "assets/vfx/Tile_Urban_Tile_70e0c74d.png"
+      ]
+    },
+    {
+      "hash": "2da57087f2007b0a72b77b27476267137e5c3ad467eb050201bbc2981214f93f",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_009.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_009_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_009_2.png",
+        "assets/vfx/Tile_Urban_Tile_1530e7f3.png"
+      ]
+    },
+    {
+      "hash": "62c2b54f3359febda35130ae1d6259a8d569bd87d98ba9818751b7f1e5fcdcb4",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_003.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_b32ce681.png"
+      ]
+    },
+    {
+      "hash": "a24668567e7afe32c3eb795388faa7272a101c0ce9f745bfc1ac4aee125440a9",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_005.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_005_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_005_2.png",
+        "assets/vfx/Tile_Urban_Tile_06fc6523.png"
+      ]
+    },
+    {
+      "hash": "82da2f736b2a10c745712a96c942141c0bce3eb73ecbb8ce4b3ecb3cf2238244",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_000.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_a1f4f606.png"
+      ]
+    },
+    {
+      "hash": "5fdf00178da09b37013d65c3936e427dae35c84681a40dae8948152e4b73b2e8",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_001.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_ee7c643a.png"
+      ]
+    },
+    {
+      "hash": "07453c391cc87a70f1ecb0033c7bfa0fb63293ceb3f535fdf6c63bea716c61f4",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_002.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_f614e4e2.png"
+      ]
+    },
+    {
+      "hash": "eeea4684dfd6e61aec15a88815e64ad7403a72bd9f78c25d1dd38221af08b0d3",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_003.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_8d58d2a1.png"
+      ]
+    },
+    {
+      "hash": "64ef0ccd6d670072c582006b1f048f6a95f76047c69f633e951085389906be40",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_004.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_004_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_004_2.png",
+        "assets/vfx/Tile_Urban_Tile_3a0044ff.png"
+      ]
+    },
+    {
+      "hash": "6e6ad36df5a924f4a816000f6a0a99a160f6253abefe6f6c5bccf8b445178777",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_005.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_005_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_005_2.png",
+        "assets/vfx/Tile_Urban_Tile_0eab03d6.png"
+      ]
+    },
+    {
+      "hash": "0e0fd32cd97b7e0cbcf02e48789da0348a539d73726c216865b1401a2e477334",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_006.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_006_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_006_2.png",
+        "assets/vfx/Tile_Urban_Tile_3cc89733.png"
+      ]
+    },
+    {
+      "hash": "5f78134f2459c5bab06883dcbc105c88d2c4b1e3eaa6889e3d01583a232d8ead",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_007.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_007_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_007_2.png",
+        "assets/vfx/Tile_Urban_Tile_e2188189.png"
+      ]
+    },
+    {
+      "hash": "9ffc667435549d13708e34715d755202b60e11b5f88fd1cb45c14c0a6a933466",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_008.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_008_1.png",
+        "assets/New_Arrivals/review/Sprite_Effects_Explosion_008_2.png",
+        "assets/vfx/Tile_Urban_Tile_90084f3a.png"
+      ]
+    },
+    {
+      "hash": "1aed7fdf557039ca671b21e5515024cba66ad6bcaf3ce686dde646b03181fc85",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_000.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_a719df3e.png"
+      ]
+    },
+    {
+      "hash": "c1941389e7ff193e3c7c31a2d51616771324b000642c4068d34f8cf9f96573a6",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_001.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_6e0f3100.png"
+      ]
+    },
+    {
+      "hash": "714ea866d42a7d8f0a16c9bc3d2c0dbdde885d9aadcb661b0341e95476a2939a",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_002.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_e585ee34.png"
+      ]
+    },
+    {
+      "hash": "e06e79e2a637bfcf554fe2669f1a28a9da1931741175a624a4ff8a5a80da72c3",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_003.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_7466f8ef.png"
+      ]
+    },
+    {
+      "hash": "5b0da20d09552971dbdf4bf29c8812e8b02f1abcd65fc5af4442377deae84a54",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_006.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_006_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_006_2.png",
+        "assets/vfx/Tile_Urban_Tile_14cad91b.png"
+      ]
+    },
+    {
+      "hash": "31077f09cb28662035da64e3cc1be814c44079754001d272017b10c3fadfbd17",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_007.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_007_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_007_2.png",
+        "assets/vfx/Tile_Urban_Tile_6c30e62c.png"
+      ]
+    },
+    {
+      "hash": "0fefba4ea39d41102829f28014207259878ce0335f5286c9ca762af6a2afa786",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_008.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_008_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_008_2.png",
+        "assets/vfx/Tile_Urban_Tile_15a8d189.png"
+      ]
+    },
+    {
+      "hash": "f678a55685dae9221a069a4c2e086645754f242ee7c41b6ab65b6877d52fd8f6",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_009.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_009_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Flame_009_2.png",
+        "assets/vfx/Tile_Urban_Tile_0d95fe6d.png"
+      ]
+    },
+    {
+      "hash": "1396d482faa7dca4075c69af05ef079b5351508ee959af9553bd7c02312c6bda",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_000.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_3abeb32c.png"
+      ]
+    },
+    {
+      "hash": "4a561703ea875cec668d6ab544727cd7c46ddafe1868a399ef36df1f1c7f29ea",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_001.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_70053152.png"
+      ]
+    },
+    {
+      "hash": "3020ee525c91d746d299c37b80a3573709bf8f5474d4e42e5dfa0d13c01bbbe3",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_002.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_b4bd3233.png"
+      ]
+    },
+    {
+      "hash": "4ebddb73361723a8e96c7595f8377f8fc6d439ccfadedca420cd568d1f37c059",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_003.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_A_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_4386959d.png"
+      ]
+    },
+    {
+      "hash": "b31b1dabd0ec9bc3055fe2c00c8586bfef550a915dc79afaea1457fb4fb7cb6c",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_000.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_3ff5ba1a.png"
+      ]
+    },
+    {
+      "hash": "eabb311e0dfdd5dc87897b893270cd6a22c971dbed960fa167679b9cc0222b7c",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_001.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_a30249b6.png"
+      ]
+    },
+    {
+      "hash": "4919d26a4bfaf13981c0873e14d48cb3e54f0355b39d2bbbb3f2113998899c29",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_002.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_829c4962.png"
+      ]
+    },
+    {
+      "hash": "88999e47b366592011de99a32039f01f0ecb625e8c78040f6270ae35322c6a6d",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_003.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Impact_B_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_85ae50ee.png"
+      ]
+    },
+    {
+      "hash": "d786b8d942c8c92df15d5b5d6505f88f84c19517987f7cca328dfae8ce74953c",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_000.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_9512a83d.png"
+      ]
+    },
+    {
+      "hash": "b1aca91d507887d3a07f84be0e5e7d3244ecdb238cfb224ffd8f0a170931356c",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_001.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_df38e77c.png"
+      ]
+    },
+    {
+      "hash": "30651e5e91336d66d2e5605b6268d1afd310c9e184e7a4e213ff8468494a67fe",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_002.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_ba108784.png"
+      ]
+    },
+    {
+      "hash": "5cf7413538907cc461d38c6cdd7861d55da0b3ffc4ddf439dc699dfaf8714bf2",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_003.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_A_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_4da82c36.png"
+      ]
+    },
+    {
+      "hash": "67d35385ce1a5ed867e94aa5d36f67bdfd4aebd4b509204c448be508697276f0",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_000.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_000_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_000_2.png",
+        "assets/vfx/Tile_Urban_Tile_bf45e530.png"
+      ]
+    },
+    {
+      "hash": "82d02eb1486c14416277fc74cc32054ee7ae242b516ccd53375bc4e72753b831",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_001.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_001_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_001_2.png",
+        "assets/vfx/Tile_Urban_Tile_0d7579b7.png"
+      ]
+    },
+    {
+      "hash": "767ff58d12f6f5e00bf863d579d4737ce3784d6b2ea6a5471d2ca61f3af94ef0",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_002.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_002_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_002_2.png",
+        "assets/vfx/Tile_Urban_Tile_d208ed9d.png"
+      ]
+    },
+    {
+      "hash": "bdc4ada3a53324a7320f4505cabf5338f2538dbe3135ffa16f0bd4b45654efa9",
+      "paths": [
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_003.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_003_1.png",
+        "assets/New_Arrivals/review/Sprite_Fire_Shots_Shot_B_003_2.png",
+        "assets/vfx/Tile_Urban_Tile_31ddafe2.png"
+      ]
+    },
+    {
+      "hash": "f0254a2b500b23d095c66cc933fd076d1350a5284f96f69bdfdc448431998eef",
+      "paths": [
+        "assets/New_Arrivals/review/Tire_Track_01.png",
+        "assets/New_Arrivals/review/Tire_Track_01_1.png",
+        "assets/New_Arrivals/review/Tire_Track_01_2.png",
+        "assets/vfx/Tile_Urban_Tile_1648c4f1.png"
+      ]
+    },
+    {
+      "hash": "dd498adbcda23c777d84cf0b3dd3a2d78a6f73ce545ceb68e55d4c6a0598ef10",
+      "paths": [
+        "assets/New_Arrivals/review/Tire_Track_02.png",
+        "assets/New_Arrivals/review/Tire_Track_02_1.png",
+        "assets/New_Arrivals/review/Tire_Track_02_2.png",
+        "assets/vfx/Tile_Urban_Tile_ee4745d7.png"
+      ]
+    },
+    {
+      "hash": "85e0c2b49caf89b1c1e42dbeff58accf4026032b976dfe07dc36e6b6ce632410",
+      "paths": [
+        "assets/New_Arrivals/review/Track_1_A.png",
+        "assets/New_Arrivals/review/Track_1_A_1.png",
+        "assets/New_Arrivals/review/Track_1_A_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_fd7f64b7.png"
+      ]
+    },
+    {
+      "hash": "790d87416db4a8356b79c32a7fe304577d1915b0cc6680615ce61c927bd5f6cf",
+      "paths": [
+        "assets/New_Arrivals/review/Track_1_B.png",
+        "assets/New_Arrivals/review/Track_1_B_1.png",
+        "assets/New_Arrivals/review/Track_1_B_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_26e23dc6.png"
+      ]
+    },
+    {
+      "hash": "a6926b8cf4d5c4b9157f21a1ad98d78dbaf3f1bce02f89bf175225d3d3583966",
+      "paths": [
+        "assets/New_Arrivals/review/Track_2_A.png",
+        "assets/New_Arrivals/review/Track_2_A_1.png",
+        "assets/New_Arrivals/review/Track_2_A_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_d4bf73f2.png"
+      ]
+    },
+    {
+      "hash": "716a339cb538c7362dfd0a169d220bc2fa4ae46f6d9f49ebc464440a0a34bedf",
+      "paths": [
+        "assets/New_Arrivals/review/Track_2_B.png",
+        "assets/New_Arrivals/review/Track_2_B_1.png",
+        "assets/New_Arrivals/review/Track_2_B_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_09b3ee26.png"
+      ]
+    },
+    {
+      "hash": "584c4d2796cc4385106959564d2b3df65f1d4c01953ca9eeb5a0805092fee552",
+      "paths": [
+        "assets/New_Arrivals/review/Track_3_A.png",
+        "assets/New_Arrivals/review/Track_3_A_1.png",
+        "assets/New_Arrivals/review/Track_3_A_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_54e0a6ec.png"
+      ]
+    },
+    {
+      "hash": "c2684f62e6e8a2b403efddc87ebd7110bec98fc87c1e0cb560161a99dda0f50d",
+      "paths": [
+        "assets/New_Arrivals/review/Track_3_B.png",
+        "assets/New_Arrivals/review/Track_3_B_1.png",
+        "assets/New_Arrivals/review/Track_3_B_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_5d9b1701.png"
+      ]
+    },
+    {
+      "hash": "13bb320766830ef9b9c96d8425fa6112c3969803e0708e9b5c3c0e00e363f79e",
+      "paths": [
+        "assets/New_Arrivals/review/Track_4_A.png",
+        "assets/New_Arrivals/review/Track_4_A_1.png",
+        "assets/New_Arrivals/review/Track_4_A_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_5b0e9980.png"
+      ]
+    },
+    {
+      "hash": "064b7899c86a9be2c0b05eef5d198e04a0d7b87d50a2fedcdc1e3087d25ecebc",
+      "paths": [
+        "assets/New_Arrivals/review/Track_4_B.png",
+        "assets/New_Arrivals/review/Track_4_B_1.png",
+        "assets/New_Arrivals/review/Track_4_B_2.png",
+        "assets/units/vehicles/Gun_Urban_Handgun_bdaa4b0a.png"
+      ]
+    },
+    {
+      "hash": "16eff4750364b9da6163d5a13b678cb61fb3501378e68f0e8feb0dae169ff15b",
+      "paths": [
+        "assets/tiles/urban/fire_animation.png",
+        "assets/tiles/urban/fire_animation_1.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_076483e5.png",
+        "assets/units/vehicles/Obstacle_Urban_Prop_ab4081d7.png"
+      ]
+    },
+    {
+      "hash": "10e9f0abc027bad0167ca6d3add265ef5c81afb950fa72465f4cbe65de0d5b15",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Explosion_A_001.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_A_000.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_A_002.png"
+      ]
+    },
+    {
+      "hash": "9b262c89c117b3f7a7b1a98596a054b7bbba8a9348b6cbb9e42d2465ded89a1f",
+      "paths": [
+        "assets/New_Arrivals/review/Ground_Tile_01_C.png",
+        "assets/New_Arrivals/review/Ground_Tile_01_C_1.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e16b09ff.png"
+      ]
+    },
+    {
+      "hash": "a6051af8cadd2104b6ae2712d36a341724af378a568613225ed13bdcd2881995",
+      "paths": [
+        "assets/New_Arrivals/review/Ground_Tile_02_C.png",
+        "assets/New_Arrivals/review/Ground_Tile_02_C_1.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e576987a.png"
+      ]
+    },
+    {
+      "hash": "56d72fdd1743cfc5981b982be4fce48054caf16fc742a9a764d143f950f6dbb1",
+      "paths": [
+        "assets/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png",
+        "assets/obstacles/urban/Obstacle_Urban_Prop_f8de985c.png",
+        "assets/units/urban/Unit_Urban_Sprite_5e94630f.png"
+      ]
+    },
+    {
+      "hash": "4dde8c9a3d18f4161e836e3bcb7884abbd874b5fca52b0e01a2bb5a269612ad8",
+      "paths": [
+        "assets/archive_for_deletion/Tile_Urban_Tile_5e10c89b.png",
+        "assets/archive_for_deletion/Tile_Urban_Tile_f6fb7a0e.png"
+      ]
+    },
+    {
+      "hash": "80a9a80c366685410ebff5754aa01c293fa1e4c9b432c5c3c11974ccbd7af9a1",
+      "paths": [
+        "assets/New_Arrivals/review/Building_B_01.png",
+        "assets/buildings/medium/Building_Urban_Medium_5bedd077.png"
+      ]
+    },
+    {
+      "hash": "20da88e965c70e490f56634767a05e720747ddbe792c836e41478fb230b81b3e",
+      "paths": [
+        "assets/New_Arrivals/review/Building_A_01.png",
+        "assets/buildings/medium/Building_Urban_Medium_71243ed4.png"
+      ]
+    },
+    {
+      "hash": "aa93b516f5d081e179acaf1a5f9e89ce05c827d4d586b7355dbecc9155a94bcb",
+      "paths": [
+        "assets/New_Arrivals/review/Markup_01.png",
+        "assets/buildings/medium/Building_Urban_Medium_796158dc.png"
+      ]
+    },
+    {
+      "hash": "1d230f6e39f4b561725243069bcadfd84658335cfcd059360db30094f1390995",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-31-30-021.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-31-30-021.png"
+      ]
+    },
+    {
+      "hash": "305454dfa01ccf90cb91c0556744391ba17a3fa1b15fd286cec2d2d808143acb",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-35-02-219.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-35-02-219.png"
+      ]
+    },
+    {
+      "hash": "404e1d2a9f089cdc69f78a545578479acd698580b4078a0a11609ab2a3efcd24",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-36-09-671.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-36-09-671.png"
+      ]
+    },
+    {
+      "hash": "f9da3508ce09e3c92f1fc3e32fee5cc44d142698a4ce99e4aeabd1a8ab0d5297",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-36-42-779.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-36-42-779.png"
+      ]
+    },
+    {
+      "hash": "38c27a52707220a206db474448be78238a5a44beb822846415c912dafc4f911c",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-38-33-204.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-38-33-204.png"
+      ]
+    },
+    {
+      "hash": "5d892720efbfb2969d9fddb78a9b86c6ba81d3da02b5774d00d57d4e9d807697",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-38-49-405.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-38-49-405.png"
+      ]
+    },
+    {
+      "hash": "302600b4be4608f6d17c46529db0a6be89350f03aa33d27859feaba2ef7a5dcb",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-39-08-912.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-39-08-912.png"
+      ]
+    },
+    {
+      "hash": "c83ff88601bce2763ddb925612724dbc3ab3fea8060ddeca7a5167f27e4c7e19",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-39-24-457.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-39-24-457.png"
+      ]
+    },
+    {
+      "hash": "fac2d010fa9b74a4d6a1cae03e66bf808d569d8c40c63a9b9d4032ab8830f34f",
+      "paths": [
+        "assets/buttons/Combat buttons/preview.png",
+        "assets/ui/buttons/preview.png"
+      ]
+    },
+    {
+      "hash": "f793a34f51d86a1ba1463a047a9d74a494497cbbd687eb5a8849b04a24598191",
+      "paths": [
+        "assets/New_Arrivals/review/A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_97296d23.png"
+      ]
+    },
+    {
+      "hash": "a48cf98a685395faac4cfffdc7980e5ec600e7b1a970bfd007bff7c65249f2e3",
+      "paths": [
+        "assets/New_Arrivals/review/Artifact.png",
+        "assets/tiles/urban/Tile_Urban_Tile_7ada3dd8.png"
+      ]
+    },
+    {
+      "hash": "5928d34b642f0e348b1575003322c70477903ac1a12172e2a5ef7cca266b7c26",
+      "paths": [
+        "assets/New_Arrivals/review/B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_5e76ef76.png"
+      ]
+    },
+    {
+      "hash": "90f8751137ccc981853ec1639fe5f4b016c4059ac0a6c6a476a2572b3d94304e",
+      "paths": [
+        "assets/New_Arrivals/review/Ball.png",
+        "assets/tiles/urban/Tile_Urban_Tile_70db1034.png"
+      ]
+    },
+    {
+      "hash": "518c5f528f5add0fcc2fcb2e9ad2843a3713e8ded85c99ddac7becf2cfe2ce8d",
+      "paths": [
+        "assets/New_Arrivals/review/Barell_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2a67ffbc.png"
+      ]
+    },
+    {
+      "hash": "d107a1e2ec9b11ccd50289516d3d9456a1befcc235a040e8fe63a3b0ec8bcc88",
+      "paths": [
+        "assets/New_Arrivals/review/Barell_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_04058ad6.png"
+      ]
+    },
+    {
+      "hash": "b96f65cc8640591725d939ab1082850563dd7df4ab05ce9afe8e39eb03468c16",
+      "paths": [
+        "assets/New_Arrivals/review/Barell_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1b3cc145.png"
+      ]
+    },
+    {
+      "hash": "f36fa52eb0748c8ef81e5d42160b93d61bd1134788640ccfa01688da4d024f6e",
+      "paths": [
+        "assets/New_Arrivals/review/Blast_Trail_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_ee73c70b.png"
+      ]
+    },
+    {
+      "hash": "26733aa5cfb3a1e452b62bde45815647d081aaf17ac162855edb9693336d6d2e",
+      "paths": [
+        "assets/New_Arrivals/review/Blast_Trail_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_bde71ed0.png"
+      ]
+    },
+    {
+      "hash": "e3c7f52f0ae5783589bdbc011de3354a3c30000255b58edca5b0f4cf34f7eee0",
+      "paths": [
+        "assets/New_Arrivals/review/Blast_Trail_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_971a756a.png"
+      ]
+    },
+    {
+      "hash": "139cd93a7a0b2f865e53c8ff36768a641a7b1ddc29bd2f0427c68c4185d3a744",
+      "paths": [
+        "assets/New_Arrivals/review/Blast_Trail_04.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b45ce142.png"
+      ]
+    },
+    {
+      "hash": "0f0f5a8e8a9a20c756c7db3238deb8aba804ec8b4104a0c07c6735509ce08c9b",
+      "paths": [
+        "assets/New_Arrivals/review/Blast_Trail_05.png",
+        "assets/tiles/urban/Tile_Urban_Tile_a9964088.png"
+      ]
+    },
+    {
+      "hash": "8af5d387d1385d0507fb4d65675682cea65b9956dd80eba6e314a753c725612e",
+      "paths": [
+        "assets/New_Arrivals/review/Blast_Trail_06.png",
+        "assets/tiles/urban/Tile_Urban_Tile_ca0fcd9e.png"
+      ]
+    },
+    {
+      "hash": "239c066431981c9eca9c8401aaf745d9cb36d1f2014f7d6f41b8575987b346bc",
+      "paths": [
+        "assets/New_Arrivals/review/Block_A_01.png",
+        "assets/obstacles/desert/Obstacle_Desert_Prop_21560d0e.png"
+      ]
+    },
+    {
+      "hash": "6ef16121e53faee1630a178e5df4da0fa9b3f83579b6e7938bdb1098dd1ac29b",
+      "paths": [
+        "assets/New_Arrivals/review/Block_A_02.png",
+        "assets/tiles/desert/Tile_Desert_Tile_615f8faa.png"
+      ]
+    },
+    {
+      "hash": "21879a4092f9209db9840f0c12e3a776030c0b3de02b9415b3377ae5d87cef83",
+      "paths": [
+        "assets/New_Arrivals/review/Block_B_01.png",
+        "assets/obstacles/grass/Obstacle_Grass_Prop_e93c778d.png"
+      ]
+    },
+    {
+      "hash": "96cf1e052f309a7c9610e3ede82485059d3d713274491dc442b02cd21e618870",
+      "paths": [
+        "assets/New_Arrivals/review/Block_B_02.png",
+        "assets/tiles/grass/Tile_Grass_Tile_97ba5658.png"
+      ]
+    },
+    {
+      "hash": "096c7ebacc0802ca7c063414dca2456c913bdbcc12c5dc93169fd58063b2ac76",
+      "paths": [
+        "assets/New_Arrivals/review/Block_C_01.png",
+        "assets/obstacles/urban/Obstacle_Urban_Prop_4a03be92.png"
+      ]
+    },
+    {
+      "hash": "2d6abbb7dee73c483bec06001fad3e9f253e05be67b49d83219d7eaefbdae047",
+      "paths": [
+        "assets/New_Arrivals/review/Block_C_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1d6e7138.png"
+      ]
+    },
+    {
+      "hash": "97eb76fee0e90068c793524d0efef73767cc0e98dba4b5b0225c5d8c92efa9d2",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_A.png",
+        "assets/New_Arrivals/review/Bomb_A_1.png"
+      ]
+    },
+    {
+      "hash": "5c6c511095ea6f913330750567eb8cd43887f4afba3bf67b85ba9d2cc5560730",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_B.png",
+        "assets/New_Arrivals/review/Bomb_B_1.png"
+      ]
+    },
+    {
+      "hash": "1b867ff6d0c35012bb1c0eabf127c34a43346b513dbf3fea548956907cf79303",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_B_01.png",
+        "assets/New_Arrivals/review/Bomb_B_01_1.png"
+      ]
+    },
+    {
+      "hash": "bdf9350b18cb13ff1cb0ec97e2a628b5fb2a106c79191fcef99b4169f8d7e091",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_B_02.png",
+        "assets/New_Arrivals/review/Bomb_B_02_1.png"
+      ]
+    },
+    {
+      "hash": "b1116ef2aa93c42d861609aca3dd3b5b724a22cd5e90307426dfc442bf2284fe",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_B_03.png",
+        "assets/New_Arrivals/review/Bomb_B_03_1.png"
+      ]
+    },
+    {
+      "hash": "18b16794010644525c2393640390d48e166c07a6d541c985270e934fb835f724",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_C.png",
+        "assets/New_Arrivals/review/Bomb_C_1.png"
+      ]
+    },
+    {
+      "hash": "3d3be8cf738a14b478e75dc5a4595bec5366096be1fa896e2e955026c49d0281",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_C_01.png",
+        "assets/New_Arrivals/review/Bomb_C_01_1.png"
+      ]
+    },
+    {
+      "hash": "18559a3c76996f8388591e2a55e594350e21881ad0b1659b1d54b0eb72fc1d19",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_C_02.png",
+        "assets/New_Arrivals/review/Bomb_C_02_1.png"
+      ]
+    },
+    {
+      "hash": "addc92a8c7c7b24158519445a5835f3e746746d07283152be9b4ac01976bfb24",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_C_03.png",
+        "assets/New_Arrivals/review/Bomb_C_03_1.png"
+      ]
+    },
+    {
+      "hash": "7dffdeb72e26dd30b0053711ec98146cc58337fdd591b7fe331515d3177cc705",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_C_04.png",
+        "assets/New_Arrivals/review/Bomb_C_04_1.png"
+      ]
+    },
+    {
+      "hash": "46b86f9a6b5ea70c88ce757c5e8e174e6a1c28bfaf1b292b11e0d2ba66c47c44",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_C_05.png",
+        "assets/New_Arrivals/review/Bomb_C_05_1.png"
+      ]
+    },
+    {
+      "hash": "eabf6de23be474d0497ce918a6b278650f3f6843311f52b0c906200a269b8e0c",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Explosion_B_000.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_B_005.png"
+      ]
+    },
+    {
+      "hash": "c12348bcadcb1c07860a65800a6897eb146ec75d31cb02683a94e2f79a84b402",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Explosion_B_002.png",
+        "assets/New_Arrivals/review/Bomb_Explosion_B_003.png"
+      ]
+    },
+    {
+      "hash": "05b429cbef85d41f238d843083df947b36f62304005288007f4eaaed8b3019a1",
+      "paths": [
+        "assets/New_Arrivals/review/Bomb_Explosion_C_000.png",
+        "assets/New_Arrivals/review/Bomb_Triggering_C_005.png"
+      ]
+    },
+    {
+      "hash": "3499a756ec3de22fd30124ed887252ac7b9d4017bddf7d410568be0c34ddccf0",
+      "paths": [
+        "assets/New_Arrivals/review/Border_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_08c079c7.png"
+      ]
+    },
+    {
+      "hash": "555fdbee33387cde01eaa6c4e48eb1c56d827fc2e92b46d0cbf7864bdbe8a734",
+      "paths": [
+        "assets/New_Arrivals/review/Border_B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d64213db.png"
+      ]
+    },
+    {
+      "hash": "14af07370d91c01ba5d0ac3e153cf1ff17c563f88a7b3c7ab087335007e61fa1",
+      "paths": [
+        "assets/New_Arrivals/review/Border_C.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d31dd608.png"
+      ]
+    },
+    {
+      "hash": "eb2dd17bead9038fbd45a72c59f9d2d8344d1383c0ad99ec208c67c28a17adc2",
+      "paths": [
+        "assets/New_Arrivals/review/Building_A_02.png",
+        "assets/obstacles/urban/Obstacle_Urban_Prop_d845a5d8.png"
+      ]
+    },
+    {
+      "hash": "e36920205426fcc04190c2a27d0a1dcd093260c0b066fdb653c6b1c3fb7a4398",
+      "paths": [
+        "assets/New_Arrivals/review/Building_B_02.png",
+        "assets/obstacles/urban/Obstacle_Urban_Prop_7e6b346a.png"
+      ]
+    },
+    {
+      "hash": "726b3edb6e9ba9fd8e70aa1f5c61cc50884e2ae9ffbbe1d13726be7bc60fda7e",
+      "paths": [
+        "assets/New_Arrivals/review/Cactus_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_88710089.png"
+      ]
+    },
+    {
+      "hash": "45a66640404b650017aa4b22ea61166673e6faed5b7bab5c55019ad66d5a73d4",
+      "paths": [
+        "assets/New_Arrivals/review/Cactus_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b15796b6.png"
+      ]
+    },
+    {
+      "hash": "f6d4f5d168dffad26e9d960a7dbd51d3722da3f155d4a9e03619e3633ead9cfa",
+      "paths": [
+        "assets/New_Arrivals/review/Cactus_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_332f4c21.png"
+      ]
+    },
+    {
+      "hash": "fa680515fefd9458bba2eef2125beaf734c4083fd7b6ca66eb7e0c0f1a373fb7",
+      "paths": [
+        "assets/New_Arrivals/review/Container_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_a76305d9.png"
+      ]
+    },
+    {
+      "hash": "839df2eca45a498d91ee9dc7d92e2479ae63993dde5547167d46ccdf6785f8dd",
+      "paths": [
+        "assets/New_Arrivals/review/Container_B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_8e5f289e.png"
+      ]
+    },
+    {
+      "hash": "23c1b842fad76c0afe44dfc55db6b60e0f9430e16959b2286cb4fb42be74dde1",
+      "paths": [
+        "assets/New_Arrivals/review/Container_C.png",
+        "assets/tiles/grass/Tile_Grass_Tile_f3b57cd9.png"
+      ]
+    },
+    {
+      "hash": "ef365f758bc01a89416fd0ff93d33b3a0500e3bc1d113e4e39450d6846200bd7",
+      "paths": [
+        "assets/New_Arrivals/review/Container_D.png",
+        "assets/tiles/urban/Tile_Urban_Tile_0b3b2131.png"
+      ]
+    },
+    {
+      "hash": "bfd8dcd5e23c6698aae1c697f10c9915346e1917fe8a4170bf382ec6a112d081",
+      "paths": [
+        "assets/New_Arrivals/review/Czech_Hdgehog_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_7ab9251d.png"
+      ]
+    },
+    {
+      "hash": "72c05a607090483dd66c9860845bdce53c8588bbde14869331534a7a167d1116",
+      "paths": [
+        "assets/New_Arrivals/review/Czech_Hdgehog_B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_3fcf144f.png"
+      ]
+    },
+    {
+      "hash": "fdbdbcc594161f55b97de9489d18fe207080ffb9714b6c96d30dcb3a40d4c3ff",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Pipe_A_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_934b599f.png"
+      ]
+    },
+    {
+      "hash": "30ef93d4097ed42dfcee70f85eb6337f5d38323063df9ed0b7b59b5695321a47",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Pipe_A_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d3b9faac.png"
+      ]
+    },
+    {
+      "hash": "2ffbf527e734ac7b9da3a63137df3e6c58319677c9645028a464ecd10f03de60",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Pipe_B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2e69c4a6.png"
+      ]
+    },
+    {
+      "hash": "7bb8826c8738a5b84134c49d84e535160c4f3bc841f4cb5c09f35863c6bee126",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Pipe_C_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_af642059.png"
+      ]
+    },
+    {
+      "hash": "24ace8bb3e67eaa73fb724f2c9e8f35fc058ae560ba7328caa8b3a5e4f6bbe75",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Pipe_C_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_855c4016.png"
+      ]
+    },
+    {
+      "hash": "519ac83ad1b7bcf3dddc5edb9ce56f2a0a17167842f8c772eb419fd023bf1535",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_92dc918c.png"
+      ]
+    },
+    {
+      "hash": "f96f61d9a08ca2f8db9d3236ab942aaf649ed5c310e76d23219eb1a76f2e9b90",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_cc5b284e.png"
+      ]
+    },
+    {
+      "hash": "41e6f06fc4b2086c3cf4805a0d1a5ed848ff386191cf9085575a0ad7ac574b1c",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e0efd9b4.png"
+      ]
+    },
+    {
+      "hash": "420ca0762ad05e9299ed6365ca8e4a9b9128feea3b4d398016c34904a60e92a9",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_04.png",
+        "assets/tiles/urban/Tile_Urban_Tile_bd000b01.png"
+      ]
+    },
+    {
+      "hash": "5610741bda4afbc8e12b3713750be941401cfbf43215c0bc176e076f68b8e87e",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_05.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1424895a.png"
+      ]
+    },
+    {
+      "hash": "f19f9f71792b184bac20aa090e5c427f2686c633b016054d5556e1a840982463",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_06.png",
+        "assets/tiles/urban/Tile_Urban_Tile_77e684fd.png"
+      ]
+    },
+    {
+      "hash": "5bce8fde33ba8f9797eae2976de53ff3c36403aceba927f160c6b298b2dda746",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_07.png",
+        "assets/tiles/urban/Tile_Urban_Tile_275d9e52.png"
+      ]
+    },
+    {
+      "hash": "326ab9dfb38ffbe4ffe7e2ba2d5c63fc069d3140032176f441882e27a0282347",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_08.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2a8e70f1.png"
+      ]
+    },
+    {
+      "hash": "e35184ba58699d7bbece7d5d87b12bf4e47f861cd1e583dbfca01e3b8c0ffe91",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_A_09.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1bdcfba8.png"
+      ]
+    },
+    {
+      "hash": "dd0ec432cc775dcc9df91e1bdc7ec26a3905b9e78a7c764ea6d02b2f2145dec8",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_fc7b20f8.png"
+      ]
+    },
+    {
+      "hash": "954fd084cdf0583775faa5df0e83e985375d1df8bbf5e69506f655969e3a9497",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d214b341.png"
+      ]
+    },
+    {
+      "hash": "9882ce83852d603973e00f608b97814aa116867e57f583669267b2d240c26824",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_cc206b9e.png"
+      ]
+    },
+    {
+      "hash": "80ec1177ef20355bdac7f6047bc683a72067f69ff7562356b39e754a8901b552",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_04.png",
+        "assets/tiles/urban/Tile_Urban_Tile_9ba37e06.png"
+      ]
+    },
+    {
+      "hash": "88e69f5a70214c51feec628887c8107fda4652509fa4dd9b17f549c1075142c4",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_05.png",
+        "assets/tiles/urban/Tile_Urban_Tile_1d4291b7.png"
+      ]
+    },
+    {
+      "hash": "3b8cc9a3ba132e8a29576969b83d60bd061e51b711f8ec918f39f44d2f015f52",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_06.png",
+        "assets/tiles/urban/Tile_Urban_Tile_2c3dccd4.png"
+      ]
+    },
+    {
+      "hash": "35fbd28ae942eaa76d57807e4e5c31e889164fed926a5b7af522854262edf187",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_07.png",
+        "assets/tiles/urban/Tile_Urban_Tile_192eec2a.png"
+      ]
+    },
+    {
+      "hash": "f850b8b7ec59542a1f925862b6db8a94f8e6675833c785c682cb040930abf6fe",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_08.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d42e3e3f.png"
+      ]
+    },
+    {
+      "hash": "c18547956b3f811e9b137c2d2c736d734700b8a3e5fc3b9e6508741f3645bb6c",
+      "paths": [
+        "assets/New_Arrivals/review/Decor_Tile_B_09.png",
+        "assets/tiles/urban/Tile_Urban_Tile_e8b11856.png"
+      ]
+    },
+    {
+      "hash": "a29dc0ce8d1c289c9ba03f7c728c66b75e6ef2c1ce0264dfe71fd54982a713b0",
+      "paths": [
+        "assets/New_Arrivals/review/Dot_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_a75b6975.png"
+      ]
+    },
+    {
+      "hash": "d6de4e83b813ba228db0e65c36ca9306f294543df76d0a1330565bdca64c69cf",
+      "paths": [
+        "assets/New_Arrivals/review/Dot_B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b2ba58a8.png"
+      ]
+    },
+    {
+      "hash": "f2641abba6fb3c9c6e3dd83b59ca819a1d6899f82c61fcdfed82a3b9f7687539",
+      "paths": [
+        "assets/New_Arrivals/review/Dot_C.png",
+        "assets/tiles/urban/Tile_Urban_Tile_6e423210.png"
+      ]
+    },
+    {
+      "hash": "1a465ff81f9b4d5fc1169d4f5bb637900d05a7c91e1c9dd2b70a47736a47da87",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_A_01.png",
+        "assets/New_Arrivals/review/Explosion_A_01_1.png"
+      ]
+    },
+    {
+      "hash": "4850ae93672d49e011aa0ebf1b1a742a393a8a56da3c7e62368c3a5fd6f9160e",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_A_02.png",
+        "assets/New_Arrivals/review/Explosion_A_02_1.png"
+      ]
+    },
+    {
+      "hash": "76320b106ccfa64a7cebc33b295d946fc6be88f084bdfcd207d5972ae2265b75",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_A_03.png",
+        "assets/New_Arrivals/review/Explosion_A_03_1.png"
+      ]
+    },
+    {
+      "hash": "36eb3f51eb1fa0742e235981c0993d51d3f5b3fb00a2087a7b17357490d0036e",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_A_04.png",
+        "assets/New_Arrivals/review/Explosion_A_04_1.png"
+      ]
+    },
+    {
+      "hash": "0b0387ab3611a71c27983286680de393a1ce20932382dc3b4d762f1a84e6a2b0",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_A_05.png",
+        "assets/New_Arrivals/review/Explosion_A_05_1.png"
+      ]
+    },
+    {
+      "hash": "ee40c956bfb72ec339f74a21a616bbbf95d0d620ad5ef77dcfcfd72695c105e8",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_B_01.png",
+        "assets/New_Arrivals/review/Explosion_B_01_1.png"
+      ]
+    },
+    {
+      "hash": "b89d3b76129e62eac411a533bce73c193695f9fbfdfe0d01caf3e2bf96f85fda",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_B_02.png",
+        "assets/New_Arrivals/review/Explosion_B_02_1.png"
+      ]
+    },
+    {
+      "hash": "fb4f2ab1db4b8162a8c36293d169a051620b96c2b1c3706a860999ab889228a0",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_B_03.png",
+        "assets/New_Arrivals/review/Explosion_B_03_1.png"
+      ]
+    },
+    {
+      "hash": "04e060b5b728e84efa865c22c12f89738c13917f972e8665694264e494d4b501",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_B_04.png",
+        "assets/New_Arrivals/review/Explosion_B_04_1.png"
+      ]
+    },
+    {
+      "hash": "af56399ce09ed2f79f9eb230012efbb4edbad7e5f4788e4cfaa568f435b5ebe4",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_B_05.png",
+        "assets/New_Arrivals/review/Explosion_B_05_1.png"
+      ]
+    },
+    {
+      "hash": "55226bb519cae199c84000361824e48710307cdb0aea8de5a166e6bda464e6aa",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_C_01.png",
+        "assets/New_Arrivals/review/Explosion_C_01_1.png"
+      ]
+    },
+    {
+      "hash": "1b7767e8d185d9fe476c3bd2f7636da7f75195fa160246ff684914c2f8285c13",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_C_02.png",
+        "assets/New_Arrivals/review/Explosion_C_02_1.png"
+      ]
+    },
+    {
+      "hash": "cf227f30b9e2c124b08a5784a0766bf8e99c9d68bf001d7c06cfff5fa9a0d027",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_C_03.png",
+        "assets/New_Arrivals/review/Explosion_C_03_1.png"
+      ]
+    },
+    {
+      "hash": "61211af00a09e63cc811f3b40e25d25d9d398a5d57ede9c6d5e2162a00fa2308",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_C_04.png",
+        "assets/New_Arrivals/review/Explosion_C_04_1.png"
+      ]
+    },
+    {
+      "hash": "26ae69bc87ce73abce59053dd82819be65255b2f2679d1df9ae8dc82a70ed175",
+      "paths": [
+        "assets/New_Arrivals/review/Explosion_C_05.png",
+        "assets/New_Arrivals/review/Explosion_C_05_1.png"
+      ]
+    },
+    {
+      "hash": "8dc8f39054409173d2a01ace4e99ba01a2b287846a37d923769b3f0a85101f8d",
+      "paths": [
+        "assets/New_Arrivals/review/Flag_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_3443c265.png"
+      ]
+    },
+    {
+      "hash": "ed813d36e757d687feafbdf0b76ae112d11806ff926fbb5a25a0f3e55c7c90ed",
+      "paths": [
+        "assets/New_Arrivals/review/Flag_B.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f6b915a8.png"
+      ]
+    },
+    {
+      "hash": "57150da4ec2e6d121f85244bfe4aee7a43f337ad3b5c047b5c9f103f46740d23",
+      "paths": [
+        "assets/New_Arrivals/review/Football_Goals_A.png",
+        "assets/obstacles/urban/Obstacle_Urban_Prop_5df2fccd.png"
+      ]
+    },
+    {
+      "hash": "52be8959b202832978161f45f4ce39052359f93a95c4d061a030263db1e586e5",
+      "paths": [
+        "assets/New_Arrivals/review/Football_Goals_B.png",
+        "assets/obstacles/urban/Obstacle_Urban_Prop_45903fb2.png"
+      ]
+    },
+    {
+      "hash": "df8cebd47cbcdd76443b81732e10e3ac05fce705c8586e856422a414458f8214",
+      "paths": [
+        "assets/New_Arrivals/review/Ground_Tile_01_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b99dcbb5.png"
+      ]
+    },
+    {
+      "hash": "3b87f4a522c65015238806984d36b996be788cd37bd6682f2402dccdfd2dd16d",
+      "paths": [
+        "assets/New_Arrivals/review/Ground_Tile_01_B.png",
+        "assets/tiles/grass/Tile_Grass_Tile_19638f8d.png"
+      ]
+    },
+    {
+      "hash": "28865d8779e30e95138eb10dcd4e3c9205347628dc1ad523990490292497f674",
+      "paths": [
+        "assets/New_Arrivals/review/Ground_Tile_02_A.png",
+        "assets/tiles/urban/Tile_Urban_Tile_ec87b96c.png"
+      ]
+    },
+    {
+      "hash": "2d6e50c69f0329cf880d7920c4d8c0bb5c9674b2f6edcbe8e6949e609bc7e164",
+      "paths": [
+        "assets/New_Arrivals/review/Ground_Tile_02_B.png",
+        "assets/tiles/grass/Tile_Grass_Tile_905462d6.png"
+      ]
+    },
+    {
+      "hash": "ec61c33f8be3a59752380a64c7817e9bca552524581f92122c71f4a3e3d04367",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_A_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_98b4f764.png"
+      ]
+    },
+    {
+      "hash": "e96739473d9f62f453bb830e16e6b1f0f62a0062d79b2b0674bac323affaf188",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_A_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_21f3bf96.png"
+      ]
+    },
+    {
+      "hash": "22c1a8bebf4a97b42efccbbb780fa83d87a6aeef97ee116ce41877bd33f99789",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_A_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_efca2963.png"
+      ]
+    },
+    {
+      "hash": "e3b7f9590ba8530ba1fc9d7de6c383c281b4b53eea4a469dfa50d1b971534885",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_B_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_f3fc4f5f.png"
+      ]
+    },
+    {
+      "hash": "fd62e3c260dfff3724ae40ce9e7f876c95b62afc6e080a05d5ee5dafc1083966",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_B_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_72c66d82.png"
+      ]
+    },
+    {
+      "hash": "51a41269f24a910adc155b9d80d543067475ebe3ac2cb33febe6b25db1db8750",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_B_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_da49a565.png"
+      ]
+    },
+    {
+      "hash": "72752a7f1bcb57b500876af792e509abe0511457ef7f7619d7467e641d54bf6e",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_C_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_aa1c2d49.png"
+      ]
+    },
+    {
+      "hash": "4323a67378a37e35093416046c6a21e27fa9ad10a268bf120f47d89e322eb8a3",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_C_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_3f3b8472.png"
+      ]
+    },
+    {
+      "hash": "ec147a0ae9fbcbe010b9c38a4ae9ec477be77e3bb574638baf7b50bc8f5cf7f6",
+      "paths": [
+        "assets/New_Arrivals/review/Hedge_C_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_9296a296.png"
+      ]
+    },
+    {
+      "hash": "c1afa7176b1f0df47598f774386943460cc44aa623e3a32e77cb9a3dd3bee575",
+      "paths": [
+        "assets/New_Arrivals/review/Log.png",
+        "assets/tiles/urban/Tile_Urban_Tile_d4188ec7.png"
+      ]
+    },
+    {
+      "hash": "5d3dd64cf9b5bc236309fe6adbee9d108c61021fc8b5fb6d45a1eb663602ff8d",
+      "paths": [
+        "assets/New_Arrivals/review/Markup_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_6e0db011.png"
+      ]
+    },
+    {
+      "hash": "312e48880e9113e0c4bb4d3bb25d2d02d19cbe593732288d4d106fe2bd1e1b13",
+      "paths": [
+        "assets/New_Arrivals/review/Markup_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b22a13a0.png"
+      ]
+    },
+    {
+      "hash": "2f2c726da0f3b0855147c3e81d4c8bcdf8c922d700565b66139c45b195d00d88",
+      "paths": [
+        "assets/New_Arrivals/review/Platform.png",
+        "assets/tiles/urban/Tile_Urban_Tile_7a16ca18.png"
+      ]
+    },
+    {
+      "hash": "691b29d2b351cd337bf64a3429c56cd91ee5e47ac1cd60a08556a2038d225acf",
+      "paths": [
+        "assets/New_Arrivals/review/Puddle_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_96154c73.png"
+      ]
+    },
+    {
+      "hash": "cf86e4cfd0b297e89e35bfa154c3111541870b0b618ee9033a1b50b277d013c9",
+      "paths": [
+        "assets/New_Arrivals/review/Puddle_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_823375d1.png"
+      ]
+    },
+    {
+      "hash": "f878f1117b62ca1f45db5e4199a83de32042560eedc039552d3c99cab8840f4a",
+      "paths": [
+        "assets/New_Arrivals/review/Puddle_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_84cb7352.png"
+      ]
+    },
+    {
+      "hash": "54cf1de47fb91a1c51c572884cde9b8d79fa2d03cbad75eb874c5a756d3c0667",
+      "paths": [
+        "assets/New_Arrivals/review/Puddle_04.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b4187275.png"
+      ]
+    },
+    {
+      "hash": "13e026a2f29f4ce4b0b6d23d9606fd513934421556b157f062eb40247142b092",
+      "paths": [
+        "assets/New_Arrivals/review/Puddle_05.png",
+        "assets/tiles/urban/Tile_Urban_Tile_aadf2e10.png"
+      ]
+    },
+    {
+      "hash": "fb6f9aeb65c9c7204e82c98eea1c92d6a43027316409e789936d90f325e7e9b7",
+      "paths": [
+        "assets/New_Arrivals/review/Puddle_06.png",
+        "assets/tiles/urban/Tile_Urban_Tile_79f2214c.png"
+      ]
+    },
+    {
+      "hash": "b25f2d458449214182e9c7758565b690bd0c1c81ddb5e0f60e9aaa8a83908b62",
+      "paths": [
+        "assets/New_Arrivals/review/Rock_01.png",
+        "assets/obstacles/urban/Obstacle_Urban_Ruins_4947498f.png"
+      ]
+    },
+    {
+      "hash": "63c6cfaf34e5b738b79e570d784c8c526867cdee0c28921c4cdea1f6aa464c2d",
+      "paths": [
+        "assets/New_Arrivals/review/Rock_02.png",
+        "assets/obstacles/urban/Obstacle_Urban_Ruins_cbea6705.png"
+      ]
+    },
+    {
+      "hash": "125b270e0856d09593c15a80e371c9245d1ae210040f10759792ba16ebf87c94",
+      "paths": [
+        "assets/New_Arrivals/review/Rock_03.png",
+        "assets/obstacles/urban/Obstacle_Urban_Ruins_dae57b4e.png"
+      ]
+    },
+    {
+      "hash": "44e47fabb34992060889659fa6af92e37625a535cb3cda36e59d509b08462317",
+      "paths": [
+        "assets/New_Arrivals/review/Stump.png",
+        "assets/tiles/urban/Tile_Urban_Tile_9d553c54.png"
+      ]
+    },
+    {
+      "hash": "4d37e5b6b14a6fe2eb058ef8c2e241be80bcbcb4ee55bdec4d7dc1df8d89fa02",
+      "paths": [
+        "assets/New_Arrivals/review/Tire_01.png",
+        "assets/tiles/urban/Tile_Urban_Tile_478e862d.png"
+      ]
+    },
+    {
+      "hash": "a5d01555ed6a783e4a7adf2e76a1afe3f90f094360736dba326414f655358f3b",
+      "paths": [
+        "assets/New_Arrivals/review/Tire_02.png",
+        "assets/tiles/urban/Tile_Urban_Tile_699a7371.png"
+      ]
+    },
+    {
+      "hash": "f94f53932fa522db81c4ba34f99fe681e16f37fd52719d3a04e08a5e643925a2",
+      "paths": [
+        "assets/New_Arrivals/review/Tire_03.png",
+        "assets/tiles/urban/Tile_Urban_Tile_61117f4d.png"
+      ]
+    },
+    {
+      "hash": "a1cced29da6576b9137a6430d1518a04a16248dc20a53b69baf72d5a922f2025",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_01.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_a27415de.png"
+      ]
+    },
+    {
+      "hash": "694ff33e368c9b4786607b5045f46ec42f0d9b380b7597dc9d01f55f35eb8458",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_02.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_d91d51fd.png"
+      ]
+    },
+    {
+      "hash": "1b0ccc4be9d4949e1c12820c9e6a63cac8bf977461700405893d2f459c7bb311",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_03.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_39529718.png"
+      ]
+    },
+    {
+      "hash": "0f0c3a760e0ec843d13ebd5fe186197a3646fe036abde0486dd820048fbd2668",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_04.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_cce7c3a7.png"
+      ]
+    },
+    {
+      "hash": "b78da05b265edf4103417288d27d362e6f882be35cfd095ec678fdaafa1a4f26",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_05.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_337d7234.png"
+      ]
+    },
+    {
+      "hash": "c8898f08952e89947c535908b74c496c3fc0f1d94cde850a66d21924d02db098",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_06.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_6e306a16.png"
+      ]
+    },
+    {
+      "hash": "2a831150a21dd42053ab581544bdbcb183095a12c19b8d35cc4ec707f4a3993a",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_07.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_f5653c38.png"
+      ]
+    },
+    {
+      "hash": "72108d03ee317cba6d67be7e764cdf870c4c3bce6fae7b6c362bd13f2ca63baf",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_08.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_e3c0dbf2.png"
+      ]
+    },
+    {
+      "hash": "a0cb464fd0357a41a42d0a322b58764bcffaa384968e0b54bd207cc213035d52",
+      "paths": [
+        "assets/New_Arrivals/review/Tree_09.png",
+        "assets/obstacles/urban/Obstacle_Urban_Tree_f55eda4d.png"
+      ]
+    },
+    {
+      "hash": "3128a44029e5e78be266aeb86bb37f7ec148586409818aac3edf5ff68dd45d7c",
+      "paths": [
+        "assets/New_Arrivals/review/Well.png",
+        "assets/tiles/urban/Tile_Urban_Tile_b06a2001.png"
+      ]
+    },
+    {
+      "hash": "a14dbd6a1f3105224d1ed12ba70757cc824f870eb2431ed69b88b9617188066a",
+      "paths": [
+        "assets/obstacles/urban/Obstacle_Urban_Strip_9e1d8da7.png",
+        "assets/tiles/urban/Objects.png"
+      ]
+    },
+    {
+      "hash": "cc358af5f628f30716c74f125dedf6fac054bdc68bab444a9f2a94808738edaf",
+      "paths": [
+        "assets/tiles/urban/decorative_cracks_floor.png",
+        "assets/tiles/urban/decorative_cracks_floor_1.png"
+      ]
+    },
+    {
+      "hash": "5fd30fa603ae2b626337d2e9826a42810ad91a6657a76a00e688bb2a088d66df",
+      "paths": [
+        "assets/tiles/urban/decorative_cracks_walls.png",
+        "assets/tiles/urban/decorative_cracks_walls_1.png"
+      ]
+    },
+    {
+      "hash": "1d64e74ec39f03de919d795b065c36de595706cd404d72429bb9a07eabe1ffd3",
+      "paths": [
+        "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "assets/tiles/urban/Water_animation.png"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "generatedAt": "2026-04-08T02:06:27.119Z",
+  "layoutVersion": 1,
+  "summary": {
+    "assetsFiles": 3597,
+    "attachedAssetsFiles": 7855,
+    "duplicateBasenamesUnderAssets": 17,
+    "possibleSpriteSheetsOrSequences": 168
+  },
+  "coarseFamilyMap": {
+    "tactical_vehicles": "unit",
+    "soldiers_infantry": "unit",
+    "weapons_firearms": "unit",
+    "terrain_tiles": "tile",
+    "buildings_structures": "tile",
+    "urban_ruins": "tile",
+    "urban_props": "tile",
+    "foliage": "tile",
+    "desert_scatter": "tile",
+    "vfx_combat": "effect",
+    "ui_hud": "ui",
+    "loot_icons": "ui"
+  },
+  "targets": {
+    "units": [
+      "assets/units/vehicles",
+      "assets/units/infantry"
+    ],
+    "tiles": [
+      "assets/tiles/terrain/{urban,desert,grass}",
+      "assets/tiles/{urban,desert,grass} (legacy)"
+    ],
+    "structures": [
+      "assets/tiles/structures/{small,medium,large,fortified}",
+      "assets/buildings/* (legacy)"
+    ],
+    "effects": [
+      "assets/effects/explosions",
+      "assets/effects/muzzle",
+      "assets/effects/smoke",
+      "assets/vfx (legacy)"
+    ],
+    "ui": [
+      "assets/ui/*"
+    ]
+  },
+  "inconsistencies": [
+    "Many Gun_* variants under assets/New_Arrivals/review � likely duplicate weapon art until deduped.",
+    "Legacy paths: assets/buildings, assets/tiles/urban, assets/units/urban, assets/vfx coexist with the new layout.",
+    "attached_assets/ holds CraftPix packs + light_tank sequences; only a small subset is tracked in assetManifest.",
+    "Two CTU sidecar shapes exist (schemaVersion vs version + placement object vs array)."
+  ],
+  "duplicateBasenamesSample": [
+    {
+      "basename": "0.png",
+      "paths": [
+        "assets/effects/explosions/light_tank/dead/0.png",
+        "assets/effects/muzzle/light_tank/run/0.png",
+        "assets/effects/muzzle/light_tank/shot/0.png"
+      ]
+    },
+    {
+      "basename": "base.png",
+      "paths": [
+        "assets/maps/desert/base.png",
+        "assets/maps/grass/base.png",
+        "assets/maps/urban/base.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-31-30-021.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-31-30-021.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-31-30-021.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-33-07-132 (1).png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-33-07-132 (1).png",
+        "assets/ui/buttons/Picsart_26-04-04_00-33-07-132 (1).png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-33-07-132.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-33-07-132.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-33-07-132.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-35-02-219.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-35-02-219.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-35-02-219.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-36-09-671.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-36-09-671.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-36-09-671.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-36-42-779.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-36-42-779.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-36-42-779.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-38-33-204.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-38-33-204.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-38-33-204.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-38-49-405.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-38-49-405.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-38-49-405.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-39-08-912.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-39-08-912.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-39-08-912.png"
+      ]
+    },
+    {
+      "basename": "picsart_26-04-04_00-39-24-457.png",
+      "paths": [
+        "assets/buttons/Combat buttons/Picsart_26-04-04_00-39-24-457.png",
+        "assets/ui/buttons/Picsart_26-04-04_00-39-24-457.png"
+      ]
+    },
+    {
+      "basename": "preview.png",
+      "paths": [
+        "assets/buttons/Combat buttons/preview.png",
+        "assets/ui/buttons/preview.png"
+      ]
+    },
+    {
+      "basename": "light_shell.png",
+      "paths": [
+        "assets/New_Arrivals/review/Light_Shell.png",
+        "assets/effects/muzzle/light_tank/fx/Light_Shell.png"
+      ]
+    },
+    {
+      "basename": "light_shell_1.png",
+      "paths": [
+        "assets/New_Arrivals/review/Light_Shell_1.png",
+        "assets/effects/muzzle/light_tank/fx/Light_Shell_1.png"
+      ]
+    },
+    {
+      "basename": "light_shell_2.png",
+      "paths": [
+        "assets/New_Arrivals/review/Light_Shell_2.png",
+        "assets/effects/muzzle/light_tank/fx/Light_Shell_2.png"
+      ]
+    },
+    {
+      "basename": "1.png",
+      "paths": [
+        "assets/effects/muzzle/light_tank/run/1.png",
+        "assets/effects/muzzle/light_tank/shot/1.png"
+      ]
+    }
+  ],
+  "attachedAssetsTopLevel": [
+    "bg_video.mp4",
+    "bg_video_poster.jpg",
+    "craftpix_pack",
+    "DRIVE_ASSET_CATALOG.txt",
+    "DRIVE_FOLDER_URL.txt",
+    "landing_heli.png",
+    "landing_tank.png",
+    "sprites",
+    "sprite_sheets",
+    "tiles",
+    "ui",
+    "units",
+    "vfx",
+    "_commander_flat",
+    "_rgsdev_pack"
+  ],
+  "assetsByExtension": {
+    ".png": 2108,
+    ".avif": 2,
+    ".webp": 3,
+    ".ai": 31,
+    ".eps": 31,
+    ".txt": 10,
+    ".ini": 51,
+    ".scml": 5,
+    ".psd": 16,
+    ".md": 2,
+    ".json": 1338
+  },
+  "attachedByExtension": {
+    ".mp4": 1,
+    ".jpg": 1,
+    ".png": 7673,
+    ".psd": 148,
+    ".md": 19,
+    ".txt": 12,
+    ".zip": 1
+  },
+  "ambiguousAssetPathsSample": [
+    "assets/maps/desert/Rocky-Desert-Arid-Cliffs-Day-22x16-1.webp",
+    "assets/maps/desert/Rocky-Desert-Base-Map-Night-32x22-1.webp",
+    "assets/maps/desert/Rocky-Desert-Desert-Hill-Day-32x22-1.webp",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_000.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_000_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_000_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_001.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_001_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_001_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_002.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_002_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_002_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_003.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_003_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_003_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_004.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_004_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_004_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_005.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_005_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_005_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_006.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_006_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_006_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_007.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_007_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_007_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_008.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_008_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_008_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_009.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_009_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_01_009_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_000.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_000_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_000_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_001.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_001_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_001_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_002.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_002_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_002_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_003.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_003_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_003_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_004.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_004_1.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_004_2.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_005.png",
+    "assets/New_Arrivals/review/Sprite_Effects_Exhaust_02_005_1.png"
+  ]
+}

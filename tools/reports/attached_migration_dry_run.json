@@ -1,0 +1,1865 @@
+{
+  "generatedAt": "2026-04-08T02:28:37.316Z",
+  "summary": {
+    "totalRefs": 370,
+    "missingSource": 0,
+    "ambiguous": 0,
+    "conflicts": 0,
+    "ok": 370
+  },
+  "missingSource": [],
+  "ambiguous": [],
+  "conflicts": [],
+  "ok": [
+    {
+      "oldPath": "attached_assets/bg_video.mp4",
+      "newPath": "assets/media/bg_video.mp4",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/bg_video_poster.jpg",
+      "newPath": "assets/media/bg_video_poster.jpg",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/bomber/Bomber/Bomber_Source.png",
+      "newPath": "assets/units/craftpix/bomber/Bomber/Bomber_Source.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber Broken 01.png",
+      "newPath": "assets/units/craftpix/bomber/Bomber/Broken/Bomber Broken 01.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber Broken 03.png",
+      "newPath": "assets/units/craftpix/bomber/Bomber/Broken/Bomber Broken 03.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/bomber/Bomber/Broken/Bomber_Broken 02.png",
+      "newPath": "assets/units/craftpix/bomber/Bomber/Broken/Bomber_Broken 02.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion1/Explosion1_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion1/Explosion1_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion2/Explosion2_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion2/Explosion2_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion3/Explosion3_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion3/Explosion3_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion4/Explosion4_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion4/Explosion4_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion5/Explosion5_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion5/Explosion5_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Explosion6/Explosion6_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Explosion6/Explosion6_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion1_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion1_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion2_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion2_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion3_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion3_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion4_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion4_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion5_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion5_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_10.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_2.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_3.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_4.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_5.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_6.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_7.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_8.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Shadows/Explosion6_9.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Shadows/Explosion6_9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "newPath": "assets/effects/craftpix/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_1.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_2.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_3.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_4.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_5.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_6.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_7.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_bright_gray/smoke1/smoke1_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_1.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_2.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_3.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_4.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_5.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_6.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_brown/smoke1/smoke1_7.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_brown/smoke1/smoke1_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_1.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_2.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_3.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_4.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_5.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_6.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_7.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_dark_gray/smoke1/smoke1_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_1.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_2.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_3.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_4.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_5.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_6.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_7.png",
+      "newPath": "assets/effects/craftpix/effects/PNG smoke/smoke_middle_gray/smoke1/smoke1_7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_01.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Die/GDS_01.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_02.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Die/GDS_02.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_03.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Die/GDS_03.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_04.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Die/GDS_04.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Die/GDS_05.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Die/GDS_05.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Fire/GunnerShot.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Fire/GunnerShot.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Fire/GunnerShot_version2.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Fire/GunnerShot_version2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Gunner.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Gunner.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_01.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_01.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_02.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_02.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_03.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_03.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_04.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_04.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_05.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_05.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_06.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_06.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/gunner/Gunner/Walk/GunnerWalk_07.png",
+      "newPath": "assets/units/craftpix/gunner/Gunner/Walk/GunnerWalk_07.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Base.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Base.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_00.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Die/SniperDIe_00.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_01.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Die/SniperDIe_01.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_02.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Die/SniperDIe_02.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_03.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Die/SniperDIe_03.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Die/SniperDIe_04.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Die/SniperDIe_04.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Effects/1.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Effects/1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Effects/2.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Effects/2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Effects/3.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Effects/3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Shot/Shot.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Shot/Shot.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_01.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_01.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_02.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_02.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_03.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_03.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_04.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_04.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_05.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_05.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_06.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_06.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/sniper/Sniper/Walk/SW_07.png",
+      "newPath": "assets/units/craftpix/sniper/Sniper/Walk/SW_07.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Cannon_fire/Cannon_fire2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/fire/Cannon_fire/Cannon_fire2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Shot/Shot2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/fire/Shot/Shot2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/fire/Small_cannon_fire/Small_cannon_fire3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka10.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka11.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka11.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka12.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka12.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka13.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka13.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/bazooka/bazooka9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/death1/death1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/legs/legs7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar10.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar11.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar11.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar12.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar12.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar13.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar13.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar14.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar14.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar15.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar15.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar16.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar16.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar17.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar17.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar18.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar18.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar19.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar19.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar20.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar20.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar21.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar21.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar22.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar22.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier1/mortar/mortar9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/death1/death1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/legs/legs7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier2/rifle/rifle9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/death1/death1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/legs/legs7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun10.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun11.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun11.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun12.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun12.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun13.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun13.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun14.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun14.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun15.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun15.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun16.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun16.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/machine_gun/machine_gun9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar10.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar11.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar11.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar12.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar12.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar13.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar13.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar14.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar14.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar15.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar15.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar16.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar16.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar17.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar17.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar18.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar18.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar19.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar19.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar20.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar20.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar21.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar21.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar22.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar22.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier3/mortar/mortar9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/death1/death1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/legs/legs7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun10.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun10.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun11.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun11.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun12.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun12.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun13.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun13.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun14.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun14.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun15.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun15.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun16.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun16.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/machine_gun/machine_gun9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color1/soldier4/rifle/rifle9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/death1/death1_4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/legs/legs7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle1.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle1.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle2.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle2.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle3.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle3.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle4.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle4.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle5.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle5.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle6.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle6.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle7.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle7.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle8.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle8.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/units/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle9.png",
+      "newPath": "assets/units/craftpix/soldier/soldiers PNG/soldiers_color2/soldier1/rifle/rifle9.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/vehicles/acs_tank_damage/Source/ACS_Base.png",
+      "newPath": "assets/units/craftpix/vehicles/acs_tank_damage/Source/ACS_Base.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/craftpix_pack/vehicles/acs_tank_damage/Source/ACS_Preview.png",
+      "newPath": "assets/units/craftpix/vehicles/acs_tank_damage/Source/ACS_Preview.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/sprites/light_tank/fx/Light_Shell.png",
+      "newPath": "assets/sprites/light_tank/fx/Light_Shell.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/ui/codex_detail_frame.png",
+      "newPath": "assets/ui/attached/codex_detail_frame.png",
+      "note": "ready_to_copy"
+    },
+    {
+      "oldPath": "attached_assets/ui/combat_frame.png",
+      "newPath": "assets/ui/attached/combat_frame.png",
+      "note": "ready_to_copy"
+    }
+  ]
+}
