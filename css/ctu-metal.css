@@ -684,7 +684,7 @@ button *,
   padding: 0.35rem 0.15rem 0.5rem;
 }
 
-.codex-sidebar > .ctu-metal-frame {
+.codex-sidebar > .ctu-cyber-hybrid > .ctu-metal-frame {
   min-height: min(58vh, 520px);
 }
 

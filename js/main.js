@@ -2,17 +2,27 @@ import { loadJson } from "./loadConfig.js";
 import { GameState } from "./engine/gameState.js";
 import { drawGrid, preloadTerrainTiles } from "./render/canvasGrid.js";
 import { getArenaRenderMode } from "./render/renderMode.js";
-import { UnitRenderer, attackVisualDurationMs } from "./render/unitRenderer.js";
-import { computeFacing, syncFacingAndFaceRad, facingToFaceRad } from "./engine/facing.js";
+import {
+  UnitRenderer,
+  attackVisualDurationMs,
+  compositeUsesIndependentTurret,
+} from "./render/unitRenderer.js";
+import {
+  computeFacing,
+  syncFacingAndFaceRad,
+  facingToFaceRad,
+  normalizeAngleRad,
+  syncFacingTowardNearestEnemy,
+} from "./engine/facing.js";
 import { BattleVfx } from "./render/battleVfx.js";
 import { FxLayer } from "./render/fxLayer.js";
 import { chebyshev } from "./engine/grid.js";
-import { canAttack } from "./engine/combat.js";
+import { canAttack, canHealSupport } from "./engine/combat.js";
 import {
   hasLineOfSight,
-  losShadowCellKeys,
   isIndirectDeadzoneBlock,
 } from "./engine/los.js";
+import { computeAttackRangeOverlay } from "./engine/tacticalOverlays.js";
 import {
   obstacleCoverNameAt,
   OBSTACLE_COVER_DAMAGE_FACTOR,
@@ -24,9 +34,16 @@ import { initFirebase } from "./firebase/auth.js";
 import { wireCloudProgress } from "./firebase/progressSync.js";
 import { createBattlePlaneController } from "./battle-plane/runtime.js";
 import { drawMapObjects } from "./render/mapObjectLayer.js";
+import { makeMapObject } from "./battle-plane/mapObjects.js";
 import { generateProceduralScenario } from "./mapgen/pipeline.js";
+import {
+  getBiomeForCatalogEntry,
+  biomeDisplayName,
+  biomeToMapgenTheme,
+  resolveProceduralThemeArg,
+} from "./mapgen/biome.js";
 import { downloadMapLayout } from "./mapgen/persist.js";
-import { moveTweenDurationMs, lerpCellPair } from "./render/tween.js";
+import { PER_TILE_MOVE_MS, lerp as lerpScalar } from "./render/tween.js";
 import { sharedBattleAmbient } from "./render/effects.js";
 import {
   initBattleNotifications,
@@ -63,7 +80,41 @@ let canvas;
 let ctx;
 let gridOffsetX = 0;
 let gridOffsetY = 0;
+
+/** Camera pan (px) for battle scaler translate — viewport is arena. */
+let battlePanX = 0;
+let battlePanY = 0;
+/** @type {{ kind: "pending"; x0: number; y0: number; pid: number } | { kind: "pan"; startClientX: number; startClientY: number; panStartX: number; panStartY: number; pid: number } | null} */
+let battlePointerDrag = null;
+let battleSuppressNextCanvasClick = false;
+const BATTLE_PAN_THRESHOLD = 10;
+const BATTLE_KEY_PAN_STEP = 16;
+const BATTLE_ZOOM_MIN = 0.45;
+const BATTLE_ZOOM_MAX = 4;
+/**
+ * Move animation: either multi-cell `cells` path or legacy 2-point `{ x0,y0,x1,y1 }`.
+ * @type {{
+ *   unitId: string;
+ *   cells?: [number, number][];
+ *   seg?: number;
+ *   x0?: number;
+ *   y0?: number;
+ *   x1?: number;
+ *   y1?: number;
+ *   t0: number;
+ *   dur: number;
+ * } | null}
+ */
 let lerp = null;
+
+const TREAD_MARK_LIFETIME_MS = 4800;
+const TREAD_MARK_CAP = 96;
+/** @type {{ x: number; y: number; rad: number; t0: number }[]} */
+let treadMarks = [];
+/** Grid cell under pointer for selected-unit facing (valid only in-bounds on the map). */
+let battleHoverCellValid = false;
+let battleHoverGx = 0;
+let battleHoverGy = 0;
 let progress = loadProgress();
 let settings = loadSettings();
 
@@ -80,14 +131,68 @@ let lastBootOptions = {
   scenarioPath: null,
   matLabTheater: null,
   scenarioInline: null,
+  skirmishDifficulty: null,
 };
 /** Last scenario from generateProceduralScenario (for JSON export). */
 let lastProceduralScenario = null;
 /** When set (from Map Theater), used as default for vs-CPU skirmish and hotseat base layout. */
 let pendingUserMapPath = null;
+/** Hub / landing: procedural skirmish chosen — squad picked on Vs CPU prep, map generated at Start. */
+let pendingProceduralSkirmishSpec = null;
+/** Display name from last loaded scenario JSON (non-catalog paths). */
+let pendingVsCpuScenarioName = null;
 let mapCatalog = { maps: [] };
+let mapTheaterTileTypes = null;
+
+function attachCatalogBiomeFromPath(scenario, scenarioPath) {
+  if (!scenarioPath || !scenario) return;
+  const maps = mapCatalog.maps || [];
+  const entry = maps.find((x) => x.path === scenarioPath);
+  if (!entry) return;
+  const biome = getBiomeForCatalogEntry(entry);
+  if (scenario.biome == null) scenario.biome = biome;
+  const prevGen =
+    scenario.generator && typeof scenario.generator === "object"
+      ? scenario.generator
+      : {};
+  const generator = { ...prevGen };
+  if (generator.biome == null) generator.biome = biome;
+  if (generator.theme == null) generator.theme = biomeToMapgenTheme(biome);
+  scenario.generator = generator;
+}
+
+function drawMapTheaterPreviewCanvas(canvas, terrain, tileTypeMap, maxW, maxH) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx || !terrain?.length || !terrain[0]?.length) return;
+  const th = terrain.length;
+  const tw = terrain[0].length;
+  const cw = Math.max(1, Math.floor(maxW / tw));
+  const ch = Math.max(1, Math.floor(maxH / th));
+  const cell = Math.min(cw, ch);
+  const drawW = tw * cell;
+  const drawH = th * cell;
+  canvas.width = drawW;
+  canvas.height = drawH;
+  for (let y = 0; y < th; y++) {
+    for (let x = 0; x < tw; x++) {
+      const id = terrain[y][x];
+      const col =
+        typeof id === "string" && tileTypeMap?.[id]?.color
+          ? tileTypeMap[id].color
+          : "#2a3140";
+      ctx.fillStyle = col;
+      ctx.fillRect(x * cell, y * cell, cell, cell);
+    }
+  }
+}
 let battleEndHandled = false;
 let aiRunning = false;
+/** Pinned "attack view" (range / LOS / deadzone); also shows while hovering an enemy. */
+let battleAttackRangePinned = false;
+let battleHoverShowsAttackOverlay = false;
+let battleHoverShowsHealOverlay = false;
+let battleOverlayCacheKey = "";
+let battleOverlayCache = null;
 let academyPickSet = new Set();
 /** Map theater → vs CPU: player-picked squad (insertion order = deploy slots). */
 let mapSkirmishPickSet = new Set();
@@ -98,8 +203,6 @@ let pendingMapSkirmishSlotCount = 4;
 let pendingSkirmishOrderedLoadout = null;
 /** After squad picker: return to this screen instead of starting battle (`null` = map-theater flow). */
 let mapSkirmishPrepReturnId = null;
-/** Allow 1..mapSkirmishPickCount instead of requiring an exact fill (prep + mat lab). */
-let mapSkirmishFlexiblePick = false;
 /** Selected battle-mat theater before plane-layer battle (`grass` | `desert` | `urban`). */
 let pendingMatLabTheater = "grass";
 /** Player squad for mat lab (1–8 template ids, deploy order). */
@@ -212,17 +315,6 @@ function computeVisibleCells() {
   return visible;
 }
 
-/** Tiles within the selected unit's sight range that have no clear LOS (dimmed). */
-function computeSelectedLosShadow(sel, game) {
-  if (!game || !sel || sel.owner !== game.currentPlayer) return null;
-  const sr = sel.sightRange ?? 8;
-  const ctx = game.losCtx();
-  return losShadowCellKeys(game.grid, game.tileTypes, sel.x, sel.y, sr, {
-    sightBudget: ctx.sightBudget,
-    mapObjects: ctx.mapObjects,
-  });
-}
-
 /* floating damage numbers */
 const floaters = [];
 function spawnFloater(text, worldX, worldY, color = "#ffe066") {
@@ -296,11 +388,134 @@ function scenarioPresetEnemies(s) {
   return (s.units || []).filter((u) => u.owner !== 0);
 }
 
-function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
+const SOLO_ENEMY_TARGETS = { easy: 3, normal: 6, hard: 10, hell: 20 };
+
+function normalizeSoloDifficulty(d) {
+  const k = String(d || "normal").toLowerCase();
+  if (k === "easy" || k === "normal" || k === "hard" || k === "hell") return k;
+  return "normal";
+}
+
+function scenarioLooksGrand(scenario, scenarioPath) {
+  const maps = mapCatalog.maps || [];
+  const entry = scenarioPath && maps.find((x) => x.path === scenarioPath);
+  if (entry?.sizeCategory === "grand") return true;
+  return scenario.width >= 18 && scenario.height >= 14;
+}
+
+function scalePresetEnemiesForSolo(enemies, targetCount, scenario) {
+  const w = scenario.width;
+  const h = scenario.height;
+  const list = (enemies || []).map((e) => ({ ...e, owner: e.owner ?? 1 }));
+  if (list.length > targetCount) {
+    return list.slice(0, targetCount);
+  }
+  const deployCells = new Set(
+    (scenario.skirmishDeploy || []).map((s) => `${s.x},${s.y}`),
+  );
+  const blockedForSpawn = new Set(deployCells);
+  for (const o of scenario.mapObjects || []) {
+    if (o.blocksMove !== false) blockedForSpawn.add(`${o.x},${o.y}`);
+  }
+  for (const e of list) {
+    blockedForSpawn.add(`${e.x},${e.y}`);
+  }
+  const isSpawnable = (x, y) => {
+    const k = `${x},${y}`;
+    if (blockedForSpawn.has(k)) return false;
+    if (x < 0 || y < 0 || x >= w || y >= h) return false;
+    return true;
+  };
+  while (list.length < targetCount) {
+    const templateId = list.length % 5 === 4 ? "opfor_tank" : "grunt_red";
+    const xMin = Math.floor(w * 0.5);
+    let pick = null;
+    for (let x = w - 2; x >= xMin; x--) {
+      for (let y = 1; y < h - 1; y++) {
+        if (isSpawnable(x, y)) {
+          pick = { x, y };
+          break;
+        }
+      }
+      if (pick) break;
+    }
+    if (!pick) {
+      for (let x = w - 2; x >= 1; x--) {
+        for (let y = 1; y < h - 1; y++) {
+          if (isSpawnable(x, y)) {
+            pick = { x, y };
+            break;
+          }
+        }
+        if (pick) break;
+      }
+    }
+    if (!pick) break;
+    list.push({ templateId, owner: 1, x: pick.x, y: pick.y });
+    blockedForSpawn.add(`${pick.x},${pick.y}`);
+  }
+  return list;
+}
+
+const STAGING_SPRITES = [
+  "assets/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png",
+  "assets/obstacles/urban/Obstacle_Urban_Prop_55924153.png",
+  "assets/units/vehicles/Obstacle_Urban_Prop_162f599e.png",
+];
+
+/** Cosmetic props around the deploy flank on Grand maps (does not block move/LOS). */
+function injectFriendlyStagingProps(scenario, scenarioPath) {
+  if (!scenario?.skirmishDeploy?.length) return;
+  if (!scenarioLooksGrand(scenario, scenarioPath)) return;
+  const w = scenario.width;
+  const h = scenario.height;
+  const deploy = scenario.skirmishDeploy;
+  const minX = Math.min(...deploy.map((s) => s.x));
+  const maxX = Math.max(...deploy.map((s) => s.x));
+  const minY = Math.min(...deploy.map((s) => s.y));
+  const maxY = Math.max(...deploy.map((s) => s.y));
+  const occupied = new Set(deploy.map((s) => `${s.x},${s.y}`));
+  for (const o of scenario.mapObjects || []) {
+    occupied.add(`${o.x},${o.y}`);
+  }
+  const additions = [];
+  let spriteIdx = 0;
+  const nextSprite = () => STAGING_SPRITES[spriteIdx++ % STAGING_SPRITES.length];
+  const flankDir = minX <= w - 1 - maxX ? 1 : -1;
+  const aisleX = minX + flankDir;
+  const ringXs = [aisleX + flankDir, aisleX + flankDir * 2].filter(
+    (x) => x >= 0 && x < w,
+  );
+  for (let yi = minY; yi <= maxY; yi++) {
+    if ((yi - minY) % 2 !== 0) continue;
+    for (const rx of ringXs) {
+      const k = `${rx},${yi}`;
+      if (occupied.has(k)) continue;
+      occupied.add(k);
+      additions.push(
+        makeMapObject(rx, yi, nextSprite(), `staging_${rx}_${yi}`, "crate", {
+          blocksMove: false,
+          blocksLos: false,
+          propAnchor: "bottom",
+        }),
+      );
+    }
+  }
+  if (!scenario.mapObjects) scenario.mapObjects = [];
+  scenario.mapObjects.push(...additions);
+}
+
+function mergeScenarioForBattle(baseScenario, mode, loadout, acad, battleOpts = null) {
   const s = JSON.parse(JSON.stringify(baseScenario));
   if (s.usePresetUnits) return s;
   if (mode === "trial" || mode === "hotseat") return s;
-  const enemies = scenarioPresetEnemies(s);
+  const skirmishLike = mode === "skirmish" || mode === "urban";
+  let enemies = scenarioPresetEnemies(s);
+  if (skirmishLike && battleOpts?.skirmishDifficulty) {
+    const diff = normalizeSoloDifficulty(battleOpts.skirmishDifficulty);
+    const n = SOLO_ENEMY_TARGETS[diff] ?? 6;
+    enemies = scalePresetEnemiesForSolo(enemies, n, s);
+  }
   if (mode === "academy" && loadout?.length && acad?.deploymentSlots) {
     s.units = [];
     loadout.forEach((tid, i) => {
@@ -310,7 +525,7 @@ function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
     s.units.push(...enemies);
     return s;
   }
-  if (mode === "skirmish" && Array.isArray(loadout) && loadout.length > 0 && s.skirmishDeploy?.length) {
+  if (skirmishLike && Array.isArray(loadout) && loadout.length > 0 && s.skirmishDeploy?.length) {
     s.units = [];
     for (let i = 0; i < s.skirmishDeploy.length; i++) {
       const tid = loadout[i];
@@ -318,6 +533,7 @@ function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
       if (tid && slot) s.units.push({ templateId: tid, owner: 0, x: slot.x, y: slot.y });
     }
     s.units.push(...enemies);
+    injectFriendlyStagingProps(s, battleOpts?.scenarioPath ?? null);
     return s;
   }
   const p0 = QUICK_PLAYER_UNITS.map((u, i) => {
@@ -326,6 +542,9 @@ function mergeScenarioForBattle(baseScenario, mode, loadout, acad) {
     return { ...u, x: slot.x, y: slot.y };
   });
   s.units = [...p0, ...enemies];
+  if (skirmishLike) {
+    injectFriendlyStagingProps(s, battleOpts?.scenarioPath ?? null);
+  }
   return s;
 }
 
@@ -429,10 +648,10 @@ function syncV2OpsLayer(show) {
 }
 
 async function bootUrbanSiege() {
-  await bootBattle({
-    mode: "urban",
-    scenarioPath: "js/config/scenarios/urban_siege.json",
-  });
+  pendingProceduralSkirmishSpec = null;
+  pendingUserMapPath = "js/config/scenarios/urban_siege.json";
+  await openVsCpuPrep();
+  showScreen("vs-cpu-prep");
 }
 
 /* ── Screen routing ───────────────────────────────────── */
@@ -459,12 +678,13 @@ function showScreen(name, sectionId) {
   if (hudFrame) hudFrame.hidden = true;
   if (screenName === "battle") {
     requestAnimationFrame(loop);
-    applyBattleZoom();
+    clampBattlePan();
+    applyBattleCamera();
   }
   if (screenName === "codex")    renderCodex();
   if (screenName === "hotseat")  openHotseat();
   if (screenName === "settings") applySettingsToUi();
-  if (screenName === "maps")     renderMapTheater();
+  if (screenName === "maps")     void renderMapTheater();
   if (screenName === "vs-cpu-prep") void openVsCpuPrep();
   if (screenName === "mat-lab-prep") void openMatLabPrep();
   if (screenName === "hub") {
@@ -484,17 +704,16 @@ function showScreen(name, sectionId) {
   } else {
     syncV2OpsLayer(false);
   }
-  /* Always reset page scroll first so content from a previous screen doesn't linger */
+  /* Document scroll is locked (html/body overflow:hidden); scroll inside scrollable ancestors only */
   window.scrollTo(0, 0);
 
-  /* Scroll to a specific section — double-rAF ensures layout is fully painted before measuring */
+  /* Scroll to a specific section inside the hub (or other in-app scroll parent) */
   if (sectionId) {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const target = document.getElementById(sectionId);
         if (!target) return;
-        const top = target.getBoundingClientRect().top + window.pageYOffset;
-        window.scrollTo({ top, behavior: "smooth" });
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
   }
@@ -610,24 +829,33 @@ function renderHubModes() {
         return;
       }
       if (m.action === "procedural") {
-        void bootProceduralSkirmish(m.procTheme || "urban");
+        pendingProceduralSkirmishSpec = {
+          theme: m.procTheme,
+          biome: m.procBiome,
+        };
+        pendingUserMapPath = null;
+        void openVsCpuPrep();
+        showScreen("vs-cpu-prep");
         return;
       }
       if (m.action === "academy") openAcademy();
       else if (m.action === "skirmish") {
-        if (m.scenarioPath) {
-          bootBattle({ mode: "skirmish", scenarioPath: m.scenarioPath });
-        } else {
-          void openVsCpuPrep();
-        }
+        pendingProceduralSkirmishSpec = null;
+        pendingUserMapPath = m.scenarioPath || null;
+        void openVsCpuPrep();
+        showScreen("vs-cpu-prep");
+      } else if (m.action === "trial") {
+        pendingProceduralSkirmishSpec = null;
+        pendingUserMapPath =
+          m.scenarioPath || "js/config/scenarios/trial_survive.json";
+        void openVsCpuPrep();
+        showScreen("vs-cpu-prep");
+      } else if (m.action === "scenario") {
+        pendingProceduralSkirmishSpec = null;
+        if (m.scenarioPath) pendingUserMapPath = m.scenarioPath;
+        void openVsCpuPrep();
+        showScreen("vs-cpu-prep");
       }
-      else if (m.action === "trial")
-        bootBattle({
-          mode: "trial",
-          scenarioPath: m.scenarioPath || "js/config/scenarios/trial_survive.json",
-        });
-      else if (m.action === "scenario")
-        bootBattle({ mode: "skirmish", scenarioPath: m.scenarioPath });
     });
     li.appendChild(b);
     host.appendChild(li);
@@ -734,7 +962,7 @@ function openAcademy() {
     btn.className = "academy-offer";
     btn.dataset.unitId = u.id;
     const ph = portraitThumbHtml(u, "academy-offer__img");
-    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="muted small">${u.hp} HP · mv ${u.move} · ${u.attackType}</span></span>`;
+    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="academy-offer__stats muted small">${u.hp} HP · mv ${u.move} · ${u.attackType}</span></span>`;
     btn.addEventListener("click", () => toggleAcademyPick(u.id, count, btn));
     host.appendChild(btn);
   }
@@ -756,18 +984,30 @@ function confirmAcademy() {
 }
 
 async function refreshPendingMapSkirmishSlotCount() {
+  if (pendingProceduralSkirmishSpec) {
+    pendingMapSkirmishSlotCount = 4;
+    pendingVsCpuScenarioName = null;
+    return;
+  }
   const path = pendingUserMapPath || "js/config/scenarios/academy_skirmish.json";
   try {
     const sb = await loadJson(path);
     pendingMapSkirmishSlotCount = Math.min(8, Math.max(1, sb.skirmishDeploy?.length ?? 8));
+    pendingVsCpuScenarioName =
+      typeof sb?.name === "string" && sb.name.trim() ? sb.name.trim() : null;
   } catch (e) {
     console.warn("[CTU] skirmish slot count", e);
     pendingMapSkirmishSlotCount = 8;
+    pendingVsCpuScenarioName = null;
   }
 }
 
 async function openVsCpuPrep() {
   await refreshPendingMapSkirmishSlotCount();
+  const diffSel = document.getElementById("vs-cpu-prep-difficulty");
+  if (diffSel) {
+    diffSel.value = normalizeSoloDifficulty(settings.soloDifficulty);
+  }
   const need = pendingMapSkirmishSlotCount || 8;
   const n = pendingSkirmishOrderedLoadout?.length ?? 0;
   if (pendingSkirmishOrderedLoadout && (n < 1 || n > need)) {
@@ -783,9 +1023,34 @@ function syncVsCpuPrepUi() {
   const maps = mapCatalog.maps || [];
   const cur = maps.find((x) => x.path === pendingUserMapPath);
   if (mapEl) {
-    mapEl.textContent = cur
-      ? `✓ ${cur.name} (${cur.width}×${cur.height})`
-      : "Not chosen — open Map theater and click a map.";
+    let line;
+    if (pendingProceduralSkirmishSpec) {
+      const label =
+        pendingProceduralSkirmishSpec.theme ||
+        pendingProceduralSkirmishSpec.biome ||
+        "Urban";
+      line = `✓ Procedural ${label} (random layout when you start)`;
+      const diff = normalizeSoloDifficulty(settings.soloDifficulty);
+      if (diff === "hell") {
+        line += " — Hell uses a 20×16 battlefield.";
+      }
+    } else if (cur) {
+      line = `✓ ${cur.name} (${cur.width}×${cur.height})`;
+      const diff = normalizeSoloDifficulty(settings.soloDifficulty);
+      if (diff === "hell" && cur.sizeCategory !== "grand") {
+        line += " — Hell on Earth will use a Grand map when you start.";
+      }
+    } else if (pendingUserMapPath) {
+      const brief =
+        pendingVsCpuScenarioName ||
+        pendingUserMapPath.split("/").pop()?.replace(/\.json$/i, "") ||
+        "Scenario";
+      line = `✓ ${brief}`;
+    } else {
+      line =
+        "Not chosen — use Map theater, or pick a mode from the Hub that sets a battlefield.";
+    }
+    mapEl.textContent = line;
   }
   const need = pendingMapSkirmishSlotCount || 8;
   const n = pendingSkirmishOrderedLoadout?.length ?? 0;
@@ -795,7 +1060,8 @@ function syncVsCpuPrepUi() {
         ? `✓ ${n} unit(s) ready (uses first ${n} deploy slots; max ${need})`
         : `Pick 1–${need} units — ${n} selected.`;
   }
-  const ready = !!pendingUserMapPath && n >= 1 && n <= need;
+  const mapReady = !!pendingUserMapPath || !!pendingProceduralSkirmishSpec;
+  const ready = mapReady && n >= 1 && n <= need;
   if (startBtn) startBtn.disabled = !ready;
 }
 
@@ -836,25 +1102,19 @@ function syncMapSkirmishCta() {
   const cta = document.getElementById("btn-map-skirmish-confirm");
   if (!cta) return;
   const n = mapSkirmishPickSet.size;
-  if (mapSkirmishFlexiblePick) {
-    cta.disabled = n < 1 || n > mapSkirmishPickCount;
-  } else {
-    cta.disabled = n !== mapSkirmishPickCount;
-  }
+  cta.disabled = n < 1 || n > mapSkirmishPickCount;
 }
 
 /* ── Map theater → vs CPU loadout (full roster, no unlock gate) ─ */
 async function openMapSkirmishLoadout(opts = {}) {
   const returnToPrep = opts.returnToPrep === true;
   const matLab = opts.matLab === true;
-  mapSkirmishFlexiblePick = returnToPrep || matLab;
   mapSkirmishPrepReturnId = matLab ? "mat-lab-prep" : returnToPrep ? "vs-cpu-prep" : null;
 
   if (!matLab && !returnToPrep && !pendingUserMapPath) {
     const sel = document.getElementById("map-theater-selected");
     if (sel) sel.textContent = "Select a map first — click a map card below.";
     mapSkirmishPrepReturnId = null;
-    mapSkirmishFlexiblePick = false;
     return;
   }
 
@@ -892,7 +1152,6 @@ async function openMapSkirmishLoadout(opts = {}) {
     const sel = document.getElementById("map-theater-selected");
     if (sel) sel.textContent = "Could not load that map. Pick another.";
     mapSkirmishPrepReturnId = null;
-    mapSkirmishFlexiblePick = false;
     return;
   }
 
@@ -926,7 +1185,7 @@ async function openMapSkirmishLoadout(opts = {}) {
     if (mapSkirmishPickSet.has(u.id)) btn.classList.add("academy-offer--on");
     btn.dataset.unitId = u.id;
     const ph = portraitThumbHtml(u, "academy-offer__img");
-    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="muted small">${u.hp} HP · mv ${u.move} · ${u.attackType}</span></span>`;
+    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="academy-offer__stats muted small">${u.hp} HP · mv ${u.move} · ${u.attackType}</span></span>`;
     btn.addEventListener("click", () => toggleMapSkirmishPick(u.id, btn));
     host.appendChild(btn);
   }
@@ -935,16 +1194,19 @@ async function openMapSkirmishLoadout(opts = {}) {
     if (matLab) {
       st.textContent = `Pick 1–8 units (full roster). Click order = deploy order on the mat.`;
     } else if (returnToPrep) {
-      st.textContent = mapSkirmishFlexiblePick
-        ? `Pick 1–${mapSkirmishPickCount} units — you can choose the map on the setup screen if needed. Order = deploy slots.`
-        : `Choose ${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
+      st.textContent = `Pick 1–${mapSkirmishPickCount} units — you can choose the map on the setup screen if needed. Order = deploy slots.`;
     } else {
-      st.textContent = `Choose exactly ${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
+      st.textContent = `Pick 1–${mapSkirmishPickCount} units — full roster unlocked for this route. Order = deploy slots.`;
     }
   }
   syncMapSkirmishCta();
   const ctaLab = document.getElementById("btn-map-skirmish-confirm");
-  if (ctaLab) ctaLab.textContent = mapSkirmishFlexiblePick ? "Save squad" : "Start battle";
+  if (ctaLab) {
+    ctaLab.textContent =
+      mapSkirmishPrepReturnId === "mat-lab-prep" || mapSkirmishPrepReturnId === "vs-cpu-prep"
+        ? "Save squad"
+        : "Start battle";
+  }
   const backLab = document.getElementById("btn-map-skirmish-back");
   if (backLab) {
     if (mapSkirmishPrepReturnId === "mat-lab-prep") backLab.textContent = "← Mat lab setup";
@@ -964,28 +1226,19 @@ function toggleMapSkirmishPick(id, btnEl) {
   }
   const st = document.getElementById("map-skirmish-status");
   if (st) {
-    if (mapSkirmishFlexiblePick) {
-      st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount} — need at least 1, at most ${mapSkirmishPickCount}.`;
-    } else {
-      st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount}.`;
-    }
+    st.textContent = `Selected ${mapSkirmishPickSet.size}/${mapSkirmishPickCount} — need at least 1, at most ${mapSkirmishPickCount}.`;
   }
   syncMapSkirmishCta();
 }
 
 function confirmMapSkirmish() {
   const n = mapSkirmishPickSet.size;
-  if (mapSkirmishFlexiblePick) {
-    if (n < 1 || n > mapSkirmishPickCount) return;
-  } else if (n !== mapSkirmishPickCount) {
-    return;
-  }
+  if (n < 1 || n > mapSkirmishPickCount) return;
 
   const ret = mapSkirmishPrepReturnId;
   if (ret === "mat-lab-prep") {
     pendingMatLabLoadout = [...mapSkirmishPickSet];
     mapSkirmishPrepReturnId = null;
-    mapSkirmishFlexiblePick = false;
     syncMatLabPrepUi();
     showScreen("mat-lab-prep");
     return;
@@ -993,19 +1246,18 @@ function confirmMapSkirmish() {
   if (ret === "vs-cpu-prep") {
     pendingSkirmishOrderedLoadout = [...mapSkirmishPickSet];
     mapSkirmishPrepReturnId = null;
-    mapSkirmishFlexiblePick = false;
     void openVsCpuPrep();
     showScreen("vs-cpu-prep");
     return;
   }
 
-  mapSkirmishFlexiblePick = false;
   mapSkirmishPrepReturnId = null;
   if (!pendingUserMapPath) return;
   void bootBattle({
     mode: "skirmish",
     loadout: [...mapSkirmishPickSet],
     scenarioPath: pendingUserMapPath,
+    skirmishDifficulty: normalizeSoloDifficulty(settings.soloDifficulty),
   });
 }
 
@@ -1031,7 +1283,7 @@ function buildHotseatPicker(hostId, pickSet, statusId, playerNum) {
     btn.className = "academy-offer";
     btn.dataset.unitId = u.id;
     const ph = portraitThumbHtml(u, "academy-offer__img");
-    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="muted small">${u.hp} HP · mv ${u.move}</span></span>`;
+    btn.innerHTML = `${ph}<span class="academy-offer__body"><span class="academy-offer__name">${u.displayName}</span><span class="academy-offer__stats muted small">${u.hp} HP · mv ${u.move}</span></span>`;
     btn.addEventListener("click", () => {
       if (pickSet.has(u.id)) { pickSet.delete(u.id); btn.classList.remove("academy-offer--on"); }
       else if (pickSet.size < HOTSEAT_PICK_COUNT) { pickSet.add(u.id); btn.classList.add("academy-offer--on"); }
@@ -1063,6 +1315,7 @@ async function bootHotseat() {
   spriteAnimations = sprites;
   attackEffects = fx;
   const scenario = mergeHotseatScenario(scenarioBase, [...hotseatP1Set], [...hotseatP2Set]);
+  attachCatalogBiomeFromPath(scenario, hotseatScenarioPath);
   battlePlaneCtl = null;
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
@@ -1070,18 +1323,23 @@ async function bootHotseat() {
   battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
   syncBattleAmbientFromScenario();
+  requestAnimationFrame(() => centerBattleCamera());
   game.hotseat = true;
   game.playerNames = ["Player 1", "Player 2"];
   unitRenderer = new UnitRenderer(spriteAnimations);
   battleVfx = new BattleVfx();
   battleFx = new FxLayer();
   combatLog.length = 0;
+  treadMarks.length = 0;
+  lerp = null;
+  battleHoverCellValid = false;
   lastBootOptions = {
     mode: "hotseat",
     loadout: null,
     scenarioPath: hotseatScenarioPath,
     scenarioInline: null,
     matLabTheater: null,
+    skirmishDifficulty: null,
   };
   battleEndHandled = false;
   battleHints = { movedOnce: false, attackedOnce: false };
@@ -1189,6 +1447,31 @@ function syncHud() {
         const col = pct > 0.6 ? "#40c057" : pct > 0.3 ? "#fab005" : "#fa5252";
         portraitHp.innerHTML = `<span style="color:${col}">${u.hp}/${u.maxHp} HP</span>`;
       }
+      const kitsEl = document.getElementById("hud-support-kits");
+      if (kitsEl) {
+        if (u.supportRole && (u.supportChargesMax ?? 0) > 0) {
+          kitsEl.hidden = false;
+          kitsEl.setAttribute("aria-hidden", "false");
+          const icon =
+            u.supportRole === "engineer"
+              ? "assets/ui/engineer_kit.svg"
+              : "assets/ui/med_kit.svg";
+          const n = Math.max(0, u.supportChargesRemaining ?? 0);
+          const maxK = u.supportChargesMax ?? 3;
+          const parts = [];
+          for (let i = 0; i < maxK; i++) {
+            const on = i < n;
+            parts.push(
+              `<img src="${icon}" alt="" width="12" height="12" class="hud__kit-icon${on ? "" : " hud__kit-icon--spent"}" />`,
+            );
+          }
+          kitsEl.innerHTML = parts.join("");
+        } else {
+          kitsEl.hidden = true;
+          kitsEl.setAttribute("aria-hidden", "true");
+          kitsEl.innerHTML = "";
+        }
+      }
     }
   }
 
@@ -1201,10 +1484,57 @@ function syncHud() {
       const rangeStr   = u.rangeMin === u.rangeMax ? `range ${u.rangeMin}` : `range ${u.rangeMin}–${u.rangeMax}`;
       const proneStr =
         u.templateId === "sniper" ? (u.prone ? " · PRONE (P)" : " · press P prone") : "";
-      selEl.textContent = `${u.displayName}  ·  ${moveStatus}  ·  ${atkStatus}  ·  ${rangeStr}${proneStr}`;
+      const kitStr =
+        u.supportRole && (u.supportChargesRemaining ?? 0) >= 0
+          ? u.supportRole === "engineer"
+            ? ` · ${u.supportChargesRemaining ?? 0} repair kit(s)`
+            : ` · ${u.supportChargesRemaining ?? 0} med pack(s)`
+          : "";
+      selEl.textContent = `${u.displayName}  ·  ${moveStatus}  ·  ${atkStatus}  ·  ${rangeStr}${proneStr}${kitStr}`;
     }
   }
+  const atkOvr = document.getElementById("btn-battle-attack-overlay");
+  if (atkOvr) {
+    atkOvr.setAttribute("aria-pressed", battleAttackRangePinned ? "true" : "false");
+    atkOvr.classList.toggle("btn--toggle-on", battleAttackRangePinned);
+  }
   syncCoachPanel();
+}
+
+function getCachedAttackOverlay(sel) {
+  if (!sel || !game) return null;
+  const key = `${sel.id}|${sel.x}|${sel.y}|${sel.attackedThisTurn}|${game.currentPlayer}|${sel.supportChargesRemaining ?? ""}`;
+  if (key !== battleOverlayCacheKey) {
+    battleOverlayCacheKey = key;
+    battleOverlayCache = computeAttackRangeOverlay(sel, game);
+  }
+  return battleOverlayCache;
+}
+
+/** Hover label for an empty tile (or under a unit) when a friendly is selected. */
+function classifyBattleHoverTile(x, y, sel) {
+  if (!game || !sel) return null;
+  const k = `${x},${y}`;
+  const reach = game.reachableFor(sel);
+  if (reach?.has(k)) return "Move";
+  const ally = game.unitAt(x, y);
+  if (
+    ally &&
+    ally.owner === game.currentPlayer &&
+    ally.id !== sel.id &&
+    ally.hp > 0 &&
+    sel.supportRole &&
+    (sel.supportChargesRemaining ?? 0) > 0 &&
+    canHealSupport(sel, ally, game.units, game.losCtx())
+  ) {
+    return sel.supportRole === "engineer" ? "Repair" : "Heal";
+  }
+  const ov = getCachedAttackOverlay(sel);
+  if (!ov) return null;
+  if (!ov.weaponBand.has(k)) return "Out of range";
+  if (ov.cannotHit.has(k)) return "Cannot hit";
+  if (ov.losBlocked.has(k)) return "Blocked (LOS)";
+  return "Attack";
 }
 
 /* ── Coach ────────────────────────────────────────────── */
@@ -1233,15 +1563,47 @@ function syncCoachPanel() {
 }
 
 /* ── Canvas helpers ───────────────────────────────────── */
+/**
+ * Map pointer to grid cell. Uses canvas.getBoundingClientRect() so mapping matches
+ * the composed transform (pan/zoom on #battle-canvas-scaler) in the browser.
+ */
 function cellFromEvent(ev) {
+  const cs = game.grid.cellSize;
+  if (canvas && game?.grid) {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      const sx = (ev.clientX - rect.left) * (canvas.width / rect.width);
+      const sy = (ev.clientY - rect.top) * (canvas.height / rect.height);
+      return {
+        x: Math.floor((sx - gridOffsetX) / cs),
+        y: Math.floor((sy - gridOffsetY) / cs),
+      };
+    }
+  }
   const rect = canvas.getBoundingClientRect();
   const sx = (ev.clientX - rect.left) * (canvas.width / rect.width);
   const sy = (ev.clientY - rect.top) * (canvas.height / rect.height);
-  const cs = game.grid.cellSize;
   return {
     x: Math.floor((sx - gridOffsetX) / cs),
     y: Math.floor((sy - gridOffsetY) / cs),
   };
+}
+
+function updateBattlePointerHover(ev) {
+  if (!game?.grid || !canvas) {
+    battleHoverCellValid = false;
+    return;
+  }
+  if (!document.getElementById("screen-battle")?.classList.contains("screen--active")) {
+    battleHoverCellValid = false;
+    return;
+  }
+  const { x, y } = cellFromEvent(ev);
+  const w = game.grid.width;
+  const h = game.grid.height;
+  battleHoverCellValid = x >= 0 && y >= 0 && x < w && y < h;
+  battleHoverGx = x;
+  battleHoverGy = y;
 }
 
 function resizeBattleCanvas() {
@@ -1250,7 +1612,22 @@ function resizeBattleCanvas() {
   const m = 24;
   canvas.width = game.grid.width * cs + m * 2;
   canvas.height = game.grid.height * cs + m * 2;
-  applyBattleZoom();
+  clampBattlePan();
+  applyBattleCamera();
+}
+
+function centerBattleCamera() {
+  const arena = document.getElementById("battle-canvas-arena");
+  if (!arena || !canvas) return;
+  const z = getBattleZoomLevel();
+  const mapW = canvas.width * z;
+  const mapH = canvas.height * z;
+  const vw = arena.clientWidth;
+  const vh = arena.clientHeight;
+  battlePanX = (vw - mapW) / 2;
+  battlePanY = (vh - mapH) / 2;
+  clampBattlePan();
+  applyBattleCamera();
 }
 
 function syncBattleAmbientFromScenario() {
@@ -1261,36 +1638,225 @@ function syncBattleAmbientFromScenario() {
   sharedBattleAmbient.setFromDefs(game.scenario?.ambientEffects ?? [], game.grid.cellSize);
 }
 
-function syncBattleZoomLabel() {
-  const el = document.getElementById("battle-zoom-label");
-  if (!el) return;
-  const z = settings.reduceMotion ? 1 : (settings.battleZoom ?? 1.25);
-  el.textContent = `${Math.round(z * 100)}%`;
+function getBattleZoomLevel() {
+  const raw = settings.battleZoom ?? 1.25;
+  return Math.max(BATTLE_ZOOM_MIN, Math.min(BATTLE_ZOOM_MAX, raw));
 }
 
-function applyBattleZoom() {
-  const sc = document.getElementById("battle-canvas-scaler");
-  const zp = document.getElementById("battle-canvas-zoomport");
-  if (!sc) return;
-  const z = settings.reduceMotion ? 1 : (settings.battleZoom ?? 1.25);
-  sc.style.transform = `scale(${z})`;
-  if (zp && canvas) {
-    const w = Math.max(1, canvas.width);
-    const h = Math.max(1, canvas.height);
-    zp.style.width = `${Math.ceil(w * z)}px`;
-    zp.style.height = `${Math.ceil(h * z)}px`;
+/** Keep viewport center stable when zoom changes (slider / programmatic). */
+function applyBattleZoomKeepingCenter(newZ) {
+  const arena = document.getElementById("battle-canvas-arena");
+  if (!arena || !canvas) return;
+  const oldZ = getBattleZoomLevel();
+  const z = Math.max(BATTLE_ZOOM_MIN, Math.min(BATTLE_ZOOM_MAX, newZ));
+  const rect = arena.getBoundingClientRect();
+  const ox = rect.width / 2;
+  const oy = rect.height / 2;
+  const wx = (ox - battlePanX) / oldZ;
+  const wy = (oy - battlePanY) / oldZ;
+  settings.battleZoom = z;
+  saveSettings(settings);
+  battlePanX = ox - wx * z;
+  battlePanY = oy - wy * z;
+  clampBattlePan();
+  applyBattleCamera();
+}
+
+function syncBattleZoomLabel() {
+  const el = document.getElementById("battle-zoom-label");
+  const slider = document.getElementById("battle-zoom-slider");
+  const z = getBattleZoomLevel();
+  const pct = Math.round(z * 100);
+  if (el) el.textContent = `${pct}%`;
+  if (slider) {
+    const lo = Number(slider.min);
+    const hi = Number(slider.max);
+    const clamped = Math.max(lo, Math.min(hi, pct));
+    if (Number(slider.value) !== clamped) slider.value = String(clamped);
+    slider.setAttribute("aria-valuetext", `${pct}%`);
   }
+}
+
+function clampBattlePan() {
+  const arena = document.getElementById("battle-canvas-arena");
+  if (!arena || !canvas) return;
+  const z = getBattleZoomLevel();
+  const mapW = canvas.width * z;
+  const mapH = canvas.height * z;
+  const vw = arena.clientWidth;
+  const vh = arena.clientHeight;
+  if (mapW <= vw) battlePanX = (vw - mapW) / 2;
+  else battlePanX = Math.min(0, Math.max(vw - mapW, battlePanX));
+  if (mapH <= vh) battlePanY = (vh - mapH) / 2;
+  else battlePanY = Math.min(0, Math.max(vh - mapH, battlePanY));
+}
+
+function applyBattleCamera() {
+  const sc = document.getElementById("battle-canvas-scaler");
+  if (!sc || !canvas) return;
+  const z = getBattleZoomLevel();
+  sc.style.transform = `translate(${battlePanX}px, ${battlePanY}px) scale(${z})`;
+  sc.style.transformOrigin = "0 0";
   syncBattleZoomLabel();
 }
 
-function nudgeBattleZoom(delta) {
-  const steps = [0.85, 1, 1.15, 1.25, 1.4, 1.6, 1.85, 2];
-  let i = steps.findIndex((s) => Math.abs(s - (settings.battleZoom ?? 1.25)) < 0.04);
-  if (i < 0) i = 3;
-  i = Math.max(0, Math.min(steps.length - 1, i + delta));
-  settings.battleZoom = steps[i];
+function onBattleArenaPointerDown(ev) {
+  if (!game || game.winner != null) return;
+  const battleEl = document.getElementById("screen-battle");
+  if (!battleEl?.classList.contains("screen--active")) return;
+  if (ev.button !== 0) return;
+  const arena = document.getElementById("battle-canvas-arena");
+  if (!arena?.contains(ev.target)) return;
+
+  battlePointerDrag = {
+    kind: "pending",
+    x0: ev.clientX,
+    y0: ev.clientY,
+    pid: ev.pointerId,
+  };
+  /* Capture only after pan threshold — capturing here breaks click→canvas on some browsers. */
+}
+
+function onBattleArenaPointerMove(ev) {
+  if (!battlePointerDrag || battlePointerDrag.pid !== ev.pointerId) return;
+  const arena = document.getElementById("battle-canvas-arena");
+  const sc = document.getElementById("battle-canvas-scaler");
+  if (battlePointerDrag.kind === "pending") {
+    const dx = ev.clientX - battlePointerDrag.x0;
+    const dy = ev.clientY - battlePointerDrag.y0;
+    if (Math.abs(dx) + Math.abs(dy) < BATTLE_PAN_THRESHOLD) return;
+    battlePointerDrag = {
+      kind: "pan",
+      startClientX: battlePointerDrag.x0,
+      startClientY: battlePointerDrag.y0,
+      panStartX: battlePanX,
+      panStartY: battlePanY,
+      pid: ev.pointerId,
+    };
+    sc?.classList.add("battle-canvas-scaler--dragging");
+    try {
+      arena?.setPointerCapture(ev.pointerId);
+    } catch {
+      /* ignore */
+    }
+  }
+  if (battlePointerDrag.kind === "pan") {
+    const ddx = ev.clientX - battlePointerDrag.startClientX;
+    const ddy = ev.clientY - battlePointerDrag.startClientY;
+    battlePanX = battlePointerDrag.panStartX + ddx;
+    battlePanY = battlePointerDrag.panStartY + ddy;
+    clampBattlePan();
+    applyBattleCamera();
+  }
+}
+
+function onBattleArenaPointerUp(ev) {
+  if (!battlePointerDrag || battlePointerDrag.pid !== ev.pointerId) return;
+  const arena = document.getElementById("battle-canvas-arena");
+  const sc = document.getElementById("battle-canvas-scaler");
+  sc?.classList.remove("battle-canvas-scaler--dragging");
+  if (battlePointerDrag.kind === "pan") battleSuppressNextCanvasClick = true;
+  battlePointerDrag = null;
+  try {
+    arena?.releasePointerCapture(ev.pointerId);
+  } catch {
+    /* ignore */
+  }
+}
+
+function onBattleArenaWheel(ev) {
+  const battleEl = document.getElementById("screen-battle");
+  if (!battleEl?.classList.contains("screen--active")) return;
+  const arena = document.getElementById("battle-canvas-arena");
+  if (!arena?.contains(ev.target)) return;
+  ev.preventDefault();
+  const oldZ = getBattleZoomLevel();
+  const factor = ev.deltaY > 0 ? 0.92 : 1.09;
+  let newZ = oldZ * factor;
+  newZ = Math.max(BATTLE_ZOOM_MIN, Math.min(BATTLE_ZOOM_MAX, newZ));
+  const rect = arena.getBoundingClientRect();
+  const ox = ev.clientX - rect.left;
+  const oy = ev.clientY - rect.top;
+  const wx = (ox - battlePanX) / oldZ;
+  const wy = (oy - battlePanY) / oldZ;
+  settings.battleZoom = newZ;
   saveSettings(settings);
-  applyBattleZoom();
+  battlePanX = ox - wx * newZ;
+  battlePanY = oy - wy * newZ;
+  clampBattlePan();
+  applyBattleCamera();
+}
+
+function onBattleArenaMapClick(ev) {
+  if (ev.target.closest?.("#unit-tooltip")) return;
+  onCanvasClick(ev);
+}
+
+function initBattleCameraControls() {
+  const arena = document.getElementById("battle-canvas-arena");
+  if (!arena || arena._ctuCameraWired) return;
+  arena._ctuCameraWired = true;
+  arena.addEventListener("pointerdown", onBattleArenaPointerDown, true);
+  arena.addEventListener("pointermove", onBattleArenaPointerMove, true);
+  arena.addEventListener("pointerup", onBattleArenaPointerUp, true);
+  arena.addEventListener("pointercancel", onBattleArenaPointerUp, true);
+  arena.addEventListener("wheel", onBattleArenaWheel, { passive: false });
+
+  /* Consume post-pan ghost click on arena (capture) so it never hits canvas; also clears
+   * battleSuppressNextCanvasClick when the click target is zoomport/margin (not canvas). */
+  arena.addEventListener(
+    "click",
+    (ev) => {
+      if (!battleSuppressNextCanvasClick) return;
+      battleSuppressNextCanvasClick = false;
+      ev.preventDefault();
+      ev.stopPropagation();
+    },
+    true,
+  );
+  arena.addEventListener("click", onBattleArenaMapClick);
+
+  arena.addEventListener("pointermove", (ev) => {
+    updateBattlePointerHover(ev);
+  });
+  arena.addEventListener("pointerleave", () => {
+    battleHoverCellValid = false;
+  });
+
+  const ro = new ResizeObserver(() => {
+    if (document.getElementById("screen-battle")?.classList.contains("screen--active")) {
+      clampBattlePan();
+      applyBattleCamera();
+    }
+  });
+  ro.observe(arena);
+
+  const zoomSlider = document.getElementById("battle-zoom-slider");
+  if (zoomSlider && !zoomSlider._ctuZoomWired) {
+    zoomSlider._ctuZoomWired = true;
+    zoomSlider.min = String(Math.round(BATTLE_ZOOM_MIN * 100));
+    zoomSlider.max = String(Math.round(BATTLE_ZOOM_MAX * 100));
+    zoomSlider.addEventListener("input", () => {
+      const pct = Number(zoomSlider.value);
+      if (!Number.isFinite(pct)) return;
+      applyBattleZoomKeepingCenter(pct / 100);
+    });
+  }
+
+  document.getElementById("btn-battle-toggle-log")?.addEventListener("click", () => {
+    const p = document.getElementById("battle-log-panel");
+    const b = document.getElementById("btn-battle-toggle-log");
+    if (!p || !b) return;
+    const open = p.hidden;
+    p.hidden = !open;
+    b.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.getElementById("btn-battle-log-close")?.addEventListener("click", () => {
+    const p = document.getElementById("battle-log-panel");
+    const b = document.getElementById("btn-battle-toggle-log");
+    if (p) p.hidden = true;
+    if (b) b.setAttribute("aria-expanded", "false");
+  });
 }
 
 function toggleBattleFullscreen() {
@@ -1300,13 +1866,88 @@ function toggleBattleFullscreen() {
   else el.requestFullscreen?.().catch(() => {});
 }
 
-/** Grid cell lerp: visual draw uses lerpPos() from (x0,y0) to (x1,y1) while logic x/y stay at destination. */
-function startLerp(unit, x0, y0, x1, y1) {
-  const dist = Math.abs(x1 - x0) + Math.abs(y1 - y0);
-  const dur = moveTweenDurationMs(dist, !!settings.reduceMotion);
-  unit.state = "move";
-  lerp = { unitId: unit.id, x0, y0, x1, y1, t0: performance.now(), dur };
+function applyMoveFacingForStep(unit, from, to) {
+  unit.facing = computeFacing(
+    { x: from[0], y: from[1] },
+    { x: to[0], y: to[1] },
+  );
+  syncFacingAndFaceRad(unit);
+  unit.turretOffsetRad = 0;
 }
+
+function pushTreadMarkForStep(unit, from, to) {
+  const cfg = spriteAnimations?.[unit.mapSpriteSet];
+  if (!cfg?.treadVehicle) return;
+  const dx = to[0] - from[0];
+  const dy = to[1] - from[1];
+  if (dx === 0 && dy === 0) return;
+  treadMarks.push({
+    x: to[0],
+    y: to[1],
+    rad: Math.atan2(dy, dx),
+    t0: performance.now(),
+  });
+  while (treadMarks.length > TREAD_MARK_CAP) treadMarks.shift();
+}
+
+function pruneTreadMarks(now) {
+  treadMarks = treadMarks.filter((m) => now - m.t0 < TREAD_MARK_LIFETIME_MS);
+}
+
+function drawTreadMarks(nowMs) {
+  if (!game || !treadMarks.length) return;
+  const cs = game.grid.cellSize;
+  const now = nowMs;
+  pruneTreadMarks(now);
+  ctx.save();
+  ctx.lineCap = "round";
+  for (const m of treadMarks) {
+    const age = now - m.t0;
+    const alpha = 0.42 * (1 - age / TREAD_MARK_LIFETIME_MS);
+    if (alpha <= 0.02) continue;
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = "rgba(28,26,22,0.95)";
+    ctx.lineWidth = Math.max(1.5, cs * 0.045);
+    const cx = gridOffsetX + m.x * cs + cs / 2;
+    const cy = gridOffsetY + m.y * cs + cs / 2;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(m.rad);
+    const half = cs * 0.28;
+    const off = cs * 0.11;
+    ctx.beginPath();
+    ctx.moveTo(-half, -off);
+    ctx.lineTo(half, -off);
+    ctx.moveTo(-half, off);
+    ctx.lineTo(half, off);
+    ctx.stroke();
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+/** Walk each path tile at constant speed; hull/sprite faces each step, tread marks for tracked vehicles. */
+function startLerpAlongPath(unit, path) {
+  if (!path || path.length < 2) return;
+  unit.state = "move";
+  if (settings.reduceMotion) {
+    unit.isMoving = false;
+    if (unit.hp > 0) unit.state = "idle";
+    lerp = null;
+    syncFacingTowardNearestEnemy(unit, game.units);
+    return;
+  }
+  const steps = path.length - 1;
+  lerp = {
+    unitId: unit.id,
+    cells: path,
+    seg: 0,
+    t0: performance.now(),
+    dur: PER_TILE_MOVE_MS,
+  };
+  applyMoveFacingForStep(unit, path[0], path[1]);
+}
+
 function updateLerp() {
   if (!lerp || !game) return;
   const u = game.units.find((q) => q.id === lerp.unitId);
@@ -1314,17 +1955,67 @@ function updateLerp() {
     lerp = null;
     return;
   }
-  const t = Math.min(1, (performance.now() - lerp.t0) / Math.max(1, lerp.dur));
-  if (t >= 1) {
+  const now = performance.now();
+  const t = Math.min(1, (now - lerp.t0) / Math.max(1, lerp.dur));
+
+  if (lerp.cells && lerp.seg != null) {
+    const cells = lerp.cells;
+    const lastSeg = cells.length - 2;
+    if (t >= 1) {
+      const from = cells[lerp.seg];
+      const to = cells[lerp.seg + 1];
+      pushTreadMarkForStep(u, from, to);
+      if (lerp.seg >= lastSeg) {
+        u.isMoving = false;
+        if (u.hp > 0 && u.state === "move") u.state = "idle";
+        syncFacingTowardNearestEnemy(u, game.units);
+        lerp = null;
+        return;
+      }
+      lerp.seg += 1;
+      lerp.t0 = now;
+      applyMoveFacingForStep(u, cells[lerp.seg], cells[lerp.seg + 1]);
+    }
+    return;
+  }
+
+  if (
+    lerp.x0 != null &&
+    lerp.y0 != null &&
+    lerp.x1 != null &&
+    lerp.y1 != null &&
+    t >= 1
+  ) {
     u.isMoving = false;
     if (u.hp > 0 && u.state === "move") u.state = "idle";
+    syncFacingTowardNearestEnemy(u, game.units);
     lerp = null;
   }
 }
+
 function lerpPos(u) {
   if (!lerp || lerp.unitId !== u.id) return { x: u.x, y: u.y };
   const t = Math.min(1, (performance.now() - lerp.t0) / Math.max(1, lerp.dur));
-  return lerpCellPair(lerp.x0, lerp.y0, lerp.x1, lerp.y1, t);
+  if (lerp.cells && lerp.seg != null) {
+    const a = lerp.cells[lerp.seg];
+    const b = lerp.cells[lerp.seg + 1];
+    return {
+      x: lerpScalar(a[0], b[0], t),
+      y: lerpScalar(a[1], b[1], t),
+    };
+  }
+  if (
+    lerp.x0 != null &&
+    lerp.y0 != null &&
+    lerp.x1 != null &&
+    lerp.y1 != null
+  ) {
+    return {
+      x: lerpScalar(lerp.x0, lerp.x1, t),
+      y: lerpScalar(lerp.y0, lerp.y1, t),
+    };
+  }
+  return { x: u.x, y: u.y };
 }
 
 /* ── Attack ───────────────────────────────────────────── */
@@ -1344,21 +2035,19 @@ function attackableCellKeys(sel) {
   return keys;
 }
 
-/** All cells within the selected unit's weapon range (orange ring, no enemy check). */
-function attackRangeCells(sel) {
+function healableCellKeys(sel) {
   const keys = new Set();
-  if (!game || !sel) return keys;
-  const lo = sel.rangeMin ?? 1;
-  const hi = sel.rangeMax ?? 1;
-  const { width, height } = game.grid;
-  for (let ty = 0; ty < height; ty++) {
-    for (let tx = 0; tx < width; tx++) {
-      const d = Math.max(Math.abs(tx - sel.x), Math.abs(ty - sel.y));
-      if (d >= lo && d <= hi) keys.add(tx + "," + ty);
-    }
+  const owner = game?.currentPlayer ?? 0;
+  if (!game || !sel || sel.owner !== owner) return keys;
+  if (!sel.supportRole || (sel.supportChargesRemaining ?? 0) <= 0) return keys;
+  const losCtx = game.losCtx();
+  for (const u of game.units) {
+    if (u.owner !== owner || u.hp <= 0) continue;
+    if (canHealSupport(sel, u, game.units, losCtx)) keys.add(`${u.x},${u.y}`);
   }
   return keys;
 }
+
 function effectProfileFor(unit) {
   const key = unit.attackEffectProfile;
   if (!key || !attackEffects) return null;
@@ -1551,6 +2240,7 @@ function doAttack(attacker, target) {
       { x: target.x, y: target.y },
     );
     syncFacingAndFaceRad(attacker);
+    attacker.turretOffsetRad = 0;
     attacker.attackedThisTurn = true;
     attacker.state = "attack";
     attacker._attackTargetPos = { x: target.x, y: target.y };
@@ -1585,6 +2275,45 @@ function onCanvasClick(ev) {
   const sel = game.getSelected();
 
   if (clicked && clicked.owner === currentOwner && clicked.hp > 0) {
+    if (
+      sel &&
+      sel.id !== clicked.id &&
+      canHealSupport(sel, clicked, game.units, game.losCtx())
+    ) {
+      const kitsLeft = Math.max(0, (sel.supportChargesRemaining ?? 0) - 1);
+      const title = sel.supportRole === "engineer" ? "Repair unit?" : "Heal Unit";
+      const detail =
+        sel.supportRole === "engineer"
+          ? "Restore 50% of missing HP (uses 1 repair kit)."
+          : "Restore 50% of missing HP (uses 1 med pack).";
+      if (
+        window.confirm(
+          `${title}\n\n${detail}\nYou will have ${kitsLeft} kit(s) left after.`,
+        )
+      ) {
+        const res = game.healFriendly(sel, clicked);
+        if (res) {
+          battleHints.attackedOnce = true;
+          pushLog(
+            `✚ ${sel.displayName} restored ${res.healed} HP to ${clicked.displayName}.`,
+            "battle-log__item--move",
+          );
+          const cellSz = game.scenario?.cellSize ?? 48;
+          const tpx = gridOffsetX + clicked.x * cellSz + cellSz / 2;
+          const tpy = gridOffsetY + clicked.y * cellSz + cellSz * 0.3;
+          spawnFloater(`+${res.healed}`, tpx, tpy, "#40c057");
+          spawnFlash(
+            tpx,
+            gridOffsetY + clicked.y * cellSz + cellSz / 2,
+            "#6ee7b7",
+          );
+          AudioManager.play("HealSupport");
+          game.checkWinner();
+        }
+      }
+      syncHud();
+      return;
+    }
     game.select(clicked.id);
     AudioManager.play("UnitSelected");
     syncHud();
@@ -1618,8 +2347,9 @@ function onCanvasClick(ev) {
     if (reach.has(k)) {
       const ox = sel.x;
       const oy2 = sel.y;
-      if (game.moveUnit(sel, x, y)) {
-        startLerp(sel, ox, oy2, sel.x, sel.y);
+      const movePath = game.moveUnit(sel, x, y);
+      if (movePath) {
+        startLerpAlongPath(sel, movePath);
         battleHints.movedOnce = true;
         pushLog(`🚶 ${sel.displayName} moved`, "battle-log__item--move");
         AudioManager.play("MoveStart");
@@ -1651,34 +2381,89 @@ function onCanvasClick(ev) {
 /* ── Hover tooltip ────────────────────────────────────── */
 function onCanvasMouseMove(ev) {
   if (!game) return;
+  updateBattlePointerHover(ev);
   const { x, y } = cellFromEvent(ev);
   const tooltip = document.getElementById("unit-tooltip");
   if (!tooltip) return;
-  const u = (x >= 0 && y >= 0 && x < game.grid.width && y < game.grid.height) ? game.unitAt(x, y) : null;
-  if (!u) { tooltip.hidden = true; return; }
-  tooltip.hidden = false;
+
+  const sel = game.getSelected();
+  const cp = game.currentPlayer;
+  battleHoverShowsAttackOverlay = false;
+  battleHoverShowsHealOverlay = false;
+  if (
+    sel &&
+    sel.owner === cp &&
+    !sel.attackedThisTurn &&
+    x >= 0 &&
+    y >= 0 &&
+    x < game.grid.width &&
+    y < game.grid.height
+  ) {
+    const hu = game.unitAt(x, y);
+    if (hu && hu.owner !== cp && hu.hp > 0) {
+      battleHoverShowsAttackOverlay = true;
+    }
+    if (
+      hu &&
+      hu.owner === cp &&
+      hu.hp > 0 &&
+      hu.id !== sel.id &&
+      sel.supportRole &&
+      (sel.supportChargesRemaining ?? 0) > 0 &&
+      canHealSupport(sel, hu, game.units, game.losCtx())
+    ) {
+      battleHoverShowsHealOverlay = true;
+    }
+  }
+
+  const inGrid =
+    x >= 0 && y >= 0 && x < game.grid.width && y < game.grid.height;
+  const u = inGrid ? game.unitAt(x, y) : null;
+
   const wrap = canvas.closest(".battle-canvas-arena");
   const rect = wrap ? wrap.getBoundingClientRect() : canvas.getBoundingClientRect();
-  const tx = Math.min(ev.clientX - rect.left + 14, Math.max(120, rect.width - 180));
-  const ty = Math.max(ev.clientY - rect.top - 14, 0);
-  tooltip.style.left = tx + "px";
-  tooltip.style.top = ty + "px";
+  const tipX = Math.min(ev.clientX - rect.left + 14, Math.max(120, rect.width - 180));
+  const tipY = Math.max(ev.clientY - rect.top - 14, 0);
+
+  if (!u) {
+    let tileHint = null;
+    if (inGrid && sel && sel.owner === cp) {
+      tileHint = classifyBattleHoverTile(x, y, sel);
+    }
+    if (tileHint) {
+      tooltip.hidden = false;
+      tooltip.style.left = tipX + "px";
+      tooltip.style.top = tipY + "px";
+      tooltip.innerHTML = `<strong>${tileHint}</strong>`;
+      return;
+    }
+    tooltip.hidden = true;
+    return;
+  }
+
+  tooltip.hidden = false;
+  tooltip.style.left = tipX + "px";
+  tooltip.style.top = tipY + "px";
   const hpColor = u.hp / u.maxHp > 0.6 ? "tip-hp" : u.hp / u.maxHp > 0.3 ? "" : "tip-dmg";
   const terrainType = (game.grid && u.x >= 0 && u.y >= 0) ? game.grid.cells[u.y]?.[u.x] : "plains";
   const tileInfo = tileTypes?.[terrainType];
   const defBonus = tileInfo?.defenseBonus ? `· ${Math.round(tileInfo.defenseBonus * 100)}% def` : "";
 
-  /* damage preview when hovering an attackable enemy */
-  const sel = game.getSelected();
   let previewHtml = "";
-  if (sel && sel.owner === game.currentPlayer && u.owner !== game.currentPlayer) {
+  if (sel && sel.owner === cp && u.owner !== cp) {
     const preview = previewDamage(sel, u);
     if (preview) {
       previewHtml = `<br><span class="tip-preview">${preview.summaryHtml}</span>`;
     }
   }
 
-  tooltip.innerHTML = `<strong>${u.displayName}</strong><span class="${hpColor}">HP ${u.hp}/${u.maxHp}</span><br><span class="tip-dmg">DMG ${u.damage}</span>  ARM ${u.armor}<br>Range ${u.rangeMin}–${u.rangeMax}${u.deadspace ? ` · DS ${u.deadspace}` : ""}  Sight ${u.sightRange ?? "∞"}<br><span class="tip-type">${u.attackType}</span> · mv ${u.move} · <em>${terrainType}${defBonus}</em>${previewHtml}`;
+  let tileAct = "";
+  if (sel && sel.owner === cp) {
+    const h = classifyBattleHoverTile(u.x, u.y, sel);
+    if (h) tileAct = `<br><span class="tip-preview">${h}</span>`;
+  }
+
+  tooltip.innerHTML = `<strong>${u.displayName}</strong><span class="${hpColor}">HP ${u.hp}/${u.maxHp}</span><br><span class="tip-dmg">DMG ${u.damage}</span>  ARM ${u.armor}<br>Range ${u.rangeMin}–${u.rangeMax}${u.deadspace ? ` · DS ${u.deadspace}` : ""}  Sight ${u.sightRange ?? "∞"}<br><span class="tip-type">${u.attackType}</span> · mv ${u.move} · <em>${terrainType}${defBonus}</em>${tileAct}${previewHtml}`;
 }
 
 function estimateStrikeDamagePreview(striker, victim) {
@@ -1847,10 +2632,86 @@ function explainAttackFailure(attacker, target) {
 }
 
 /* ── Draw ─────────────────────────────────────────────── */
-function facingRadForDraw(u, moving) {
-  if (u.mapRenderMode !== "topdown" || u.hp <= 0) return u.faceRad;
-  if (moving) return u.faceRad;
-  return facingToFaceRad(u.facing || "down");
+function unitHasIndependentTurret(unit) {
+  const c = spriteAnimations?.[unit.mapSpriteSet]?.compositeTopdown;
+  return (
+    unit.mapRenderMode === "topdown" && compositeUsesIndependentTurret(c)
+  );
+}
+
+/**
+ * Idle orientation: selected current-player unit follows cursor cell on the map;
+ * everyone else (and selection when pointer is off-map / on own cell) faces nearest enemy.
+ * Attack wind-up keeps doAttack-applied facing until state returns to idle.
+ */
+function applyBattleIdleFacing() {
+  if (!game) return;
+  const sel = game.getSelected();
+  const cp = game.currentPlayer;
+  for (const u of game.units) {
+    if (u.hp <= 0) continue;
+    const moving = (lerp && lerp.unitId === u.id) || !!u.isMoving;
+    if (moving || u.state === "attack") continue;
+
+    const cursorGuides =
+      sel &&
+      sel.id === u.id &&
+      u.owner === cp &&
+      battleHoverCellValid;
+
+    if (cursorGuides) {
+      if (battleHoverGx === u.x && battleHoverGy === u.y) {
+        syncFacingTowardNearestEnemy(u, game.units);
+      } else if (unitHasIndependentTurret(u)) {
+        const hullRad = facingToFaceRad(u.facing || "down");
+        const aimRad = Math.atan2(
+          battleHoverGy - u.y,
+          battleHoverGx - u.x,
+        );
+        u.turretOffsetRad = normalizeAngleRad(aimRad - hullRad);
+      } else {
+        u.facing = computeFacing(
+          { x: u.x, y: u.y },
+          { x: battleHoverGx, y: battleHoverGy },
+        );
+        syncFacingAndFaceRad(u);
+      }
+      continue;
+    }
+    syncFacingTowardNearestEnemy(u, game.units);
+  }
+}
+
+function facingRadForDraw(u) {
+  if (u.hp <= 0) return u.faceRad;
+  if (u.mapRenderMode === "topdown") {
+    return facingToFaceRad(u.facing || "down");
+  }
+  return u.faceRad;
+}
+
+/** White medic helmet + red cross (map readout). */
+function drawMedicHelmetOverlay(ctx, u, px, py, cs) {
+  if (u.templateId !== "medic" || u.hp <= 0) return;
+  ctx.save();
+  const cx = px + cs / 2;
+  const cy = py + cs * 0.36;
+  const r = cs * 0.13;
+  ctx.fillStyle = "rgba(255,255,255,0.93)";
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI, 0);
+  ctx.lineTo(cx + r, cy + r * 0.42);
+  ctx.lineTo(cx - r, cy + r * 0.42);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "rgba(30,30,30,0.35)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  const arm = Math.max(2, cs * 0.045);
+  ctx.fillStyle = "#dc2626";
+  ctx.fillRect(cx - arm / 2, cy - arm * 0.35 - 3, arm, 6);
+  ctx.fillRect(cx - 3, cy - arm * 0.35 - arm / 2, 6, arm);
+  ctx.restore();
 }
 
 function drawCoverShieldIcon(ctx, cx, cy, scale) {
@@ -1921,24 +2782,45 @@ function drawFrame(ts) {
   const sel = game.getSelected();
   const currentOwner = game.currentPlayer;
   const reach = sel && sel.owner === currentOwner ? game.reachableFor(sel) : null;
-  const atkCells = attackableCellKeys(sel);
-  /* Orange range ring: only show when the unit still has attacks available */
-  const atkRange = (sel && sel.owner === currentOwner && !sel.attackedThisTurn)
-    ? attackRangeCells(sel) : new Set();
+  const showTacticalRing =
+    !!(
+      sel &&
+      sel.owner === currentOwner &&
+      !sel.attackedThisTurn &&
+      (battleAttackRangePinned ||
+        battleHoverShowsAttackOverlay ||
+        battleHoverShowsHealOverlay)
+    );
+  const overlay = showTacticalRing ? getCachedAttackOverlay(sel) : null;
+  const atkTargetKeys =
+    showTacticalRing && overlay ? attackableCellKeys(sel) : new Set();
+  const healTargetKeys =
+    showTacticalRing &&
+    overlay &&
+    sel.supportRole &&
+    (sel.supportChargesRemaining ?? 0) > 0
+      ? healableCellKeys(sel)
+      : new Set();
   const fogCells = computeVisibleCells();
-  const losShadowCells =
-    sel && sel.owner === currentOwner ? computeSelectedLosShadow(sel, game) : null;
 
   drawGrid(ctx, game, tileTypes, {
     offsetX: gridOffsetX, offsetY: gridOffsetY,
     stackMode: battlePlaneCtl ? "plane" : "legacy",
     reachable: reach,
     selected: sel && sel.owner === currentOwner ? sel : null,
-    attackRange: atkRange,
-    attackableCells: atkCells,
+    tacticalOverlays:
+      showTacticalRing && overlay
+        ? {
+            enabled: true,
+            weaponBand: overlay.weaponBand,
+            losBlocked: overlay.losBlocked,
+            cannotHit: overlay.cannotHit,
+            validTargets: atkTargetKeys,
+            healTargets: healTargetKeys,
+          }
+        : { enabled: false },
     highlightCells: coachHighlightKeys(),
     fogCells,
-    losShadowCells,
     timeMs: ts,
   });
 
@@ -1951,6 +2833,10 @@ function drawFrame(ts) {
   } else if (game.mapObjects?.length) {
     drawMapObjects(ctx, game, gridOffsetX, gridOffsetY);
   }
+
+  drawTreadMarks(ts);
+
+  applyBattleIdleFacing();
 
   const sorted = [...game.units]
     .filter((u) => {
@@ -1979,7 +2865,8 @@ function drawFrame(ts) {
       ctx.globalAlpha = 0.75;
     }
 
-    unitRenderer.drawUnit(ctx, u, px, py, cs, ts, moving, facingLeft, facingRadForDraw(u, moving));
+    unitRenderer.drawUnit(ctx, u, px, py, cs, ts, moving, facingLeft, facingRadForDraw(u));
+    drawMedicHelmetOverlay(ctx, u, px, py, cs);
 
     if (spent || partSpent) ctx.restore();
 
@@ -2070,7 +2957,8 @@ async function aiTurn() {
       if (bestK) {
         const [tx, ty] = bestK.split(",").map(Number);
         const ox = u.x; const oy = u.y;
-        if (game.moveUnit(u, tx, ty)) startLerp(u, ox, oy, u.x, u.y);
+        const p = game.moveUnit(u, tx, ty);
+        if (p) startLerpAlongPath(u, p);
       }
     } else {
       /* Advance: move to best tile that brings enemy into range OR has good defence */
@@ -2091,7 +2979,8 @@ async function aiTurn() {
       if (bestK) {
         const [tx, ty] = bestK.split(",").map(Number);
         const ox = u.x; const oy = u.y;
-        if (game.moveUnit(u, tx, ty)) startLerp(u, ox, oy, u.x, u.y);
+        const p = game.moveUnit(u, tx, ty);
+        if (p) startLerpAlongPath(u, p);
       }
     }
 
@@ -2106,12 +2995,19 @@ async function aiTurn() {
       }
     }
   }
+  battleAttackRangePinned = false;
   if (game.winner == null) game.endTurn();
   syncHud();
 }
 
 /* ── Procedural mapgen boot ───────────────────────────── */
-async function bootProceduralSkirmish(theme = "urban") {
+async function startProceduralFromVsCpuPrep(loadoutOrdered) {
+  const spec = pendingProceduralSkirmishSpec;
+  if (!spec || !loadoutOrdered?.length) return;
+  const themeOrBiome = spec.biome || spec.theme || "urban";
+  const { theme, biome } = resolveProceduralThemeArg(themeOrBiome);
+  const diff = normalizeSoloDifficulty(settings.soloDifficulty);
+  const grand = diff === "hell";
   const [tiles, assetManifest] = await Promise.all([
     loadJson("js/config/tileTextures.json"),
     loadJson("js/config/assetManifest.json").catch(() => null),
@@ -2119,19 +3015,52 @@ async function bootProceduralSkirmish(theme = "urban") {
   ]);
   const scenario = generateProceduralScenario({
     theme,
-    width: 16,
-    height: 12,
+    biome,
+    width: grand ? 20 : 16,
+    height: grand ? 16 : 12,
+    seed: (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0,
+    tileTypes: tiles.types,
+    assetManifest: assetManifest && typeof assetManifest === "object" ? assetManifest : null,
+  });
+  if (!scenario) {
+    showBootFailureBanner("Could not generate a procedural map. Try again or pick a map in the theater.");
+    return;
+  }
+  pendingProceduralSkirmishSpec = null;
+  lastProceduralScenario = scenario;
+  void bootBattle({
+    mode: "skirmish",
+    scenarioInline: scenario,
+    loadout: [...loadoutOrdered],
+    skirmishDifficulty: diff,
+  });
+}
+
+async function bootProceduralSkirmish(themeOrBiome = "urban") {
+  const { theme, biome } = resolveProceduralThemeArg(themeOrBiome);
+  const diff = normalizeSoloDifficulty(settings.soloDifficulty);
+  const grand = diff === "hell";
+  const [tiles, assetManifest] = await Promise.all([
+    loadJson("js/config/tileTextures.json"),
+    loadJson("js/config/assetManifest.json").catch(() => null),
+    preloadTerrainTiles(),
+  ]);
+  const scenario = generateProceduralScenario({
+    theme,
+    biome,
+    width: grand ? 20 : 16,
+    height: grand ? 16 : 12,
     seed: (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0,
     tileTypes: tiles.types,
     assetManifest: assetManifest && typeof assetManifest === "object" ? assetManifest : null,
   });
   if (!scenario) {
     console.warn("[CTU] Procedural generation failed; using default skirmish.");
-    void bootBattle({ mode: "skirmish" });
+    void bootBattle({ mode: "skirmish", skirmishDifficulty: diff });
     return;
   }
   lastProceduralScenario = scenario;
-  void bootBattle({ mode: "skirmish", scenarioInline: scenario });
+  void bootBattle({ mode: "skirmish", scenarioInline: scenario, skirmishDifficulty: diff });
 }
 
 /* ── Dev: logo backdoor → dev-editor.html (5 clicks in 2s + password) ── */
@@ -2191,7 +3120,7 @@ async function runDevAnimationTest() {
       },
     ],
   };
-  await bootBattle({ mode: "skirmish", scenarioInline: scenario });
+  await bootBattle({ mode: "skirmish", scenarioInline: scenario, soloSkirmishTuning: false });
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       const u = game?.units.find((q) => q.owner === 0 && q.hp > 0);
@@ -2200,8 +3129,10 @@ async function runDevAnimationTest() {
       const ox = u.x;
       const oy = u.y;
       const tx = ox + 3;
-      if (tx < game.grid.width && game.moveUnit(u, tx, oy)) {
-        startLerp(u, ox, oy, u.x, u.y);
+      const dbgPath =
+        tx < game.grid.width ? game.moveUnit(u, tx, oy) : false;
+      if (dbgPath) {
+        startLerpAlongPath(u, dbgPath);
         pushLog("Debug: animation test (3 cells east)", "battle-log__item--move");
       }
     });
@@ -2212,12 +3143,39 @@ async function bootBattle(options = {}) {
   const mode = options.mode ?? "skirmish";
   const loadout = options.loadout ?? null;
   const useInline = options.scenarioInline && typeof options.scenarioInline === "object";
+  const applySoloTuning =
+    (mode === "skirmish" || mode === "urban") && options.soloSkirmishTuning !== false;
+  const skirmishDifficulty = applySoloTuning
+    ? normalizeSoloDifficulty(options.skirmishDifficulty ?? settings.soloDifficulty)
+    : null;
   let scenarioPath = options.scenarioPath;
   if (!useInline && !scenarioPath) {
-    scenarioPath =
-      mode === "skirmish"
-        ? pendingUserMapPath || "js/config/scenarios/academy_skirmish.json"
-        : "js/config/scenarios/academy_skirmish.json";
+    if (mode === "urban") {
+      scenarioPath = "js/config/scenarios/urban_siege.json";
+    } else if (mode === "skirmish") {
+      scenarioPath =
+        pendingUserMapPath || "js/config/scenarios/academy_skirmish.json";
+    } else {
+      scenarioPath = "js/config/scenarios/academy_skirmish.json";
+    }
+  }
+  if (
+    mode === "skirmish" &&
+    applySoloTuning &&
+    !useInline &&
+    skirmishDifficulty === "hell" &&
+    scenarioPath
+  ) {
+    const maps = mapCatalog.maps || [];
+    const cur = maps.find((x) => x.path === scenarioPath);
+    if (!cur || cur.sizeCategory !== "grand") {
+      const g = maps.find((m) => m.sizeCategory === "grand");
+      if (g) {
+        scenarioPath = g.path;
+        pendingUserMapPath = g.path;
+        void refreshPendingMapSkirmishSlotCount();
+      }
+    }
   }
   lastBootOptions = {
     mode,
@@ -2225,15 +3183,24 @@ async function bootBattle(options = {}) {
     scenarioPath: useInline ? null : scenarioPath,
     matLabTheater: options.matLabTheater ?? null,
     scenarioInline: useInline ? JSON.parse(JSON.stringify(options.scenarioInline)) : null,
+    skirmishDifficulty: skirmishDifficulty || null,
+    soloSkirmishTuning: options.soloSkirmishTuning,
   };
   battleEndHandled = false;
   aiRunning = false;
+  battleAttackRangePinned = false;
+  battleHoverShowsAttackOverlay = false;
+  battleOverlayCacheKey = "";
+  battleOverlayCache = null;
   battleHints = { movedOnce: false, attackedOnce: false };
   battleStats = { p0Kills: 0, p1Kills: 0, rounds: 0 };
   floaters.length = 0;
   dyingUnits.length = 0;
   vfxFlashes.length = 0;
   combatLog.length = 0;
+  treadMarks.length = 0;
+  lerp = null;
+  battleHoverCellValid = false;
   const list = document.getElementById("battle-log-list");
   if (list) list.innerHTML = "";
 
@@ -2257,7 +3224,11 @@ async function bootBattle(options = {}) {
   tileTypes = tiles.types;
   spriteAnimations = sprites;
   attackEffects = fx;
-  const scenario = mergeScenarioForBattle(scenarioBase, mode, loadout, academyConfig);
+  const scenario = mergeScenarioForBattle(scenarioBase, mode, loadout, academyConfig, {
+    skirmishDifficulty: skirmishDifficulty || null,
+    scenarioPath: useInline ? null : scenarioPath,
+  });
+  if (!useInline && scenarioPath) attachCatalogBiomeFromPath(scenario, scenarioPath);
   scenario.assetManifest =
     assetManifest && typeof assetManifest === "object" ? assetManifest : null;
   if (options.matLabTheater && getArenaRenderMode(scenario) === "mat") {
@@ -2280,6 +3251,7 @@ async function bootBattle(options = {}) {
   syncHud();
   syncCoachPanel();
   showScreen("battle");
+  requestAnimationFrame(() => centerBattleCamera());
   pushLog("⚑ Battle started!", "battle-log__item--event");
 }
 
@@ -2292,7 +3264,7 @@ function handleBattleEnd() {
       progress.academyComplete = true;
       /* unlock Tier 2 roster on first academy win */
       Object.assign(progress.unlocks, {
-        medic: true, artillery: true, commander_unit: true,
+        medic: true, engineer: true, artillery: true, commander_unit: true,
         vanguard: true, guard: true, assault: true,
         recon_jeep: true, jet_bomber: true,
       });
@@ -2416,27 +3388,53 @@ function selectCodexUnit(id) {
 }
 
 /* ── Settings ─────────────────────────────────────────── */
+function applyCyberHudArt() {
+  document.getElementById("app")?.classList.toggle(
+    "ctu-cyber-art-enabled",
+    !!settings.cyberHudArtEnabled
+  );
+}
+
 function applySettingsToUi() {
   const audioEl  = document.getElementById("setting-audio");
   const motionEl = document.getElementById("setting-reduce-motion");
   const fogEl    = document.getElementById("setting-fog");
   const diffEl   = document.getElementById("setting-difficulty");
   const hdefEl   = document.getElementById("setting-visual-hdef");
+  const cyberArtEl = document.getElementById("setting-cyber-hud-art");
   if (audioEl)  audioEl.checked  = settings.audioEnabled;
   if (motionEl) motionEl.checked = settings.reduceMotion;
   if (fogEl)    fogEl.checked    = settings.fogOfWar !== false;
   if (diffEl)   diffEl.value     = settings.difficulty ?? "normal";
   if (hdefEl)   hdefEl.checked   = settings.visualStyle !== "classic";
+  if (cyberArtEl) cyberArtEl.checked = !!settings.cyberHudArtEnabled;
+  applyCyberHudArt();
 }
 
 let mapTheaterFilterSize = "all";
 let mapTheaterFilterEnv = "all";
+let mapTheaterFilterBiome = "all";
 
-function renderMapTheater() {
+async function renderMapTheater() {
   const fs = document.getElementById("map-filter-size");
   if (fs) fs.value = mapTheaterFilterSize;
   const fe = document.getElementById("map-filter-env");
   if (fe) fe.value = mapTheaterFilterEnv;
+  const fb = document.getElementById("map-filter-biome");
+  if (fb) fb.value = mapTheaterFilterBiome;
+
+  let tileTypeMap = mapTheaterTileTypes;
+  if (!tileTypeMap) {
+    try {
+      const j = await loadJson("js/config/tileTextures.json");
+      tileTypeMap = j.types || {};
+      mapTheaterTileTypes = tileTypeMap;
+    } catch (e) {
+      console.warn("[CTU] Map theater: could not load tileTextures for previews", e);
+      tileTypeMap = {};
+    }
+  }
+
   const host = document.getElementById("map-theater-grid");
   if (!host) return;
   host.innerHTML = "";
@@ -2444,19 +3442,40 @@ function renderMapTheater() {
   for (const m of maps) {
     if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) continue;
     if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) continue;
+    if (mapTheaterFilterBiome !== "all") {
+      const b = getBiomeForCatalogEntry(m);
+      if (b !== mapTheaterFilterBiome) continue;
+    }
     const card = document.createElement("button");
     card.type = "button";
     card.className =
       "map-theater-card" +
       (pendingUserMapPath === m.path ? " map-theater-card--selected" : "");
     card.dataset.mapPath = m.path;
+    const biome = getBiomeForCatalogEntry(m);
+    const biomeLabel = biomeDisplayName(biome);
     card.innerHTML =
+      `<span class="map-theater-card__row">` +
+      `<canvas class="map-theater-card__preview" width="1" height="1" aria-hidden="true"></canvas>` +
+      `<span class="map-theater-card__body">` +
       `<span class="map-theater-card__name">${m.name}</span>` +
-      `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${m.environment}</span>` +
-      (m.blurb ? `<span class="map-theater-card__blurb">${m.blurb}</span>` : "");
+      `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${biomeLabel}</span>` +
+      (m.blurb ? `<span class="map-theater-card__blurb">${m.blurb}</span>` : "") +
+      `</span></span>`;
+    const previewCanvas = card.querySelector(".map-theater-card__preview");
+    void loadJson(m.path)
+      .then((sb) => {
+        if (sb?.terrain && previewCanvas) {
+          drawMapTheaterPreviewCanvas(previewCanvas, sb.terrain, tileTypeMap, 96, 64);
+        }
+      })
+      .catch((e) => {
+        console.warn("[CTU] Map theater preview failed:", m.path, e);
+      });
     card.addEventListener("click", () => {
       void (async () => {
         const prevPath = pendingUserMapPath;
+        pendingProceduralSkirmishSpec = null;
         pendingUserMapPath = m.path;
         let sb;
         try {
@@ -2466,7 +3485,7 @@ function renderMapTheater() {
           pendingUserMapPath = prevPath;
           const sel = document.getElementById("map-theater-selected");
           if (sel) sel.textContent = "Could not load that map. Pick another.";
-          renderMapTheater();
+          void renderMapTheater();
           return;
         }
         const newSlots = Math.min(8, Math.max(1, sb.skirmishDeploy?.length ?? 8));
@@ -2477,7 +3496,7 @@ function renderMapTheater() {
         ) {
           pendingSkirmishOrderedLoadout = null;
         }
-        renderMapTheater();
+        void renderMapTheater();
         if (mapsReturnTarget === "vs-cpu-prep") {
           mapsReturnTarget = null;
           void openVsCpuPrep();
@@ -2495,7 +3514,7 @@ function renderMapTheater() {
   if (sel) {
     const cur = maps.find((x) => x.path === pendingUserMapPath);
     sel.textContent = cur
-      ? `Selected: ${cur.name} (${cur.width}×${cur.height})`
+      ? `Selected: ${cur.name} — ${biomeDisplayName(getBiomeForCatalogEntry(cur))} · ${cur.width}×${cur.height}`
       : "Select a map below (optional — defaults apply if none).";
   }
   const backPrep = document.getElementById("btn-map-theater-back-prep");
@@ -2533,10 +3552,11 @@ async function initApp() {
   progress  = loadProgress();
   settings  = loadSettings();
   settings.visualStyle = settings.visualStyle === "classic" ? "classic" : "hDef";
+  if (typeof settings.cyberHudArtEnabled !== "boolean") settings.cyberHudArtEnabled = false;
   window.__CTU_AUDIO_DISABLED = !settings.audioEnabled;
   applySettingsToUi();
   applyVisualTheme();
-  applyBattleZoom();
+  applyBattleCamera();
 
   /* Firebase is optional — never blocks the app */
   await initFirebase();
@@ -2576,10 +3596,18 @@ function wireUi() {
         void bootUrbanSiege();
         return;
       }
-      const procV2 = t.closest("[data-proc-theme]");
+      const procV2 = t.closest("[data-proc-biome], [data-proc-theme]");
       if (procV2) {
         ev.preventDefault();
-        void bootProceduralSkirmish(procV2.getAttribute("data-proc-theme") || "urban");
+        const biome = procV2.getAttribute("data-proc-biome");
+        const theme = procV2.getAttribute("data-proc-theme");
+        pendingProceduralSkirmishSpec = {
+          biome: biome || undefined,
+          theme: theme || undefined,
+        };
+        pendingUserMapPath = null;
+        void openVsCpuPrep();
+        showScreen("vs-cpu-prep");
         return;
       }
       const btn = t.closest("[data-screen]");
@@ -2626,6 +3654,11 @@ function wireUi() {
   wireLandingDock();
 
   /* battle buttons */
+  document.getElementById("btn-battle-attack-overlay")?.addEventListener("click", () => {
+    if (!game || game.winner != null) return;
+    battleAttackRangePinned = !battleAttackRangePinned;
+    syncHud();
+  });
   document.getElementById("btn-end-turn")?.addEventListener("click", () => {
     if (!game || game.winner != null || aiRunning) return;
     if (game.units.some((u) => u.hp > 0 && u.state === "attack")) {
@@ -2633,6 +3666,7 @@ function wireUi() {
       return;
     }
     AudioManager.play("TurnEnd");
+    battleAttackRangePinned = false;
     game.endTurn();
     syncHud();
     if (game.winner != null) return;
@@ -2677,11 +3711,15 @@ function wireUi() {
 
   document.getElementById("map-filter-size")?.addEventListener("change", (ev) => {
     mapTheaterFilterSize = ev.target.value || "all";
-    renderMapTheater();
+    void renderMapTheater();
   });
   document.getElementById("map-filter-env")?.addEventListener("change", (ev) => {
     mapTheaterFilterEnv = ev.target.value || "all";
-    renderMapTheater();
+    void renderMapTheater();
+  });
+  document.getElementById("map-filter-biome")?.addEventListener("change", (ev) => {
+    mapTheaterFilterBiome = ev.target.value || "all";
+    void renderMapTheater();
   });
   document.getElementById("btn-map-theater-skirmish")?.addEventListener("click", () => {
     void openMapSkirmishLoadout({ returnToPrep: false });
@@ -2698,20 +3736,38 @@ function wireUi() {
     }
   });
   document.getElementById("btn-vs-cpu-prep-map")?.addEventListener("click", () => {
+    pendingProceduralSkirmishSpec = null;
     mapsReturnTarget = "vs-cpu-prep";
     showScreen("maps");
   });
   document.getElementById("btn-vs-cpu-prep-squad")?.addEventListener("click", () => {
     void openMapSkirmishLoadout({ returnToPrep: true });
   });
+  document.getElementById("btn-vs-cpu-prep-difficulty")?.addEventListener("change", (ev) => {
+    const v = ev.target?.value;
+    settings.soloDifficulty = normalizeSoloDifficulty(v);
+    saveSettings(settings);
+    syncVsCpuPrepUi();
+  });
   document.getElementById("btn-vs-cpu-prep-start")?.addEventListener("click", () => {
     const need = pendingMapSkirmishSlotCount || 8;
     const n = pendingSkirmishOrderedLoadout?.length ?? 0;
-    if (!pendingUserMapPath || n < 1 || n > need) return;
+    if (n < 1 || n > need) return;
+    const loadout = [...pendingSkirmishOrderedLoadout];
+    const diff = normalizeSoloDifficulty(settings.soloDifficulty);
+    if (pendingProceduralSkirmishSpec) {
+      void startProceduralFromVsCpuPrep(loadout);
+      return;
+    }
+    if (!pendingUserMapPath) return;
+    const urbanSiege =
+      pendingUserMapPath.endsWith("urban_siege.json") ||
+      pendingUserMapPath.includes("/urban_siege.json");
     void bootBattle({
-      mode: "skirmish",
-      loadout: [...pendingSkirmishOrderedLoadout],
+      mode: urbanSiege ? "urban" : "skirmish",
+      loadout,
       scenarioPath: pendingUserMapPath,
+      skirmishDifficulty: diff,
     });
   });
   document.getElementById("screen-mat-lab-prep")?.addEventListener("click", (ev) => {
@@ -2732,13 +3788,20 @@ function wireUi() {
       scenarioPath: PLANE_LAYER_SCENARIO_PATH,
       loadout: [...loadout],
       matLabTheater: pendingMatLabTheater,
+      skirmishDifficulty: normalizeSoloDifficulty(settings.soloDifficulty),
     });
   });
   document.getElementById("btn-proc-urban")?.addEventListener("click", () => {
-    void bootProceduralSkirmish("urban");
+    pendingProceduralSkirmishSpec = { theme: "urban" };
+    pendingUserMapPath = null;
+    void openVsCpuPrep();
+    showScreen("vs-cpu-prep");
   });
   document.getElementById("btn-proc-desert")?.addEventListener("click", () => {
-    void bootProceduralSkirmish("desert");
+    pendingProceduralSkirmishSpec = { theme: "desert" };
+    pendingUserMapPath = null;
+    void openVsCpuPrep();
+    showScreen("vs-cpu-prep");
   });
   document.getElementById("btn-export-proc-map")?.addEventListener("click", () => {
     if (!lastProceduralScenario) {
@@ -2751,7 +3814,6 @@ function wireUi() {
   document.getElementById("btn-map-skirmish-back")?.addEventListener("click", () => {
     const ret = mapSkirmishPrepReturnId;
     mapSkirmishPrepReturnId = null;
-    mapSkirmishFlexiblePick = false;
     if (ret === "mat-lab-prep") {
       showScreen("mat-lab-prep");
       syncMatLabPrepUi();
@@ -2760,19 +3822,14 @@ function wireUi() {
       syncVsCpuPrepUi();
     } else {
       showScreen("maps");
-      renderMapTheater();
+      void renderMapTheater();
     }
   });
   document.getElementById("btn-map-theater-hotseat")?.addEventListener("click", () =>
     showScreen("hotseat")
   );
 
-  document.getElementById("btn-battle-zoom-out")?.addEventListener("click", () => nudgeBattleZoom(-1));
-  document.getElementById("btn-battle-zoom-in")?.addEventListener("click", () => nudgeBattleZoom(1));
   document.getElementById("btn-battle-fullscreen")?.addEventListener("click", () => toggleBattleFullscreen());
-  document.getElementById("btn-battle-end-float")?.addEventListener("click", () => {
-    document.getElementById("btn-end-turn")?.click();
-  });
 
   document.getElementById("btn-dev-animation-test")?.addEventListener("click", () => {
     void runDevAnimationTest();
@@ -2787,7 +3844,8 @@ function wireUi() {
   document.getElementById("setting-reduce-motion")?.addEventListener("change", (ev) => {
     settings.reduceMotion = ev.target.checked;
     saveSettings(settings);
-    applyBattleZoom();
+    clampBattlePan();
+    applyBattleCamera();
   });
   document.getElementById("setting-fog")?.addEventListener("change", (ev) => {
     settings.fogOfWar = ev.target.checked; saveSettings(settings);
@@ -2800,14 +3858,45 @@ function wireUi() {
     saveSettings(settings);
     applyVisualTheme();
   });
+  document.getElementById("setting-cyber-hud-art")?.addEventListener("change", (ev) => {
+    settings.cyberHudArtEnabled = ev.target.checked;
+    saveSettings(settings);
+    applyCyberHudArt();
+  });
   document.getElementById("btn-settings-back")?.addEventListener("click", () => {
     showScreen(settings.visualStyle === "classic" ? "hub" : "v2-landing");
   });
   document.addEventListener("keydown", (ev) => {
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    if (ev.target?.closest?.("input, textarea, select, [contenteditable=true]")) return;
+
+    const battleEl = document.getElementById("screen-battle");
+    const battleOn = battleEl?.classList.contains("screen--active");
+
+    if (battleOn && game && game.winner == null) {
+      const k = ev.key.length === 1 ? ev.key.toLowerCase() : "";
+      if (k === "w" || k === "a" || k === "s" || k === "d") {
+        ev.preventDefault();
+        if (k === "w") battlePanY += BATTLE_KEY_PAN_STEP;
+        if (k === "s") battlePanY -= BATTLE_KEY_PAN_STEP;
+        if (k === "a") battlePanX += BATTLE_KEY_PAN_STEP;
+        if (k === "d") battlePanX -= BATTLE_KEY_PAN_STEP;
+        clampBattlePan();
+        applyBattleCamera();
+        return;
+      }
+    }
+
+    if ((ev.key === "r" || ev.key === "R") && battleOn && game && game.winner == null) {
+      battleAttackRangePinned = !battleAttackRangePinned;
+      syncHud();
+      ev.preventDefault();
+      return;
+    }
+
     if (ev.key !== "p" && ev.key !== "P") return;
     if (!game || game.winner != null) return;
-    const battleEl = document.getElementById("screen-battle");
-    if (!battleEl?.classList.contains("screen--active")) return;
+    if (!battleOn) return;
     const sel = game.getSelected();
     if (!sel || sel.owner !== game.currentPlayer || sel.hp <= 0) return;
     if (sel.templateId !== "sniper") return;
@@ -2827,20 +3916,13 @@ function wireUi() {
   canvas = document.getElementById("battle-canvas");
   ctx = canvas.getContext("2d");
   initBattleNotifications();
-  canvas.addEventListener("click", onCanvasClick);
-  canvas.addEventListener("mousemove", onCanvasMouseMove);
-  canvas.addEventListener("mouseleave", () => { const t = document.getElementById("unit-tooltip"); if (t) t.hidden = true; });
-  /* touch controls — map touch to the same click/move handlers */
-  canvas.addEventListener("touchstart", (ev) => {
-    ev.preventDefault();
-    const touch = ev.changedTouches[0];
-    onCanvasClick({ clientX: touch.clientX, clientY: touch.clientY, currentTarget: canvas });
-  }, { passive: false });
-  canvas.addEventListener("touchmove", (ev) => {
-    ev.preventDefault();
-    const touch = ev.changedTouches[0];
-    onCanvasMouseMove({ clientX: touch.clientX, clientY: touch.clientY, currentTarget: canvas });
-  }, { passive: false });
+  canvas.addEventListener("pointermove", onCanvasMouseMove);
+  canvas.addEventListener("mouseleave", () => {
+    battleHoverShowsAttackOverlay = false;
+    const t = document.getElementById("unit-tooltip");
+    if (t) t.hidden = true;
+  });
+  initBattleCameraControls();
 
   initDevLogoBackdoor();
 }
@@ -2850,7 +3932,7 @@ function wireUi() {
    container. Uses a movement threshold so child button
    clicks still fire on a short tap/click.
    ────────────────────────────────────────────────────── */
-const DRAG_THRESHOLD = 6; /* px — below this is a tap, above is a drag */
+const DRAG_THRESHOLD = 8; /* px — below this is a tap, above is a drag */
 
 /* Solo Modes carousel — prev/next beside the list (see index.html .hub-carousel) */
 function updateHubCarouselNav() {
@@ -2869,54 +3951,87 @@ function addDragScroll(el) {
   if (!el || el._dragWired) return;
   el._dragWired = true;
 
-  let active = false, dragging = false;
-  let startY = 0, startX = 0, top0 = 0, left0 = 0;
+  let active = false;
+  let dragging = false;
+  let suppressClick = false;
+  let pid = null;
+  let startY = 0;
+  let startX = 0;
+  let top0 = 0;
+  let left0 = 0;
 
-  const begin = (y, x) => {
-    active   = true;
-    dragging = false;
-    startY = y; startX = x;
-    top0   = el.scrollTop;
-    left0  = el.scrollLeft;
-  };
-
-  const move = (y, x) => {
-    if (!active) return;
-    const dy = startY - y;
-    const dx = startX - x;
-    if (!dragging && Math.abs(dy) + Math.abs(dx) < DRAG_THRESHOLD) return;
-    dragging = true;
-    el.classList.add("drag-scroll--active");
-    el.scrollTop  = top0  + dy;
-    el.scrollLeft = left0 + dx;
-  };
-
-  const end = () => {
+  const finish = () => {
+    if (pid != null) {
+      try {
+        el.releasePointerCapture(pid);
+      } catch {
+        /* ignore */
+      }
+    }
+    pid = null;
     active = false;
     el.classList.remove("drag-scroll--active");
   };
 
-  /* Mouse */
-  el.addEventListener("mousedown",  e => begin(e.clientY, e.clientX));
-  el.addEventListener("mousemove",  e => move(e.clientY, e.clientX));
-  el.addEventListener("mouseup",    end);
-  el.addEventListener("mouseleave", end);
+  el.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "touch") return; /* native overflow scroll + momentum */
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    active = true;
+    dragging = false;
+    suppressClick = false;
+    pid = e.pointerId;
+    startY = e.clientY;
+    startX = e.clientX;
+    top0 = el.scrollTop;
+    left0 = el.scrollLeft;
+  });
 
-  /* Block click on children if the pointer actually dragged */
-  el.addEventListener("click", e => {
-    if (dragging) { e.stopPropagation(); e.preventDefault(); dragging = false; }
-  }, true /* capture — fires before child handlers */);
+  el.addEventListener("pointermove", (e) => {
+    if (!active || e.pointerId !== pid) return;
+    const dy = startY - e.clientY;
+    const dx = startX - e.clientX;
+    if (!dragging && Math.abs(dy) + Math.abs(dx) < DRAG_THRESHOLD) return;
+    if (!dragging) {
+      dragging = true;
+      suppressClick = true;
+      try {
+        el.setPointerCapture(pid);
+      } catch {
+        /* ignore */
+      }
+      el.classList.add("drag-scroll--active");
+    }
+    el.scrollTop = top0 + dy;
+    el.scrollLeft = left0 + dx;
+    e.preventDefault();
+  });
 
-  /* Touch */
-  el.addEventListener("touchstart", e => {
-    begin(e.touches[0].clientY, e.touches[0].clientX);
-  }, { passive: true });
-  el.addEventListener("touchmove", e => {
-    move(e.touches[0].clientY, e.touches[0].clientX);
-    if (dragging) e.preventDefault(); /* suppress page scroll only when dragging this element */
-  }, { passive: false });
-  el.addEventListener("touchend",    end);
-  el.addEventListener("touchcancel", end);
+  el.addEventListener("pointerup", (e) => {
+    if (e.pointerId !== pid) return;
+    const wasDrag = dragging;
+    finish();
+    dragging = false;
+    if (!wasDrag) suppressClick = false;
+  });
+
+  el.addEventListener("pointercancel", (e) => {
+    if (e.pointerId !== pid) return;
+    finish();
+    dragging = false;
+    suppressClick = false;
+  });
+
+  el.addEventListener(
+    "click",
+    (e) => {
+      if (suppressClick) {
+        e.preventDefault();
+        e.stopPropagation();
+        suppressClick = false;
+      }
+    },
+    true,
+  );
 }
 
 function wireGestures() {
@@ -2927,10 +4042,15 @@ function wireGestures() {
   addDragScroll(document.querySelector(".codex-detail-frame__body"));
   addDragScroll(document.querySelector(".battle-log__list"));
   addDragScroll(document.querySelector("#screen-codex .ctu-metal-frame__content"));
-  /* NOTE: hub-modes carousel uses prev/next buttons instead of drag
-     so that scroll-snap engagement is not disrupted */
+  addDragScroll(document.getElementById("hub-modes"));
+  addDragScroll(document.getElementById("map-theater-grid"));
+  document.querySelectorAll("#screen-hub .hub-roster-panel .ctu-metal-frame__content").forEach((n) => {
+    addDragScroll(n);
+  });
+  addDragScroll(document.querySelector("#screen-settings .ctu-metal-frame__content"));
+  addDragScroll(document.querySelector("#screen-academy .ctu-metal-frame__content"));
 
-  /* ── Solo-modes carousel nav buttons ── */
+  /* ── Solo-modes carousel nav buttons (optional; list also drag-scrolls) ── */
   const carousel = document.getElementById("hub-modes");
   const btnPrev  = document.getElementById("hub-modes-prev");
   const btnNext  = document.getElementById("hub-modes-next");

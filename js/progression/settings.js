@@ -5,9 +5,13 @@ export function defaultSettings() {
     audioEnabled: true,
     reduceMotion: false,
     difficulty: "normal",
+    /** Vs-CPU / solo map skirmish: scales preset enemy count (easy→hell). */
+    soloDifficulty: "normal",
     fogOfWar: true,
     visualStyle: "hDef",
     battleZoom: 1.25,
+    /** Craftpix-style bitmap backdrops + metal hybrid (toggle in Settings). */
+    cyberHudArtEnabled: false,
   };
 }
 

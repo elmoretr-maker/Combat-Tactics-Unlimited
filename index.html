@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://unpkg.com/open-props/open-props.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/ctu-metal.css" />
+  <link rel="stylesheet" href="css/ctu-cyber-hybrid.css" />
   <link rel="stylesheet" href="css/ctu-v2.css" />
 </head>
 <body>
@@ -43,6 +44,11 @@
   <main>
     <!-- ── CLASSIC MODE MENU ───────────────────── -->
     <section id="screen-classic-menu" class="screen classic-menu-screen" aria-label="Classic mode" hidden>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="classic">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
       <div class="classic-menu-screen__panel">
         <h2>Classic Operations</h2>
         <p class="muted small">Version 1.0 hub, training, hotseat, and original landing.</p>
@@ -61,13 +67,19 @@
         </div>
         <button type="button" class="btn btn--ghost" data-screen="v2-landing" style="margin-top:1rem" id="btn-classic-back-modern">← Back to Modern Ops</button>
       </div>
+      </div>
     </section>
 
     <!-- ── LANDING (full-viewport video stage + metal HUD; IDs preserved) ── -->
     <section id="screen-landing" class="screen screen--active" aria-label="Landing">
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="landing">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
 
       <!-- Metal frame = field HUD bezel around the live feed (no center plate — video stays visible) -->
-      <div class="lp-stage-frame ctu-metal-frame ctu-metal-frame--grow lp-metal--video-stage">
+      <div class="lp-stage-frame ctu-metal-frame ctu-metal-frame--grow ctu-metal-frame--cyber-blend lp-metal--video-stage">
         <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -105,7 +117,7 @@
       </div>
 
       <!-- Dock + flyouts in metal chassis (physical equipment strip) -->
-      <div class="lp-dock-shell ctu-metal-frame ctu-metal-frame--sm lp-metal--dock-strip">
+      <div class="lp-dock-shell ctu-metal-frame ctu-metal-frame--sm ctu-metal-frame--cyber-blend lp-metal--dock-strip">
         <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -201,7 +213,7 @@
 
       <!-- Deploy panel: above command strip, metal chassis -->
       <aside id="v2-ops-layer" class="v2-ops-layer" hidden aria-label="Modern operations">
-        <div class="v2-ops-metal ctu-metal-frame ctu-metal-frame--sm lp-metal--dock-strip">
+        <div class="v2-ops-metal ctu-metal-frame ctu-metal-frame--sm ctu-metal-frame--cyber-blend lp-metal--dock-strip">
           <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
           <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
           <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -229,10 +241,16 @@
         </div>
       </aside>
 
+      </div>
     </section>
 
     <!-- ── HUB ────────────────────────────────── -->
     <section id="screen-hub" class="screen" aria-label="Hub" hidden>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="hub">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
       <div class="hub-command bg-command-hub">
 
         <!-- Gate banner -->
@@ -267,7 +285,7 @@
         <!-- Roster -->
         <div id="hub-section-roster" class="hub-section">
           <p class="hub-section-label">Roster</p>
-          <div class="hub-roster-panel ctu-metal-frame">
+          <div class="hub-roster-panel ctu-metal-frame ctu-metal-frame--cyber-blend">
             <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
             <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
             <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -297,11 +315,17 @@
         </div>
 
       </div>
+      </div>
     </section>
 
     <!-- ── ACADEMY LOADOUT ────────────────────── -->
     <section id="screen-academy" class="screen" aria-label="Academy loadout" hidden>
-      <div class="ctu-metal-frame">
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="academy">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
+      <div class="ctu-metal-frame ctu-metal-frame--cyber-blend">
         <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -326,16 +350,31 @@
         </div>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ── VS CPU: map + squad in either order, then battle ─ -->
     <section id="screen-vs-cpu-prep" class="screen" aria-label="Vs CPU mission setup" hidden>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="prep">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
       <div class="panel panel--wide ctu-metal-panel">
         <h2>Vs CPU — Mission setup</h2>
-        <p class="muted small">Pick your <strong>map</strong> and <strong>squad</strong> in any order, then start the battle. Use the buttons below — you can switch between Map theater and squad selection until both are ready.</p>
+        <p class="muted small">Pick your <strong>battlefield</strong> (map theater, a Hub scenario, or procedural) and your <strong>squad</strong> in any order, then start. Use the buttons below until both lines show ready.</p>
         <ul class="vs-cpu-prep-status muted" style="list-style:none;padding:0;margin:1rem 0;line-height:1.6">
           <li><strong>Battlefield:</strong> <span id="vs-cpu-prep-map">—</span></li>
           <li><strong>Your squad:</strong> <span id="vs-cpu-prep-squad">—</span></li>
+          <li>
+            <strong>Difficulty:</strong>
+            <select id="vs-cpu-prep-difficulty" class="setting-select" style="margin-left:0.35rem;max-width:min(100%,22rem);vertical-align:middle" aria-label="Solo mission difficulty">
+              <option value="easy">Easy — 3 enemy units</option>
+              <option value="normal" selected>Normal — 6 enemy units</option>
+              <option value="hard">Hard — 10 enemy units</option>
+              <option value="hell">Hell on Earth — 20 enemies (Grand map)</option>
+            </select>
+          </li>
         </ul>
         <div class="row-actions" style="flex-wrap:wrap;gap:0.5rem">
           <button type="button" id="btn-vs-cpu-prep-map" class="btn">Choose map</button>
@@ -344,10 +383,16 @@
           <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ── BATTLE MAT LAB: surface → squad (1–8) → plane-stack battle ─ -->
     <section id="screen-mat-lab-prep" class="screen" aria-label="Battle mat lab setup" hidden>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="prep">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
       <div class="panel panel--wide ctu-metal-panel">
         <h2>Battle mat lab</h2>
         <p class="muted small">Same idea as the Academy flow: <strong>choose your battlefield</strong> (mat surface), <strong>choose your units</strong>, then <strong>fight</strong>. You can switch mat or squad until you are ready. Up to <strong>8</strong> units; click order is deploy order on the left flank.</p>
@@ -367,13 +412,33 @@
           <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ── MAP THEATER (pick battlefield for skirmish / hotseat) ─ -->
     <section id="screen-maps" class="screen" aria-label="Map theater" hidden>
-      <div class="panel panel--wide map-theater">
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="maps">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
+      <div class="ctu-metal-frame ctu-metal-frame--grow ctu-metal-frame--cyber-blend">
+        <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
+        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
+        <div class="ctu-metal-frame__content panel panel--wide map-theater ctu-metal-frame__content--panel">
         <h2>Map theater</h2>
-        <p class="muted small">Click a map to <strong>select</strong> it (highlighted). Then use <strong>Vs CPU on map</strong> to pick your squad and fight, or return to <strong>Vs CPU setup</strong> if you came from there. For <strong>1v1 hotseat</strong>, select a map here first, then open Hotseat. Four size bands × five environments — 20 layouts.</p>
+        <p class="muted small">Click a map to <strong>select</strong> it (highlighted). Then use <strong>Vs CPU on map</strong> to pick your squad and fight, or return to <strong>Vs CPU setup</strong> if you came from there. For <strong>1v1 hotseat</strong>, select a map here first, then open Hotseat. Cards show <strong>biome</strong> (unified with procedural mapgen), map size, a short description, and a color preview from terrain.</p>
         <div class="map-theater-filters">
           <label class="map-theater-filter">
             <span>Size</span>
@@ -386,8 +451,18 @@
             </select>
           </label>
           <label class="map-theater-filter">
-            <span>Environment</span>
-            <select id="map-filter-env" aria-label="Filter by environment">
+            <span>Biome</span>
+            <select id="map-filter-biome" aria-label="Filter by biome">
+              <option value="all">All biomes</option>
+              <option value="forest">Forest</option>
+              <option value="desert">Desert</option>
+              <option value="winter">Winter</option>
+              <option value="urban">Urban</option>
+            </select>
+          </label>
+          <label class="map-theater-filter">
+            <span>Environment (legacy)</span>
+            <select id="map-filter-env" aria-label="Filter by legacy environment">
               <option value="all">All</option>
               <option value="urban">Urban / city</option>
               <option value="wild">Wild / forest</option>
@@ -405,11 +480,18 @@
           <button type="button" id="btn-map-theater-back-prep" class="btn btn--ghost" hidden>← Mission setup</button>
           <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
         </div>
+        </div>
+      </div>
       </div>
     </section>
 
     <!-- ── MAP SKIRMISH LOADOUT (after picking a map in theater) ─ -->
     <section id="screen-map-skirmish" class="screen" aria-label="Map skirmish loadout" hidden>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="prep">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
       <div class="panel panel--wide ctu-metal-panel">
         <h2>Deploy on <span id="map-skirmish-map-name">—</span></h2>
         <p id="map-skirmish-status" class="muted small"></p>
@@ -420,10 +502,16 @@
           <button type="button" id="btn-map-skirmish-back" class="btn btn--ghost">← Map theater</button>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ── HOTSEAT SETUP ──────────────────────── -->
     <section id="screen-hotseat" class="screen" aria-label="1v1 Hotseat setup" hidden>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="prep">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
       <div class="panel panel--wide ctu-metal-panel">
         <h2>1v1 Hotseat</h2>
         <p class="muted">Each player secretly picks <strong>2 units</strong>. Pass the device between turns. Choose a map in <strong>Map theater</strong> first if you want a specific battlefield.</p>
@@ -449,6 +537,7 @@
           <button type="button" class="btn btn--ghost" data-screen="hub">Back</button>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ── CODEX ──────────────────────────────── -->
@@ -457,7 +546,12 @@
       <!-- Unit selection grid — full width -->
       <div class="codex-layout">
         <div class="codex-sidebar">
-          <div class="ctu-metal-frame ctu-metal-frame--grow">
+          <div class="ctu-cyber-hybrid" data-ctu-cyber="codex">
+            <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+            <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+            <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+            <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
+          <div class="ctu-metal-frame ctu-metal-frame--grow ctu-metal-frame--cyber-blend">
             <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
             <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
             <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -479,6 +573,7 @@
                 <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -508,7 +603,12 @@
 
     <!-- ── SETTINGS ───────────────────────────── -->
     <section id="screen-settings" class="screen" aria-label="Settings" hidden>
-      <div class="ctu-metal-frame">
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="settings">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
+      <div class="ctu-metal-frame ctu-metal-frame--cyber-blend">
         <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
         <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
@@ -549,6 +649,10 @@
             <span class="setting-row__label">High-Def visuals <span class="muted small">(CraftPix UI + units)</span></span>
             <input type="checkbox" id="setting-visual-hdef" class="setting-toggle" />
           </label>
+          <label class="setting-row">
+            <span class="setting-row__label">Cyber HUD backdrop art <span class="muted small">(bitmap panels behind metal frames — landing, hub, maps, etc.)</span></span>
+            <input type="checkbox" id="setting-cyber-hud-art" class="setting-toggle" />
+          </label>
         </div>
         <hr class="settings-divider" />
         <h3 class="h3" style="margin-top:1rem">Dev / debug</h3>
@@ -563,58 +667,93 @@
         </div>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ── BATTLE ─────────────────────────────── -->
     <section id="screen-battle" class="screen" aria-label="Battle" hidden>
-      <div class="battle-layout battle-layout--v2">
-        <aside class="hud hud--v2" aria-label="Battle HUD">
-          <p id="hud-map-name" class="hud__map-name"></p>
-          <div id="hud-portrait-row" class="hud__portrait-row" hidden>
-            <div id="hud-portrait" class="hud__portrait"></div>
-            <div class="hud__portrait-info">
-              <p id="hud-portrait-name" class="hud__portrait-name"></p>
-              <p id="hud-portrait-hp" class="hud__portrait-hp"></p>
-            </div>
-          </div>
-          <p id="hud-phase" class="hud__phase"></p>
-          <p id="hud-turn" class="hud__turn"></p>
-          <p id="hud-selection" class="hud__selection"></p>
-          <p class="hud__hint muted small">Select unit → blue = move · red = attack. Indirect ignores LOS.</p>
-
-          <div id="battle-coach" class="battle-coach" hidden>
-            <p id="battle-coach-text" class="battle-coach__text"></p>
-            <button type="button" id="btn-coach-dismiss" class="btn btn--ghost btn--tiny">Dismiss tips</button>
-          </div>
-
-          <div id="battle-log" class="battle-log">
-            <p class="battle-log__label">Combat log</p>
-            <ul id="battle-log-list" class="battle-log__list"></ul>
-          </div>
-
-          <div class="hud__actions">
-            <button type="button" id="btn-end-turn" class="btn">End turn</button>
-            <button type="button" id="btn-restart" class="btn btn--ghost">Restart</button>
-            <button type="button" id="btn-hub-from-battle" class="btn btn--ghost btn--tiny">← Hub</button>
-          </div>
-        </aside>
-
-        <div class="canvas-wrap battle-canvas-arena" id="battle-canvas-arena" style="position:relative">
+      <div class="battle-stage">
+        <div class="battle-canvas-arena" id="battle-canvas-arena">
           <div class="battle-canvas-zoomport" id="battle-canvas-zoomport" aria-hidden="true">
             <div class="battle-canvas-scaler" id="battle-canvas-scaler">
-              <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield"></canvas>
+              <canvas id="battle-canvas" width="960" height="640" aria-label="Battlefield — drag to pan, wheel to zoom"></canvas>
             </div>
           </div>
           <div id="unit-tooltip" class="unit-tooltip" hidden></div>
         </div>
-      </div>
 
-      <div class="battle-float-tools" id="battle-float-tools" aria-label="Battle controls">
-        <button type="button" class="btn btn--tiny" id="btn-battle-zoom-out" title="Zoom out">−</button>
-        <span class="battle-float-tools__zoom" id="battle-zoom-label" aria-live="polite">125%</span>
-        <button type="button" class="btn btn--tiny" id="btn-battle-zoom-in" title="Zoom in">+</button>
-        <button type="button" class="btn btn--tiny" id="btn-battle-fullscreen" title="Fullscreen">⛶</button>
-        <button type="button" class="btn battle-float-tools__end" id="btn-battle-end-float">End turn</button>
+        <div class="battle-overlay-ui" aria-label="Battle HUD">
+          <header class="battle-overlay-top hud--v2">
+            <p id="hud-map-name" class="hud__map-name battle-overlay-top__map"></p>
+            <div class="battle-overlay-top__center">
+              <p id="hud-phase" class="hud__phase"></p>
+              <p id="hud-turn" class="hud__turn"></p>
+            </div>
+            <span class="battle-overlay-top__hint muted small" title="Controls">Drag map · Wheel or zoom bar · <kbd>WASD</kbd> pan · <kbd>R</kbd> attack view</span>
+          </header>
+
+          <div id="hud-portrait-row" class="battle-selection-card hud__portrait-row" hidden>
+            <div id="hud-portrait" class="hud__portrait"></div>
+            <div class="hud__portrait-info">
+              <p id="hud-portrait-name" class="hud__portrait-name"></p>
+              <p id="hud-portrait-hp" class="hud__portrait-hp"></p>
+              <div id="hud-support-kits" class="hud__support-kits" hidden aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <p id="hud-selection" class="battle-selection-line hud__selection"></p>
+
+          <div id="battle-coach" class="battle-coach battle-coach--overlay" hidden>
+            <p id="battle-coach-text" class="battle-coach__text"></p>
+            <button type="button" id="btn-coach-dismiss" class="btn btn--ghost btn--tiny">Dismiss tips</button>
+          </div>
+
+          <footer class="battle-overlay-bottom" aria-label="Battle actions">
+            <div
+              class="battle-zoom-control"
+              title="Slide up to zoom in · slide down to zoom out"
+            >
+              <div class="battle-zoom-slider-wrap">
+                <input
+                  type="range"
+                  id="battle-zoom-slider"
+                  class="battle-zoom-slider"
+                  min="45"
+                  max="400"
+                  step="1"
+                  value="125"
+                  aria-label="Battle zoom"
+                  aria-valuetext="125%"
+                />
+              </div>
+              <span id="battle-zoom-label" class="battle-zoom-readout__percent" aria-live="polite">125%</span>
+            </div>
+            <button type="button" id="btn-battle-attack-overlay" class="btn btn--ghost btn--tiny" aria-pressed="false" title="Toggle attack range &amp; LOS (keyboard R)">Attack view</button>
+            <button type="button" id="btn-end-turn" class="btn cta">End turn</button>
+            <button type="button" id="btn-battle-toggle-log" class="btn btn--ghost btn--tiny" aria-expanded="false" aria-controls="battle-log-panel">Log</button>
+            <button type="button" id="btn-battle-fullscreen" class="btn btn--ghost btn--tiny" title="Fullscreen">⛶</button>
+            <button type="button" id="btn-hub-from-battle" class="btn btn--ghost btn--tiny">Hub</button>
+            <button type="button" id="btn-restart" class="btn btn--ghost btn--tiny">Restart</button>
+          </footer>
+        </div>
+
+        <aside id="battle-log-panel" class="battle-log-panel" hidden>
+          <div class="battle-log-panel__head">
+            <span class="battle-log-panel__title">Combat log</span>
+            <button type="button" class="battle-log-panel__close" id="btn-battle-log-close" aria-label="Close combat log">×</button>
+          </div>
+          <details class="battle-help-details">
+            <summary>Map key &amp; tips</summary>
+            <p class="muted small battle-help-details__p">Select a unit: <strong>blue</strong> = movement. Press <kbd>R</kbd> or hover an enemy for <strong>attack</strong> range, LOS, and dead zones.</p>
+            <div id="battle-tile-legend" class="battle-tile-legend" aria-label="Tile highlight legend">
+              <span class="battle-tile-legend__row"><span class="battle-tile-legend__swatch battle-tile-legend__swatch--move"></span> Move</span>
+              <span class="battle-tile-legend__row"><span class="battle-tile-legend__swatch battle-tile-legend__swatch--attack"></span> Attack range</span>
+              <span class="battle-tile-legend__row"><span class="battle-tile-legend__swatch battle-tile-legend__swatch--los"></span> Blocked LOS</span>
+              <span class="battle-tile-legend__row"><span class="battle-tile-legend__swatch battle-tile-legend__swatch--dead"></span> Cannot hit</span>
+            </div>
+          </details>
+          <ul id="battle-log-list" class="battle-log__list battle-log__list--panel"></ul>
+        </aside>
       </div>
 
       <!-- Loading overlay -->

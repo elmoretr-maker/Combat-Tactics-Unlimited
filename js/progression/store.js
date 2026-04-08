@@ -9,6 +9,7 @@ export function defaultProgress() {
       light_tank: true,
       mortar: true,
       medic: false,
+      engineer: false,
       artillery: false,
       commander_unit: false,
       vanguard: false,
