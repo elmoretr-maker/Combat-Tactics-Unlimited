@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-07T17:53:07.685Z",
+  "generatedAt": "2026-04-08T02:02:01.458Z",
   "description": "Master catalog for procedural mapgen and tooling. Paths are repo-relative (forward slashes).",
   "foundationHints": {
     "urban": {
@@ -5778,6 +5778,174 @@
       "id": "assets_vfx_Tile_Urban_Tile_ff2f9645_png",
       "path": "assets/vfx/Tile_Urban_Tile_ff2f9645.png",
       "fileName": "Tile_Urban_Tile_ff2f9645.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_explosions_light_tank_dead_0_png",
+      "path": "assets/effects/explosions/light_tank/dead/0.png",
+      "fileName": "0.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_fx_Light_Shell_png",
+      "path": "assets/effects/muzzle/light_tank/fx/Light_Shell.png",
+      "fileName": "Light_Shell.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_fx_Light_Shell_1_png",
+      "path": "assets/effects/muzzle/light_tank/fx/Light_Shell_1.png",
+      "fileName": "Light_Shell_1.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_fx_Light_Shell_2_png",
+      "path": "assets/effects/muzzle/light_tank/fx/Light_Shell_2.png",
+      "fileName": "Light_Shell_2.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_run_0_png",
+      "path": "assets/effects/muzzle/light_tank/run/0.png",
+      "fileName": "0.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_run_1_png",
+      "path": "assets/effects/muzzle/light_tank/run/1.png",
+      "fileName": "1.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_run_2_png",
+      "path": "assets/effects/muzzle/light_tank/run/2.png",
+      "fileName": "2.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_run_3_png",
+      "path": "assets/effects/muzzle/light_tank/run/3.png",
+      "fileName": "3.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_run_4_png",
+      "path": "assets/effects/muzzle/light_tank/run/4.png",
+      "fileName": "4.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_run_5_png",
+      "path": "assets/effects/muzzle/light_tank/run/5.png",
+      "fileName": "5.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_shot_0_png",
+      "path": "assets/effects/muzzle/light_tank/shot/0.png",
+      "fileName": "0.png",
+      "ext": "png",
+      "type": "vfx",
+      "theme": null,
+      "footprint": null,
+      "tags": [
+        "vfx",
+        "mapgenExcluded"
+      ],
+      "tier": "high"
+    },
+    {
+      "id": "assets_effects_muzzle_light_tank_shot_1_png",
+      "path": "assets/effects/muzzle/light_tank/shot/1.png",
+      "fileName": "1.png",
       "ext": "png",
       "type": "vfx",
       "theme": null,
@@ -12364,7 +12532,8 @@
         "assets/units/urban/Unit_Urban_Sprite_5e94630f.png"
       ],
       "desert": [],
-      "grass": []
+      "grass": [],
+      "infantry": []
     },
     "vehicles": [
       "assets/units/vehicles/Gun_Urban_Handgun_02ffd017.png",
@@ -12914,6 +13083,10 @@
     },
     {
       "path": "attached_assets/sprites",
+      "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
+    },
+    {
+      "path": "attached_assets/sprite_sheets",
       "note": "Pack not managed by assets/ librarian; reference manually or symlink into assets/New_Arrivals for ingestion."
     },
     {
