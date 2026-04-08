@@ -11,7 +11,7 @@ function hasTag(ob, tag) {
 }
 
 /**
- * @param {"urban"|"desert"|"grass"} profileId
+ * @param {"urban"|"desert"|"grass"|"arctic"} profileId
  * @param {{ kind: string, sprite: string, tags?: string[] }[]} validKinds
  * @param {boolean} touchesWater — 4-neighbor touches any water_* / water cell
  * @param {() => number} rnd
@@ -20,7 +20,7 @@ function hasTag(ob, tag) {
 export function applyPlacementRatioMix(profileId, validKinds, touchesWater, rnd) {
   if (!validKinds?.length) return validKinds;
 
-  if (profileId === "grass") {
+  if (profileId === "grass" || profileId === "arctic") {
     const trees = [];
     const nonTrees = [];
     for (const ob of validKinds) {

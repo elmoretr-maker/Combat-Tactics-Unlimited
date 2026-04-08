@@ -17,13 +17,15 @@
     ["plains","plains","plains","plains","forest","forest","water","water","forest","forest","plains","plains","plains","plains"],
     ["plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains","plains"]
   ],
-  "units": [
-    { "templateId": "infantry",   "owner": 0, "x": 1, "y": 4 },
-    { "templateId": "light_tank", "owner": 0, "x": 1, "y": 6 },
-    { "templateId": "sniper",     "owner": 0, "x": 2, "y": 2 },
-
-    { "templateId": "infantry",   "owner": 1, "x": 12, "y": 4 },
+  "units": [],
+  "skirmishDeploy": [
+    { "x": 1, "y": 4 },
+    { "x": 1, "y": 6 },
+    { "x": 2, "y": 2 }
+  ],
+  "presetEnemies": [
+    { "templateId": "infantry", "owner": 1, "x": 12, "y": 4 },
     { "templateId": "opfor_tank", "owner": 1, "x": 12, "y": 6 },
-    { "templateId": "grunt_red",  "owner": 1, "x": 11, "y": 2 }
+    { "templateId": "grunt_red", "owner": 1, "x": 11, "y": 2 }
   ]
 }

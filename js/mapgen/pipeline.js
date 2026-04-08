@@ -10,13 +10,15 @@ import { placeTacticalAssets } from "./tacticalAssets.js";
 import { mulberry32 } from "./rng.js";
 import { hasTwoVertexDisjointPathsWithObjects } from "./dividerRule.js";
 import { gridFromTerrain } from "./gridCost.js";
+import { resolvePipelineThemeSpec, biomeDisplayName } from "./biome.js";
 
 /**
  * @param {object} spec
  * @param {number} spec.width
  * @param {number} spec.height
  * @param {number} spec.seed
- * @param {"urban"|"desert"|"grass"} spec.theme
+ * @param {"urban"|"desert"|"grass"|"arctic"} [spec.theme] legacy mapgen theme
+ * @param {"forest"|"desert"|"winter"|"urban"} [spec.biome] preferred; overrides theme mapping when set
  * @param {Record<string, object>} spec.tileTypes — tileTextures.types only
  * @param {object|null|undefined} [spec.assetManifest] from assetManifest.json
  * @param {boolean} [spec.addRiverStrip]
@@ -27,12 +29,13 @@ export function generateProceduralScenario(spec) {
     width,
     height,
     seed,
-    theme,
     tileTypes,
     assetManifest = null,
     addRiverStrip = true,
     maxGenerationAttempts = 6,
   } = spec;
+
+  const { theme, biome } = resolvePipelineThemeSpec(spec);
 
   const cellSize = spec.cellSize ?? 48;
 
@@ -122,7 +125,8 @@ export function generateProceduralScenario(spec) {
     /** @type {object} */
     const scenario = {
       id: `procedural_${theme}_${s}`,
-      name: `Procedural ${theme} (${width}×${height})`,
+      name: `Procedural ${biomeDisplayName(biome)} (${width}×${height})`,
+      biome,
       width,
       height,
       cellSize,
@@ -138,6 +142,7 @@ export function generateProceduralScenario(spec) {
         version: 1,
         seed: s,
         theme,
+        biome,
         dividerConnectorCount: div.connectorLog.length,
         /** Cells where impassable divider was replaced with a road/ford (exact bridge positions). */
         connectorLog: div.connectorLog,

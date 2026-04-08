@@ -32,6 +32,16 @@ function baseThemeProfile(themeId) {
       obstacleVisualKinds: [],
     };
   }
+  if (themeId === "arctic") {
+    return {
+      id: "arctic",
+      baseTerrain: "snow",
+      roadTerrain: "road",
+      dividerTerrain: "water",
+      dividerTypes: ["water"],
+      obstacleVisualKinds: [],
+    };
+  }
   return {
     id: "urban",
     baseTerrain: "cp_grass",
@@ -43,7 +53,7 @@ function baseThemeProfile(themeId) {
 }
 
 /**
- * @param {"urban"|"desert"|"grass"} themeId
+ * @param {"urban"|"desert"|"grass"|"arctic"} themeId
  * @param {object|null|undefined} manifest loaded assetManifest.json
  */
 export function getThemeProfile(themeId, manifest = null) {
@@ -53,4 +63,4 @@ export function getThemeProfile(themeId, manifest = null) {
   return p;
 }
 
-export const DEFAULT_THEMES = ["urban", "desert", "grass"];
+export const DEFAULT_THEMES = ["urban", "desert", "grass", "arctic"];

@@ -137,7 +137,8 @@ function tryPlaceOneBuilding(terrain, tileTypes, protectedRibbon, spawns, bw, bh
 
     let facadeSprite = null;
     if (manifest) {
-      const themeKey = profile.id === "grass" ? "grass" : profile.id;
+      const themeKey =
+        profile.id === "grass" || profile.id === "arctic" ? "grass" : profile.id;
       const footprintClass = bw * bh <= 4 ? "small" : "medium";
       let pool = findBuildingsByThemeAndFootprint(manifest, themeKey, footprintClass);
       if (!pool.length) {
@@ -203,7 +204,8 @@ function centralFloorCells(floor) {
 
 function placeInteriorFurniture(buildings, manifest, profile, rnd) {
   if (!buildings.length || !manifest) return;
-  const themeKey = profile.id === "grass" ? "grass" : profile.id;
+  const themeKey =
+    profile.id === "grass" || profile.id === "arctic" ? "grass" : profile.id;
   let pool = interiorFurnitureKindsForTheme(manifest, themeKey);
   if (!pool.length) pool = interiorFurnitureKindsForTheme(manifest, "urban");
   if (!pool.length) return;

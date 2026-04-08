@@ -4,7 +4,7 @@
   "cellSize": 48,
   "width": 10,
   "height": 8,
-  "usePresetUnits": true,
+  "usePresetUnits": false,
   "visualTheme": "craftpixUrban",
   "winCondition": { "type": "eliminate" },
   "terrain": [
@@ -23,10 +23,13 @@
     { "x": 3, "y": 5, "hp": 75, "brokenTerrain": "cp_rubble" },
     { "x": 6, "y": 5, "hp": 75, "brokenTerrain": "cp_rubble" }
   ],
-  "units": [
-    { "templateId": "infantry", "owner": 0, "x": 1, "y": 3 },
-    { "templateId": "sniper", "owner": 0, "x": 1, "y": 4 },
-    { "templateId": "mortar", "owner": 0, "x": 1, "y": 5 },
+  "units": [],
+  "skirmishDeploy": [
+    { "x": 1, "y": 3 },
+    { "x": 1, "y": 4 },
+    { "x": 1, "y": 5 }
+  ],
+  "presetEnemies": [
     { "templateId": "grunt_red", "owner": 1, "x": 8, "y": 3 },
     { "templateId": "grunt_red", "owner": 1, "x": 8, "y": 4 },
     { "templateId": "mortar", "owner": 1, "x": 8, "y": 5 }

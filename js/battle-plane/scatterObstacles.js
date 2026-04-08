@@ -18,6 +18,7 @@ import {
   cellTouchesWaterTerrain,
 } from "../mapgen/ctuMapgen.js";
 import { applyPlacementRatioMix } from "../mapgen/placementRatios.js";
+import { biomeToMapgenTheme } from "../mapgen/biome.js";
 
 const IMPASSABLE_TERRAIN = new Set(["water", "water_desert", "water_urban"]);
 
@@ -90,7 +91,9 @@ function pathStillExists(grid, tileTypes, mapObjects, scenario) {
 
 function battleThemeId(scenario) {
   const t = scenario.generator?.theme || scenario.theme || scenario.mapTheme;
-  if (t === "desert" || t === "grass") return t;
+  if (t === "desert" || t === "grass" || t === "arctic") return t;
+  const b = scenario.generator?.biome || scenario.biome;
+  if (b) return biomeToMapgenTheme(b);
   return "urban";
 }
 

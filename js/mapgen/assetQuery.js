@@ -11,7 +11,7 @@ export { manifestAssetLogicalType };
  * @param {object|null|undefined} manifest
  * @param {object} [filters]
  * @param {string} [filters.type] gun | building | tile | obstacle
- * @param {string} [filters.theme] urban | desert | grass
+ * @param {string} [filters.theme] urban | desert | grass | arctic
  * @param {string} [filters.footprint] small | medium | large | fortified
  * @param {string} [filters.gunClass] handgun | rifle | machine_gun
  * @param {string} [filters.tag]
@@ -32,7 +32,7 @@ export function findAssets(manifest, filters = {}) {
 /**
  * Building art paths for generator: theme + footprint (e.g. Urban + Fortified).
  * @param {object|null|undefined} manifest
- * @param {"urban"|"desert"|"grass"} theme
+ * @param {"urban"|"desert"|"grass"|"arctic"} theme
  * @param {"small"|"medium"|"large"|"fortified"} footprint
  * @returns {string[]}
  */
@@ -44,7 +44,7 @@ export function findBuildingsByThemeAndFootprint(manifest, theme, footprint) {
 /**
  * Obstacle props for tactical scatter — built from manifest.assets + ctu (not index paths).
  * @param {object|null|undefined} manifest
- * @param {"urban"|"desert"|"grass"} themeId
+ * @param {"urban"|"desert"|"grass"|"arctic"} themeId
  * @returns {{ kind: string, sprite: string, tags?: string[], manifestAsset?: object, ctu: object }[]}
  */
 export function obstacleVisualKindsForTheme(manifest, themeId) {
@@ -54,7 +54,7 @@ export function obstacleVisualKindsForTheme(manifest, themeId) {
 /**
  * Props tagged `placementRule` wall_anchored | central — interior layout only (not battlefield scatter).
  * @param {object|null|undefined} manifest
- * @param {"urban"|"desert"|"grass"} themeId
+ * @param {"urban"|"desert"|"grass"|"arctic"} themeId
  * @returns {{ kind: string, sprite: string, placementRule: string }[]}
  */
 export function interiorFurnitureKindsForTheme(manifest, themeId) {
@@ -85,7 +85,7 @@ export function applyFoundationHints(baseProfile, manifest, themeId) {
  * else a horizontal `spriteSheet` tile tagged `flowConnector` (frame index = mask 0–15).
  *
  * @param {object|null|undefined} manifest
- * @param {"urban"|"desert"|"grass"} themeId
+ * @param {"urban"|"desert"|"grass"|"arctic"} themeId
  * @param {string} variant e.g. end_n, straight_ns, t_nes, cross
  * @param {{ flowKind?: "water"|"road" }} [opts]
  * @returns {{ path: string, spriteSheetFrame?: number } | null}
@@ -94,9 +94,12 @@ export function resolveFlowConnectorAsset(manifest, themeId, variant, opts = {})
   if (!manifest?.assets?.length) return null;
   const wantedKind = opts.flowKind ?? "water";
   const tagFlow = `flow:${variant}`;
+  const effectiveThemeId = themeId === "arctic" ? "grass" : themeId;
 
   const matchesTheme = (a) =>
-    a.theme == null || a.theme === themeId || a.theme === "urban";
+    a.theme == null ||
+    a.theme === effectiveThemeId ||
+    a.theme === "urban";
 
   const flowTileOk = (a) =>
     manifestAssetLogicalType(a) === "tile" &&

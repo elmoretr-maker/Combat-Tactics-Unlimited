@@ -18,13 +18,15 @@
     ["road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road",  "road" ],
     ["urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban", "road",  "urban", "urban"]
   ],
-  "units": [
-    { "templateId": "infantry",   "owner": 0, "x": 1,  "y": 3 },
-    { "templateId": "sniper",     "owner": 0, "x": 1,  "y": 6 },
-    { "templateId": "light_tank", "owner": 0, "x": 2,  "y": 8 },
-
-    { "templateId": "infantry",   "owner": 1, "x": 12, "y": 3 },
-    { "templateId": "grunt_red",  "owner": 1, "x": 11, "y": 1 },
-    { "templateId": "infantry",   "owner": 1, "x": 12, "y": 7 }
+  "units": [],
+  "skirmishDeploy": [
+    { "x": 1, "y": 3 },
+    { "x": 1, "y": 6 },
+    { "x": 2, "y": 8 }
+  ],
+  "presetEnemies": [
+    { "templateId": "infantry", "owner": 1, "x": 12, "y": 3 },
+    { "templateId": "grunt_red", "owner": 1, "x": 11, "y": 1 },
+    { "templateId": "infantry", "owner": 1, "x": 12, "y": 7 }
   ]
 }

@@ -78,7 +78,7 @@ export function flowConnectorVariantFromMask(mask) {
  * @param {string[][]} terrain
  * @param {{ dividerTypes?: string[], roadTerrain?: string }} profile from theme profile
  * @param {object|null|undefined} manifest
- * @param {"urban"|"desert"|"grass"} themeId
+ * @param {"urban"|"desert"|"grass"|"arctic"} themeId
  * @returns {{ x: number, y: number, terrainId: string, mask: number, variant: string, spritePath: (string|null), spriteSheetFrame: number }[]}
  */
 export function buildFlowConnectorLayer(terrain, profile, manifest, themeId) {

@@ -19,8 +19,9 @@
     ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"],
     ["plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains", "plains"]
   ],
-  "units": [
-    { "templateId": "infantry", "owner": 0, "x": 2, "y": 4 },
+  "units": [],
+  "skirmishDeploy": [{ "x": 2, "y": 4 }],
+  "presetEnemies": [
     { "templateId": "grunt_red", "owner": 1, "x": 9, "y": 4 }
   ]
 }

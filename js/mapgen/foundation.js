@@ -46,7 +46,7 @@ export function paintMeanderingDividerStrip(seed, width, height, dividerTerrain,
  * @param {number} opts.width
  * @param {number} opts.height
  * @param {number} opts.seed
- * @param {"urban"|"desert"|"grass"} opts.theme
+ * @param {"urban"|"desert"|"grass"|"arctic"} opts.theme
  * @param {object|null|undefined} [opts.assetManifest] assetManifest.json object
  * @param {boolean} [opts.addRiverStrip] default true — impassable divider path to invoke Step 2 connectors
  * @returns {{ terrain: string[][], profile: ReturnType<typeof getThemeProfile> }}

@@ -12,6 +12,7 @@ const LAND_SURFACES = new Set(["grass", "urban", "desert", "interior"]);
 const THEME_SURFACE_ALLOW = {
   desert: ["desert"],
   grass: ["grass"],
+  arctic: ["grass"],
   urban: ["urban", "grass", "interior"],
 };
 
@@ -65,7 +66,7 @@ export function isWorldScatterClassification(cls) {
 
 /**
  * @param {string[]} tags normalizePlacementTags
- * @param {"urban"|"desert"|"grass"} themeId
+ * @param {"urban"|"desert"|"grass"|"arctic"} themeId
  */
 export function scatterPoolIncludesAssetForTheme(tags, themeId) {
   if (!placementAllowsWorldScatter(tags)) return false;

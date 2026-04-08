@@ -39,7 +39,7 @@ export function mapObjectInterruptsDirectLos(objects, x, y) {
 
 /**
  * Movement block for rocks, ruins, buildings — not passable by any unit.
- * Trees are excluded (infantry may enter at higher cost; vehicles blocked in costAtForUnit).
+ * Trees are excluded (infantry may enter; vehicles are blocked in GameState.costAtForUnit).
  */
 export function hardMapObjectBlocksAllUnits(objects, x, y) {
   if (!objects?.length) return false;
