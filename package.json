@@ -18,7 +18,19 @@
     "smart-catalog": "node tools/smart_catalog.mjs",
     "smart-catalog:watch": "node tools/smart_catalog.mjs --watch",
     "smart-catalog:dry": "node tools/smart_catalog.mjs --dry-run",
-    "generate-ctu": "node tools/generate_ctu_sidecars.mjs"
+    "generate-ctu": "node tools/generate_ctu_sidecars.mjs",
+    "slice-sprites": "node tools/sprite_sheet_slice.mjs",
+    "slice-sprites:scan": "node tools/sprite_sheet_slice.mjs scan",
+    "validate-map-terrain": "node tools/validate_map_catalog_terrain.mjs",
+    "asset-pipeline:analyze": "node tools/asset_pipeline_ingest.mjs analyze",
+    "asset-pipeline:duplicates": "node tools/asset_pipeline_ingest.mjs duplicates",
+    "asset-pipeline:organize": "node tools/asset_pipeline_ingest.mjs organize --dry-run",
+    "asset-pipeline:promote-tank-vfx": "node tools/asset_pipeline_ingest.mjs promote-light-tank-vfx",
+    "migrate-attached:mapping": "node tools/safe_attached_migration/cli.mjs mapping",
+    "migrate-attached:dry-run": "node tools/safe_attached_migration/cli.mjs dry-run",
+    "migrate-attached:copy": "node tools/safe_attached_migration/cli.mjs copy",
+    "migrate-attached:sprite-animations": "node tools/safe_attached_migration/applySpriteAnimationsIfPresent.mjs",
+    "recolor-cyberpunk-gui": "node tools/recolor_cyberpunk_gui.mjs --src \"assets/New_Arrivals/cyberpunk GUI plus more\" --out assets/ui/cyberpunk-tactical"
   },
   "devDependencies": {
     "@xenova/transformers": "^2.17.2",
