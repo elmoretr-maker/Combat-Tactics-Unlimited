@@ -1,2 +1,20 @@
 node_modules/
-assets/New_Arrivals/.clip_temp/
+
+# New arrivals / raw drops
+assets/New_Arrivals/
+
+# Large raw asset dumps
+attached_assets/sprite_sheets/
+attached_assets/**/*.psd
+attached_assets/**/*.zip
+
+# Optional: ignore full attached_assets (if not needed in repo)
+# attached_assets/
+
+# Tool outputs / reports
+tools/reports/
+tools/*.json
+tools/*.txt
+
+# Logs
+*.log
