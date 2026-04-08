@@ -111,6 +111,15 @@ const SYNTHS = {
     g.gain.linearRampToValueAtTime(0, t + 0.04);
     o.connect(g); o.start(t); o.stop(t + 0.04);
   },
+  HealSupport(ctx, t) {
+    const o = ctx.createOscillator();
+    const g = gain(ctx, 0.14, t);
+    o.type = "sine";
+    o.frequency.setValueAtTime(420, t);
+    o.frequency.linearRampToValueAtTime(880, t + 0.14);
+    g.gain.linearRampToValueAtTime(0, t + 0.2);
+    o.connect(g); o.start(t); o.stop(t + 0.2);
+  },
 };
 
 export const AudioManager = {

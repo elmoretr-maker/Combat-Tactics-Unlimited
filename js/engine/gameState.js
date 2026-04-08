@@ -5,9 +5,22 @@ import {
 } from "../battle-plane/mapObjects.js";
 import { BLOCKED_MOVE_COST } from "../battle-plane/pathfindingCost.js";
 import { reachableTiles, findPath } from "./astar.js";
-import { canAttack, resolveAttack, resolveCounter } from "./combat.js";
+
+/** Combat uses orthogonal steps only so units cannot “cut corners” across water/cliffs. */
+const COMBAT_PATH_CONNECTIVITY = 4;
+import {
+  canAttack,
+  resolveAttack,
+  resolveCounter,
+  canHealSupport,
+} from "./combat.js";
 import { inBounds } from "./grid.js";
-import { computeFacing, initializeSpawnFacing, syncFacingAndFaceRad } from "./facing.js";
+import {
+  computeFacing,
+  defaultFacingForOwner,
+  initializeSpawnFacing,
+  syncFacingAndFaceRad,
+} from "./facing.js";
 
 function uid() {
   return "u" + Math.random().toString(36).slice(2, 10);
@@ -18,7 +31,7 @@ export function createUnitFromTemplate(tpl, owner, x, y, visualStyle = "classic"
     visualStyle === "hDef" && tpl.mapSpriteSetHDef
       ? tpl.mapSpriteSetHDef
       : tpl.mapSpriteSet || null;
-  return {
+  const u = {
     id: uid(),
     templateId: tpl.id,
     displayName: tpl.displayName,
@@ -44,7 +57,7 @@ export function createUnitFromTemplate(tpl, owner, x, y, visualStyle = "classic"
     canCounter: tpl.specialAbility === "Counter-Attack",
     faceRad: Math.PI / 2,
     /** @type {"up"|"down"|"left"|"right"} */
-    facing: "down",
+    facing: defaultFacingForOwner(owner),
     /** @type {"idle"|"move"|"attack"|"hit"} */
     state: "idle",
     movedThisTurn: false,
@@ -54,7 +67,19 @@ export function createUnitFromTemplate(tpl, owner, x, y, visualStyle = "classic"
     movementClass:
       tpl.movementClass ??
       (tpl.mapRenderMode === "topdown" ? "vehicle" : "infantry"),
+    /** Relative turret aim (radians); composite hull+turret/barrel units (see compositeUsesIndependentTurret). */
+    turretOffsetRad: 0,
+    topdownFacingAdjustRad:
+      typeof tpl.topdownFacingAdjustRad === "number"
+        ? tpl.topdownFacingAdjustRad
+        : 0,
+    supportRole: tpl.supportRole ?? null,
+    supportChargesMax: tpl.supportChargesMax ?? (tpl.supportRole ? 3 : 0),
+    supportChargesRemaining:
+      tpl.supportChargesMax ?? (tpl.supportRole ? 3 : 0),
   };
+  syncFacingAndFaceRad(u);
+  return u;
 }
 
 export class GameState {
@@ -121,16 +146,16 @@ export class GameState {
       moveCostAt(this.grid, this.tileTypes, x, y);
     this.costAtForUnit = (unit, x, y) => {
       const cls = unit?.movementClass ?? "infantry";
-      let base = moveCostAtForClass(this.grid, this.tileTypes, x, y, cls);
+      const base = moveCostAtForClass(this.grid, this.tileTypes, x, y, cls);
       if (base >= BLOCKED_MOVE_COST) return base;
       if (hardMapObjectBlocksAllUnits(this.mapObjects, x, y)) {
         return BLOCKED_MOVE_COST;
       }
       if (mapObjectTreeAt(this.mapObjects, x, y)) {
         if (cls === "vehicle") return BLOCKED_MOVE_COST;
-        return Math.max(base, 2);
       }
-      return base;
+      /* One movement point per traversable tile (terrain difficulty does not extend range). */
+      return 1;
     };
     this.losCtx = () => ({
       grid: this.grid,
@@ -166,10 +191,17 @@ export class GameState {
     const occ = new Set(
       this.units.filter((u) => u.hp > 0 && u.id !== unit.id).map((u) => u.x + "," + u.y)
     );
-    const vis = reachableTiles(this.grid, unit.x, unit.y, unit.move, (x, y) => {
-      if (occ.has(x + "," + y)) return 99;
-      return this.costAtForUnit(unit, x, y);
-    });
+    const vis = reachableTiles(
+      this.grid,
+      unit.x,
+      unit.y,
+      unit.move,
+      (x, y) => {
+        if (occ.has(x + "," + y)) return 99;
+        return this.costAtForUnit(unit, x, y);
+      },
+      { connectivity: COMBAT_PATH_CONNECTIVITY },
+    );
     const out = new Map();
     for (const [k, cost] of vis) {
       if (k === unit.x + "," + unit.y) continue;
@@ -179,13 +211,22 @@ export class GameState {
     return out;
   }
 
+  /**
+   * @returns {false | [number, number][]} false on failure; else grid path from start to goal (inclusive) for animation.
+   */
   moveUnit(unit, tx, ty) {
     if (!unit || unit.owner !== this.currentPlayer || unit.movedThisTurn) return false;
-    const path = findPath(this.grid, [unit.x, unit.y], [tx, ty], (x, y) => {
-      const o = this.unitAt(x, y);
-      if (o && o.id !== unit.id) return 99;
-      return this.costAtForUnit(unit, x, y);
-    });
+    const path = findPath(
+      this.grid,
+      [unit.x, unit.y],
+      [tx, ty],
+      (x, y) => {
+        const o = this.unitAt(x, y);
+        if (o && o.id !== unit.id) return 99;
+        return this.costAtForUnit(unit, x, y);
+      },
+      { connectivity: COMBAT_PATH_CONNECTIVITY },
+    );
     if (!path) return false;
     let total = 0;
     for (let i = 1; i < path.length; i++) {
@@ -193,17 +234,11 @@ export class GameState {
       total += this.costAtForUnit(unit, nx, ny);
     }
     if (total > unit.move + 1e-6) return false;
-    const sx = unit.x;
-    const sy = unit.y;
     unit.x = tx;
     unit.y = ty;
     unit.isMoving = true;
-    if (tx !== sx || ty !== sy) {
-      unit.facing = computeFacing({ x: sx, y: sy }, { x: tx, y: ty });
-      syncFacingAndFaceRad(unit);
-    }
     unit.movedThisTurn = true;
-    return true;
+    return path.map((p) => [p[0], p[1]]);
   }
 
   /**
@@ -326,6 +361,7 @@ export class GameState {
       { x: target.x, y: target.y },
     );
     syncFacingAndFaceRad(attacker);
+    attacker.turretOffsetRad = 0;
 
     const main = this.attackExecuteMainAndCounter(attacker, target);
     attacker.attackedThisTurn = true;
@@ -344,6 +380,33 @@ export class GameState {
       targetProtectedBy: main.targetProtectedBy,
       attackerProtectedBy: main.attackerProtectedBy,
     };
+  }
+
+  /**
+   * Medic / engineer spend one kit; heals 50% of target's missing HP (rounded).
+   * @returns {{ healed: number } | null}
+   */
+  healFriendly(attacker, target) {
+    const ctx = this.losCtx();
+    if (!canHealSupport(attacker, target, this.units, ctx)) return null;
+    const missing = target.maxHp - target.hp;
+    const healed = Math.min(
+      missing,
+      Math.max(1, Math.round(missing * 0.5)),
+    );
+    target.hp = Math.min(target.maxHp, target.hp + healed);
+    attacker.supportChargesRemaining = Math.max(
+      0,
+      (attacker.supportChargesRemaining ?? 0) - 1,
+    );
+    attacker.attackedThisTurn = true;
+    attacker.facing = computeFacing(
+      { x: attacker.x, y: attacker.y },
+      { x: target.x, y: target.y },
+    );
+    syncFacingAndFaceRad(attacker);
+    if (typeof attacker.turretOffsetRad === "number") attacker.turretOffsetRad = 0;
+    return { healed };
   }
 
   endTurn() {

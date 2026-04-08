@@ -1,15 +1,19 @@
-import { inBounds, neighbors8 } from "./grid.js";
+import { inBounds, neighbors4, neighbors8 } from "./grid.js";
 
 function key(x, y) { return x + "," + y; }
 
+function neighborsFor(x, y, connectivity) {
+  return connectivity === 4 ? neighbors4(x, y) : neighbors8(x, y);
+}
+
 /**
- * A* pathfinding using 8-directional movement (diagonal allowed).
- * Diagonal steps cost the same as cardinal steps — the terrain moveCost
- * of the destination tile applies in both cases.
+ * A* pathfinding. `connectivity`: 4 = N/E/S/W only (no diagonal corner-cutting);
+ * 8 = diagonals allowed (default for mapgen tools).
  *
  * Pass a unit-specific `costAt` from GameState.costAtForUnit (infantry vs vehicle).
  */
-export function findPath(grid, start, goal, costAt) {
+export function findPath(grid, start, goal, costAt, opts = {}) {
+  const connectivity = opts.connectivity ?? 8;
   const open = new Set([key(start[0], start[1])]);
   const dist = new Map([[key(start[0], start[1]), 0]]);
   const prev = new Map();
@@ -30,7 +34,7 @@ export function findPath(grid, start, goal, costAt) {
       path.reverse();
       return path;
     }
-    for (const [nx, ny] of neighbors8(cx, cy)) {
+    for (const [nx, ny] of neighborsFor(cx, cy, connectivity)) {
       if (!inBounds(grid, nx, ny)) continue;
       const step = costAt(nx, ny);
       if (step >= 99) continue;
@@ -47,10 +51,11 @@ export function findPath(grid, start, goal, costAt) {
 }
 
 /**
- * Flood-fill reachable tiles within moveBudget using 8-directional movement.
+ * Flood-fill reachable tiles within moveBudget.
  * `costAt` should come from GameState.costAtForUnit for movement-class rules.
  */
-export function reachableTiles(grid, ox, oy, moveBudget, costAt) {
+export function reachableTiles(grid, ox, oy, moveBudget, costAt, opts = {}) {
+  const connectivity = opts.connectivity ?? 8;
   const visited = new Map();
   const open = new Set([key(ox, oy)]);
   visited.set(key(ox, oy), 0);
@@ -64,7 +69,7 @@ export function reachableTiles(grid, ox, oy, moveBudget, costAt) {
     if (pick == null) break;
     open.delete(pick);
     const [x, y] = pick.split(",").map(Number);
-    for (const [nx, ny] of neighbors8(x, y)) {
+    for (const [nx, ny] of neighborsFor(x, y, connectivity)) {
       if (!inBounds(grid, nx, ny)) continue;
       const c = costAt(nx, ny);
       if (c >= 99) continue;

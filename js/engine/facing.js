@@ -36,6 +36,15 @@ export function facingToFaceRad(facing) {
   }
 }
 
+/** Wrap to (-π, π] for turret offset vs hull. */
+export function normalizeAngleRad(a) {
+  if (!Number.isFinite(a)) return 0;
+  let x = a % (Math.PI * 2);
+  if (x <= -Math.PI) x += Math.PI * 2;
+  if (x > Math.PI) x -= Math.PI * 2;
+  return x;
+}
+
 /**
  * Top-down sprites rotate with `faceRad`; keep it aligned with `unit.facing`.
  * @param {{ mapRenderMode?: string, facing?: string, faceRad?: number }} unit
@@ -47,23 +56,54 @@ export function syncFacingAndFaceRad(unit) {
 }
 
 /**
- * On battle start: face the nearest living enemy (Manhattan), else `"down"`.
+ * Battle spawn only: owner 0 → faces right, owner 1 → faces left (not sprite defaults).
+ * Idle / cursor / combat continue to use other helpers afterward.
+ */
+export function defaultFacingForOwner(owner) {
+  return owner === 1 ? "left" : "right";
+}
+
+export function syncSpawnFacingFromTeam(unit) {
+  if (!unit || unit.hp <= 0) return;
+  unit.facing = defaultFacingForOwner(unit.owner);
+  syncFacingAndFaceRad(unit);
+}
+
+/**
+ * Face the nearest living opponent (Manhattan; tie-break on unit id).
+ * If none, keeps existing facing or `"down"`.
+ * @param {object} unit
+ * @param {object[]} allUnits
+ */
+export function syncFacingTowardNearestEnemy(unit, allUnits) {
+  if (!unit || unit.hp <= 0) return;
+  let best = null;
+  let bestD = Infinity;
+  for (const o of allUnits) {
+    if (!o || o.owner === unit.owner || o.hp <= 0) continue;
+    const d = Math.abs(o.x - unit.x) + Math.abs(o.y - unit.y);
+    if (d < bestD || (d === bestD && (!best || o.id < best.id))) {
+      bestD = d;
+      best = o;
+    }
+  }
+  unit.facing = best
+    ? computeFacing({ x: unit.x, y: unit.y }, { x: best.x, y: best.y })
+    : unit.facing || defaultFacingForOwner(unit.owner);
+  syncFacingAndFaceRad(unit);
+  if (typeof unit.turretOffsetRad === "number") {
+    unit.turretOffsetRad = 0;
+  }
+}
+
+/**
+ * On battle start: team-based facing only (spawn). Tactical facing during play
+ * uses syncFacingTowardNearestEnemy, cursor aim, move steps, and attack targets.
  * @param {object[]} units
  */
 export function initializeSpawnFacing(units) {
   for (const u of units) {
     if (!u || u.hp <= 0) continue;
-    let best = null;
-    let bestD = Infinity;
-    for (const o of units) {
-      if (!o || o.owner === u.owner || o.hp <= 0) continue;
-      const d = Math.abs(o.x - u.x) + Math.abs(o.y - u.y);
-      if (d < bestD) {
-        bestD = d;
-        best = o;
-      }
-    }
-    u.facing = best ? computeFacing({ x: u.x, y: u.y }, { x: best.x, y: best.y }) : "down";
-    syncFacingAndFaceRad(u);
+    syncSpawnFacingFromTeam(u);
   }
 }

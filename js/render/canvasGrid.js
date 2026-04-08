@@ -367,15 +367,29 @@ export async function preloadTerrainTiles() {
   await Promise.all(promises);
 }
 
+/**
+ * Pixel-art tile_NNN: load authoritative pack first (attached_assets), then optional migrated copy.
+ * Trying assets/ first caused wrong art when classic/ held mismatched or placeholder tiles (e.g. all sand).
+ */
 function getTileImage(idx) {
   const k = `tile_${String(idx).padStart(3, "0")}`;
   if (_tileImgCache.has(k)) return _tileImgCache.get(k);
+  const primary = `attached_assets/tiles/${k}.png`;
+  const alt = `assets/tiles/classic/${k}.png`;
   const img = new Image();
-  /* omit crossOrigin — matches unit/portrait loading for local/file use */
-  img.src = `attached_assets/tiles/${k}.png`;
-  const entry = { img, ok: false };
-  img.onload  = () => { entry.ok = true; };
-  img.onerror = () => { entry.ok = false; };
+  const entry = { img, ok: false, _phase: 0 };
+  img.onload = () => {
+    entry.ok = true;
+  };
+  img.onerror = () => {
+    if (entry._phase === 0) {
+      entry._phase = 1;
+      img.src = alt;
+    } else {
+      entry.ok = false;
+    }
+  };
+  img.src = primary;
   _tileImgCache.set(k, entry);
   return entry;
 }
@@ -751,14 +765,14 @@ export function drawGrid(ctx, game, tileTypes, options) {
     ctx.restore();
   }
 
-  /* ── Movement reach overlay ── */
-  if (options.reachable) {
-    ctx.fillStyle = "rgba(61,158,255,0.28)";
+  /* ── Movement reach overlay (blue) ── */
+  if (options.reachable?.size) {
+    ctx.fillStyle = "rgba(59, 130, 246, 0.4)";
     for (const k of options.reachable.keys()) {
       const [tx, ty] = k.split(",").map(Number);
       ctx.fillRect(tx * cs + 3, ty * cs + 3, cs - 6, cs - 6);
     }
-    ctx.strokeStyle = "rgba(61,158,255,0.75)";
+    ctx.strokeStyle = "rgba(37, 99, 235, 0.85)";
     ctx.lineWidth = 2;
     for (const k of options.reachable.keys()) {
       const [tx, ty] = k.split(",").map(Number);
@@ -766,36 +780,70 @@ export function drawGrid(ctx, game, tileTypes, options) {
     }
   }
 
-  /* ── LOS shadow (tiles hidden behind cover from selected unit) ── */
-  if (options.losShadowCells?.size) {
-    ctx.fillStyle = "rgba(10, 16, 28, 0.4)";
-    for (const k of options.losShadowCells) {
+  const tac = options.tacticalOverlays;
+  if (tac?.enabled && tac.weaponBand?.size) {
+    const pad = 2;
+    /* Base attack band — red (weapon range ring) */
+    ctx.fillStyle = "rgba(239, 68, 68, 0.4)";
+    for (const k of tac.weaponBand) {
       const [tx, ty] = k.split(",").map(Number);
-      ctx.fillRect(tx * cs + 2, ty * cs + 2, cs - 4, cs - 4);
+      ctx.fillRect(tx * cs + pad, ty * cs + pad, cs - pad * 2, cs - pad * 2);
     }
-  }
-
-  /* ── Attack range ring (orange, no-target preview) ── */
-  if (options.attackRange?.size) {
-    ctx.fillStyle = "rgba(255,140,0,0.15)";
-    ctx.strokeStyle = "rgba(255,140,0,0.55)";
-    ctx.lineWidth = 1.5;
-    for (const k of options.attackRange) {
-      const [tx, ty] = k.split(",").map(Number);
-      ctx.fillRect(tx * cs + 2, ty * cs + 2, cs - 4, cs - 4);
-      ctx.strokeRect(tx * cs + 2, ty * cs + 2, cs - 4, cs - 4);
+    /* Direct fire: no clear LOS — dark gray */
+    if (tac.losBlocked?.size) {
+      ctx.fillStyle = "rgba(55, 65, 81, 0.62)";
+      for (const k of tac.losBlocked) {
+        const [tx, ty] = k.split(",").map(Number);
+        ctx.fillRect(tx * cs + pad, ty * cs + pad, cs - pad * 2, cs - pad * 2);
+      }
     }
-  }
-
-  /* ── Attackable targets (red outline) ── */
-  if (options.attackableCells?.size) {
-    ctx.strokeStyle = "rgba(255,80,80,0.95)";
-    ctx.lineWidth = 2.5;
-    ctx.fillStyle = "rgba(255,60,60,0.12)";
-    for (const k of options.attackableCells) {
-      const [tx, ty] = k.split(",").map(Number);
-      ctx.fillRect(tx * cs + 4, ty * cs + 4, cs - 8, cs - 8);
-      ctx.strokeRect(tx * cs + 4, ty * cs + 4, cs - 8, cs - 8);
+    /* Deadspace / sight / indirect deadzone — diagonal stripes */
+    if (tac.cannotHit?.size) {
+      for (const k of tac.cannotHit) {
+        const [tx, ty] = k.split(",").map(Number);
+        const px = tx * cs + pad;
+        const py = ty * cs + pad;
+        const pw = cs - pad * 2;
+        const ph = cs - pad * 2;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(px, py, pw, ph);
+        ctx.clip();
+        ctx.strokeStyle = "rgba(127, 29, 29, 0.5)";
+        ctx.lineWidth = 2;
+        const step = 5;
+        for (let i = -ph; i < pw + ph; i += step) {
+          ctx.beginPath();
+          ctx.moveTo(px + i, py);
+          ctx.lineTo(px + i + ph, py + ph);
+          ctx.stroke();
+        }
+        ctx.fillStyle = "rgba(239, 68, 68, 0.18)";
+        ctx.fillRect(px, py, pw, ph);
+        ctx.restore();
+      }
+    }
+    /* Valid enemy targets — strong ring */
+    if (tac.validTargets?.size) {
+      ctx.strokeStyle = "rgba(220, 38, 38, 0.98)";
+      ctx.lineWidth = 3;
+      ctx.fillStyle = "rgba(239, 68, 68, 0.15)";
+      for (const k of tac.validTargets) {
+        const [tx, ty] = k.split(",").map(Number);
+        ctx.fillRect(tx * cs + 4, ty * cs + 4, cs - 8, cs - 8);
+        ctx.strokeRect(tx * cs + 4, ty * cs + 4, cs - 8, cs - 8);
+      }
+    }
+    /* Medic / engineer — valid heal targets */
+    if (tac.healTargets?.size) {
+      ctx.strokeStyle = "rgba(34, 197, 94, 0.95)";
+      ctx.lineWidth = 2.5;
+      ctx.fillStyle = "rgba(34, 197, 94, 0.12)";
+      for (const k of tac.healTargets) {
+        const [tx, ty] = k.split(",").map(Number);
+        ctx.fillRect(tx * cs + 5, ty * cs + 5, cs - 10, cs - 10);
+        ctx.strokeRect(tx * cs + 5, ty * cs + 5, cs - 10, cs - 10);
+      }
     }
   }
 

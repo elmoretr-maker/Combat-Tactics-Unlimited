@@ -1,4 +1,5 @@
 import { hasLineOfSight, isIndirectDeadzoneBlock } from "./los.js";
+import { chebyshev as chebyshevGrid } from "./grid.js";
 import {
   obstacleCoverNameAt,
   OBSTACLE_COVER_DAMAGE_FACTOR,
@@ -9,7 +10,62 @@ import {
  * Allows diagonal attacks — a unit with rangeMax:1 can hit all 8 surrounding tiles.
  */
 function chebyshev(ax, ay, bx, by) {
-  return Math.max(Math.abs(ax - bx), Math.abs(ay - by));
+  return chebyshevGrid(ax, ay, bx, by);
+}
+
+/**
+ * Medic / engineer: heal adjacent friendly (same range rules as direct attack).
+ * Medic → organic (infantry-class); engineer → vehicles only.
+ */
+export function canHealSupport(attacker, target, allUnits, losCtx) {
+  void allUnits;
+  if (!attacker?.supportRole || (attacker.supportChargesRemaining ?? 0) <= 0)
+    return false;
+  if (!target || target.hp <= 0 || target.owner !== attacker.owner) return false;
+  if (attacker.hp <= 0 || target.id === attacker.id) return false;
+  if (target.hp >= target.maxHp) return false;
+
+  const d = chebyshev(attacker.x, attacker.y, target.x, target.y);
+  const lo = attacker.rangeMin ?? 1;
+  const hi = attacker.rangeMax ?? 1;
+  const ds = attacker.deadspace ?? 0;
+  if (d <= ds || d < lo || d > hi) return false;
+
+  const organic = target.movementClass !== "vehicle";
+  const mech = target.movementClass === "vehicle";
+  if (attacker.supportRole === "medic") {
+    if (!organic) return false;
+  } else if (attacker.supportRole === "engineer") {
+    if (!mech) return false;
+  } else return false;
+
+  const sightRange = attacker.sightRange;
+  if (sightRange != null && Number.isFinite(sightRange) && d > sightRange)
+    return false;
+
+  const atkType = attacker.attackType || "direct";
+  const useLos = atkType === "direct" && attacker.usesLos !== false;
+  if (useLos && losCtx?.grid && losCtx?.tileTypes) {
+    const sightBudget =
+      losCtx.sightBudget != null && Number.isFinite(losCtx.sightBudget)
+        ? losCtx.sightBudget
+        : Infinity;
+    if (
+      !hasLineOfSight(
+        losCtx.grid,
+        losCtx.tileTypes,
+        attacker.x,
+        attacker.y,
+        target.x,
+        target.y,
+        { sightBudget, mapObjects: losCtx.mapObjects },
+      )
+    ) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 /**

@@ -5,6 +5,9 @@
 /** Default minimum duration for a move tween (ms). */
 export const DEFAULT_MOVE_DURATION_MS = 500;
 
+/** Per orthogonal tile — steady march (linear lerp between cell centers). */
+export const PER_TILE_MOVE_MS = 420;
+
 /**
  * Linear interpolation.
  * @param {number} a

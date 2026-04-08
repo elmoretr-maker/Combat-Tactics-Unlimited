@@ -1,5 +1,7 @@
 /**
- * Short-lived combat overlays (muzzle, etc.). Paths under attached_assets/vfx/.
+ * Short-lived combat overlays (muzzle, etc.).
+ * Accepts full repo-relative paths (assets/… or attached_assets/…).
+ * Bare filenames still resolve under attached_assets/vfx/ until those assets are migrated and configs updated.
  */
 export class BattleVfx {
   constructor() {
@@ -9,10 +11,14 @@ export class BattleVfx {
 
   getImage(filename) {
     if (!filename) return null;
-    const path =
-      filename.startsWith("attached_assets/")
-        ? filename
-        : `attached_assets/vfx/${filename}`;
+    let path = filename;
+    if (/^https?:\/\//.test(path)) {
+      /* keep */
+    } else if (path.startsWith("assets/") || path.startsWith("attached_assets/")) {
+      /* full path */
+    } else {
+      path = `attached_assets/vfx/${filename}`;
+    }
     if (this.cache.has(path)) return this.cache.get(path);
     const img = new Image();
     img.crossOrigin = "anonymous";

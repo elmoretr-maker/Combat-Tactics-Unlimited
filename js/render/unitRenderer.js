@@ -17,6 +17,18 @@ export function attackVisualDurationMs(spriteAnimations, setId) {
   return 0;
 }
 
+/**
+ * Top-down composite with hull plus a separate turret and/or barrel layer.
+ * Those layers rotate for cursor aim; hull follows move / idle facing.
+ * Set `compositeTopdown.independentTurret: false` to keep a single rigid sprite.
+ * @param {object | null | undefined} comp
+ */
+export function compositeUsesIndependentTurret(comp) {
+  if (!comp?.hull) return false;
+  if (comp.independentTurret === false) return false;
+  return !!(comp.turret || comp.barrel);
+}
+
 export class UnitRenderer {
   constructor(spriteAnimations) {
     this.spriteAnimations = spriteAnimations;
@@ -110,7 +122,9 @@ export class UnitRenderer {
     }
     if (!cfg) return 0;
     const n = (cfg.frameCounts && cfg.frameCounts[clip]) || 1;
-    const spd = clip === "run" ? 80 : clip === "prone" ? 140 : 220;
+    /* Slower run = readable walk cycle (tread vehicles use branch above). */
+    const spd =
+      clip === "run" ? 118 : clip === "prone" ? 140 : 220;
     return Math.floor(timeMs / spd) % n;
   }
 
@@ -124,6 +138,33 @@ export class UnitRenderer {
   portraitSrc(unit) {
     if (!unit?.portrait) return "";
     return `attached_assets/units/${unit.portrait}`;
+  }
+
+  /**
+   * True when craftpix has `clip_facing` frames (art already oriented); skip down-default spin.
+   */
+  hasDirectedSideClip(cfg, diskClip, facing) {
+    const clips = cfg?.craftpixClips;
+    if (!clips || !facing) return false;
+    const k = `${diskClip}_${facing}`;
+    return Array.isArray(clips[k]) && clips[k].length > 0;
+  }
+
+  /**
+   * Legacy side sprites face **down** (+y). Rotate into grid facings (right/up/left).
+   */
+  applySideFacingRotation(ctx, cfg, diskClip, facing) {
+    const f = facing || "down";
+    if (
+      cfg &&
+      this.hasDirectedSideClip(cfg, diskClip, f)
+    ) {
+      return false;
+    }
+    if (f === "right") ctx.rotate(-Math.PI / 2);
+    else if (f === "left") ctx.rotate(Math.PI / 2);
+    else if (f === "up") ctx.rotate(Math.PI);
+    return true;
   }
 
   drawPortraitFallback(ctx, unit, half, cellSize) {
@@ -145,13 +186,128 @@ export class UnitRenderer {
     ctx.fillRect(-half, -half * 0.7, half * 2, half * 1.4);
   }
 
+  /**
+   * Modular top-down vehicle: hull + turret + barrel from separate PNGs
+   * (see `compositeTopdown` in spriteAnimations.json). Optional `comp.vfx` layers
+   * reuse attached_assets effect strips (glow orbs) as muzzle / motion / wreck FX —
+   * those files are not the vehicle silhouette.
+   * @param {object} [vfxOpts]
+   * @param {number} [vfxOpts.frameIndex]
+   * @param {boolean} [vfxOpts.isMoving]
+   */
+  drawCompositeTopdown(ctx, comp, cellSize, clip, vfxOpts = {}) {
+    const base = cellSize * 1.08;
+    const {
+      frameIndex = 0,
+      isMoving = false,
+      turretOffsetRad = 0,
+    } = vfxOpts;
+    const splitTurret = compositeUsesIndependentTurret(comp);
+
+    const drawLayer = (path, scaleMul = 1, offsetYFrac = 0) => {
+      if (!path) return false;
+      const entry = this.getImage(path);
+      const img = entry.img;
+      if (!entry.ok || !img.complete || !img.naturalWidth) return false;
+      const scale =
+        (base * scaleMul) / Math.max(img.naturalWidth, img.naturalHeight);
+      const w = img.naturalWidth * scale;
+      const h = img.naturalHeight * scale;
+      const oy = offsetYFrac * cellSize;
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(img, -w / 2, -h / 2 + oy, w, h);
+      return true;
+    };
+
+    const dead = clip === "dead";
+    const vfx = comp.vfx;
+
+    if (dead) {
+      drawLayer(comp.hull, comp.hullScale ?? 1, comp.hullOffsetY ?? 0);
+      if (vfx?.destroyed) {
+        const prevA = ctx.globalAlpha;
+        ctx.globalAlpha = Math.min(1, prevA + (comp.vfxDestroyedAlphaBoost ?? 0.35));
+        drawLayer(
+          vfx.destroyed,
+          comp.vfxDestroyedScale ?? 1.2,
+          comp.vfxDestroyedOffsetY ?? 0,
+        );
+        ctx.globalAlpha = prevA;
+      }
+      return;
+    }
+
+    drawLayer(comp.hull, comp.hullScale ?? 1, comp.hullOffsetY ?? 0);
+
+    const drawTurretStack = () => {
+      drawLayer(comp.turret, comp.turretScale ?? 1, comp.turretOffsetY ?? 0);
+      if (comp.barrel) {
+        drawLayer(comp.barrel, comp.barrelScale ?? 1, comp.barrelOffsetY ?? 0);
+      }
+    };
+
+    if (splitTurret) {
+      ctx.save();
+      ctx.rotate(turretOffsetRad);
+      drawTurretStack();
+      if (vfx && clip === "shot" && vfx.shot?.length) {
+        const i = Math.max(0, Math.min(vfx.shot.length - 1, frameIndex));
+        const blend = comp.vfxShotBlend || "lighter";
+        const prev = ctx.globalCompositeOperation;
+        ctx.globalCompositeOperation = blend;
+        drawLayer(
+          vfx.shot[i],
+          comp.vfxShotScale ?? 0.95,
+          comp.vfxShotOffsetY ?? -0.36,
+        );
+        ctx.globalCompositeOperation = prev;
+      }
+      ctx.restore();
+      if (!vfx) return;
+      if (clip === "run" && isMoving && vfx.run?.length) {
+        const i = Math.max(0, Math.min(vfx.run.length - 1, frameIndex));
+        drawLayer(
+          vfx.run[i],
+          comp.vfxRunScale ?? 0.72,
+          comp.vfxRunOffsetY ?? 0.06,
+        );
+      }
+      return;
+    }
+
+    drawTurretStack();
+
+    if (!vfx) return;
+
+    if (clip === "shot" && vfx.shot?.length) {
+      const i = Math.max(0, Math.min(vfx.shot.length - 1, frameIndex));
+      const blend = comp.vfxShotBlend || "lighter";
+      const prev = ctx.globalCompositeOperation;
+      ctx.globalCompositeOperation = blend;
+      drawLayer(
+        vfx.shot[i],
+        comp.vfxShotScale ?? 0.95,
+        comp.vfxShotOffsetY ?? -0.36,
+      );
+      ctx.globalCompositeOperation = prev;
+    } else if (clip === "run" && isMoving && vfx.run?.length) {
+      const i = Math.max(0, Math.min(vfx.run.length - 1, frameIndex));
+      drawLayer(
+        vfx.run[i],
+        comp.vfxRunScale ?? 0.72,
+        comp.vfxRunOffsetY ?? 0.06,
+      );
+    }
+  }
+
   drawUnit(ctx, unit, px, py, cellSize, timeMs, isMoving, facingLeft, faceRad) {
     const setId = unit.mapSpriteSet;
     const mode = unit.mapRenderMode || "side";
     const clip = this.pickClip(unit, isMoving);
     const fi = this.frameIndex(setId, clip, timeMs, isMoving, unit);
     const diskClip = this.storageClip(setId, clip);
-    const cfgSheet = setId ? this.spriteAnimations[setId]?.spriteSheet : null;
+    const cfg = setId ? this.spriteAnimations[setId] : null;
+    const cfgSheet = cfg?.spriteSheet ?? null;
     const path = setId ? this.framePath(setId, diskClip, fi, unit.facing) : "";
     const bob = mode === "side" ? Math.sin(timeMs / 300) * (isMoving ? 3 : 1.5) : 0;
     const cx = px + cellSize / 2;
@@ -170,10 +326,43 @@ export class UnitRenderer {
     ctx.ellipse(0, sy, half * 0.92, half * 0.3, 0, 0, Math.PI * 2);
     ctx.fill();
     if (mode === "topdown" && typeof faceRad === "number") {
-      ctx.rotate(faceRad - Math.PI / 2);
+      /* Hull/turret PNGs face **up** (−y); map grid facings (faceRad) onto that default. */
+      const adj =
+        typeof unit.topdownFacingAdjustRad === "number"
+          ? unit.topdownFacingAdjustRad
+          : 0;
+      ctx.rotate(faceRad + Math.PI / 2 + adj);
+    } else if (mode === "side") {
+      const usedSpin = this.applySideFacingRotation(
+        ctx,
+        cfg,
+        diskClip,
+        unit.facing,
+      );
+      if (!usedSpin && facingLeft) {
+        ctx.scale(-1, 1);
+      }
     } else if (facingLeft) {
       ctx.scale(-1, 1);
     }
+
+    const compositeTopdown = setId
+      ? this.spriteAnimations[setId]?.compositeTopdown
+      : null;
+    if (mode === "topdown" && compositeTopdown) {
+      if (clip === "dead" && this.spriteAnimations[setId]?.treadVehicle) {
+        ctx.globalAlpha = 0.55;
+      }
+      this.drawCompositeTopdown(ctx, compositeTopdown, cellSize, clip, {
+        frameIndex: fi,
+        isMoving,
+        turretOffsetRad: unit.turretOffsetRad ?? 0,
+      });
+      ctx.globalAlpha = 1;
+      ctx.restore();
+      return;
+    }
+
     if (!setId) {
       if (!this.drawPortraitFallback(ctx, unit, half, cellSize)) {
         ctx.fillStyle = unit.owner === 0 ? "#5cadff" : "#ff6b6b";
