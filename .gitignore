@@ -18,3 +18,10 @@ tools/*.txt
 
 # Logs
 *.log
+
+# Bulk / generated asset folders (reduce git noise; files remain on disk)
+assets/effects/
+assets/sprites/
+assets/media/
+assets/ui/attached/
+assets/units/craftpix/
