@@ -1,38 +1,257 @@
 {
   "id": "map_compact_wild",
-  "name": "Woodpecker Hill",
+  "name": "Woodpecker Hill v2",
   "width": 10,
   "height": 8,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["plains","forest","forest","forest","forest","forest","forest","forest","forest","plains"],
-    ["plains","forest","hill","hill","forest","forest","hill","hill","forest","plains"],
-    ["road","road","road","plains","plains","plains","plains","road","road","road"],
-    ["plains","forest","plains","plains","plains","plains","plains","plains","forest","plains"],
-    ["plains","forest","plains","plains","plains","plains","plains","plains","forest","plains"],
-    ["road","road","road","plains","plains","plains","plains","road","road","road"],
-    ["plains","forest","hill","hill","forest","forest","hill","hill","forest","plains"],
-    ["plains","forest","forest","forest","forest","forest","forest","forest","forest","plains"]
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":8,"y":2},
-    {"templateId":"grunt_red","owner":1,"x":8,"y":3},
-    {"templateId":"grunt_red","owner":1,"x":8,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":8,"y":5},
-    {"templateId":"opfor_tank","owner":1,"x":7,"y":3}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 2
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 7,
+      "y": 3
+    }
   ],
   "skirmishDeploy": [
-    {"x":1,"y":2},{"x":1,"y":3},{"x":1,"y":4},{"x":1,"y":5},
-    {"x":2,"y":3},{"x":2,"y":4},{"x":3,"y":3},{"x":3,"y":4}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":1,"y":2},{"x":1,"y":3},{"x":1,"y":4},{"x":1,"y":5},
-    {"x":2,"y":3},{"x":2,"y":4},{"x":3,"y":3},{"x":3,"y":4}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":8,"y":2},{"x":8,"y":3},{"x":8,"y":4},{"x":8,"y":5},
-    {"x":7,"y":3},{"x":7,"y":4},{"x":6,"y":3},{"x":6,"y":4}
-  ]
+    {
+      "x": 9,
+      "y": 0
+    },
+    {
+      "x": 9,
+      "y": 1
+    },
+    {
+      "x": 9,
+      "y": 2
+    },
+    {
+      "x": 9,
+      "y": 3
+    },
+    {
+      "x": 9,
+      "y": 4
+    },
+    {
+      "x": 9,
+      "y": 5
+    },
+    {
+      "x": 9,
+      "y": 6
+    },
+    {
+      "x": 9,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [],
+  "generator": {
+    "version": 1,
+    "seed": 2676573411,
+    "theme": "grass",
+    "biome": "forest",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_compact_wild",
+      "migratedAt": "2026-04-10T21:54:23.370Z",
+      "environment": "wild",
+      "preservedPresetCount": 4
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

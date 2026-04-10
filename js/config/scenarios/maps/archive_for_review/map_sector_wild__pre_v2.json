@@ -1,44 +1,433 @@
 {
   "id": "map_sector_wild",
-  "name": "Forest Valley",
+  "name": "Forest Valley v2",
   "width": 16,
   "height": 12,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
-    ["forest","hill","hill","forest","plains","plains","water","water","plains","plains","forest","hill","hill","forest","forest","forest"],
-    ["plains","plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","plains","plains","plains","plains"],
-    ["plains","forest","forest","plains","plains","plains","water","water","plains","plains","plains","forest","forest","plains","plains","plains"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["plains","plains","hill","plains","plains","plains","water","water","plains","plains","plains","hill","plains","plains","plains","plains"],
-    ["plains","plains","hill","plains","plains","plains","water","water","plains","plains","plains","hill","plains","plains","plains","plains"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["plains","forest","forest","plains","plains","plains","water","water","plains","plains","plains","forest","forest","plains","plains","plains"],
-    ["plains","plains","plains","plains","plains","plains","water","water","plains","plains","plains","plains","plains","plains","plains","plains"],
-    ["forest","hill","hill","forest","plains","plains","water","water","plains","plains","forest","hill","hill","forest","forest","forest"],
-    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"]
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":14,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":14,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":14,"y":6},
-    {"templateId":"grunt_red","owner":1,"x":14,"y":7},
-    {"templateId":"opfor_tank","owner":1,"x":15,"y":5},
-    {"templateId":"opfor_tank","owner":1,"x":15,"y":6},
-    {"templateId":"grunt_red","owner":1,"x":13,"y":5}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 14,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 14,
+      "y": 6
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 14,
+      "y": 7
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 15,
+      "y": 5
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 15,
+      "y": 6
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 13,
+      "y": 5
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":7},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":1,"y":6},{"x":1,"y":7}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},{"x":0,"y":7},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":1,"y":6},{"x":1,"y":7}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":15,"y":4},{"x":15,"y":5},{"x":15,"y":6},{"x":15,"y":7},
-    {"x":14,"y":4},{"x":14,"y":5},{"x":14,"y":6},{"x":14,"y":7}
-  ]
+    {
+      "x": 15,
+      "y": 0
+    },
+    {
+      "x": 15,
+      "y": 1
+    },
+    {
+      "x": 15,
+      "y": 2
+    },
+    {
+      "x": 15,
+      "y": 3
+    },
+    {
+      "x": 15,
+      "y": 4
+    },
+    {
+      "x": 15,
+      "y": 5
+    },
+    {
+      "x": 15,
+      "y": 6
+    },
+    {
+      "x": 15,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_3_7",
+      "footprint": [
+        {
+          "x": 3,
+          "y": 7
+        },
+        {
+          "x": 4,
+          "y": 7
+        },
+        {
+          "x": 3,
+          "y": 8
+        },
+        {
+          "x": 4,
+          "y": 8
+        }
+      ],
+      "entry": {
+        "x": 4,
+        "y": 9
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_71243ed4.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 557936000,
+    "theme": "grass",
+    "biome": "forest",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 4,
+        "y": 9,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_sector_wild",
+      "migratedAt": "2026-04-10T21:54:23.467Z",
+      "environment": "wild",
+      "preservedPresetCount": 6
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

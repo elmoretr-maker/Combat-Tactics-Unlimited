@@ -1,49 +1,581 @@
 {
   "id": "map_theater_desert",
-  "name": "Desert Warzone",
+  "name": "Desert Warzone v2",
   "width": 20,
   "height": 16,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["desert","desert","desert","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","desert","desert","desert","desert"],
-    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
-    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
-    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
-    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert"],
-    ["desert","desert","hill","hill","desert","desert","desert","desert","hill","hill","hill","hill","desert","desert","desert","desert","hill","hill","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert","desert","desert","urban","urban","desert","desert","desert","desert","desert"],
-    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
-    ["desert","hill","desert","desert","urban","water","water","water","urban","desert","desert","urban","water","water","water","urban","desert","hill","desert","desert"],
-    ["desert","desert","hill","hill","desert","desert","desert","desert","desert","desert","desert","desert","desert","desert","hill","hill","desert","desert","desert","desert"],
-    ["desert","desert","desert","hill","hill","hill","desert","desert","desert","desert","desert","desert","desert","hill","hill","hill","desert","desert","desert","desert"]
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "building_block",
+      "building_block",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "building_block",
+      "building_block",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "road",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":18,"y":2},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":6},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":10},
-    {"templateId":"opfor_tank","owner":1,"x":19,"y":5},
-    {"templateId":"opfor_tank","owner":1,"x":19,"y":11},
-    {"templateId":"grunt_red","owner":1,"x":17,"y":7},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":13}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 2
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 6
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 10
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 19,
+      "y": 5
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 19,
+      "y": 11
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 17,
+      "y": 7
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 13
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":6},{"x":0,"y":10},
-    {"x":1,"y":4},{"x":1,"y":6},{"x":0,"y":7},{"x":1,"y":11}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":6},{"x":0,"y":10},
-    {"x":1,"y":4},{"x":1,"y":6},{"x":0,"y":7},{"x":1,"y":11}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":19,"y":2},{"x":19,"y":4},{"x":19,"y":6},{"x":19,"y":10},
-    {"x":18,"y":4},{"x":18,"y":6},{"x":19,"y":7},{"x":18,"y":11}
-  ]
+    {
+      "x": 19,
+      "y": 0
+    },
+    {
+      "x": 19,
+      "y": 1
+    },
+    {
+      "x": 19,
+      "y": 2
+    },
+    {
+      "x": 19,
+      "y": 3
+    },
+    {
+      "x": 19,
+      "y": 4
+    },
+    {
+      "x": 19,
+      "y": 5
+    },
+    {
+      "x": 19,
+      "y": 6
+    },
+    {
+      "x": 19,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_7_7",
+      "footprint": [
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 8,
+          "y": 7
+        },
+        {
+          "x": 7,
+          "y": 8
+        },
+        {
+          "x": 8,
+          "y": 8
+        }
+      ],
+      "entry": {
+        "x": 7,
+        "y": 9
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_c4c08bdc.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 2413282106,
+    "theme": "desert",
+    "biome": "desert",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 7,
+        "y": 9,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_theater_desert",
+      "migratedAt": "2026-04-10T21:54:23.528Z",
+      "environment": "desert",
+      "preservedPresetCount": 8
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

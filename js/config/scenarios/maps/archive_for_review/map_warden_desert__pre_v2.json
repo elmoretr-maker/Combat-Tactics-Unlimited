@@ -1,41 +1,351 @@
 {
   "id": "map_warden_desert",
-  "name": "Outpost Bravo",
+  "name": "Outpost Bravo v2",
   "width": 12,
   "height": 10,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["desert","desert","hill","hill","hill","desert","desert","hill","hill","hill","desert","desert"],
-    ["desert","desert","desert","hill","desert","desert","desert","desert","hill","desert","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","desert","desert","urban","urban","urban","urban","desert","desert","desert","desert"],
-    ["desert","hill","desert","desert","urban","urban","urban","urban","desert","desert","hill","desert"],
-    ["desert","hill","desert","desert","urban","urban","urban","urban","desert","desert","hill","desert"],
-    ["desert","desert","desert","desert","urban","urban","urban","urban","desert","desert","desert","desert"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["desert","desert","desert","hill","desert","desert","desert","desert","hill","desert","desert","desert"],
-    ["desert","desert","hill","hill","hill","desert","desert","hill","hill","hill","desert","desert"]
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "building_block",
+      "building_block",
+      "road",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "building_block",
+      "building_block",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ],
+    [
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert",
+      "desert"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":10,"y":2},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":7},
-    {"templateId":"opfor_tank","owner":1,"x":11,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":9,"y":3}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 2
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 7
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 11,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":3},{"x":2,"y":6}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":2},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":3},{"x":2,"y":6}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":11,"y":2},{"x":11,"y":4},{"x":11,"y":5},{"x":11,"y":7},
-    {"x":10,"y":4},{"x":10,"y":5},{"x":9,"y":3},{"x":9,"y":6}
-  ]
+    {
+      "x": 11,
+      "y": 0
+    },
+    {
+      "x": 11,
+      "y": 1
+    },
+    {
+      "x": 11,
+      "y": 2
+    },
+    {
+      "x": 11,
+      "y": 3
+    },
+    {
+      "x": 11,
+      "y": 4
+    },
+    {
+      "x": 11,
+      "y": 5
+    },
+    {
+      "x": 11,
+      "y": 6
+    },
+    {
+      "x": 11,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_7_5",
+      "footprint": [
+        {
+          "x": 7,
+          "y": 5
+        },
+        {
+          "x": 8,
+          "y": 5
+        },
+        {
+          "x": 7,
+          "y": 6
+        },
+        {
+          "x": 8,
+          "y": 6
+        }
+      ],
+      "entry": {
+        "x": 9,
+        "y": 5
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_71243ed4.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 2730078308,
+    "theme": "desert",
+    "biome": "desert",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 9,
+        "y": 5,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_warden_desert",
+      "migratedAt": "2026-04-10T21:54:23.432Z",
+      "environment": "desert",
+      "preservedPresetCount": 5
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

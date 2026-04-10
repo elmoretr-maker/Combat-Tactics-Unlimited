@@ -34,11 +34,47 @@
     ],
     [
       "plains",
+      "forest",
       "plains",
       "plains",
       "plains",
       "plains",
+      "forest",
+      "forest",
       "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "hill",
+      "water",
+      "water",
+      "hill",
+      "plains",
+      "hill",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "water",
+      "water",
       "plains",
       "plains",
       "plains",
@@ -50,43 +86,7 @@
       "plains",
       "plains",
       "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
       "water",
-      "water",
-      "water",
-      "water",
-      "water",
-      "plains",
-      "water",
-      "water",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains"
-    ],
-    [
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
-      "plains",
       "plains",
       "plains",
       "plains",
@@ -234,155 +234,126 @@
       "y": 7
     }
   ],
-  "mapObjects": [
-    {
-      "id": "obj_4_5_3aab8",
-      "x": 4,
-      "y": 5,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_3_6_yr705",
-      "x": 3,
-      "y": 6,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
-      "visualKind": "ruins",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_2_5_jx1u7",
-      "x": 2,
-      "y": 5,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
-      "visualKind": "ruins",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_4_6_bz6ui",
-      "x": 4,
-      "y": 6,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
-      "visualKind": "tree",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_6_5_fhtrq",
-      "x": 6,
-      "y": 5,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0016_Barrel.png",
-      "visualKind": "barrel",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_5_6_q9y9f",
-      "x": 5,
-      "y": 6,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City/Crates Barrels/TDS04_0018_Box1.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_6_6_tg0b1",
-      "x": 6,
-      "y": 6,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City 2/broken_small_houses/Elements/small_house1_carcass1.png",
-      "visualKind": "ruins",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_7_6_a2r9a",
-      "x": 7,
-      "y": 6,
-      "sprite": "attached_assets/craftpix_pack/city/PNG City/Trees Bushes/TDS04_0022_Tree1.png",
-      "visualKind": "tree",
-      "blocksMove": true,
-      "blocksLos": true
-    }
-  ],
+  "mapObjects": [],
   "buildings": [],
   "generator": {
     "version": 1,
     "seed": 2676573411,
     "theme": "grass",
+    "biome": "forest",
     "dividerConnectorCount": 0,
+    "connectorLog": [],
     "flowConnectors": [
       {
-        "x": 1,
-        "y": 4,
-        "terrainId": "water",
-        "mask": 2,
-        "variant": "end_e",
+        "x": 3,
+        "y": 3,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 2
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
-        "x": 2,
-        "y": 4,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
+        "x": 6,
+        "y": 3,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 3,
         "y": 4,
         "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
+        "mask": 2,
+        "variant": "end_e",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 2,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 4,
         "y": 4,
         "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
+        "mask": 12,
+        "variant": "corner_sw",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 4,
+        "y": 5,
+        "terrainId": "water",
+        "mask": 3,
+        "variant": "corner_ne",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 5,
-        "y": 4,
+        "y": 5,
         "terrainId": "water",
-        "mask": 8,
-        "variant": "end_w",
+        "mask": 12,
+        "variant": "corner_sw",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
-        "x": 7,
-        "y": 4,
+        "x": 5,
+        "y": 6,
         "terrainId": "water",
-        "mask": 2,
-        "variant": "end_e",
+        "mask": 1,
+        "variant": "end_n",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 2
-      },
-      {
-        "x": 8,
-        "y": 4,
-        "terrainId": "water",
-        "mask": 8,
-        "variant": "end_w",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 1,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       }
     ],
     "migration": {
       "tool": "migrate_maps.mjs",
       "catalogId": "map_compact_wild",
-      "migratedAt": "2026-04-04T20:31:52.341Z",
+      "migratedAt": "2026-04-10T21:58:25.128Z",
       "environment": "wild",
       "preservedPresetCount": 4
     }

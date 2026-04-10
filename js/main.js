@@ -185,6 +185,58 @@ function drawMapTheaterPreviewCanvas(canvas, terrain, tileTypeMap, maxW, maxH) {
     }
   }
 }
+
+/** Large center preview (inventory “screen”); empty state when no map selected */
+async function redrawMapTheaterMainPreview(tileTypeMap) {
+  const canvas = document.getElementById("map-theater-main-preview");
+  const caption = document.getElementById("map-theater-selected");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const frame = canvas.closest(".map-theater-hero__frame");
+  const maxW = frame
+    ? Math.max(160, Math.min(520, (frame.clientWidth || 360) - 4))
+    : 360;
+  const maxH = Math.min(320, Math.round(maxW * 0.62));
+  if (!pendingUserMapPath) {
+    canvas.width = Math.floor(maxW);
+    canvas.height = Math.floor(maxH);
+    if (ctx) {
+      ctx.fillStyle = "#0a0e0c";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = "rgba(57, 255, 20, 0.12)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
+    }
+    if (caption) {
+      caption.textContent =
+        "No map selected — tap a side slot to preview, or use filters to narrow the list.";
+    }
+    return;
+  }
+  try {
+    const sb = await loadJson(pendingUserMapPath);
+    const terrain = sb?.terrain;
+    if (terrain?.length && ctx) {
+      drawMapTheaterPreviewCanvas(canvas, terrain, tileTypeMap, maxW, maxH);
+    }
+    const maps = mapCatalog?.maps || [];
+    const cur = maps.find((x) => x.path === pendingUserMapPath);
+    if (caption) {
+      caption.textContent = cur
+        ? `Selected: ${cur.name} — ${biomeDisplayName(getBiomeForCatalogEntry(cur))} · ${cur.width}×${cur.height}`
+        : "Map loaded.";
+    }
+  } catch (e) {
+    console.warn("[CTU] Map theater main preview failed", e);
+    canvas.width = Math.floor(maxW);
+    canvas.height = Math.floor(maxH);
+    if (ctx) {
+      ctx.fillStyle = "#1a1010";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    if (caption) caption.textContent = "Could not load preview for this map.";
+  }
+}
 let battleEndHandled = false;
 let aiRunning = false;
 /** Pinned "attack view" (range / LOS / deadzone); also shows while hovering an enemy. */
@@ -3454,10 +3506,15 @@ async function renderMapTheater() {
     }
   }
 
-  const host = document.getElementById("map-theater-grid");
-  if (!host) return;
-  host.innerHTML = "";
+  const railStrip = document.getElementById("map-theater-rail-strip");
+  if (!railStrip) return;
+  railStrip.innerHTML = "";
+
+  const thumbMaxW = 52;
+  const thumbMaxH = 52;
+
   const maps = mapCatalog.maps || [];
+  const filtered = [];
   for (const m of maps) {
     if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) continue;
     if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) continue;
@@ -3465,31 +3522,42 @@ async function renderMapTheater() {
       const b = getBiomeForCatalogEntry(m);
       if (b !== mapTheaterFilterBiome) continue;
     }
+    filtered.push(m);
+  }
+  filtered.forEach((m) => {
     const card = document.createElement("button");
     card.type = "button";
+    const isSel = pendingUserMapPath === m.path;
     card.className =
-      "map-theater-card" +
-      (pendingUserMapPath === m.path ? " map-theater-card--selected" : "");
+      "map-theater-thumb" + (isSel ? " map-theater-thumb--selected" : "");
     card.dataset.mapPath = m.path;
-    const biome = getBiomeForCatalogEntry(m);
-    const biomeLabel = biomeDisplayName(biome);
-    card.innerHTML =
-      `<span class="map-theater-card__row">` +
-      `<canvas class="map-theater-card__preview" width="1" height="1" aria-hidden="true"></canvas>` +
-      `<span class="map-theater-card__body">` +
-      `<span class="map-theater-card__name">${m.name}</span>` +
-      `<span class="map-theater-card__meta">${m.width}×${m.height} · ${m.sizeCategory} · ${biomeLabel}</span>` +
-      (m.blurb ? `<span class="map-theater-card__blurb">${m.blurb}</span>` : "") +
-      `</span></span>`;
-    const previewCanvas = card.querySelector(".map-theater-card__preview");
+    card.setAttribute("aria-label", `Select map: ${m.name}`);
+    card.setAttribute("aria-current", isSel ? "true" : "false");
+    const previewCanvas = document.createElement("canvas");
+    previewCanvas.className = "map-theater-thumb__cv";
+    previewCanvas.setAttribute("aria-hidden", "true");
+    const previewWrap = document.createElement("span");
+    previewWrap.className = "map-theater-thumb__preview-wrap";
+    previewWrap.appendChild(previewCanvas);
+    card.appendChild(previewWrap);
+    const nameEl = document.createElement("span");
+    nameEl.className = "map-theater-thumb__name";
+    nameEl.textContent = m.name;
+    card.appendChild(nameEl);
     void loadJson(m.path)
       .then((sb) => {
         if (sb?.terrain && previewCanvas) {
-          drawMapTheaterPreviewCanvas(previewCanvas, sb.terrain, tileTypeMap, 96, 64);
+          drawMapTheaterPreviewCanvas(
+            previewCanvas,
+            sb.terrain,
+            tileTypeMap,
+            thumbMaxW,
+            thumbMaxH
+          );
         }
       })
       .catch((e) => {
-        console.warn("[CTU] Map theater preview failed:", m.path, e);
+        console.warn("[CTU] Map theater thumb preview failed:", m.path, e);
       });
     card.addEventListener("click", () => {
       void (async () => {
@@ -3527,15 +3595,9 @@ async function renderMapTheater() {
         }
       })();
     });
-    host.appendChild(card);
-  }
-  const sel = document.getElementById("map-theater-selected");
-  if (sel) {
-    const cur = maps.find((x) => x.path === pendingUserMapPath);
-    sel.textContent = cur
-      ? `Selected: ${cur.name} — ${biomeDisplayName(getBiomeForCatalogEntry(cur))} · ${cur.width}×${cur.height}`
-      : "Select a map below (optional — defaults apply if none).";
-  }
+    railStrip.appendChild(card);
+  });
+  void redrawMapTheaterMainPreview(tileTypeMap);
   const backPrep = document.getElementById("btn-map-theater-back-prep");
   if (backPrep) {
     backPrep.hidden =
@@ -3733,6 +3795,19 @@ function wireUi() {
     mapTheaterFilterBiome = ev.target.value || "all";
     void renderMapTheater();
   });
+  let mapTheaterLayoutTimer = null;
+  window.addEventListener(
+    "resize",
+    () => {
+      clearTimeout(mapTheaterLayoutTimer);
+      mapTheaterLayoutTimer = setTimeout(() => {
+        if (document.getElementById("screen-maps")?.classList.contains("screen--active")) {
+          void renderMapTheater();
+        }
+      }, 120);
+    },
+    { passive: true },
+  );
   document.getElementById("btn-map-theater-skirmish")?.addEventListener("click", () => {
     void openMapSkirmishLoadout({ returnToPrep: false });
   });
@@ -4069,7 +4144,13 @@ function wireGestures() {
       "#hub-modes, button, a[href], .hub-roster-slot, .hub-toggle-btn, .hub-season-card, .hub-gate",
   });
   addDragScroll(document.getElementById("hub-modes"));
-  addDragScroll(document.getElementById("map-theater-grid"));
+  addDragScroll(document.querySelector("#screen-maps .maps-command.bg-command-maps"), {
+    ignoreFromSelector:
+      ".map-theater-rail, .map-theater-stage, .map-theater-hero, .map-theater-filter-slots, select, button, a[href], canvas",
+  });
+  document.querySelectorAll("#screen-maps .map-theater-rail").forEach((el) => {
+    addDragScroll(el);
+  });
   addDragScroll(document.querySelector("#screen-settings .ctu-metal-frame__content"));
   addDragScroll(document.querySelector("#screen-academy .ctu-metal-frame__content"));
 

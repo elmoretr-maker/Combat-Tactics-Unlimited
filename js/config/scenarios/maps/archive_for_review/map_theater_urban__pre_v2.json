@@ -1,63 +1,584 @@
 {
   "id": "map_theater_urban",
-  "name": "Fallen City",
+  "name": "Fallen City v2",
   "width": 20,
   "height": 16,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_building","cp_grass","cp_grass","cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road","cp_grass","cp_grass","cp_building","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"]
-  ],
-  "destructibles": [
-    {"x":1,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":5,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":6,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":13,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":14,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":17,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":18,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},{"x":2,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},
-    {"x":17,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},{"x":18,"y":4,"hp":80,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":17,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},{"x":18,"y":7,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},{"x":2,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},
-    {"x":17,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},{"x":18,"y":11,"hp":80,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":14,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":14,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":17,"y":14,"hp":90,"brokenTerrain":"cp_rubble"},{"x":18,"y":14,"hp":90,"brokenTerrain":"cp_rubble"}
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "building_block",
+      "building_block",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_road",
+      "building_block",
+      "building_block",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":17,"y":3},
-    {"templateId":"grunt_red","owner":1,"x":17,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":17,"y":9},
-    {"templateId":"grunt_red","owner":1,"x":17,"y":12},
-    {"templateId":"opfor_tank","owner":1,"x":18,"y":5},
-    {"templateId":"opfor_tank","owner":1,"x":18,"y":9},
-    {"templateId":"grunt_red","owner":1,"x":16,"y":7},
-    {"templateId":"grunt_red","owner":1,"x":16,"y":12}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 17,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 17,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 17,
+      "y": 12
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 18,
+      "y": 9
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 16,
+      "y": 7
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 16,
+      "y": 12
+    }
   ],
   "skirmishDeploy": [
-    {"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":9},{"x":2,"y":12},
-    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":9},{"x":3,"y":12}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":9},{"x":2,"y":12},
-    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":9},{"x":3,"y":12}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":17,"y":3},{"x":17,"y":5},{"x":17,"y":9},{"x":17,"y":12},
-    {"x":16,"y":3},{"x":16,"y":5},{"x":16,"y":9},{"x":16,"y":12}
+    {
+      "x": 19,
+      "y": 0
+    },
+    {
+      "x": 19,
+      "y": 1
+    },
+    {
+      "x": 19,
+      "y": 2
+    },
+    {
+      "x": 19,
+      "y": 3
+    },
+    {
+      "x": 19,
+      "y": 4
+    },
+    {
+      "x": 19,
+      "y": 5
+    },
+    {
+      "x": 19,
+      "y": 6
+    },
+    {
+      "x": 19,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_3_11",
+      "footprint": [
+        {
+          "x": 3,
+          "y": 11
+        },
+        {
+          "x": 4,
+          "y": 11
+        },
+        {
+          "x": 3,
+          "y": 12
+        },
+        {
+          "x": 4,
+          "y": 12
+        }
+      ],
+      "entry": {
+        "x": 2,
+        "y": 12
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_86e9833e.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 557975001,
+    "theme": "urban",
+    "biome": "urban",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 2,
+        "y": 12,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_theater_urban",
+      "migratedAt": "2026-04-10T21:54:23.502Z",
+      "environment": "urban",
+      "preservedPresetCount": 6
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": [
+    {
+      "x": 8,
+      "y": 8,
+      "spritePath": "assets/tiles/urban/fire_animation.png",
+      "frameCount": 8,
+      "fps": 10
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "spritePath": "assets/tiles/urban/fire_animation2.png",
+      "frameCount": 8,
+      "fps": 9
+    }
   ]
 }

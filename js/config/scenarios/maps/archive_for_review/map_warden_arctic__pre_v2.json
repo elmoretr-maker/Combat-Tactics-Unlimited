@@ -1,41 +1,351 @@
 {
   "id": "map_warden_arctic",
-  "name": "Northern Passage",
+  "name": "Northern Passage v2",
   "width": 12,
   "height": 10,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"],
-    ["snow","forest","forest","snow","water","water","water","water","snow","forest","forest","snow"],
-    ["snow","forest","snow","snow","snow","water","water","snow","snow","snow","forest","snow"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["snow","snow","hill","hill","snow","water","water","snow","hill","hill","snow","snow"],
-    ["snow","snow","hill","hill","snow","water","water","snow","hill","hill","snow","snow"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["snow","forest","snow","snow","snow","water","water","snow","snow","snow","forest","snow"],
-    ["snow","forest","forest","snow","water","water","water","water","snow","forest","forest","snow"],
-    ["snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow"]
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":10,"y":3},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":6},
-    {"templateId":"opfor_tank","owner":1,"x":11,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":11,"y":6}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 6
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 11,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 11,
+      "y": 6
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":4},{"x":2,"y":5}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":6},
-    {"x":1,"y":4},{"x":1,"y":5},{"x":2,"y":4},{"x":2,"y":5}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":11,"y":3},{"x":11,"y":4},{"x":11,"y":5},{"x":11,"y":6},
-    {"x":10,"y":4},{"x":10,"y":5},{"x":9,"y":4},{"x":9,"y":5}
-  ]
+    {
+      "x": 11,
+      "y": 0
+    },
+    {
+      "x": 11,
+      "y": 1
+    },
+    {
+      "x": 11,
+      "y": 2
+    },
+    {
+      "x": 11,
+      "y": 3
+    },
+    {
+      "x": 11,
+      "y": 4
+    },
+    {
+      "x": 11,
+      "y": 5
+    },
+    {
+      "x": 11,
+      "y": 6
+    },
+    {
+      "x": 11,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_2_4",
+      "footprint": [
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        }
+      ],
+      "entry": {
+        "x": 3,
+        "y": 6
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_2672df40.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 205380325,
+    "theme": "grass",
+    "biome": "forest",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 3,
+        "y": 6,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_warden_arctic",
+      "migratedAt": "2026-04-10T21:54:23.440Z",
+      "environment": "arctic",
+      "preservedPresetCount": 5
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }

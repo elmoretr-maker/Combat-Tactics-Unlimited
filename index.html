@@ -418,73 +418,109 @@
       </div>
     </section>
 
-    <!-- ── MAP THEATER (pick battlefield for skirmish / hotseat) ─ -->
+    <!-- ── MAP THEATER — procedural inventory-style frame (ref: cp_frame_inventory); camo + hub roster chrome ─ -->
     <section id="screen-maps" class="screen" aria-label="Map theater" hidden>
       <div class="ctu-cyber-hybrid" data-ctu-cyber="maps">
         <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
         <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
         <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
         <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
-      <div class="ctu-metal-frame ctu-metal-frame--grow ctu-metal-frame--cyber-blend">
-        <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
-        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-        <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
-        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
-        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
-        <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
-        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
-        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
-        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
-        <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
-        <div class="ctu-metal-frame__content panel panel--wide map-theater ctu-metal-frame__content--panel">
-        <h2>Map theater</h2>
-        <p class="muted small">Click a map to <strong>select</strong> it (highlighted). Then use <strong>Vs CPU on map</strong> to pick your squad and fight, or return to <strong>Vs CPU setup</strong> if you came from there. For <strong>1v1 hotseat</strong>, select a map here first, then open Hotseat. Cards show <strong>biome</strong> (unified with procedural mapgen), map size, a short description, and a color preview from terrain.</p>
-        <div class="map-theater-filters">
-          <label class="map-theater-filter">
-            <span>Size</span>
-            <select id="map-filter-size" aria-label="Filter by map size">
-              <option value="all">All sizes</option>
-              <option value="small">Small (compact)</option>
-              <option value="medium">Medium (warden)</option>
-              <option value="large">Large (sector)</option>
-              <option value="grand">Grand (theater)</option>
-            </select>
-          </label>
-          <label class="map-theater-filter">
-            <span>Biome</span>
-            <select id="map-filter-biome" aria-label="Filter by biome">
-              <option value="all">All biomes</option>
-              <option value="forest">Forest</option>
-              <option value="desert">Desert</option>
-              <option value="winter">Winter</option>
-              <option value="urban">Urban</option>
-            </select>
-          </label>
-          <label class="map-theater-filter">
-            <span>Environment (legacy)</span>
-            <select id="map-filter-env" aria-label="Filter by legacy environment">
-              <option value="all">All</option>
-              <option value="urban">Urban / city</option>
-              <option value="wild">Wild / forest</option>
-              <option value="desert">Desert</option>
-              <option value="arctic">Arctic / river</option>
-              <option value="mixed">Mixed theater</option>
-            </select>
-          </label>
+        <div class="maps-command bg-command-maps">
+          <div class="map-theater">
+            <div class="hub-roster-cp-frame hub-roster-cp-frame--metal map-theater-cp-frame" aria-label="Map theater inventory">
+              <div class="hub-roster-cp-frame__noise" aria-hidden="true"></div>
+              <div class="hub-roster-cp-frame__wear" aria-hidden="true"></div>
+              <div class="hub-roster-cp-frame__face" aria-hidden="true"></div>
+              <header class="hub-roster-cp-frame__plate">
+                <span class="hub-roster-cp-frame__title">Map theater</span>
+              </header>
+              <div class="hub-roster-cp-frame__body map-theater-cp-frame__body">
+                <p class="muted small map-theater-hint">
+                  <strong>Scroll the row</strong> of square previews to pick a map. <strong>Large screen</strong> shows the active terrain.
+                  <strong>Filters</strong> narrow the row; then <strong>Vs CPU on map</strong> or hotseat.
+                </p>
+                <div class="map-theater-shell">
+                  <!-- cp_frame_map: large preview, horizontal square thumb strip, then filters (see asset) -->
+                  <div class="map-theater-stage" aria-label="Map previews">
+                    <div class="map-theater-hero">
+                      <div class="map-theater-hero__frame">
+                        <canvas
+                          id="map-theater-main-preview"
+                          width="360"
+                          height="220"
+                          aria-label="Selected map terrain preview"
+                        ></canvas>
+                      </div>
+                      <p id="map-theater-selected" class="map-theater-selected muted small" aria-live="polite"></p>
+                    </div>
+                    <div
+                      id="map-theater-rail-strip"
+                      class="map-theater-rail map-theater-rail--strip"
+                      role="list"
+                      aria-label="Map thumbnails, horizontal scroll"
+                    ></div>
+                  </div>
+                  <section class="map-theater-section map-theater-section--filters" aria-labelledby="map-theater-filters-heading">
+                    <h3 id="map-theater-filters-heading" class="map-theater-section__heading">Catalog filters</h3>
+                    <p class="map-theater-section__subtle muted small">Narrow which maps appear in the thumbnail row.</p>
+                    <div class="map-theater-filter-slots">
+                      <div class="map-theater-slot-row">
+                        <label class="map-theater-slot-row__field">
+                          <span class="map-theater-slot-row__label">Size</span>
+                          <select id="map-filter-size" class="map-theater-slot-select" aria-label="Filter by map size">
+                            <option value="all">All sizes</option>
+                            <option value="small">Small (compact)</option>
+                            <option value="medium">Medium (warden)</option>
+                            <option value="large">Large (sector)</option>
+                            <option value="grand">Grand (theater)</option>
+                          </select>
+                        </label>
+                        <span class="map-theater-slot-accent" aria-hidden="true"></span>
+                      </div>
+                      <div class="map-theater-slot-row">
+                        <label class="map-theater-slot-row__field">
+                          <span class="map-theater-slot-row__label">Biome</span>
+                          <select id="map-filter-biome" class="map-theater-slot-select" aria-label="Filter by biome">
+                            <option value="all">All biomes</option>
+                            <option value="forest">Forest</option>
+                            <option value="desert">Desert</option>
+                            <option value="winter">Winter</option>
+                            <option value="urban">Urban</option>
+                          </select>
+                        </label>
+                        <span class="map-theater-slot-accent" aria-hidden="true"></span>
+                      </div>
+                      <div class="map-theater-slot-row">
+                        <label class="map-theater-slot-row__field">
+                          <span class="map-theater-slot-row__label">Environment (legacy)</span>
+                          <select id="map-filter-env" class="map-theater-slot-select" aria-label="Filter by legacy environment">
+                            <option value="all">All</option>
+                            <option value="urban">Urban / city</option>
+                            <option value="wild">Wild / forest</option>
+                            <option value="desert">Desert</option>
+                            <option value="arctic">Arctic / river</option>
+                            <option value="mixed">Mixed theater</option>
+                          </select>
+                        </label>
+                        <span class="map-theater-slot-accent" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--nw" aria-hidden="true"></span>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--ne" aria-hidden="true"></span>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--sw" aria-hidden="true"></span>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--se" aria-hidden="true"></span>
+            </div>
+            <div class="row-actions map-theater-actions">
+              <button type="button" id="btn-map-theater-skirmish" class="cta">Vs CPU on map</button>
+              <button type="button" id="btn-map-theater-hotseat" class="btn">Use map · hotseat setup</button>
+              <button type="button" id="btn-map-theater-back-prep" class="btn btn--ghost" hidden>← Mission setup</button>
+              <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+            </div>
+          </div>
         </div>
-        <p id="map-theater-selected" class="map-theater-selected muted small"></p>
-        <div id="map-theater-grid" class="map-theater-grid" role="list"></div>
-        <div class="row-actions map-theater-actions">
-          <button type="button" id="btn-map-theater-skirmish" class="cta">Vs CPU on map</button>
-          <button type="button" id="btn-map-theater-hotseat" class="btn">Use map · hotseat setup</button>
-          <button type="button" id="btn-map-theater-back-prep" class="btn btn--ghost" hidden>← Mission setup</button>
-          <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
-        </div>
-        </div>
-      </div>
       </div>
     </section>
 

@@ -412,23 +412,34 @@ button *,
   font-size: 0;
   line-height: 0;
 }
-#app button.map-theater-card {
+#app button.map-theater-thumb {
   background-image: none;
-  background: rgba(20, 28, 40, 0.95);
-  border: 1px solid #2a3545;
-  border-radius: 8px;
-  box-shadow: none;
   min-height: 0;
   text-shadow: none;
   color: var(--text);
+  box-shadow: none;
 }
-#app button.map-theater-card:hover {
-  border-color: var(--accent);
+#app button.map-theater-thumb:hover {
+  filter: brightness(1.05);
 }
-#app button.map-theater-card.map-theater-card--selected {
-  border-color: var(--led-green);
-  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.25);
+#app button.map-theater-thumb.map-theater-thumb--selected {
+  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.28);
 }
+
+/* Map theater bottom row: toggle bitmap in padding band only; label text in content box below (no overlap) */
+#app #screen-maps .map-theater-actions.row-actions button {
+  display: block;
+  box-sizing: border-box;
+  min-height: 0;
+  /* Reserve top band for rocker art — text starts below this padding */
+  padding: calc(2.55rem + 0.35rem) 0.75rem 0.5rem;
+  background-size: auto 2.55rem;
+  background-position: center 0.28rem;
+  background-repeat: no-repeat;
+  line-height: 1.28;
+  text-align: center;
+}
+
 #app button.lp-dock-go {
   background-image: none;
   background-color: transparent;
@@ -694,9 +705,10 @@ button *,
   min-height: 10rem;
 }
 
-/* Hub / Codex command bg — landing ERDL camo (replaces carbon grid) */
+/* Hub / Codex / Maps command bg — landing ERDL camo (replaces carbon grid) */
 .hub-command.bg-command-hub,
-.codex-command.bg-command-codex {
+.codex-command.bg-command-codex,
+.maps-command.bg-command-maps {
   background-color: #4a523f;
   background-image: url("../attached_assets/landing_camo_backdrop.png");
   background-position: center;

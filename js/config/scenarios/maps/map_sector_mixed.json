@@ -33,25 +33,7 @@
       "cp_grass",
       "cp_grass",
       "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass"
-    ],
-    [
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
+      "cp_road",
       "cp_grass",
       "cp_grass",
       "cp_grass",
@@ -92,6 +74,24 @@
       "cp_grass",
       "cp_grass",
       "cp_grass",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "water_urban",
+      "water_urban",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
       "cp_grass",
       "cp_grass",
       "cp_grass",
@@ -100,42 +100,10 @@
     ],
     [
       "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass"
-    ],
-    [
-      "cp_grass",
-      "water",
-      "water",
-      "water",
-      "water",
-      "water",
-      "water",
-      "cp_grass",
-      "water",
-      "water",
-      "water",
-      "water",
-      "water",
-      "water",
-      "water",
-      "cp_grass"
-    ],
-    [
-      "cp_grass",
+      "water_urban",
+      "water_urban",
+      "water_urban",
+      "water_urban",
       "cp_grass",
       "cp_grass",
       "building_block",
@@ -146,6 +114,20 @@
       "cp_grass",
       "cp_grass",
       "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "water_urban",
+      "cp_grass",
+      "cp_grass",
+      "building_block",
+      "building_block",
+      "cp_road",
+      "cp_grass",
       "cp_grass",
       "cp_grass",
       "cp_grass",
@@ -155,15 +137,15 @@
     [
       "cp_grass",
       "cp_grass",
+      "cp_road",
       "cp_grass",
-      "building_block",
-      "building_block",
+      "water_urban",
+      "water_urban",
+      "water_urban",
+      "water_urban",
       "cp_grass",
       "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
-      "cp_grass",
+      "cp_road",
       "cp_grass",
       "cp_grass",
       "cp_grass",
@@ -183,7 +165,7 @@
       "cp_grass",
       "cp_grass",
       "cp_grass",
-      "cp_grass",
+      "cp_road",
       "cp_grass",
       "cp_grass",
       "cp_grass"
@@ -192,6 +174,24 @@
       "cp_grass",
       "cp_grass",
       "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_road",
       "cp_grass",
       "cp_grass",
       "cp_grass",
@@ -360,178 +360,33 @@
       "y": 7
     }
   ],
-  "mapObjects": [
-    {
-      "id": "obj_7_5_yoe6w",
-      "x": 7,
-      "y": 5,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_68f47d7c.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_5_7_6389i",
-      "x": 5,
-      "y": 7,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_9c85a7ed.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_6_8_tbj23",
-      "x": 6,
-      "y": 8,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_6524b622.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_10_9_k21u4",
-      "x": 10,
-      "y": 9,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Strip_d81af864.png",
-      "visualKind": "strip",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_2_5_1oc8o",
-      "x": 2,
-      "y": 5,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Strip_3ef9a1b8.png",
-      "visualKind": "strip",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_10_5_3e5l2",
-      "x": 10,
-      "y": 5,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_3278bfec.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_10_10_69rvo",
-      "x": 10,
-      "y": 10,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_38a709a5.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_5_9_538dg",
-      "x": 5,
-      "y": 9,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_14d8ec31.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_4_10_u8i4g",
-      "x": 4,
-      "y": 10,
-      "sprite": "assets/obstacles/urban/Obstacle_Urban_Prop_95096f7f.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_7_10_omeiy",
-      "x": 7,
-      "y": 10,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_b238d5ef.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_7_4_oq04w",
-      "x": 7,
-      "y": 4,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Strip_3ef9a1b8.png",
-      "visualKind": "strip",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_14_7_g5uas",
-      "x": 14,
-      "y": 7,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_14d8ec31.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_9_10_bye2t",
-      "x": 9,
-      "y": 10,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_6524b622.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_11_8_ysgs4",
-      "x": 11,
-      "y": 8,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_14d8ec31.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_12_8_c0d9l",
-      "x": 12,
-      "y": 8,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Strip_3ef9a1b8.png",
-      "visualKind": "strip",
-      "blocksMove": true,
-      "blocksLos": true
-    },
-    {
-      "id": "obj_9_5_ugo14",
-      "x": 9,
-      "y": 5,
-      "sprite": "assets/units/vehicles/Obstacle_Urban_Prop_786c0f3a.png",
-      "visualKind": "crate",
-      "blocksMove": true,
-      "blocksLos": true
-    }
-  ],
+  "mapObjects": [],
   "buildings": [
     {
-      "id": "bld_3_7",
+      "id": "bld_7_5",
       "footprint": [
         {
-          "x": 3,
-          "y": 7
+          "x": 7,
+          "y": 5
         },
         {
-          "x": 4,
-          "y": 7
+          "x": 8,
+          "y": 5
         },
         {
-          "x": 3,
-          "y": 8
+          "x": 7,
+          "y": 6
         },
         {
-          "x": 4,
-          "y": 8
+          "x": 8,
+          "y": 6
         }
       ],
       "entry": {
-        "x": 3,
-        "y": 9
+        "x": 9,
+        "y": 6
       },
-      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_9c86ff08.png",
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_2672df40.png",
       "interiorProps": []
     }
   ],
@@ -539,139 +394,330 @@
     "version": 1,
     "seed": 1308939435,
     "theme": "urban",
+    "biome": "urban",
     "dividerConnectorCount": 0,
+    "connectorLog": [],
     "flowConnectors": [
       {
-        "x": 1,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 2,
-        "variant": "end_e",
+        "x": 6,
+        "y": 1,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 2
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 11,
+        "y": 3,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "terrainId": "water_urban",
+        "mask": 6,
+        "variant": "corner_se",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 2,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
+        "y": 4,
+        "terrainId": "water_urban",
+        "mask": 12,
+        "variant": "corner_sw",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 7,
+        "y": 4,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 1,
+        "y": 5,
+        "terrainId": "water_urban",
+        "mask": 3,
+        "variant": "corner_ne",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 2,
+        "y": 5,
+        "terrainId": "water_urban",
+        "mask": 11,
+        "variant": "t_new",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 3,
-        "y": 6,
-        "terrainId": "water",
+        "y": 5,
+        "terrainId": "water_urban",
         "mask": 10,
         "variant": "straight_ew",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 4,
+        "y": 5,
+        "terrainId": "water_urban",
+        "mask": 12,
+        "variant": "corner_sw",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 4,
         "y": 6,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
+        "terrainId": "water_urban",
+        "mask": 5,
+        "variant": "straight_ns",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
-      },
-      {
-        "x": 5,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
-      },
-      {
-        "x": 6,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 8,
-        "variant": "end_w",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
-      },
-      {
-        "x": 8,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 2,
-        "variant": "end_e",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 2
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 9,
         "y": 6,
-        "terrainId": "water",
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 2,
+        "y": 7,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 4,
+        "y": 7,
+        "terrainId": "water_urban",
+        "mask": 3,
+        "variant": "corner_ne",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 5,
+        "y": 7,
+        "terrainId": "water_urban",
         "mask": 10,
         "variant": "straight_ew",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
-        "x": 10,
-        "y": 6,
-        "terrainId": "water",
+        "x": 6,
+        "y": 7,
+        "terrainId": "water_urban",
         "mask": 10,
         "variant": "straight_ew",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
-        "x": 11,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
-      },
-      {
-        "x": 12,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
-      },
-      {
-        "x": 13,
-        "y": 6,
-        "terrainId": "water",
-        "mask": 10,
-        "variant": "straight_ew",
-        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
-      },
-      {
-        "x": 14,
-        "y": 6,
-        "terrainId": "water",
+        "x": 7,
+        "y": 7,
+        "terrainId": "water_urban",
         "mask": 8,
         "variant": "end_w",
         "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
-        "spriteSheetFrame": 3
+        "spriteSheetFrame": 3,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 10,
+        "y": 7,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       },
       {
         "x": 3,
+        "y": 8,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 7,
         "y": 9,
         "terrainId": "cp_road",
         "mask": 0,
         "variant": "isolated",
-        "spritePath": null,
-        "spriteSheetFrame": 0
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      },
+      {
+        "x": 2,
+        "y": 10,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
       }
     ],
     "migration": {
       "tool": "migrate_maps.mjs",
       "catalogId": "map_sector_mixed",
-      "migratedAt": "2026-04-04T20:31:52.624Z",
+      "migratedAt": "2026-04-10T21:58:25.284Z",
       "environment": "mixed",
       "preservedPresetCount": 5
     }

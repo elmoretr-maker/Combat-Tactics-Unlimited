@@ -1,51 +1,372 @@
 {
   "id": "map_warden_urban",
-  "name": "Occupied District",
+  "name": "Occupied District v2",
   "width": 12,
   "height": 10,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_building","cp_building","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_building","cp_building","cp_road"],
-    ["cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_grass","cp_road"],
-    ["cp_road","cp_building","cp_grass","cp_grass","cp_grass","cp_road","cp_road","cp_grass","cp_grass","cp_grass","cp_building","cp_road"],
-    ["cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road","cp_road"]
-  ],
-  "destructibles": [
-    {"x":1,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":9,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":1,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":2,"hp":70,"brokenTerrain":"cp_rubble"},{"x":10,"y":2,"hp":70,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":9,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":4,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},{"x":2,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":9,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},{"x":10,"y":6,"hp":90,"brokenTerrain":"cp_rubble"},
-    {"x":1,"y":8,"hp":70,"brokenTerrain":"cp_rubble"},{"x":10,"y":8,"hp":70,"brokenTerrain":"cp_rubble"}
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "building_block",
+      "building_block",
+      "cp_road",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "building_block",
+      "building_block",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ],
+    [
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass",
+      "cp_grass"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":9,"y":2},
-    {"templateId":"grunt_red","owner":1,"x":9,"y":3},
-    {"templateId":"grunt_red","owner":1,"x":9,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":9,"y":7},
-    {"templateId":"opfor_tank","owner":1,"x":10,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":10,"y":7}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 2
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 3
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 9,
+      "y": 7
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 10,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 10,
+      "y": 7
+    }
   ],
   "skirmishDeploy": [
-    {"x":2,"y":2},{"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":7},
-    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":7},{"x":1,"y":5}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":2,"y":2},{"x":2,"y":3},{"x":2,"y":5},{"x":2,"y":7},
-    {"x":3,"y":3},{"x":3,"y":5},{"x":3,"y":7},{"x":1,"y":5}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":9,"y":2},{"x":9,"y":3},{"x":9,"y":5},{"x":9,"y":7},
-    {"x":8,"y":3},{"x":8,"y":5},{"x":8,"y":7},{"x":10,"y":5}
+    {
+      "x": 11,
+      "y": 0
+    },
+    {
+      "x": 11,
+      "y": 1
+    },
+    {
+      "x": 11,
+      "y": 2
+    },
+    {
+      "x": 11,
+      "y": 3
+    },
+    {
+      "x": 11,
+      "y": 4
+    },
+    {
+      "x": 11,
+      "y": 5
+    },
+    {
+      "x": 11,
+      "y": 6
+    },
+    {
+      "x": 11,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_5_5",
+      "footprint": [
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 6
+        },
+        {
+          "x": 6,
+          "y": 6
+        }
+      ],
+      "entry": {
+        "x": 7,
+        "y": 5
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_28c5fcb1.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 1603852259,
+    "theme": "urban",
+    "biome": "urban",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 7,
+        "y": 5,
+        "terrainId": "cp_road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_warden_urban",
+      "migratedAt": "2026-04-10T21:54:23.414Z",
+      "environment": "urban",
+      "preservedPresetCount": 6
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": [
+    {
+      "x": 4,
+      "y": 5,
+      "spritePath": "assets/tiles/urban/fire_animation.png",
+      "frameCount": 8,
+      "fps": 10
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "spritePath": "assets/tiles/urban/fire_animation2.png",
+      "frameCount": 8,
+      "fps": 9
+    }
   ]
 }

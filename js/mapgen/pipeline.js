@@ -21,7 +21,7 @@ import { resolvePipelineThemeSpec, biomeDisplayName } from "./biome.js";
  * @param {"forest"|"desert"|"winter"|"urban"} [spec.biome] preferred; overrides theme mapping when set
  * @param {Record<string, object>} spec.tileTypes — tileTextures.types only
  * @param {object|null|undefined} [spec.assetManifest] from assetManifest.json
- * @param {boolean} [spec.addRiverStrip]
+ * @param {boolean} [spec.addRiverStrip] meandering water segment for divider/connectors (see foundation.js)
  * @param {number} [spec.maxGenerationAttempts] default 6
  */
 export function generateProceduralScenario(spec) {

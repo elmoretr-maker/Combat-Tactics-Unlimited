@@ -245,7 +245,8 @@ body {
 }
 
 /* Same landing camo treatment as .bg-command-hub */
-.bg-command-codex {
+.bg-command-codex,
+.bg-command-maps {
   background-color: #4a523f;
   background-image: url("../attached_assets/landing_camo_backdrop.png");
   background-position: center;
@@ -268,7 +269,41 @@ body {
   cursor: grabbing;
 }
 
-.codex-command {
+#screen-maps {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+#screen-maps.screen--active > .ctu-cyber-hybrid {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#screen-maps.screen--active > .ctu-cyber-hybrid > .maps-command.bg-command-maps {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  cursor: grab;
+}
+#screen-maps.screen--active > .ctu-cyber-hybrid > .maps-command.bg-command-maps:active {
+  cursor: grabbing;
+}
+
+.codex-command,
+.maps-command {
   max-width: 940px;
   margin: 0 auto;
   width: 100%;
@@ -1671,12 +1706,13 @@ body {
 .codex-detail__scroll,
 .ctu-metal-frame__content,
 .hub-modes-grid,
-#screen-maps .map-theater-grid,
+#screen-maps .map-theater-rail,
 .battle-log__list,
 #codex-detail,
 .codex-detail-frame__body,
 #screen-codex.screen--active > .ctu-cyber-hybrid > .codex-command.bg-command-codex,
-#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub {
+#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub,
+#screen-maps.screen--active > .ctu-cyber-hybrid > .maps-command.bg-command-maps {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -1684,12 +1720,13 @@ body {
 .codex-detail__scroll::-webkit-scrollbar,
 .ctu-metal-frame__content::-webkit-scrollbar,
 .hub-modes-grid::-webkit-scrollbar,
-#screen-maps .map-theater-grid::-webkit-scrollbar,
+#screen-maps .map-theater-rail::-webkit-scrollbar,
 .battle-log__list::-webkit-scrollbar,
 #codex-detail::-webkit-scrollbar,
 .codex-detail-frame__body::-webkit-scrollbar,
 #screen-codex.screen--active > .ctu-cyber-hybrid > .codex-command.bg-command-codex::-webkit-scrollbar,
-#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub::-webkit-scrollbar {
+#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub::-webkit-scrollbar,
+#screen-maps.screen--active > .ctu-cyber-hybrid > .maps-command.bg-command-maps::-webkit-scrollbar {
   display: none;
 }
 
@@ -2242,10 +2279,8 @@ body {
   overflow-y: auto;
 }
 
-/* Map theater: keep chrome fixed, grid is the scroll surface */
-#screen-maps.screen--active .map-theater > h2,
-#screen-maps.screen--active .map-theater > p,
-#screen-maps.screen--active .map-theater-filters,
+/* Map theater: filter strip + actions fixed; stage / rails scroll internally */
+#screen-maps.screen--active .map-theater-section--filters,
 #screen-maps.screen--active .map-theater-actions {
   flex-shrink: 0;
 }
@@ -3208,132 +3243,356 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
   opacity: 1;
   visibility: visible;
 }
-/* ── Map theater — only on #screen-maps (retain: metal frame + filters + scroll grid + actions) ── */
+/* ── Map theater — procedural inventory frame (ref cp_frame_inventory); Hub roster chrome + shell ── */
 #screen-maps .map-theater {
-  max-width: 52rem;
-  margin: 0 auto;
-}
-#screen-maps.screen--active > .ctu-cyber-hybrid {
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: 100%;
-  overflow: hidden;
-}
-#screen-maps.screen--active .map-theater.panel {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-#screen-maps .map-theater-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 0.75rem 0 0.5rem;
-}
-#screen-maps .map-theater-filter {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-#screen-maps .map-theater-filter select {
-  min-width: 11rem;
-  background: #1a2535;
-  color: var(--fg);
-  border: 1px solid #2a3545;
-  border-radius: 6px;
-  padding: 0.35rem 0.5rem;
-  font-size: 0.9rem;
-}
-#screen-maps .map-theater-selected {
-  min-height: 1.25rem;
-}
-#screen-maps .map-theater-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.5rem;
-  margin: 0.75rem 0 1rem;
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: min(55vh, 32rem, 100%);
-  overflow-y: auto;
-  padding: 0.15rem;
-  cursor: grab;
-  -webkit-overflow-scrolling: touch;
-}
-#screen-maps .map-theater-card {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.18rem;
-  text-align: left;
-  padding: 0.55rem 0.65rem;
-  border-radius: 8px;
-  border: 1px solid #2a3545;
-  background: rgba(20, 28, 40, 0.95);
+  gap: 0.45rem;
+  width: 100%;
+  max-width: min(100%, 56rem);
+  margin: 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+}
+#screen-maps .map-theater-cp-frame.hub-roster-cp-frame {
+  width: min(100%, clamp(300px, 96vw, 880px));
+  margin-left: auto;
+  margin-right: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+#screen-maps .map-theater-cp-frame__body.hub-roster-cp-frame__body {
+  padding: 0.4rem 0.55rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+#screen-maps .map-theater-hint {
+  margin: 0.2rem 0 0.45rem;
+  text-align: center;
+  font-size: clamp(0.7rem, 1.5vw, 0.78rem);
+  line-height: 1.45;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Inner HUD panel — matches Codex shell (no bitmap) */
+#screen-maps .map-theater-shell {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(8px, 2vw, 11px);
+  border-radius: 6px;
+  background:
+    linear-gradient(168deg, rgba(58, 64, 54, 0.98) 0%, rgba(32, 36, 30, 0.99) 42%, rgba(20, 24, 19, 1) 100%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.92),
+    0 0 0 2px rgba(90, 118, 95, 0.28),
+    0 0 0 3px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.45),
+    0 14px 36px rgba(0, 0, 0, 0.38);
+  overflow: hidden;
+}
+#screen-maps .map-theater-shell::before {
+  content: "";
+  position: absolute;
+  inset: clamp(8px, 2vw, 11px);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 0;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  box-shadow:
+    0 0 16px rgba(57, 255, 20, 0.06),
+    inset 0 0 32px rgba(0, 0, 0, 0.42);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 10px,
+      rgba(57, 255, 20, 0.045) 10px,
+      rgba(57, 255, 20, 0.045) 11px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 10px,
+      rgba(57, 255, 20, 0.045) 10px,
+      rgba(57, 255, 20, 0.045) 11px
+    ),
+    linear-gradient(180deg, rgba(12, 14, 11, 0.35) 0%, rgba(8, 10, 8, 0.55) 100%);
+  opacity: 0.9;
+}
+#screen-maps .map-theater-section {
+  position: relative;
+  z-index: 1;
+}
+#screen-maps .map-theater-section__heading {
+  margin: 0 0 0.28rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(200, 212, 195, 0.92);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+#screen-maps .map-theater-section__subtle {
+  margin: 0 0 0.45rem;
+  line-height: 1.4;
+}
+#screen-maps .map-theater-section--filters {
+  padding-top: 0.35rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.38);
+}
+/* cp_frame_map: large preview, one horizontal scroll row of square slots + label bars */
+#screen-maps .map-theater-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(0.35rem, 1.2vw, 0.55rem);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#screen-maps .map-theater-rail--strip {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.42rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.45rem 0.35rem 0.4rem;
+  margin: 0;
+  width: 100%;
+  min-height: 0;
+  flex: 0 0 auto;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(10, 14, 12, 0.55) 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(57, 255, 20, 0.14);
+  box-shadow: inset 0 1px 0 rgba(57, 255, 20, 0.06);
+}
+#screen-maps .map-theater-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: 0;
+}
+#screen-maps .map-theater-hero__frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(4px, 1.2vw, 8px);
+  border-radius: 4px;
+  background: linear-gradient(165deg, rgba(14, 18, 14, 0.95) 0%, rgba(6, 8, 7, 0.98) 100%);
+  border: 1px solid rgba(57, 255, 20, 0.28);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(57, 255, 20, 0.06);
+}
+#screen-maps .map-theater-hero__frame canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 2px;
+}
+#screen-maps .map-theater-selected {
+  min-height: 1.25rem;
+  margin: 0.15rem 0 0;
+  padding-top: 0.15rem;
+  line-height: 1.4;
+  text-align: center;
+  font-size: clamp(0.65rem, 1.6vw, 0.76rem);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Square slot + caption bar (ref cp_frame_map — labels do not overlap previews or actions) */
+#screen-maps .map-theater-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  flex: 0 0 auto;
+  width: 4rem;
+  min-width: 3.5rem;
+  max-width: 4.35rem;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+  border: 1px solid rgba(57, 255, 20, 0.22);
+  background: rgba(8, 12, 10, 0.92);
   color: var(--fg);
   cursor: pointer;
   font: inherit;
+  text-align: center;
+  overflow: hidden;
   transition: border-color 0.12s, box-shadow 0.12s;
 }
-#screen-maps .map-theater-card__row {
+#screen-maps .map-theater-thumb__preview-wrap {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  aspect-ratio: 1;
+  min-height: 0;
+  flex-shrink: 0;
+  border-radius: 3px 3px 0 0;
+  overflow: hidden;
+  background: #0a0e0c;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 0;
 }
-#screen-maps .map-theater-card__preview {
-  flex: 0 0 auto;
+#screen-maps .map-theater-thumb:hover {
+  border-color: rgba(61, 158, 255, 0.45);
+}
+#screen-maps .map-theater-thumb--selected {
+  border-color: rgba(61, 158, 255, 0.65);
+  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.22);
+}
+#screen-maps .map-theater-thumb__cv {
   display: block;
-  border-radius: 4px;
-  border: 1px solid #2a3545;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  border: 0;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  background: #0f141c;
 }
-#screen-maps .map-theater-card__body {
+#screen-maps .map-theater-thumb__name {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  min-height: 1.2rem;
+  max-height: 1.35rem;
+  padding: 0.12rem 0.2rem 0.14rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: rgba(195, 210, 200, 0.92);
+  background: rgba(0, 0, 0, 0.78);
+  border-top: 1px solid rgba(0, 0, 0, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Bottom horizontal “slots” + accent squares (ref asset) */
+#screen-maps .map-theater-filter-slots {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.18rem;
-  flex: 1;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+}
+#screen-maps .map-theater-slot-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.25rem;
+  gap: 0.4rem;
+  align-items: stretch;
+}
+#screen-maps .map-theater-slot-row__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
   min-width: 0;
 }
-#screen-maps .map-theater-card:hover {
-  border-color: var(--accent);
-}
-#screen-maps .map-theater-card--selected {
-  border-color: var(--led-green);
-  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.25);
-}
-#screen-maps .map-theater-card__name {
-  font-family: var(--font-display);
+#screen-maps .map-theater-slot-row__label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.58rem;
   font-weight: 700;
-  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(160, 180, 170, 0.85);
 }
-#screen-maps .map-theater-card__meta {
-  font-size: 0.68rem;
-  color: var(--muted);
-  line-height: 1.25;
+#screen-maps .map-theater-slot-select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.42rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  background: linear-gradient(180deg, #1c241c 0%, #0c100e 100%);
+  color: var(--fg);
+  font-size: clamp(0.78rem, 2vw, 0.9rem);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-#screen-maps .map-theater-card__blurb {
-  font-size: 0.64rem;
-  color: #5a7060;
-  line-height: 1.3;
-  margin-top: 0.1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+#screen-maps .map-theater-slot-select:focus {
+  outline: 1px solid rgba(61, 158, 255, 0.5);
+  border-color: rgba(61, 158, 255, 0.45);
+}
+#screen-maps .map-theater-slot-accent {
+  border-radius: 4px;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  background: linear-gradient(145deg, rgba(30, 38, 32, 0.95) 0%, rgba(12, 16, 14, 0.98) 100%);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 #screen-maps .map-theater-actions {
+  position: relative;
+  z-index: 4;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.65rem;
+  padding-top: 0.35rem;
+}
+
+@media (max-width: 900px) {
+  #screen-maps .map-theater-cp-frame.hub-roster-cp-frame {
+    width: min(100%, 96vw);
+  }
+  #screen-maps .map-theater-hero__frame {
+    max-height: min(36vh, 300px);
+  }
+  #screen-maps .map-theater-section--filters {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+}
+
+@media (max-width: 560px) {
+  #screen-maps .map-theater-cp-frame.hub-roster-cp-frame {
+    width: min(100%, 100vw);
+  }
+  #screen-maps .map-theater-hint {
+    font-size: 0.65rem;
+    padding: 0 0.15rem;
+  }
+  #screen-maps .map-theater-hero__frame {
+    max-height: min(40vh, 240px);
+  }
+  #screen-maps .map-theater-thumb {
+    width: 3.65rem;
+    min-width: 3.25rem;
+    max-width: 3.95rem;
+  }
+  #screen-maps .map-theater-thumb__name {
+    font-size: 0.45rem;
+    padding-left: 0.14rem;
+    padding-right: 0.14rem;
+  }
 }

@@ -1,49 +1,581 @@
 {
   "id": "map_theater_wild",
-  "name": "The Great Forest",
+  "name": "The Great Forest v2",
   "width": 20,
   "height": 16,
   "cellSize": 48,
-  "winCondition": { "type": "eliminate" },
+  "winCondition": {
+    "type": "eliminate"
+  },
   "terrain": [
-    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"],
-    ["forest","hill","hill","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","hill","hill","forest","forest"],
-    ["forest","hill","plains","plains","forest","water","water","water","water","plains","plains","plains","water","water","water","forest","plains","plains","hill","forest"],
-    ["plains","plains","plains","plains","plains","water","water","water","water","plains","plains","plains","water","water","water","plains","plains","plains","plains","plains"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["plains","hill","hill","plains","plains","plains","plains","plains","hill","hill","plains","hill","hill","plains","plains","plains","plains","hill","hill","plains"],
-    ["plains","hill","hill","plains","plains","plains","plains","plains","hill","hill","plains","hill","hill","plains","plains","plains","plains","hill","hill","plains"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["plains","plains","forest","forest","plains","water","water","plains","plains","plains","plains","plains","water","water","plains","forest","forest","plains","plains","plains"],
-    ["road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road","road"],
-    ["plains","plains","plains","plains","plains","water","water","water","water","plains","plains","plains","water","water","water","plains","plains","plains","plains","plains"],
-    ["forest","hill","plains","plains","forest","water","water","water","water","plains","plains","plains","water","water","water","forest","plains","plains","hill","forest"],
-    ["forest","hill","hill","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","hill","hill","forest","forest"],
-    ["forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest","forest"]
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "building_block",
+      "building_block",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "road",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ],
+    [
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains",
+      "plains"
+    ]
   ],
   "units": [],
   "presetEnemies": [
-    {"templateId":"grunt_red","owner":1,"x":18,"y":4},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":5},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":7},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":10},
-    {"templateId":"opfor_tank","owner":1,"x":19,"y":6},
-    {"templateId":"opfor_tank","owner":1,"x":19,"y":8},
-    {"templateId":"grunt_red","owner":1,"x":17,"y":9},
-    {"templateId":"grunt_red","owner":1,"x":18,"y":11}
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 4
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 5
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 7
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 10
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 19,
+      "y": 6
+    },
+    {
+      "templateId": "opfor_tank",
+      "owner": 1,
+      "x": 19,
+      "y": 8
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 17,
+      "y": 9
+    },
+    {
+      "templateId": "grunt_red",
+      "owner": 1,
+      "x": 18,
+      "y": 11
+    }
   ],
   "skirmishDeploy": [
-    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},{"x":0,"y":10},
-    {"x":1,"y":5},{"x":1,"y":7},{"x":0,"y":11},{"x":1,"y":9}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p1DeploymentSlots": [
-    {"x":0,"y":4},{"x":0,"y":5},{"x":0,"y":7},{"x":0,"y":10},
-    {"x":1,"y":5},{"x":1,"y":7},{"x":0,"y":11},{"x":1,"y":9}
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 7
+    }
   ],
   "p2DeploymentSlots": [
-    {"x":19,"y":4},{"x":19,"y":5},{"x":19,"y":7},{"x":19,"y":10},
-    {"x":18,"y":5},{"x":18,"y":7},{"x":19,"y":11},{"x":18,"y":9}
-  ]
+    {
+      "x": 19,
+      "y": 0
+    },
+    {
+      "x": 19,
+      "y": 1
+    },
+    {
+      "x": 19,
+      "y": 2
+    },
+    {
+      "x": 19,
+      "y": 3
+    },
+    {
+      "x": 19,
+      "y": 4
+    },
+    {
+      "x": 19,
+      "y": 5
+    },
+    {
+      "x": 19,
+      "y": 6
+    },
+    {
+      "x": 19,
+      "y": 7
+    }
+  ],
+  "mapObjects": [],
+  "buildings": [
+    {
+      "id": "bld_11_4",
+      "footprint": [
+        {
+          "x": 11,
+          "y": 4
+        },
+        {
+          "x": 12,
+          "y": 4
+        },
+        {
+          "x": 11,
+          "y": 5
+        },
+        {
+          "x": 12,
+          "y": 5
+        }
+      ],
+      "entry": {
+        "x": 12,
+        "y": 6
+      },
+      "facadeSprite": "assets/buildings/medium/Building_Urban_Medium_5bedd077.png",
+      "interiorProps": []
+    }
+  ],
+  "generator": {
+    "version": 1,
+    "seed": 2967999871,
+    "theme": "grass",
+    "biome": "forest",
+    "dividerConnectorCount": 0,
+    "connectorLog": [],
+    "flowConnectors": [
+      {
+        "x": 12,
+        "y": 6,
+        "terrainId": "road",
+        "mask": 0,
+        "variant": "isolated",
+        "spritePath": "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
+        "spriteSheetFrame": 0,
+        "flowSheet": {
+          "columns": 4,
+          "rows": 1,
+          "frameW": 172,
+          "frameH": 192
+        }
+      }
+    ],
+    "migration": {
+      "tool": "migrate_maps.mjs",
+      "catalogId": "map_theater_wild",
+      "migratedAt": "2026-04-10T21:54:23.513Z",
+      "environment": "wild",
+      "preservedPresetCount": 8
+    }
+  },
+  "fogOfWar": false,
+  "ambientEffects": []
 }
