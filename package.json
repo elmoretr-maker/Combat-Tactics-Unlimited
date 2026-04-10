@@ -30,7 +30,15 @@
     "migrate-attached:dry-run": "node tools/safe_attached_migration/cli.mjs dry-run",
     "migrate-attached:copy": "node tools/safe_attached_migration/cli.mjs copy",
     "migrate-attached:sprite-animations": "node tools/safe_attached_migration/applySpriteAnimationsIfPresent.mjs",
-    "recolor-cyberpunk-gui": "node tools/recolor_cyberpunk_gui.mjs --src \"assets/New_Arrivals/cyberpunk GUI plus more\" --out assets/ui/cyberpunk-tactical"
+    "recolor-cyberpunk-gui": "node tools/recolor_cyberpunk_gui.mjs --src \"assets/New_Arrivals/cyberpunk GUI plus more\" --out assets/ui/cyberpunk-tactical",
+    "organize-cyberpunk-ui": "node tools/organize_cyberpunk_ui_kit.mjs",
+    "extract-cp-windows": "node tools/extract_cp_windows_frames.mjs",
+    "build-ui-master": "node tools/build_ui_master.mjs",
+    "align-cyberpunk-green-ui": "node tools/align_cyberpunk_green_ui.mjs",
+    "unify-ui-assets": "node tools/unify_metal_ui_assets.mjs",
+    "cyberpunk-to-military-unified": "node tools/cyberpunk_to_military_unified.mjs",
+    "process-craftpix-bonus-cyber": "node tools/process_craftpix_bonus_cyber.mjs",
+    "process-combat-frame-cyber": "node tools/process_combat_frame_cyber.mjs"
   },
   "devDependencies": {
     "@xenova/transformers": "^2.17.2",

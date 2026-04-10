@@ -10,7 +10,7 @@ export function defaultSettings() {
     fogOfWar: true,
     visualStyle: "hDef",
     battleZoom: 1.25,
-    /** Craftpix-style bitmap backdrops + metal hybrid (toggle in Settings). */
+    /** Cyberpunk modular UI kit vs default metal chrome (Settings → Cyberpunk UI theme). */
     cyberHudArtEnabled: false,
   };
 }
