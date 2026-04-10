@@ -54,6 +54,12 @@
       <button type="button" class="lp-dock-tag lp-dock-tag--header" data-screen="settings" data-led="green">
         <span class="lp-dock-tag__labels">Settings</span>
       </button>
+      <button type="button" class="lp-dock-tag lp-dock-tag--header" data-screen="maps" data-led="green">
+        <span class="lp-dock-tag__labels">Maps</span>
+      </button>
+      <button type="button" class="lp-dock-tag lp-dock-tag--header" id="nav-header-hotseat" data-screen="hotseat" data-led="yellow">
+        <span class="lp-dock-tag__labels">Hotseat</span>
+      </button>
       <button type="button" class="lp-dock-tag lp-dock-tag--header lp-dock-tag--header-accent" data-screen="classic-menu" data-led="red">
         <span class="lp-dock-tag__labels">Classic</span>
       </button>
@@ -306,12 +312,8 @@
           </div>
         </div>
 
-        <!-- Bottom row: quick access + season signup -->
+        <!-- Bottom row: season signup (Maps / Codex / Settings / Hotseat live in top bar) -->
         <div id="hub-section-access" class="hub-bottom-row">
-          <div class="hub-quick-access">
-            <p class="hub-section-label">Quick access</p>
-            <div id="hub-shortcuts" class="hub-quick-toggles"></div>
-          </div>
           <div id="hub-tournament"></div>
         </div>
 

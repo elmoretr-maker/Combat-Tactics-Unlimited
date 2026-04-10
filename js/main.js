@@ -670,7 +670,7 @@ function showScreen(name, sectionId) {
   if (screenName === "vs-cpu-prep") void openVsCpuPrep();
   if (screenName === "mat-lab-prep") void openMatLabPrep();
   if (screenName === "hub") {
-    renderHubRoster(); renderHubModes(); renderHubShortcuts(); updateGateBanner();
+    renderHubRoster(); renderHubModes(); updateGateBanner();
     /* Carousel lives in hidden hub until now — remeasure so ▲/▼ aren't stuck disabled */
     requestAnimationFrame(() => {
       requestAnimationFrame(updateHubCarouselNav);
@@ -765,10 +765,16 @@ const BULLET_SVG = `<svg class="hub-mode-card__bullet" viewBox="0 0 14 34" aria-
   <ellipse cx="7" cy="8" rx="4" ry="6" fill="#d0a848"/>
 </svg>`;
 
+function syncHeaderHubNav() {
+  const hotNav = document.getElementById("nav-header-hotseat");
+  if (!hotNav) return;
+  hotNav.disabled = !progress.academyComplete;
+}
+
 function updateGateBanner() {
   const el = document.getElementById("hub-gate-banner");
-  if (!el) return;
-  el.hidden = !!progress.academyComplete;
+  if (el) el.hidden = !!progress.academyComplete;
+  syncHeaderHubNav();
 }
 
 function renderHubModes() {
@@ -790,6 +796,7 @@ function renderHubModes() {
       <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
       <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
       <span class="hub-mode-card__icon-box">${iconSvg}</span>
+      <span class="hub-mode-card__switch" aria-hidden="true"></span>
       <span class="hub-mode-card__body">
         <span class="hub-mode-card__title">${m.title}</span>
       </span>
@@ -853,27 +860,6 @@ function renderHubModes() {
   requestAnimationFrame(() => requestAnimationFrame(updateHubCarouselNav));
 }
 
-function renderHubShortcuts() {
-  const host = document.getElementById("hub-shortcuts");
-  if (!host || !hubConfig?.shortcuts) return;
-  host.innerHTML = "";
-  for (const sc of hubConfig.shortcuts) {
-    const gated = sc.requiresAcademy && !progress.academyComplete;
-    const on    = !gated;
-    const btn   = document.createElement("button");
-    btn.type    = "button";
-    btn.className = "hub-toggle-btn" + (gated ? " hub-toggle-btn--locked" : "");
-    btn.disabled  = gated;
-    const ic = sc.icon ? `<span class="hub-toggle-icon" aria-hidden="true">${sc.icon}</span>` : "";
-    btn.innerHTML = `${ic}<span class="hub-toggle-label">${sc.label}</span>`;
-    btn.addEventListener("click", () => {
-      if (btn.disabled) return;
-      if (sc.screen === "maps") mapsReturnTarget = null;
-      showScreen(sc.screen);
-    });
-    host.appendChild(btn);
-  }
-}
 
 function renderHubRoster() {
   /* stats bar */
@@ -3262,7 +3248,6 @@ function handleBattleEnd() {
   AudioManager.play(game.winner === 0 ? "Victory" : "Defeat");
   renderHubRoster();
   renderHubModes();
-  renderHubShortcuts();
   updateGateBanner();
   showResultOverlay();
 }
@@ -3548,7 +3533,7 @@ async function initApp() {
   try {
     await wireCloudProgress(
       () => progress,
-      (p) => { progress = p; saveProgress(p, { skipCloud: true }); renderHubRoster(); renderHubShortcuts(); }
+      (p) => { progress = p; saveProgress(p, { skipCloud: true }); renderHubRoster(); updateGateBanner(); }
     );
   } catch (e) {
     console.warn("[CTU] Cloud sync unavailable", e);
@@ -3556,7 +3541,6 @@ async function initApp() {
 
   renderHubRoster();
   renderHubModes();
-  renderHubShortcuts();
   updateGateBanner();
 }
 
@@ -3887,7 +3871,7 @@ function wireUi() {
     if (!confirm("Reset ALL progress? This cannot be undone.")) return;
     localStorage.removeItem("ctu_progress_v1");
     progress = loadProgress();
-    renderHubRoster(); renderHubModes(); renderHubShortcuts(); updateGateBanner();
+    renderHubRoster(); renderHubModes(); updateGateBanner();
     showScreen("hub");
   });
 

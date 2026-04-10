@@ -481,17 +481,40 @@ button *,
   background-size: auto;
 }
 
-/* Hub mode row button — layout + rivets only (toggle is bg) */
+/* Hub mode row — toggle bitmap only on .hub-mode-card__switch; title sits in .hub-mode-card__body */
+#app button.hub-mode-card {
+  background-image: none;
+  background-color: rgba(12, 16, 14, 0.88);
+  background-size: auto;
+  border: 1px solid #3a4245;
+  border-radius: 8px;
+}
+
 .hub-mode-card {
   position: relative;
   display: flex;
   align-items: stretch;
   width: 100%;
   min-height: var(--ctu-toggle-min-h);
-  padding: 0 0.5rem;
+  padding: 0;
   border-radius: 0;
   text-align: left;
-  overflow: visible;
+  overflow: hidden;
+}
+
+/* Rocker / switch art — left column only (not under title) */
+.hub-mode-card__switch {
+  flex: 0 0 clamp(56px, 18vw, 76px);
+  align-self: stretch;
+  min-height: var(--ctu-toggle-min-h);
+  background-color: transparent;
+  background-image: var(--ctu-toggle);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: auto 100%;
+  border: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.45);
+  box-shadow: inset -2px 0 8px rgba(0, 0, 0, 0.25);
 }
 
 .hub-mode-card__toggle {
@@ -508,24 +531,27 @@ button *,
 }
 
 .hub-mode-card__icon-box {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.22);
   border: none;
-  min-width: 48px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 44px;
+  width: 44px;
 }
 
 .hub-mode-card__title {
   font-family: var(--font-display);
-  font-size: 0.82rem;
+  font-size: 0.64rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: #c8e2c8;
-  text-align: center;
-  flex: 1;
+  text-align: left;
+  flex: 1 1 auto;
+  min-width: 0;
   text-shadow:
     0 0 1px #000,
-    0 0 8px rgba(57, 255, 20, 0.35),
-    0 0 14px rgba(143, 179, 148, 0.4);
+    0 0 6px rgba(57, 255, 20, 0.28),
+    0 0 10px rgba(143, 179, 148, 0.35);
 }
 
 .hub-mode-card--locked {
@@ -705,20 +731,13 @@ button *,
   min-height: 10rem;
 }
 
-/* Hub command bg = carbon grid only (no plate tile) */
+/* Hub command bg — landing ERDL camo (replaces carbon grid) */
 .hub-command.bg-command-hub {
-  background-image:
-    linear-gradient(45deg, rgba(17, 17, 17, 0.88) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(17, 17, 17, 0.88) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(17, 17, 17, 0.88) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(17, 17, 17, 0.88) 75%);
-  background-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px;
-  background-color: #0c0f11;
-  border: none;
-}
-
-.hub-gate {
-  background-color: rgba(55, 38, 6, 0.94);
+  background-color: #4a523f;
+  background-image: url("../attached_assets/landing_camo_backdrop.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   border: none;
 }
 

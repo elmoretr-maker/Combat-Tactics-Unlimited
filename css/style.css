@@ -922,15 +922,13 @@ body {
   --phosphor-text:   #8fb394;
 }
 
-/* Carbon fiber background — 8px tile for visible weave */
+/* Hub scroll surface — same ERDL camo raster as landing (#screen-landing .lp-landing-poster-bg) */
 .bg-command-hub {
-  background-color: #0c0f11;
-  background-image:
-    linear-gradient(45deg,  rgba(17,17,17,0.9) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(17,17,17,0.9) 25%, transparent 25%),
-    linear-gradient(45deg,  transparent 75%, rgba(17,17,17,0.9) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(17,17,17,0.9) 75%);
-  background-size: 8px 8px;
+  background-color: #4a523f;
+  background-image: url("../attached_assets/landing_camo_backdrop.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* Stencil/CRT phosphor font utility */
@@ -984,20 +982,35 @@ body {
   cursor: grabbing;
 }
 
-/* ── Gate banner ── */
+/* ── Gate banner (olive plate — matches hub roster / command-strip greens) ── */
 .hub-gate {
   display: flex;
   align-items: flex-start;
   gap: 0.85rem;
   padding: 0.85rem 1rem;
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(110,65,0,0.92) 0%, rgba(85,50,0,0.96) 100%);
-  border: 1px solid #8a5a10;
-  box-shadow: 0 2px 14px rgba(200,120,0,0.18);
+  background: linear-gradient(135deg, rgba(52, 58, 44, 0.96) 0%, rgba(32, 38, 28, 0.98) 100%);
+  border: 1px solid rgba(90, 110, 88, 0.5);
+  box-shadow:
+    0 2px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 .hub-gate[hidden] { display: none; }
-.hub-gate__lock { font-size: 1.5rem; flex-shrink: 0; filter: drop-shadow(0 0 6px rgba(255,185,0,0.45)); line-height: 1.2; }
-.hub-gate__text { color: #f0b030; font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; line-height: 1.35; margin: 0; }
+.hub-gate__lock {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+  line-height: 1.2;
+}
+.hub-gate__text {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0;
+}
 
 /* ── Stats bar ── */
 .hub-stats-bar {
@@ -1335,16 +1348,30 @@ body {
 .hub-mode-card__icon-box svg { width: 26px; height: 26px; color: var(--phosphor-text); }
 .hub-mode-card--locked .hub-mode-card__icon-box svg { color: #3a4a42; }
 
-/* Text body */
-.hub-mode-card__body { flex: 1; padding: 0 0.65rem; display: flex; align-items: center; min-width: 0; }
+/* Text body — to the right of icon + switch; does not cover toggle art */
+.hub-mode-card__body {
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.5rem 0.35rem 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 .hub-mode-card__title {
   font-family: var(--font-display);
-  font-size: 0.85rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.05em;
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--phosphor-text);
-  text-shadow: 0 0 6px rgba(143,179,148,0.38);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  line-height: 1;
+  text-shadow: 0 0 6px rgba(143, 179, 148, 0.35);
+  line-height: 1.2;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-align: left;
 }
 
 /* Bullet casing SVG */
@@ -1685,8 +1712,11 @@ body {
   flex-wrap: wrap;
   padding-top: 0.35rem;
 }
-.hub-quick-access { flex: 1; display: flex; flex-direction: column; gap: 0.55rem; min-width: min(100%, 220px); }
-.hub-quick-toggles { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+#hub-section-access > #hub-tournament {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+}
 
 /* Toggle-style shortcut buttons */
 .hub-toggle-btn {

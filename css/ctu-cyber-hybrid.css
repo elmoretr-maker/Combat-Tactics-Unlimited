@@ -57,13 +57,15 @@
   z-index: 3;
 }
 
+/* Hub: keep camo when cyber backdrop art is on — tint over raster (no carbon weave) */
 #app.ctu-cyber-art-enabled #screen-hub .ctu-cyber-hybrid > .hub-command.bg-command-hub {
-  background-color: rgba(12, 15, 17, 0.42);
+  background-color: #3d4638;
   background-image:
-    linear-gradient(45deg, rgba(17, 17, 17, 0.65) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(17, 17, 17, 0.65) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(17, 17, 17, 0.65) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(17, 17, 17, 0.65) 75%);
+    linear-gradient(180deg, rgba(10, 14, 11, 0.5) 0%, rgba(6, 9, 7, 0.52) 100%),
+    url("../attached_assets/landing_camo_backdrop.png");
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
 }
 
 #app.ctu-cyber-art-enabled .ctu-cyber-hybrid[data-ctu-cyber="prep"] > .panel.panel--wide {
