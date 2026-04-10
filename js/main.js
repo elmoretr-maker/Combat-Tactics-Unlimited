@@ -634,24 +634,6 @@ function applyVisualTheme() {
   const classic = settings?.visualStyle === "classic";
   document.body.classList.toggle("ctu--classic", classic);
   document.body.classList.toggle("ctu--hdef", !classic);
-  const land = document.getElementById("screen-landing");
-  if (land?.classList.contains("screen--active")) {
-    syncV2OpsLayer(!classic);
-  }
-}
-
-/** Modern Ops concierge panel over the cinematic landing (video stays visible behind). */
-function syncV2OpsLayer(show) {
-  const layer = document.getElementById("v2-ops-layer");
-  if (!layer) return;
-  layer.hidden = !show;
-}
-
-async function bootUrbanSiege() {
-  pendingProceduralSkirmishSpec = null;
-  pendingUserMapPath = "js/config/scenarios/urban_siege.json";
-  await openVsCpuPrep();
-  showScreen("vs-cpu-prep");
 }
 
 /* ── Screen routing ───────────────────────────────────── */
@@ -698,11 +680,6 @@ function showScreen(name, sectionId) {
     collapseAllLandingDockPanels();
     const vid = document.getElementById("lp-bg-video");
     if (vid && vid.paused) vid.play().catch(() => {});
-    syncV2OpsLayer(
-      v2Alias || (settings?.visualStyle !== "classic")
-    );
-  } else {
-    syncV2OpsLayer(false);
   }
   /* Document scroll is locked (html/body overflow:hidden); scroll inside scrollable ancestors only */
   window.scrollTo(0, 0);
@@ -3590,12 +3567,6 @@ function wireUi() {
     (ev) => {
       const t = navClickTarget(ev);
       if (!t) return;
-      const urbanBtn = t.closest("#btn-v2-urban");
-      if (urbanBtn) {
-        ev.preventDefault();
-        void bootUrbanSiege();
-        return;
-      }
       const procV2 = t.closest("[data-proc-biome], [data-proc-theme]");
       if (procV2) {
         ev.preventDefault();
@@ -4078,5 +4049,4 @@ initApp()
         (err && err.message ? err.message : String(err))
     );
     showScreen("landing");
-    syncV2OpsLayer(false);
   });

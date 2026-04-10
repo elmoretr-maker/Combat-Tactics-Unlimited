@@ -586,7 +586,13 @@ button *,
 
 /* Dock strip + Modern Ops panel: armored backing (bitmap frame still defines edges) */
 .lp-metal--dock-strip .ctu-metal-frame__plate {
-  background: rgba(4, 7, 10, 0.94) !important;
+  /* Dark olive drab — tactical interior vs. former flat black */
+  background: linear-gradient(
+    180deg,
+    rgba(52, 58, 44, 0.97) 0%,
+    rgba(38, 44, 32, 0.98) 45%,
+    rgba(32, 38, 28, 0.99) 100%
+  ) !important;
 }
 
 /* ops-panel now uses a simple CSS box — no metal frame markup */

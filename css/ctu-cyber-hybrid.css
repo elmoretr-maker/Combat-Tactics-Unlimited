@@ -110,6 +110,11 @@
   display: block;
 }
 
+/* Landing: full-bleed ERDL is .lp-landing-poster-bg — do not paint Interface windows.png over it */
+#app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__art {
+  display: none;
+}
+
 .ctu-cyber-hybrid__scrim {
   position: absolute;
   inset: 0;
@@ -127,6 +132,10 @@
 
 #app.ctu-cyber-art-enabled .ctu-cyber-hybrid .ctu-cyber-hybrid__scrim {
   display: block;
+}
+
+#app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__scrim {
+  display: none;
 }
 
 .ctu-cyber-hybrid__occlude {
@@ -186,6 +195,11 @@
 #app.ctu-cyber-art-enabled .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--top,
 #app.ctu-cyber-art-enabled .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--bottom {
   display: block;
+}
+
+#app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--top,
+#app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--bottom {
+  display: none;
 }
 
 .ctu-cyber-hybrid > .ctu-metal-frame {

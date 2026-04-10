@@ -1609,6 +1609,12 @@ body {
   position: relative;
   z-index: 30;
   width: 100%;
+  /* Depth over .lp-landing-poster-bg — reads as chassis floating above ERDL */
+  box-shadow:
+    0 -10px 42px rgba(8, 12, 10, 0.55),
+    0 -4px 18px rgba(0, 0, 0, 0.4),
+    0 6px 28px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(143, 179, 148, 0.06);
 }
 
 #screen-landing .ctu-cyber-hybrid .lp-dock-shell__content.ctu-metal-frame__content {
