@@ -1475,6 +1475,19 @@ body {
   margin-top: 0;
   padding-top: 0;
 }
+
+/* Full-bleed still behind stage / dock / video; ERDL fabric camo raster (vector fallback: landing_camo_backdrop__vector_erdl.svg) */
+#screen-landing .lp-landing-poster-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #4a523f;
+  background-image: url("../attached_assets/landing_camo_backdrop.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 #screen-landing.screen--active {
   position: fixed;
   inset: 0;

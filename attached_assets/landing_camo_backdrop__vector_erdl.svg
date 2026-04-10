@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ERDL / "leaf" style backdrop (green-dominant lowland family): four-color interlocking
+  organic shapes, black branch strokes, light green highlights — aligned with CTU military-green / phosphor.
+  Seamless tile fills any aspect ratio via pattern repeat.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="none">
+  <defs>
+    <!-- One repeat unit; dense overlap hides tile seams (classic ERDL printed repeat). -->
+    <pattern id="erdlLeaf" width="280" height="280" patternUnits="userSpaceOnUse">
+      <rect width="280" height="280" fill="#434d38"/>
+      <!-- Large dark olive / forest blobs (interlocking ERDL-style) -->
+      <path fill="#2e3528" d="M-20 140 C40 60 120 40 200 80 S300 160 300 300 L-20 300 Z"/>
+      <path fill="#343d2e" d="M180 -30 C260 20 300 100 260 180 S140 260 40 220 L40 -30 Z"/>
+      <ellipse cx="95" cy="210" rx="98" ry="72" fill="#2a3224" transform="rotate(-18 95 210)"/>
+      <ellipse cx="220" cy="95" rx="88" ry="68" fill="#32392c" transform="rotate(22 220 95)"/>
+      <path fill="#2f3626" d="M280 0 C240 40 200 20 160 60 S120 120 180 140 L280 140 Z"/>
+      <path fill="#333a2c" d="M0 0 C40 50 20 100 60 140 S0 200 -20 180 L-20 0 Z"/>
+      <!-- Brown earth tones -->
+      <path fill="#5c4a36" d="M120 200 C180 150 240 180 280 240 L280 280 L80 280 C90 250 100 220 120 200 Z"/>
+      <ellipse cx="45" cy="75" rx="72" ry="58" fill="#4d3f30" transform="rotate(12 45 75)"/>
+      <ellipse cx="200" cy="245" rx="65" ry="52" fill="#554433" transform="rotate(-8 200 245)"/>
+      <path fill="#4a3b2c" d="M0 80 C50 40 100 50 130 100 S100 180 40 200 L0 200 Z"/>
+      <ellipse cx="140" cy="20" rx="48" ry="38" fill="#5a4836"/>
+      <!-- Mid olive (military-green family) -->
+      <ellipse cx="155" cy="145" rx="75" ry="58" fill="#4f5b41" transform="rotate(35 155 145)"/>
+      <path fill="#455238" d="M0 220 C60 200 80 240 40 280 L0 280 Z"/>
+      <ellipse cx="265" cy="40" rx="55" ry="45" fill="#3d4a35"/>
+      <ellipse cx="30" cy="130" rx="52" ry="42" fill="#4a5640" transform="rotate(-30 30 130)"/>
+      <path fill="#3e4a36" d="M200 120 Q240 100 280 140 L280 200 Q230 180 200 160 Z"/>
+      <!-- Black "branch" strokes (ERDL signature) -->
+      <path fill="none" stroke="#141612" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"
+        d="M0 95 Q70 70 140 95 T280 88"/>
+      <path fill="none" stroke="#1a1c14" stroke-width="2.6" stroke-linecap="round"
+        d="M95 0 Q110 90 95 180 T100 280"/>
+      <path fill="none" stroke="#0f100c" stroke-width="2.4" stroke-linecap="round"
+        d="M200 0 Q180 100 220 200 T240 280"/>
+      <path fill="none" stroke="#161814" stroke-width="2.2" stroke-linecap="round"
+        d="M0 200 Q90 170 180 210 T280 195"/>
+      <path fill="none" stroke="#121410" stroke-width="1.8" stroke-linecap="round"
+        d="M40 40 Q120 120 200 60"/>
+      <path fill="none" stroke="#101210" stroke-width="1.6" stroke-linecap="round"
+        d="M150 0 Q170 80 130 160 T160 280"/>
+      <path fill="none" stroke="#151712" stroke-width="2" stroke-linecap="round"
+        d="M0 40 Q80 60 160 30 T280 50"/>
+      <!-- Light green leaf highlights -->
+      <ellipse cx="125" cy="115" rx="28" ry="20" fill="#8faa7a" transform="rotate(-25 125 115)"/>
+      <ellipse cx="230" cy="175" rx="22" ry="16" fill="#8fb394" opacity="0.92"/>
+      <ellipse cx="60" cy="235" rx="18" ry="14" fill="#9aaa82"/>
+      <ellipse cx="175" cy="55" rx="20" ry="14" fill="#a3b58c" opacity="0.88"/>
+      <ellipse cx="248" cy="130" rx="16" ry="12" fill="#7d9670"/>
+      <ellipse cx="85" cy="165" rx="14" ry="10" fill="#95ad82"/>
+      <ellipse cx="195" cy="220" rx="16" ry="11" fill="#8fb394" opacity="0.75"/>
+      <!-- Corner wrap continuity -->
+      <ellipse cx="300" cy="300" rx="90" ry="70" fill="#383f32" transform="translate(-40 -40)"/>
+      <ellipse cx="0" cy="0" rx="85" ry="65" fill="#3a4234" transform="translate(20 20)"/>
+    </pattern>
+    <!-- Very subtle fabric grain (optional depth) -->
+    <filter id="erdlGrain" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="44" result="g"/>
+      <feColorMatrix in="g" type="matrix" result="tint"
+        values="0.25 0 0 0 0
+                0.22 0 0 0 0
+                0.18 0 0 0 0
+                0 0 0 0.06 0"/>
+    </filter>
+    <linearGradient id="uiVignette" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#0f1419" stop-opacity="0.22"/>
+      <stop offset="0.5" stop-color="#0f1419" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0a0c0e" stop-opacity="0.28"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#erdlLeaf)"/>
+  <rect width="1920" height="1080" fill="#4f5b41" filter="url(#erdlGrain)" opacity="1"/>
+  <rect width="1920" height="1080" fill="url(#uiVignette)"/>
+</svg>
