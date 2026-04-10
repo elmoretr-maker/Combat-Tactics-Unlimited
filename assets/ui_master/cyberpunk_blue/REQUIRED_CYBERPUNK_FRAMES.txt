@@ -1,0 +1,17 @@
+Place ONLY manually extracted cyberpunk window PNGs in this folder.
+
+Required filenames (exact):
+- cp_frame_main.png
+- cp_frame_inventory.png
+- cp_frame_compact.png
+- cp_frame_wired.png
+- cp_frame_list.png
+- cp_frame_map.png
+- cp_frame_grid.png
+- cp_frame_plain.png
+- cp_frame_unit_select.png
+
+Optional extra frames: add any cp_frame_*.png (e.g. cp_frame_stats.png) — they are picked up automatically.
+
+Do not use auto-sliced sheet outputs here.
+Then run: node tools/build_ui_master.mjs
