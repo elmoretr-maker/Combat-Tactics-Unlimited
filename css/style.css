@@ -1618,6 +1618,11 @@ body {
   position: relative;
   z-index: 30;
   width: 100%;
+  max-width: calc(100% - clamp(0.75rem, 4vw, 2rem));
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(0.45rem, 1.8vmin, 0.95rem);
+  box-sizing: border-box;
   /* Depth over .lp-landing-poster-bg — reads as chassis floating above ERDL */
   box-shadow:
     0 -10px 42px rgba(8, 12, 10, 0.55),
@@ -1627,7 +1632,7 @@ body {
 }
 
 #screen-landing .ctu-cyber-hybrid .lp-dock-shell__content.ctu-metal-frame__content {
-  padding: 0.35rem 0.65rem 1rem;
+  padding: 0.45rem clamp(0.85rem, 3.5vw, 1.65rem) clamp(1.1rem, 3.2vw, 1.55rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2243,7 +2248,9 @@ body {
   }
   .lp-dock-tag__labels { margin-top: 0.3rem; max-width: 5.25rem; }
   #screen-landing .ctu-cyber-hybrid .lp-dock-shell__content.ctu-metal-frame__content {
-    padding-bottom: 0.85rem;
+    padding-left: clamp(0.65rem, 3vw, 1.1rem);
+    padding-right: clamp(0.65rem, 3vw, 1.1rem);
+    padding-bottom: clamp(0.95rem, 3.5vw, 1.35rem);
   }
   /* Ensure video + hero compress on small screens */
   .lp-cinematic__video { object-position: center top; }
