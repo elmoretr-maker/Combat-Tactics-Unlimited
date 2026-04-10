@@ -361,50 +361,26 @@ button *,
 }
 
 .codex-card__title h2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: fit-content;
+  display: block;
+  width: 100%;
   max-width: 100%;
   margin: 0 0 0.35rem;
-  padding: 0.35rem 1.5rem 0.45rem;
+  padding: 0;
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #e8f4ea;
-  background-image: var(--ctu-unit-label);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: none;
+  background-image: none;
+  text-align: left;
   text-shadow:
     0 0 1px #000,
     0 0 10px rgba(57, 255, 20, 0.4),
     0 0 18px rgba(143, 179, 148, 0.5);
 }
 
-/* Codex sidebar title */
-.codex-sidebar h2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-  margin: 0 0 0.5rem;
-  padding: 0.4rem 1rem 0.5rem;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #e0ece4;
-  background-image: var(--ctu-unit-label);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  text-shadow:
-    0 0 1px #000,
-    0 0 10px rgba(57, 255, 20, 0.4),
-    0 0 16px rgba(143, 179, 148, 0.5);
-}
+/* Codex sidebar title — procedural olive plate only (see .codex-sidebar__title in style.css; no unit_label.png — asset text clashed with heading) */
 
 /* ── Buttons: toggle texture, preserve aspect (height-led) ── */
 #app button {
@@ -425,6 +401,16 @@ button *,
   background-image: none;
   min-height: 0;
   background-size: auto;
+}
+#app button.codex-clear-dossier {
+  background-image: none;
+  background-color: transparent;
+  min-height: 0;
+  box-shadow: none;
+  text-shadow: none;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
 }
 #app button.map-theater-card {
   background-image: none;
@@ -582,32 +568,7 @@ button *,
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.95), 0 0 8px rgba(143, 179, 148, 0.35);
 }
 
-/* Unit tile = button */
-.unit-tile {
-  position: relative;
-  min-height: 118px;
-  padding: 0.45rem 0.35rem 0.35rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-size: auto 55%;
-  background-position: center 18%;
-  border: none;
-  border-radius: 0;
-}
-
-.unit-tile__name {
-  margin-top: auto;
-  width: 100%;
-  padding: 0;
-  background: none;
-  border: none;
-}
-
-.unit-tile .ctu-unit-label-strip {
-  margin-top: 0.25rem;
-}
+/* Codex unit tiles — chrome + stacking: style.css #screen-codex .unit-tile */
 
 /* Academy pick rows */
 .academy-offer {
@@ -678,20 +639,21 @@ button *,
 /* Codex detail: single PNG frame (768×613), content inset matches alpha hole */
 .codex-detail-frame {
   position: relative;
-  flex: 1;
-  min-height: min(70vh, 680px);
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
   min-width: 0;
-  background: #080a0b;
+  background: rgba(8, 12, 10, 0.92);
   isolation: isolate;
 }
 
-/* Opaque fill under PNG — stops bleed-through; repeating steel lives on #screen-codex::before only */
+/* Opaque fill under PNG — olive-tinted to match hub roster chrome */
 .codex-detail-frame::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: #080a0b;
+  background: linear-gradient(165deg, rgba(28, 32, 26, 0.97) 0%, rgba(14, 16, 12, 0.99) 100%);
   pointer-events: none;
 }
 
@@ -723,16 +685,18 @@ button *,
   padding: 0.35rem 0.15rem 0.5rem;
 }
 
-.codex-sidebar > .ctu-cyber-hybrid > .ctu-metal-frame {
-  min-height: min(58vh, 520px);
+#screen-codex .codex-sidebar .ctu-metal-frame {
+  min-height: 0;
+  flex: 1 1 auto;
 }
 
 .codex-detail__scroll {
   min-height: 10rem;
 }
 
-/* Hub command bg — landing ERDL camo (replaces carbon grid) */
-.hub-command.bg-command-hub {
+/* Hub / Codex command bg — landing ERDL camo (replaces carbon grid) */
+.hub-command.bg-command-hub,
+.codex-command.bg-command-codex {
   background-color: #4a523f;
   background-image: url("../attached_assets/landing_camo_backdrop.png");
   background-position: center;

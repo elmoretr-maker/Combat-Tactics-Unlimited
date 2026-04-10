@@ -46,8 +46,9 @@
   position: relative;
 }
 
-/* Hub / classic / prep: primary content above the art stack */
+/* Hub / codex / classic / prep: primary content above the art stack */
 #screen-hub .ctu-cyber-hybrid > .hub-command.bg-command-hub,
+#screen-codex .ctu-cyber-hybrid > .codex-command.bg-command-codex,
 #screen-classic-menu .ctu-cyber-hybrid > .classic-menu-screen__panel,
 #screen-vs-cpu-prep .ctu-cyber-hybrid > .panel,
 #screen-mat-lab-prep .ctu-cyber-hybrid > .panel,
@@ -57,8 +58,9 @@
   z-index: 3;
 }
 
-/* Hub: keep camo when cyber backdrop art is on — tint over raster (no carbon weave) */
-#app.ctu-cyber-art-enabled #screen-hub .ctu-cyber-hybrid > .hub-command.bg-command-hub {
+/* Hub / Codex: keep camo when cyber backdrop art is on — tint over raster (no carbon weave) */
+#app.ctu-cyber-art-enabled #screen-hub .ctu-cyber-hybrid > .hub-command.bg-command-hub,
+#app.ctu-cyber-art-enabled #screen-codex .ctu-cyber-hybrid > .codex-command.bg-command-codex {
   background-color: #3d4638;
   background-image:
     linear-gradient(180deg, rgba(10, 14, 11, 0.5) 0%, rgba(6, 9, 7, 0.52) 100%),
@@ -200,7 +202,9 @@
 }
 
 #app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--top,
-#app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--bottom {
+#app.ctu-cyber-art-enabled #screen-landing .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--bottom,
+#app.ctu-cyber-art-enabled #screen-codex .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--top,
+#app.ctu-cyber-art-enabled #screen-codex .ctu-cyber-hybrid .ctu-cyber-hybrid__occlude--bottom {
   display: none;
 }
 

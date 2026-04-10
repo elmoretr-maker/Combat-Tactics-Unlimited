@@ -543,65 +543,51 @@
       </div>
     </section>
 
-    <!-- ── CODEX ──────────────────────────────── -->
+    <!-- ── CODEX — camo/hybrid unchanged; unit matrix = procedural CSS bezel (no bitmap frame) ── -->
     <section id="screen-codex" class="screen" aria-label="Unit codex" hidden>
-
-      <!-- Unit selection grid — full width -->
-      <div class="codex-layout">
-        <div class="codex-sidebar">
-          <div class="ctu-cyber-hybrid" data-ctu-cyber="codex">
-            <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
-            <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
-            <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
-            <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
-          <div class="ctu-metal-frame ctu-metal-frame--grow ctu-metal-frame--cyber-blend">
-            <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
-            <div class="ctu-metal-frame__content">
-              <h2>Unit Codex</h2>
-              <p class="muted small">Tap a unit to open its dossier.</p>
-              <div id="codex-list" class="codex-list"></div>
-              <div class="row-actions" style="margin-top:1rem">
-                <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
+      <div class="ctu-cyber-hybrid" data-ctu-cyber="codex">
+        <div class="ctu-cyber-hybrid__art" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__scrim" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--top" aria-hidden="true"></div>
+        <div class="ctu-cyber-hybrid__occlude ctu-cyber-hybrid__occlude--bottom" aria-hidden="true"></div>
+        <div class="codex-command bg-command-codex">
+          <div class="codex-select">
+            <div class="hub-roster-cp-frame hub-roster-cp-frame--metal codex-select-frame" aria-label="Unit selection">
+              <div class="hub-roster-cp-frame__noise" aria-hidden="true"></div>
+              <div class="hub-roster-cp-frame__wear" aria-hidden="true"></div>
+              <div class="hub-roster-cp-frame__face" aria-hidden="true"></div>
+              <header class="hub-roster-cp-frame__plate">
+                <span class="hub-roster-cp-frame__title">Unit codex</span>
+              </header>
+              <div class="hub-roster-cp-frame__body codex-select-frame__body">
+                <p class="muted small codex-select-hint">Tap a perimeter slot to view the dossier in the center.</p>
+                <div class="codex-select-shell">
+                  <div id="codex-select-grid" class="codex-select-shell__grid"></div>
+                </div>
               </div>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--nw" aria-hidden="true"></span>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--ne" aria-hidden="true"></span>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--sw" aria-hidden="true"></span>
+              <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--se" aria-hidden="true"></span>
+            </div>
+            <div class="codex-clear-wrap">
+              <button
+                type="button"
+                class="codex-clear-dossier"
+                data-close-dossier
+                aria-labelledby="codex-clear-caption"
+              >
+                <span class="codex-clear-dossier__layer codex-clear-dossier__layer--base" aria-hidden="true"></span>
+                <span class="codex-clear-dossier__layer codex-clear-dossier__layer--hover" aria-hidden="true"></span>
+              </button>
+              <span id="codex-clear-caption" class="codex-clear-wrap__caption">Clear selection</span>
+            </div>
+            <div class="row-actions codex-select__back">
+              <button type="button" class="btn btn--ghost" data-screen="hub">← Hub</button>
             </div>
           </div>
-          </div>
         </div>
       </div>
-
-      <!-- Dossier overlay — hidden off-screen right; slides in on unit select -->
-      <div id="codex-detail" class="codex-detail" aria-hidden="true">
-        <button type="button" class="codex-dossier-close" data-close-dossier aria-label="Close dossier">
-          ← Back to Codex
-        </button>
-        <div class="codex-detail-frame">
-          <img
-            class="codex-detail-frame__img"
-            src="attached_assets/ui/codex_detail_frame.png"
-            alt=""
-            width="768"
-            height="613"
-            decoding="async"
-            aria-hidden="true"
-          />
-          <div class="codex-detail-frame__body">
-            <div id="codex-detail-inner" class="codex-detail__scroll"></div>
-          </div>
-        </div>
-      </div>
-
     </section>
 
     <!-- ── SETTINGS ───────────────────────────── -->

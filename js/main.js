@@ -3255,56 +3255,109 @@ function handleBattleEnd() {
 /* ── Codex ────────────────────────────────────────────── */
 let activeCodexId = null;
 
+function codexEmptySlot() {
+  const d = document.createElement("div");
+  d.className = "hub-roster-slot hub-roster-slot--empty";
+  d.setAttribute("aria-hidden", "true");
+  return d;
+}
+
+/** Hub roster slot chrome + LED; same interaction model as hub roster grid */
+function codexSlotButton(u) {
+  const locked = !isUnlocked(progress, u.id);
+  const isActive = u.id === activeCodexId;
+  const tags = (u.tags || []).filter((t) => t !== "ai");
+  const dotCls = tags.includes("coreA")
+    ? "hub-roster-slot__led--green"
+    : tags.includes("addonB")
+      ? "hub-roster-slot__led--blue"
+      : "hub-roster-slot__led--amber";
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.dataset.unitId = u.id;
+  btn.className =
+    "hub-roster-slot codex-select-slot" +
+    (locked ? " hub-roster-slot--locked" : "") +
+    (isActive ? " codex-select-slot--active" : "");
+  btn.setAttribute(
+    "aria-label",
+    locked ? `${u.displayName} (locked)` : `View dossier: ${u.displayName}`
+  );
+
+  const iconHtml = u.portrait
+    ? `<span class="hub-roster-slot__well"><img src="attached_assets/units/${u.portrait}" alt="" class="hub-roster-slot__icon" width="64" height="64" decoding="async" /></span>`
+    : `<span class="hub-roster-slot__well hub-roster-slot__well--initials"><span class="hub-roster-slot__initials" aria-hidden="true">${unitInitials(u)}</span></span>`;
+
+  btn.innerHTML = `${iconHtml}<span class="hub-roster-slot__led ${dotCls}" aria-hidden="true"></span>`;
+  btn.addEventListener("click", () => selectCodexUnit(u.id));
+  return btn;
+}
+
 function renderCodex() {
-  const list = document.getElementById("codex-list");
-  if (!list || !unitRegistry.length) return;
-  list.innerHTML = "";
+  const grid = document.getElementById("codex-select-grid");
+  if (!grid || !unitRegistry.length) return;
 
-  unitRegistry.forEach((u, idx) => {
-    const locked  = !isUnlocked(progress, u.id);
-    const isActive = u.id === activeCodexId;
+  const rosterUnits = unitRegistry.filter((u) => !u.tags?.includes("ai"));
+  const CODEX_SLOTS = 12;
+  grid.innerHTML = "";
 
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.dataset.unitId = u.id;
-    btn.className = "unit-tile"
-      + (locked   ? " unit-tile--locked" : "")
-      + (isActive ? " unit-tile--active" : "");
+  const left = document.createElement("div");
+  left.className = "codex-select-col codex-select-col--left";
+  for (let i = 0; i < 4; i++) {
+    const u = rosterUnits[i];
+    left.appendChild(u ? codexSlotButton(u) : codexEmptySlot());
+  }
 
-    /* portrait: real PNG or initials fallback */
-    const portraitHtml = u.portrait
-      ? `<div class="unit-tile__img-wrap"><img src="attached_assets/units/${u.portrait}" alt="" class="unit-tile__img" /></div>`
-      : `<div class="unit-tile__ph">${unitInitials(u)}</div>`;
+  const center = document.createElement("div");
+  center.className = "codex-detail codex-select-stage";
+  center.id = "codex-detail";
+  center.setAttribute("aria-label", "Unit dossier");
+  center.innerHTML = `<div id="codex-detail-inner" class="codex-detail__scroll"></div>`;
 
-    /* scan-line on unlocked tiles, staggered by position */
-    const scanDelay = ((idx % 6) * 0.65).toFixed(2);
-    const scanLine  = locked ? "" : `<div class="scan-line" style="animation-delay:${scanDelay}s" aria-hidden="true"></div>`;
+  const right = document.createElement("div");
+  right.className = "codex-select-col codex-select-col--right";
+  for (let i = 4; i < 8; i++) {
+    const u = rosterUnits[i];
+    right.appendChild(u ? codexSlotButton(u) : codexEmptySlot());
+  }
 
-    btn.innerHTML = `
-      ${scanLine}
-      ${portraitHtml}
-      <span class="unit-tile__name">${u.displayName}</span>
-      ${locked ? '<span class="unit-tile__lock" aria-hidden="true">🔒</span>' : ""}`;
+  const bottom = document.createElement("div");
+  bottom.className = "codex-select-bottom";
+  for (let i = 8; i < CODEX_SLOTS; i++) {
+    const u = rosterUnits[i];
+    bottom.appendChild(u ? codexSlotButton(u) : codexEmptySlot());
+  }
 
-    if (!locked) btn.addEventListener("click", () => selectCodexUnit(u.id));
-    list.appendChild(btn);
-  });
+  grid.appendChild(left);
+  grid.appendChild(center);
+  grid.appendChild(right);
+  grid.appendChild(bottom);
 
   if (activeCodexId) selectCodexUnit(activeCodexId);
+  else setCodexDetailPlaceholder();
+}
+
+function setCodexDetailPlaceholder() {
+  const detail = document.getElementById("codex-detail-inner");
+  if (!detail) return;
+  detail.innerHTML = `<p class="codex-detail__placeholder">Select a unit from the list.</p>`;
 }
 
 function closeCodexDossier() {
   const panel = document.getElementById("codex-detail");
-  if (panel) { panel.classList.remove("codex-detail--open"); panel.setAttribute("aria-hidden", "true"); }
+  if (panel) panel.classList.remove("codex-detail--open");
   activeCodexId = null;
-  document.querySelectorAll(".unit-tile").forEach((el) => el.classList.remove("unit-tile--active"));
+  document.querySelectorAll("#screen-codex .codex-select-slot").forEach((el) => {
+    el.classList.remove("codex-select-slot--active");
+  });
+  setCodexDetailPlaceholder();
 }
 
 function selectCodexUnit(id) {
   activeCodexId = id;
-  /* update active state using data-unit-id — reliable, no text matching */
-  document.querySelectorAll(".unit-tile").forEach((el) => {
-    el.classList.toggle("unit-tile--active", el.dataset.unitId === id);
+  document.querySelectorAll("#screen-codex .codex-select-slot").forEach((el) => {
+    el.classList.toggle("codex-select-slot--active", el.dataset.unitId === id);
   });
   const u = unitRegistry.find((u) => u.id === id);
   const detail = document.getElementById("codex-detail-inner");
@@ -3346,14 +3399,10 @@ function selectCodexUnit(id) {
       <p class="muted small" style="margin-top:0.5rem"><strong>Attack:</strong> ${u.attackType === "indirect" ? "Ignores line-of-sight; cannot target within deadspace radius." : "Requires clear line-of-sight for direct attacks."}</p>
     </div>`;
 
-  /* Slide the dossier overlay into view */
   const panel = document.getElementById("codex-detail");
   if (panel) {
     panel.classList.add("codex-detail--open");
-    panel.setAttribute("aria-hidden", "false");
-    /* Re-apply drag scroll each time (content was rebuilt) */
     addDragScroll(detail);
-    addDragScroll(document.querySelector(".codex-detail-frame__body"));
   }
 }
 
@@ -4009,12 +4058,12 @@ function addDragScroll(el, opts) {
 
 function wireGestures() {
   /* Static containers — always in DOM */
-  addDragScroll(document.getElementById("codex-list"));
-  addDragScroll(document.getElementById("codex-detail"));
   addDragScroll(document.getElementById("codex-detail-inner"));
-  addDragScroll(document.querySelector(".codex-detail-frame__body"));
   addDragScroll(document.querySelector(".battle-log__list"));
-  addDragScroll(document.querySelector("#screen-codex .ctu-metal-frame__content"));
+  addDragScroll(document.querySelector("#screen-codex .codex-command.bg-command-codex"), {
+    ignoreFromSelector:
+      "#codex-select-grid, .codex-select-stage, .codex-clear-dossier, button, a[href]",
+  });
   addDragScroll(document.querySelector("#screen-hub .hub-command.bg-command-hub"), {
     ignoreFromSelector:
       "#hub-modes, button, a[href], .hub-roster-slot, .hub-toggle-btn, .hub-season-card, .hub-gate",
