@@ -1463,11 +1463,17 @@ body {
    LANDING PAGE — Full Redesign
    ═══════════════════════════════════════════════════════════ */
 
-/* Landing — immersive app shell: full-viewport stage under header chrome */
+/* Landing — full-viewport stage (top bar hidden while landing is active) */
 #screen-landing {
+  margin: 0;
   padding: 0;
   position: relative;
   overflow: hidden;
+}
+
+#screen-landing .ctu-cyber-hybrid {
+  margin-top: 0;
+  padding-top: 0;
 }
 #screen-landing.screen--active {
   position: fixed;
@@ -1485,6 +1491,11 @@ body {
   isolation: isolate;
 }
 
+#screen-landing .lp-stage-frame {
+  margin: 0;
+  padding: 0;
+}
+
 #screen-landing .ctu-cyber-hybrid .lp-stage-frame.ctu-metal-frame--grow {
   flex: 1 1 auto;
   min-height: 0;
@@ -1498,8 +1509,86 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding: calc(var(--ctu-frame-eh) + 6px) calc(var(--ctu-frame-ew) + 6px)
-    calc(var(--ctu-frame-eh) + 6px) calc(var(--ctu-frame-ew) + 6px);
+  /* Inset handled by .ctu-combat-frame__inner (combat_frame overlay) */
+  padding: 0;
+}
+
+/* Landing video stage only: hide modular metal chrome (replaced by combat_frame.png on .ctu-combat-frame) */
+.lp-stage-frame .ctu-metal-frame__corner,
+.lp-stage-frame .ctu-metal-frame__edge,
+.lp-stage-frame .ctu-metal-frame__plate,
+.lp-stage-frame .ctu-metal-frame__rivet {
+  display: none !important;
+}
+
+/* combat_frame.png is 768×613 — lock proportions for responsive scaling */
+#screen-landing .lp-stage-frame .ctu-combat-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  aspect-ratio: 768 / 613;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  align-self: center;
+}
+
+#screen-landing .lp-stage-frame .ctu-combat-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/ui_master/military_metal_original_green_UI/combat_frame.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/*
+ * Inner window = hole IN combat_frame.png (768×613), not the outer bitmap bounds.
+ * Insets derived from interior bbox ~ (120,119)–(646,505) px (flood-fill from center).
+ * Expressed as fractions of image W/H so they track scale with .ctu-combat-frame::after.
+ */
+#screen-landing .lp-stage-frame .ctu-combat-frame__inner {
+  position: absolute;
+  top: calc(119 / 613 * 100%);
+  left: calc(120 / 768 * 100%);
+  right: calc(121 / 768 * 100%);
+  bottom: calc(107 / 613 * 100%);
+  z-index: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#screen-landing .lp-stage-frame .ctu-combat-frame__inner .lp-cinematic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* Same dimensions as .ctu-combat-frame__inner — video fills this and no larger */
+}
+
+#screen-landing .lp-stage-frame .ctu-combat-frame__inner .lp-cinematic__video,
+#screen-landing .lp-stage-frame .ctu-combat-frame__inner video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 
 #screen-landing .ctu-cyber-hybrid .lp-dock-shell {
@@ -2147,6 +2236,11 @@ body {
 /* ── Battle: black stage + zoom + floating controls ───── */
 #app:has(#screen-battle.screen--active) > header.top-bar {
   display: none;
+}
+
+/* Landing: hide top CTU bar for full-viewport hero (header precedes main; use :has on #app) */
+#app:has(#screen-landing.screen--active) > header.top-bar {
+  display: none !important;
 }
 /*
  * Battle must opt out of global .screen { padding: 1rem } — otherwise
