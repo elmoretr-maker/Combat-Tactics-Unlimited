@@ -887,40 +887,48 @@ function renderHubRoster() {
   if (label)  label.textContent  = progress.academyComplete ? "Academy complete ✓" : "Academy open";
 
   const host = document.getElementById("hub-roster");
-  if (!host || !unitRegistry.length) return;
+  if (!host) return;
+
+  const rosterUnits = unitRegistry.filter((u) => !u.tags?.includes("ai"));
+  const HUB_ROSTER_SLOTS = 20;
   host.innerHTML = "";
 
-  for (const u of unitRegistry) {
-    if (u.tags?.includes("ai")) continue;
+  for (let i = 0; i < HUB_ROSTER_SLOTS; i++) {
+    const u = rosterUnits[i];
+    if (!u) {
+      const empty = document.createElement("div");
+      empty.className = "hub-roster-slot hub-roster-slot--empty";
+      empty.setAttribute("aria-hidden", "true");
+      host.appendChild(empty);
+      continue;
+    }
+
     const unlocked = isUnlocked(progress, u.id);
-
-    /* status dot color: core=green, addonB=blue, else=amber */
     const tags = (u.tags || []).filter((t) => t !== "ai");
-    const dotCls = tags.includes("coreA") ? "hub-dossier__status--green"
-                 : tags.includes("addonB") ? "hub-dossier__status--blue"
-                 : "hub-dossier__status--amber";
+    const dotCls = tags.includes("coreA")
+      ? "hub-roster-slot__led--green"
+      : tags.includes("addonB")
+        ? "hub-roster-slot__led--blue"
+        : "hub-roster-slot__led--amber";
 
-    const card = document.createElement("div");
-    card.className = "hub-dossier" + (unlocked ? "" : " hub-dossier--locked");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className =
+      "hub-roster-slot" + (unlocked ? "" : " hub-roster-slot--locked");
+    btn.setAttribute("aria-label", `${u.displayName} — open in Codex`);
+    btn.title = u.displayName;
 
-    const portraitHtml = u.portrait
-      ? `<img src="attached_assets/units/${u.portrait}" alt="" class="hub-dossier__portrait" />`
-      : `<div class="hub-dossier__ph">${unitInitials(u)}</div>`;
+    const iconHtml = u.portrait
+      ? `<span class="hub-roster-slot__well"><img src="attached_assets/units/${u.portrait}" alt="" class="hub-roster-slot__icon" width="64" height="64" decoding="async" /></span>`
+      : `<span class="hub-roster-slot__well hub-roster-slot__well--initials"><span class="hub-roster-slot__initials" aria-hidden="true">${unitInitials(u)}</span></span>`;
 
-    const tagLabel = tags.length
-      ? `<span class="hub-dossier__tag-star">★</span> ${tags.filter(t => t !== "ai").map(t => t.replace("coreA","AcademyPick").replace("addonB","AddonB")).join(" ")}`
-      : "";
+    btn.innerHTML = `${iconHtml}<span class="hub-roster-slot__led ${dotCls}" aria-hidden="true"></span>`;
 
-    card.innerHTML = `
-      ${portraitHtml}
-      <div class="hub-dossier__meta">
-        <span class="hub-dossier__name">${u.displayName}</span>
-        <span class="hub-dossier__tags">${tagLabel}</span>
-      </div>
-      <span class="hub-dossier__status ${dotCls}"></span>`;
-
-    card.addEventListener("click", () => { showScreen("codex"); selectCodexUnit(u.id); });
-    host.appendChild(card);
+    btn.addEventListener("click", () => {
+      showScreen("codex");
+      selectCodexUnit(u.id);
+    });
+    host.appendChild(btn);
   }
 }
 
@@ -3918,9 +3926,18 @@ function updateHubCarouselNav() {
   btnNext.disabled = sh <= ch || st + ch >= sh - 2;
 }
 
-function addDragScroll(el) {
+function addDragScroll(el, opts) {
   if (!el || el._dragWired) return;
   el._dragWired = true;
+  const ignoreFrom = opts?.ignoreFromSelector
+    ? (e) => {
+        try {
+          return e.target?.closest?.(opts.ignoreFromSelector);
+        } catch {
+          return null;
+        }
+      }
+    : () => null;
 
   let active = false;
   let dragging = false;
@@ -3947,6 +3964,7 @@ function addDragScroll(el) {
   el.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "touch") return; /* native overflow scroll + momentum */
     if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (ignoreFrom(e)) return;
     active = true;
     dragging = false;
     suppressClick = false;
@@ -4013,11 +4031,12 @@ function wireGestures() {
   addDragScroll(document.querySelector(".codex-detail-frame__body"));
   addDragScroll(document.querySelector(".battle-log__list"));
   addDragScroll(document.querySelector("#screen-codex .ctu-metal-frame__content"));
+  addDragScroll(document.querySelector("#screen-hub .hub-command.bg-command-hub"), {
+    ignoreFromSelector:
+      "#hub-modes, button, a[href], .hub-roster-slot, .hub-toggle-btn, .hub-season-card, .hub-gate",
+  });
   addDragScroll(document.getElementById("hub-modes"));
   addDragScroll(document.getElementById("map-theater-grid"));
-  document.querySelectorAll("#screen-hub .hub-roster-panel .ctu-metal-frame__content").forEach((n) => {
-    addDragScroll(n);
-  });
   addDragScroll(document.querySelector("#screen-settings .ctu-metal-frame__content"));
   addDragScroll(document.querySelector("#screen-academy .ctu-metal-frame__content"));
 

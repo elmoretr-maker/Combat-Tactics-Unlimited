@@ -463,6 +463,17 @@ button *,
   opacity: 0.85;
 }
 
+/* Hub roster grid slots — icon cells, not toggle texture */
+#app button.hub-roster-slot {
+  background-image: none;
+  min-height: 0 !important;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  background-size: auto;
+  text-shadow: none;
+}
+
 /* Landing command strip: dial PNGs via ::before only — not the global toggle texture */
 #app button.lp-dock-tag {
   background-image: none;
@@ -618,10 +629,6 @@ button *,
 }
 
 /* Panels: remove flat borders — frame supplies chrome */
-.hub-roster-panel {
-  width: 100%;
-  box-sizing: border-box;
-}
 
 .codex-sidebar,
 .codex-detail {

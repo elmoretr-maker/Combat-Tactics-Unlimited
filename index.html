@@ -20,6 +20,25 @@
 </head>
 <body>
 <div id="app">
+  <!-- SVG filters — hub roster procedural metal (grain / wear) -->
+  <svg class="ctu-svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="filter-hub-roster-grain" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" seed="21" result="n"/>
+      <feColorMatrix in="n" type="matrix"
+        values="0.3 0 0 0 0.05
+                0.26 0 0 0 0.08
+                0.22 0 0 0 0.05
+                0 0 0 0.42 0" result="g"/>
+    </filter>
+    <filter id="filter-hub-roster-wear" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.09" numOctaves="2" seed="7" result="w"/>
+      <feColorMatrix in="w" type="matrix"
+        values="0.12 0 0 0 0
+                0.1 0 0 0 0
+                0.08 0 0 0 0
+                0 0 0 0.18 0"/>
+    </filter>
+  </svg>
   <div class="ctu-hud-overlay" aria-hidden="true" hidden>
     <img src="attached_assets/ui/combat_frame.png" alt="" />
   </div>
@@ -257,26 +276,22 @@
           </div>
         </div>
 
-        <!-- Roster -->
-        <div id="hub-section-roster" class="hub-section">
-          <p class="hub-section-label">Roster</p>
-          <div class="hub-roster-panel ctu-metal-frame ctu-metal-frame--cyber-blend">
-            <div class="ctu-metal-frame__plate" aria-hidden="true"></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--tr" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--bl" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__corner ctu-metal-frame__corner--br" aria-hidden="true"><span class="ctu-metal-frame__corner-bg"></span></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--top" aria-hidden="true"></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--bottom" aria-hidden="true"></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--left" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
-            <div class="ctu-metal-frame__edge ctu-metal-frame__edge--right" aria-hidden="true"><span class="ctu-metal-frame__edge-fill"></span></div>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--nw" aria-hidden="true"></span>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--ne" aria-hidden="true"></span>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--sw" aria-hidden="true"></span>
-            <span class="ctu-metal-frame__rivet ctu-metal-frame__rivet--se" aria-hidden="true"></span>
-            <div class="ctu-metal-frame__content">
-              <div id="hub-roster" class="hub-dossier-grid"></div>
+        <!-- Roster — procedural metal grid (landing command-strip palette); 5×4, max 20 units -->
+        <div id="hub-section-roster" class="hub-section hub-section--roster">
+          <div class="hub-roster-cp-frame hub-roster-cp-frame--metal" aria-label="Unit roster">
+            <div class="hub-roster-cp-frame__noise" aria-hidden="true"></div>
+            <div class="hub-roster-cp-frame__wear" aria-hidden="true"></div>
+            <div class="hub-roster-cp-frame__face" aria-hidden="true"></div>
+            <header class="hub-roster-cp-frame__plate">
+              <span class="hub-roster-cp-frame__title">Unit roster</span>
+            </header>
+            <div class="hub-roster-cp-frame__body">
+              <div id="hub-roster" class="hub-roster-cp-grid"></div>
             </div>
+            <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--nw" aria-hidden="true"></span>
+            <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--ne" aria-hidden="true"></span>
+            <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--sw" aria-hidden="true"></span>
+            <span class="hub-roster-cp-frame__rivet hub-roster-cp-frame__rivet--se" aria-hidden="true"></span>
           </div>
         </div>
 

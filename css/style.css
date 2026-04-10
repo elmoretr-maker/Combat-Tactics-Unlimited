@@ -953,14 +953,14 @@ body {
 
 /* ── Hub outer container ── */
 .hub-command {
-  max-width: 860px;
+  max-width: 940px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: clamp(1rem, 2.5vw, 1.65rem) clamp(1rem, 3vw, 1.75rem) clamp(1.15rem, 2.8vw, 1.85rem);
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: clamp(1rem, 2.2vw, 1.45rem);
 }
-/* Hub: single internal scroll for below-the-fold content (modes/roster panels scroll inside) */
+/* Hub: single internal scroll — scrollbar hidden; drag (mouse) / touch pan (see wireGestures) */
 #screen-hub.screen--active > .ctu-cyber-hybrid {
   flex: 1 1 auto;
   min-height: 0;
@@ -975,6 +975,13 @@ body {
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  cursor: grab;
+}
+#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub:active {
+  cursor: grabbing;
 }
 
 /* ── Gate banner ── */
@@ -1000,7 +1007,7 @@ body {
   font-family: var(--font-display);
   font-size: 0.84rem;
   color: #7a9a80;
-  padding: 0 0.1rem;
+  padding: 0.15rem 0.25rem 0.35rem;
 }
 .hub-stats-bar__label { color: #6a8a70; }
 .hub-stats-bar__sep   { color: #4a6050; }
@@ -1020,22 +1027,23 @@ body {
 .hub-stats-bar__led--amber { background: #fab005; box-shadow: 0 0 7px #fab005; }
 
 /* ── Section wrappers ── */
-.hub-section { display: flex; flex-direction: column; gap: 0.4rem; }
+.hub-section { display: flex; flex-direction: column; gap: 0.65rem; }
 .hub-section-label {
   font-family: var(--font-display);
   font-size: 0.72rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.09em;
   color: #506858;
-  margin: 0; padding: 0 0.15rem;
+  margin: 0; padding: 0 0.25rem;
 }
 
 /* ── Carousel wrapper: list + nav column ── */
 .hub-carousel {
   display: flex;
   align-items: stretch;
-  gap: 6px;
-  max-height: 248px; /* caps list column; #hub-modes fills this */
+  gap: 10px;
+  max-height: min(248px, 38vh);
   min-height: 0;
+  padding: 0.15rem 0 0;
 }
 
 /* ── Modes vertical snap carousel ── */
@@ -1123,7 +1131,8 @@ body {
 .map-theater-grid,
 .battle-log__list,
 #codex-detail,
-.codex-detail-frame__body {
+.codex-detail-frame__body,
+#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -1134,7 +1143,10 @@ body {
 .map-theater-grid::-webkit-scrollbar,
 .battle-log__list::-webkit-scrollbar,
 #codex-detail::-webkit-scrollbar,
-.codex-detail-frame__body::-webkit-scrollbar { display: none; }
+.codex-detail-frame__body::-webkit-scrollbar,
+#screen-hub.screen--active > .ctu-cyber-hybrid > .hub-command.bg-command-hub::-webkit-scrollbar {
+  display: none;
+}
 
 /* Cursor hint while dragging */
 .drag-scroll--active { cursor: grabbing !important; user-select: none; }
@@ -1226,17 +1238,277 @@ body {
 /* Bullet casing SVG */
 .hub-mode-card__bullet { width: 14px; height: 34px; flex-shrink: 0; margin-right: 0.55rem; opacity: 0.65; }
 
-/* ── Roster panel ── */
-.hub-roster-panel {
-  /* 9-slice metal frame when .ctu-slice9-host — see index.html + ctu-metal.css */
-  width: 100%;
+/* ── Hub roster: procedural worn metal grid (landing command-strip palette) — 5×4 ── */
+.hub-roster-cp-frame {
+  --hr-metal-0: #3d4638;
+  --hr-metal-1: #2f382c;
+  --hr-metal-2: #252d24;
+  position: relative;
+  width: min(100%, 540px);
+  margin: 0 auto;
+  max-height: min(52vh, 440px);
+  border-radius: 4px;
   box-sizing: border-box;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.65),
+    0 0 0 2px rgba(143, 179, 148, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.35),
+    0 14px 36px rgba(0, 0, 0, 0.5);
+  background:
+    linear-gradient(165deg, var(--hr-metal-0) 0%, var(--hr-metal-1) 42%, var(--hr-metal-2) 100%);
+  overflow: hidden;
 }
+
+.hub-roster-cp-frame__face {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(105deg, rgba(255, 255, 255, 0.04) 0%, transparent 38%),
+    linear-gradient(-18deg, transparent 55%, rgba(0, 0, 0, 0.22) 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.02) 0 1px,
+      transparent 1px 5px
+    );
+  mix-blend-mode: soft-light;
+  opacity: 0.85;
+}
+
+.hub-roster-cp-frame__noise {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.38;
+  filter: url(#filter-hub-roster-grain);
+  mix-blend-mode: overlay;
+}
+
+.hub-roster-cp-frame__wear {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.55;
+  filter: url(#filter-hub-roster-wear);
+  mix-blend-mode: multiply;
+}
+
+.hub-roster-cp-frame__plate {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 2.05rem;
+  padding: 0.35rem 0.85rem 0.4rem;
+  margin: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+  background: linear-gradient(180deg, rgba(52, 58, 44, 0.95) 0%, rgba(32, 38, 28, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.hub-roster-cp-frame__title {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(200, 212, 195, 0.92);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.hub-roster-cp-frame__body {
+  position: relative;
+  z-index: 1;
+  flex: 0 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem 0.65rem 0.75rem;
+}
+
+.hub-roster-cp-frame--metal {
+  display: flex;
+  flex-direction: column;
+}
+
+.hub-roster-cp-frame__rivet {
+  position: absolute;
+  z-index: 4;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 28%, #5a6354 0%, #2a3228 55%, #121610 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+}
+
+/* Rivets sit on the plate seam (top) and frame bottom — avoids clipping the title bar */
+.hub-roster-cp-frame__rivet--nw { top: calc(2.05rem - 4px); left: 7px; }
+.hub-roster-cp-frame__rivet--ne { top: calc(2.05rem - 4px); right: 7px; }
+.hub-roster-cp-frame__rivet--sw { bottom: 7px; left: 7px; }
+.hub-roster-cp-frame__rivet--se { bottom: 7px; right: 7px; }
+
+.hub-roster-cp-grid {
+  /* 5×4 field of ~square cells — intrinsic height from width */
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1px;
+  list-style: none;
+  padding: 2px;
+  margin: 0;
+  align-content: stretch;
+  justify-content: stretch;
+  box-sizing: border-box;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(20, 24, 18, 0.95) 0%, rgba(10, 12, 9, 0.99) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.hub-roster-slot {
+  position: relative;
+  /* Size query: largest circle that fits uses min(cellW, cellH) */
+  container-type: size;
+  container-name: hub-roster-slot;
+  display: grid;
+  place-items: center;
+  place-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: linear-gradient(165deg, rgba(28, 32, 26, 0.92) 0%, rgba(14, 16, 12, 0.96) 100%);
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  overflow: visible;
+  align-self: stretch;
+  justify-self: stretch;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+}
+.hub-roster-slot:hover:not(:disabled):not(.hub-roster-slot--empty) {
+  background: linear-gradient(165deg, rgba(34, 40, 32, 0.96) 0%, rgba(18, 22, 16, 0.98) 100%);
+}
+.hub-roster-slot--empty {
+  background: rgba(12, 14, 11, 0.55);
+  cursor: default;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+/* Locked: slightly muted, not “washed out” — keep portraits readable */
+.hub-roster-slot--locked .hub-roster-slot__well {
+  opacity: 0.88;
+  filter: saturate(0.75) brightness(0.92);
+}
+.hub-roster-slot--locked .hub-roster-slot__icon {
+  opacity: 1;
+}
+/* Black circular well — diameter = min(cell width, height) so icon sits in square center */
+.hub-roster-slot__well {
+  position: relative;
+  box-sizing: border-box;
+  width: min(86cqmin, 100%);
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1;
+  margin: 0;
+  background: #000;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(30, 40, 35, 0.9);
+  transition: box-shadow 0.18s ease, filter 0.18s ease;
+}
+@supports not (width: 1cqmin) {
+  .hub-roster-slot__well {
+    width: min(88%, 3.85rem);
+    height: auto;
+    aspect-ratio: 1;
+  }
+}
+.hub-roster-slot__well--initials {
+  background: radial-gradient(circle at 50% 40%, #1a221c 0%, #000 100%);
+}
+.hub-roster-slot__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 50%;
+  opacity: 1;
+  pointer-events: none;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
+}
+/* Glow on the portrait when hovering the slot (not a box chrome) */
+.hub-roster-slot:hover:not(:disabled):not(.hub-roster-slot--empty) .hub-roster-slot__icon {
+  filter:
+    drop-shadow(0 0 4px rgba(143, 179, 148, 0.85))
+    drop-shadow(0 0 12px rgba(57, 255, 20, 0.45))
+    drop-shadow(0 0 20px rgba(63, 185, 90, 0.25));
+}
+.hub-roster-slot:hover:not(:disabled):not(.hub-roster-slot--empty) .hub-roster-slot__well {
+  box-shadow:
+    inset 0 0 0 1px rgba(100, 160, 120, 0.5),
+    0 0 14px rgba(57, 255, 20, 0.2);
+}
+.hub-roster-slot--locked:hover:not(:disabled) .hub-roster-slot__icon {
+  filter:
+    drop-shadow(0 0 3px rgba(143, 179, 148, 0.5))
+    drop-shadow(0 0 8px rgba(100, 140, 110, 0.25));
+}
+.hub-roster-slot__initials {
+  font-family: var(--font-display);
+  font-size: clamp(0.62rem, 2.6vmin, 0.82rem);
+  font-weight: 700;
+  color: #8fb394;
+  pointer-events: none;
+  line-height: 1;
+}
+.hub-roster-slot__led {
+  position: absolute;
+  right: 8%;
+  bottom: 7%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
+  pointer-events: none;
+}
+.hub-roster-slot__led--green { background: #40c057; color: #40c057; }
+.hub-roster-slot__led--blue  { background: #3d9eff; color: #3d9eff; }
+.hub-roster-slot__led--amber { background: #fab005; color: #fab005; }
+
+/* Legacy dossier cards (Codex / other) — hub grid no longer uses .hub-dossier-grid */
 .hub-dossier-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.45rem;
+  gap: 0.65rem;
   min-width: 0;
+  padding: 0.2rem 0.1rem 0.35rem;
 }
 
 /* Dossier cards — unit-card pattern with left-border accent */
@@ -1295,10 +1567,14 @@ body {
 
 /* ── Bottom row ── */
 .hub-bottom-row {
-  display: flex; gap: 0.75rem; align-items: flex-start; flex-wrap: wrap;
+  display: flex;
+  gap: clamp(0.85rem, 2.5vw, 1.35rem);
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-top: 0.35rem;
 }
-.hub-quick-access { flex: 1; display: flex; flex-direction: column; gap: 0.4rem; }
-.hub-quick-toggles { display: flex; gap: 0.55rem; flex-wrap: wrap; }
+.hub-quick-access { flex: 1; display: flex; flex-direction: column; gap: 0.55rem; min-width: min(100%, 220px); }
+.hub-quick-toggles { display: flex; gap: 0.65rem; flex-wrap: wrap; }
 
 /* Toggle-style shortcut buttons */
 .hub-toggle-btn {
@@ -1367,31 +1643,13 @@ body {
 }
 .hub-season-card__btn:hover { filter: brightness(1.22); }
 
-/* Hub roster: bounded frame body scrolls internally */
-#screen-hub.screen--active #hub-section-roster {
-  flex: 1 1 auto;
+/* Hub roster: fixed-aspect grid frame (no internal scroll — hub column scrolls) */
+#screen-hub.screen--active #hub-section-roster.hub-section--roster {
+  flex: 0 0 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
-}
-#screen-hub.screen--active .hub-roster-panel {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-#screen-hub.screen--active .hub-roster-panel .ctu-metal-frame {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-#screen-hub.screen--active .hub-roster-panel .ctu-metal-frame__content {
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: 100%;
-  overflow-y: auto;
+  gap: 0.5rem;
 }
 
 /* Settings / Academy framed panels (hybrid wrapper = flex host) */
@@ -1454,7 +1712,10 @@ body {
 @media (max-width: 640px) {
   .hub-carousel { max-height: 212px; } /* 3 × 64px + 2 × 8px on small screens */
   .hub-modes-grid > li { height: 64px; }
-  .hub-dossier-grid { grid-template-columns: repeat(2, 1fr); }
+  .hub-roster-cp-frame {
+    width: 100%;
+    max-width: none;
+  }
   .hub-bottom-row  { flex-direction: column; }
   .hub-season-card { max-width: none; }
 }
