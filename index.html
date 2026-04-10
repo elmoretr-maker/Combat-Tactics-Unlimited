@@ -263,15 +263,26 @@
           <span id="hub-stats-label"  class="hub-stats-bar__label">Academy open</span>
         </div>
 
-        <!-- Solo modes -->
-        <div id="hub-section-modes" class="hub-section">
-          <p class="hub-section-label">Solo Modes</p>
-          <div class="hub-carousel">
-            <ul id="hub-modes" class="hub-modes-grid"></ul>
-            <div class="hub-carousel__nav" role="group" aria-label="Scroll solo modes">
-              <button type="button" class="hub-carousel__btn" id="hub-modes-prev" aria-label="Scroll to previous modes">&#9650;</button>
-              <span class="hub-carousel__label">More<br>modes</span>
-              <button type="button" class="hub-carousel__btn" id="hub-modes-next" aria-label="Scroll to next modes">&#9660;</button>
+        <!-- Solo modes — cylindrical wheel house (matches unit roster metal / olives) -->
+        <div id="hub-section-modes" class="hub-section hub-section--modes-wheel">
+          <div class="hub-wheelhouse" aria-label="Solo modes">
+            <div class="hub-wheelhouse__shell">
+              <div class="hub-wheelhouse__noise" aria-hidden="true"></div>
+              <div class="hub-wheelhouse__wear" aria-hidden="true"></div>
+              <div class="hub-wheelhouse__face" aria-hidden="true"></div>
+              <header class="hub-wheelhouse__plate">
+                <p class="hub-section-label hub-wheelhouse__label">Solo Modes</p>
+              </header>
+              <div class="hub-wheelhouse__content">
+                <div class="hub-carousel">
+                  <ul id="hub-modes" class="hub-modes-grid"></ul>
+                  <div class="hub-carousel__nav" role="group" aria-label="Scroll solo modes">
+                    <button type="button" class="hub-carousel__btn" id="hub-modes-prev" aria-label="Scroll to previous modes">&#9650;</button>
+                    <span class="hub-carousel__label">More<br>modes</span>
+                    <button type="button" class="hub-carousel__btn" id="hub-modes-next" aria-label="Scroll to next modes">&#9660;</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
