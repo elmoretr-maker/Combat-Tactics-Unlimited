@@ -713,7 +713,7 @@ function collectAssetsUnder(relRoot) {
       const uiKind = rel.split("/")[2] || "misc";
       record.type = "ui";
       record.uiKind = uiKind;
-      record.tags = ["ui", uiKind];
+      record.tags = ["ui", uiKind, "mapgenExcluded", "uiSurface"];
       record.theme = null;
       record.footprint = null;
     } else if (bucket === "units") {

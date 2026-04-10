@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-04-10T03:31:03.206Z",
+  "modelId": "Xenova/clip-vit-base-patch32",
+  "referenceRoot": "reference_images/",
+  "items": [
+    {
+      "path": "UIUX/PNG/Loading Screen/Background.png",
+      "predicted_label": "ui_panel",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.16724385072787604,
+      "margin": 0.013795353472232819,
+      "bestCosine": 0.932503,
+      "secondCosine": 0.889192,
+      "visual_cosine_margin": 0.043311,
+      "top3_text_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.16724385072787604
+        },
+        {
+          "id": "sprite_sheet",
+          "confidence": 0.15344849725564322
+        },
+        {
+          "id": "ui_button",
+          "confidence": 0.13154107332229614
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.13762370125515705
+        },
+        {
+          "id": "ui",
+          "confidence": 0.0818416351008375
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.06996090163605667
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    },
+    {
+      "path": "UIUX/PNG/Loading Screen/Loading Bar BG.png",
+      "predicted_label": "ui_panel",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.16724385072787604,
+      "margin": 0.013795353472232819,
+      "bestCosine": 0.932503,
+      "secondCosine": 0.889192,
+      "visual_cosine_margin": 0.043311,
+      "top3_text_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.16724385072787604
+        },
+        {
+          "id": "sprite_sheet",
+          "confidence": 0.15344849725564322
+        },
+        {
+          "id": "ui_button",
+          "confidence": 0.13154107332229614
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.13762370125515705
+        },
+        {
+          "id": "ui",
+          "confidence": 0.0818416351008375
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.06996090163605667
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    },
+    {
+      "path": "UIUX/PNG/Loading Screen/Loading Bar.png",
+      "predicted_label": "ui_panel",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.16724385072787604,
+      "margin": 0.013795353472232819,
+      "bestCosine": 0.932503,
+      "secondCosine": 0.889192,
+      "visual_cosine_margin": 0.043311,
+      "top3_text_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.16724385072787604
+        },
+        {
+          "id": "sprite_sheet",
+          "confidence": 0.15344849725564322
+        },
+        {
+          "id": "ui_button",
+          "confidence": 0.13154107332229614
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.13762370125515705
+        },
+        {
+          "id": "ui",
+          "confidence": 0.0818416351008375
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.06996090163605667
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    },
+    {
+      "path": "UIUX/PNG/Loading Screen/Loading icon.png",
+      "predicted_label": "ui_panel",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.16724385072787604,
+      "margin": 0.013795353472232819,
+      "bestCosine": 0.932503,
+      "secondCosine": 0.889192,
+      "visual_cosine_margin": 0.043311,
+      "top3_text_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.16724385072787604
+        },
+        {
+          "id": "sprite_sheet",
+          "confidence": 0.15344849725564322
+        },
+        {
+          "id": "ui_button",
+          "confidence": 0.13154107332229614
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.13762370125515705
+        },
+        {
+          "id": "ui",
+          "confidence": 0.0818416351008375
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.06996090163605667
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    },
+    {
+      "path": "UIUX/PNG/Loading Screen/Test Logo.png",
+      "predicted_label": "ui_panel",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.16724385072787604,
+      "margin": 0.013795353472232819,
+      "bestCosine": 0.932503,
+      "secondCosine": 0.889192,
+      "visual_cosine_margin": 0.043311,
+      "top3_text_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.16724385072787604
+        },
+        {
+          "id": "sprite_sheet",
+          "confidence": 0.15344849725564322
+        },
+        {
+          "id": "ui_button",
+          "confidence": 0.13154107332229614
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.13762370125515705
+        },
+        {
+          "id": "ui",
+          "confidence": 0.0818416351008375
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.06996090163605667
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    },
+    {
+      "path": "UIUX/PNG/Mission Failed/BG Preset.png",
+      "predicted_label": "ui_button",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.18154645462830862,
+      "margin": 0.08163500825564067,
+      "bestCosine": 0.96309,
+      "secondCosine": 0.955206,
+      "visual_cosine_margin": 0.007883,
+      "top3_text_predictions": [
+        {
+          "id": "ui_button",
+          "confidence": 0.18154645462830862
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.09991144637266795
+        },
+        {
+          "id": "button",
+          "confidence": 0.0892791636288166
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.1777754488687928
+        },
+        {
+          "id": "hud",
+          "confidence": 0.16172913832414434
+        },
+        {
+          "id": "menu",
+          "confidence": 0.113713485164024
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "hud"
+    },
+    {
+      "path": "UIUX/PNG/Mission Failed/BG.png",
+      "predicted_label": "ui_button",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.18154645462830862,
+      "margin": 0.08163500825564067,
+      "bestCosine": 0.96309,
+      "secondCosine": 0.955206,
+      "visual_cosine_margin": 0.007883,
+      "top3_text_predictions": [
+        {
+          "id": "ui_button",
+          "confidence": 0.18154645462830862
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.09991144637266795
+        },
+        {
+          "id": "button",
+          "confidence": 0.0892791636288166
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.1777754488687928
+        },
+        {
+          "id": "hud",
+          "confidence": 0.16172913832414434
+        },
+        {
+          "id": "menu",
+          "confidence": 0.113713485164024
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    },
+    {
+      "path": "UIUX/PNG/Mission Failed/BTN Retry.png",
+      "predicted_label": "ui_button",
+      "structure": "animation",
+      "usage": "review",
+      "confidence": 0.18154645462830862,
+      "margin": 0.08163500825564067,
+      "bestCosine": 0.96309,
+      "secondCosine": 0.955206,
+      "visual_cosine_margin": 0.007883,
+      "top3_text_predictions": [
+        {
+          "id": "ui_button",
+          "confidence": 0.18154645462830862
+        },
+        {
+          "id": "unit_items",
+          "confidence": 0.09991144637266795
+        },
+        {
+          "id": "button",
+          "confidence": 0.0892791636288166
+        }
+      ],
+      "top3_visual_predictions": [
+        {
+          "id": "ui_panel",
+          "confidence": 0.1777754488687928
+        },
+        {
+          "id": "hud",
+          "confidence": 0.16172913832414434
+        },
+        {
+          "id": "menu",
+          "confidence": 0.113713485164024
+        }
+      ],
+      "refinement_failure_reason": "low margin",
+      "correct_label": "ui_panel"
+    }
+  ]
+}
