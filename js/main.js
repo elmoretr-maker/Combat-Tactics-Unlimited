@@ -1,6 +1,10 @@
 import { loadJson } from "./loadConfig.js";
 import { GameState } from "./engine/gameState.js";
-import { drawGrid, preloadTerrainTiles } from "./render/canvasGrid.js";
+import {
+  drawGrid,
+  preloadBattleTerrainForGrid,
+  preloadTerrainTiles,
+} from "./render/canvasGrid.js";
 import { getArenaRenderMode } from "./render/renderMode.js";
 import {
   UnitRenderer,
@@ -1320,6 +1324,7 @@ async function bootHotseat() {
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
   });
+  await preloadBattleTerrainForGrid(game, tileTypes);
   battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
   syncBattleAmbientFromScenario();
@@ -3170,12 +3175,38 @@ async function bootBattle(options = {}) {
   ) {
     const maps = allMapCatalogEntries();
     const cur = maps.find((x) => x.path === scenarioPath);
-    if (!cur || cur.sizeCategory !== "grand") {
-      const g = maps.find((m) => m.sizeCategory === "grand");
-      if (g) {
-        scenarioPath = g.path;
-        pendingUserMapPath = g.path;
-        void refreshPendingMapSkirmishSlotCount();
+    /* Hell forces a Grand map. Catalog order is v1 then v2 — old logic used
+     * find() on merged lists, so the first biome match was always
+     * js/config/scenarios/maps/... even when the player picked scenarios_v2. */
+    if (cur && cur.sizeCategory !== "grand") {
+      const grandMaps = maps.filter((m) => m.sizeCategory === "grand");
+      if (grandMaps.length) {
+        const bio = cur.biome;
+        const env = cur.environment;
+        let pool = grandMaps;
+        if (bio) {
+          const byBio = grandMaps.filter((m) => m.biome === bio);
+          if (byBio.length) pool = byBio;
+        }
+        if (pool === grandMaps && env) {
+          const byEnv = grandMaps.filter((m) => m.environment === env);
+          if (byEnv.length) pool = byEnv;
+        }
+        const preferV2 =
+          typeof cur.path === "string" && cur.path.includes("scenarios_v2");
+        if (preferV2) {
+          const v2only = pool.filter(
+            (m) =>
+              typeof m.path === "string" && m.path.includes("scenarios_v2"),
+          );
+          if (v2only.length) pool = v2only;
+        }
+        const g = pool[0];
+        if (g && g.path !== scenarioPath) {
+          scenarioPath = g.path;
+          pendingUserMapPath = g.path;
+          void refreshPendingMapSkirmishSlotCount();
+        }
       }
     }
   }
@@ -3241,6 +3272,7 @@ async function bootBattle(options = {}) {
   game = new GameState(scenario, units, tileTypes, {
     visualStyle: battleVisualStyle(),
   });
+  await preloadBattleTerrainForGrid(game, tileTypes);
   battlePlaneCtl = await createBattlePlaneController(game, tileTypes);
   resizeBattleCanvas();
   syncBattleAmbientFromScenario();

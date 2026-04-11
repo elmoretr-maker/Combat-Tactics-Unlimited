@@ -23,6 +23,7 @@
     "generate-ctu": "node tools/generate_ctu_sidecars.mjs",
     "slice-sprites": "node tools/sprite_sheet_slice.mjs",
     "slice-sprites:scan": "node tools/sprite_sheet_slice.mjs scan",
+    "slice-16-grid": "node tools/slice_16_grid_deterministic.mjs",
     "validate-map-terrain": "node tools/validate_map_catalog_terrain.mjs",
     "asset-pipeline:analyze": "node tools/asset_pipeline_ingest.mjs analyze",
     "asset-pipeline:duplicates": "node tools/asset_pipeline_ingest.mjs duplicates",

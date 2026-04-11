@@ -1,14 +1,9 @@
 import { terrainColor } from "../engine/terrain.js";
 
-/* All terrain IDs that count as water (used in Pass 3 shore logic) */
+/* All terrain IDs that count as water (bridges, pass-1 skip pixel pack, etc.) */
 const WATER_TERRAIN_SET = new Set(["water", "water_desert", "water_urban"]);
 
 const ROAD_TERRAIN_SET = new Set(["road", "cp_road"]);
-
-/* Shore/coast bitmask tileset — 2 animation columns × 4 topology rows, each frame 176×112 px.
- * Used by the flow connector layer (dividerRule / assetQuery) for river channel rendering.
- * Preloaded here so the asset is cached before the flow connector system needs it. */
-const SHORE_SPRITE_URL = "assets/tiles/urban/Water_coasts_animation.png";
 
 /**
  * Convert a 6-digit CSS hex colour and a 0-1 alpha into an rgba() string.
@@ -76,81 +71,34 @@ function flowConnectorIndex(game) {
 
 /**
  * Draw manifest flow tile (single image or sprite-sheet frame) edge-to-edge in cell — no padding.
- * @returns {boolean} true if something was drawn
+ * `spriteSheetFrame` picks a cell in the grid (columns × rows) — channel topology / variant, not a
+ * time-based animation (cycling columns showed unrelated atlas content: ships, planes, etc.).
+ * Frame size uses the **actual image** grid (`naturalWidth / columns`) so JSON frameW/frameH
+ * cannot drift from the PNG and slice wrong regions.
+ * @returns {boolean} true if a frame was drawn
  */
 function drawFlowConnectorRaster(ctx, entry, px, py, pw, ph) {
   if (!entry?.spritePath) return false;
   const ent = getCraftpixTileImage(entry.spritePath);
   if (!ent?.ok || !ent.img.complete || !ent.img.naturalWidth) return false;
   const fs = entry.flowSheet;
-  if (
-    fs?.frameW &&
-    fs?.frameH &&
-    fs.columns &&
-    Number.isFinite(entry.spriteSheetFrame)
-  ) {
-    const col = entry.spriteSheetFrame % fs.columns;
-    const row = Math.floor(entry.spriteSheetFrame / fs.columns);
-    const sx = col * fs.frameW;
-    const sy = row * fs.frameH;
-    ctx.drawImage(ent.img, sx, sy, fs.frameW, fs.frameH, px, py, pw, ph);
-    return true;
-  }
-  ctx.drawImage(ent.img, px, py, pw, ph);
-  return true;
-}
-
-/** Land-adjacency bitmask (N=1,E=2,S=4,W=8) for a water cell — map edge to coast art */
-function landAdjacencyMask4(cells, gx, gy, gw, gh) {
-  const landAt = (tx, ty) => {
-    if (tx < 0 || ty < 0 || tx >= gw || ty >= gh) return true;
-    return !WATER_TERRAIN_SET.has(cells[ty][tx]);
-  };
-  let m = 0;
-  if (landAt(gx, gy - 1)) m |= 1;
-  if (landAt(gx + 1, gy)) m |= 2;
-  if (landAt(gx, gy + 1)) m |= 4;
-  if (landAt(gx - 1, gy)) m |= 8;
-  return m;
-}
-
-/**
- * Shore tileset: 2 animation columns × 4 topology rows (176×112 px cells in asset).
- * Picks row from how many sides touch land; column from time.
- */
-function drawWaterShoreSprite(ctx, cells, gx, gy, px, py, pw, ph, timeMs) {
-  const mask = landAdjacencyMask4(cells, gx, gy, cells[0].length, cells.length);
-  if (mask === 0) return false;
-  const ent = getCraftpixTileImage(SHORE_SPRITE_URL);
-  if (!ent?.ok || !ent.img.complete || !ent.img.naturalWidth) return false;
+  const rowsN = fs ? Math.max(1, Math.floor(Number(fs.rows)) || 1) : 1;
+  const colsN = fs ? Math.max(1, Math.floor(Number(fs.columns)) || 1) : 1;
   const iw = ent.img.naturalWidth;
   const ih = ent.img.naturalHeight;
-  const cols = 2;
-  const rows = 4;
-  const fw = Math.floor(iw / cols);
-  const fh = Math.floor(ih / rows);
+  const fw = Math.floor(iw / colsN);
+  const fh = Math.floor(ih / rowsN);
   if (fw < 4 || fh < 4) return false;
-  let bits = 0;
-  for (const b of [1, 2, 4, 8]) if (mask & b) bits++;
-  const row = Math.min(rows - 1, Math.max(0, bits - 1));
-  const col =
-    timeMs != null
-      ? Math.floor(timeMs / 320) % cols
-      : 0;
-  ctx.save();
-  ctx.imageSmoothingEnabled = true;
-  ctx.drawImage(
-    ent.img,
-    col * fw,
-    row * fh,
-    fw,
-    fh,
-    px,
-    py,
-    pw,
-    ph,
-  );
-  ctx.restore();
+  const frame = Number(entry.spriteSheetFrame);
+  if (!Number.isFinite(frame)) return false;
+  const total = colsN * rowsN;
+  const idx = ((Math.floor(frame) % total) + total) % total;
+  const col = idx % colsN;
+  const row = Math.floor(idx / colsN);
+  const sx = col * fw;
+  const sy = row * fh;
+  if (sx + fw > iw || sy + fh > ih) return false;
+  ctx.drawImage(ent.img, sx, sy, fw, fh, px, py, pw, ph);
   return true;
 }
 
@@ -295,9 +243,8 @@ function hiresVariantIndex(gx, gy, len) {
  * See attached_assets/tiles/ for all tile_000 – tile_257 images.
  *
  * Key visual tile groups (from the provided tileset):
- *  0        = pure water (sky blue)
+ *  (generic `water` terrain does not use these — see TILE_MAP.water = [])
  *  1        = grass/plains base
- *  9-11     = water centre variants
  *  14,18,26 = desert/scrubland
  *  19-21    = dense forest/brush
  *  22,28    = rocky hill
@@ -309,15 +256,16 @@ function hiresVariantIndex(gx, gy, len) {
  */
 const TILE_MAP = {
   plains:        [1, 1, 1, 30, 1, 31, 1, 1, 32, 1, 30],
-  water:         [0, 0, 9, 0, 0, 10, 0, 11, 0],
+  /* Do not use classic tile_NNN for generic water — tile_000/009 in the pack are often a full atlas;
+   * pass 1 uses fill + water fallback; pass 1a paints flow connectors or shore art. */
+  water:         [],
   forest:        [19, 20, 21, 19, 20, 21],
   hill:          [22, 28, 22, 28],
   road:          [94, 95, 96, 97],
   urban:         [118, 119, 120, 121],
   desert:        [14, 26, 14, 18, 26, 25, 14, 27],
   snow:          [129, 130, 131, 132],
-  /* Biome-specific water variants — no matching pixel-art tiles, so these
-     intentionally fall through to terrainColor fill + TERRAIN_DRAW_FALLBACK. */
+  /* Biome-specific water — same as `water`: fill + fallback, then pass 1a. */
   water_desert:  [],
   water_urban:   [],
   /* Craftpix / procedural terrain aliases — map to existing tile art */
@@ -347,13 +295,12 @@ function getCraftpixTileImage(url) {
 }
 
 /**
- * Preload all high-res terrain tiles + the shore sprite.
+ * Preload all high-res terrain tiles + flow-connector strip (bridge/ford pass).
  * Await this in the boot sequence so the first render is fully textured.
  */
 export async function preloadTerrainTiles() {
   const urls = new Set([
-    SHORE_SPRITE_URL,
-    /* Procedural river channel (flowConnector water, horizontal mask frames) */
+    /* River channel strip — used on bridge/ford cells (Pass 1b), not on open water. */
     "assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png",
   ]);
   for (const arr of Object.values(HIRES_TILE_MAP)) {
@@ -365,6 +312,72 @@ export async function preloadTerrainTiles() {
     if (e?.promise) promises.push(e.promise);
   }
   await Promise.all(promises);
+}
+
+/**
+ * Wait until a classic pixel tile has finished loading (including primary→alt fallback
+ * in getTileImage). Resolving on the first `error` was wrong: alt src is assigned next
+ * tick and would still be decoding after preload returned.
+ */
+function waitForClassicTileIdx(idx) {
+  const entry = getTileImage(idx);
+  const img = entry.img;
+  if (img.naturalWidth > 0) return Promise.resolve();
+  return new Promise((resolve) => {
+    const deadline = performance.now() + 12000;
+    const tick = () => {
+      if (img.naturalWidth > 0) {
+        resolve();
+        return;
+      }
+      if (img.complete && entry._phase >= 1 && !img.naturalWidth) {
+        resolve();
+        return;
+      }
+      if (performance.now() > deadline) {
+        resolve();
+        return;
+      }
+      requestAnimationFrame(tick);
+    };
+    tick();
+  });
+}
+
+/**
+ * Decode all terrain rasters used by this grid before the first battle frame.
+ * Land uses pass 1 (fills → hires / pixel tiles async); water is fill + vector fallback only.
+ */
+export async function preloadBattleTerrainForGrid(game, tileTypes) {
+  await preloadTerrainTiles();
+  if (!game?.grid?.cells?.length) return;
+  const types = new Set();
+  for (const row of game.grid.cells) {
+    for (const t of row) types.add(t);
+  }
+  const pending = [];
+  for (const t of types) {
+    const hiresArr = HIRES_TILE_MAP[t];
+    if (hiresArr?.length) {
+      for (const url of new Set(hiresArr)) {
+        const e = getCraftpixTileImage(url);
+        if (e?.promise) pending.push(e.promise);
+      }
+    }
+    const craftUrl = tileTypes?.[t]?.tileImage;
+    if (craftUrl) {
+      const e = getCraftpixTileImage(craftUrl);
+      if (e?.promise) pending.push(e.promise);
+    }
+    const idxArr = TILE_MAP[t];
+    /* Snow uses fill + vector fallback in drawGrid (tile pack indices often read as grass). */
+    if (idxArr?.length && t !== "snow") {
+      for (const idx of new Set(idxArr)) {
+        pending.push(waitForClassicTileIdx(idx));
+      }
+    }
+  }
+  await Promise.all(pending);
 }
 
 /**
@@ -648,7 +661,8 @@ export function drawGrid(ctx, game, tileTypes, options) {
         }
       }
       if (!planeStack) {
-        if (!drewImage) {
+        /* Snow: skip tile_NNN pack. Water: never use pixel pack (often whole atlas per cell). */
+        if (!drewImage && t !== "snow" && !WATER_TERRAIN_SET.has(t)) {
           const tileIdx = pickTileIdx(t, x, y);
           if (tileIdx !== null) {
             const entry = getTileImage(tileIdx);
@@ -667,7 +681,7 @@ export function drawGrid(ctx, game, tileTypes, options) {
           drawTerrainFallback(ctx, t, px, py, cs, options.timeMs ?? 0);
         }
         /* Subtle terrain label for non-plains tiles when no image loaded */
-        if (!drewImage && tileTypes[t] && t !== "plains") {
+        if (!drewImage && tileTypes[t] && t !== "plains" && t !== "snow") {
           ctx.save();
           ctx.font = `bold ${Math.round(cs * 0.2)}px monospace`;
           ctx.fillStyle = "rgba(255,255,255,0.28)";
@@ -681,29 +695,12 @@ export function drawGrid(ctx, game, tileTypes, options) {
 
   const flowByCell = flowConnectorIndex(game);
 
-  /* ── Pass 1a: water flow art + shore (manifest flowConnectors when present; else coast sheet) ── */
-  if (!planeStack) {
-    for (let y = 0; y < g.height; y++) {
-      for (let x = 0; x < g.width; x++) {
-        const t = g.cells[y][x];
-        if (!WATER_TERRAIN_SET.has(t)) continue;
-        const px = Math.floor(x * cs);
-        const py = Math.floor(y * cs);
-        const pw = Math.floor((x + 1) * cs) - px;
-        const ph = Math.floor((y + 1) * cs) - py;
-        const e = flowByCell.get(`${x},${y}`);
-        let drewChannel =
-          !!(
-            e &&
-            WATER_TERRAIN_SET.has(e.terrainId) &&
-            drawFlowConnectorRaster(ctx, e, px, py, pw, ph)
-          );
-        if (!drewChannel) {
-          drawWaterShoreSprite(ctx, g.cells, x, y, px, py, pw, ph, options.timeMs ?? 0);
-        }
-      }
-    }
-  }
+  /* ── Pass 1a: (removed) water-tile overlays — no longer draw flow-connector rasters or shore art on
+   * open water; water is only Pass 1 (terrain colour + TERRAIN_DRAW_FALLBACK vectors).
+   * Previously loaded for water cells:
+   *   assets/tiles/urban/Water_coasts_animation.png
+   *   scenario generator.flowConnectors[].spritePath (e.g. assets/tiles/urban/Tile_Urban_WaterStrip_64d87f88.png)
+   * The strip PNG is still preloaded and used on bridge/ford road tiles (Pass 1b). ── */
 
   /* ── Pass 1b: bridge / ford — manifest flow tile when available, else procedural deck ── */
   if (bridgeKeys.size) {

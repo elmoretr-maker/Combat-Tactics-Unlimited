@@ -3,51 +3,18 @@
  */
 
 import { moveCostAt } from "../engine/terrain.js";
-import { makeMapObject } from "../battle-plane/mapObjects.js";
 import { gridFromTerrain } from "./gridCost.js";
 
 const IMPASSABLE_TERRAIN = new Set(["water", "water_desert", "water_urban"]);
-import { hasTwoVertexDisjointPathsWithObjects } from "./dividerRule.js";
 import { shuffleInPlace } from "./rng.js";
-import {
-  computeOrthogonalPathwayReserve,
-  expandPathwayReserve,
-  tacticalDensity,
-  pickScatterEntryIndex,
-  treeSpacingOk,
-  wouldCompleteOrthogonalBlockingLineOfThree,
-} from "./tacticalPlacement.js";
-import {
-  terrainMatchesCtuPlacement,
-  mapObjectExtraFromCtuBehavior,
-  scatterVisualKind,
-} from "./ctuMapgen.js";
-import { applyPlacementRatioMix } from "./placementRatios.js";
 import {
   findBuildingsByThemeAndFootprint,
   interiorFurnitureKindsForTheme,
 } from "./assetQuery.js";
+import { placeTargetDrivenMapObjects } from "./targetDrivenMapObjects.js";
 
 function key(x, y) {
   return `${x},${y}`;
-}
-
-/** True if any 4-neighbor cell is water / divider water. */
-function cellTouchesWater(terrain, x, y) {
-  const h = terrain.length;
-  const w = terrain[0].length;
-  for (const [dx, dy] of [
-    [1, 0],
-    [-1, 0],
-    [0, 1],
-    [0, -1],
-  ]) {
-    const nx = x + dx;
-    const ny = y + dy;
-    if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-    if (IMPASSABLE_TERRAIN.has(terrain[ny][nx])) return true;
-  }
-  return false;
 }
 
 function spawnKeySet(playerSpawns, enemySpawns) {
@@ -263,7 +230,7 @@ function placeInteriorFurniture(buildings, manifest, profile, rnd) {
  * @param {number} [opts.placementSeed] — deterministic noise field for clusters
  * @param {number} [opts.cellSize] — canvas cell size (aircraft pyOffset)
  * @param {number} [opts.numBuildings]
- * @param {number} [opts.maxObstacles]
+ * @param {string} [opts.biome] — catalog biome (forest, winter, …) for density profile
  */
 export function placeTacticalAssets(opts) {
   const {
@@ -278,7 +245,7 @@ export function placeTacticalAssets(opts) {
     placementSeed = 0xaced1234,
     cellSize = 48,
     numBuildings = 1,
-    maxObstacles = 10,
+    biome: biomeOpt,
   } = opts;
 
   const spawns = spawnKeySet(playerSpawns, enemySpawns);
@@ -300,152 +267,24 @@ export function placeTacticalAssets(opts) {
   }
 
   const mapObjects = [];
-  const w = terrain[0].length;
-  const h = terrain.length;
-  const g = gridFromTerrain(terrain);
-  const noiseSeed = placementSeed >>> 0;
 
-  /* ── Pathway reserve (expanded 1 tile so props can't flank it) ── */
-  const pathwayRaw = computeOrthogonalPathwayReserve(
+  const { warnings } = placeTargetDrivenMapObjects({
     terrain,
     tileTypes,
     playerSpawns,
     enemySpawns,
-  );
-  const pathwayReserve = expandPathwayReserve(pathwayRaw, w, h);
-
-  /* ── Candidate cells ── */
-  const candidates = [];
-  for (let y = 1; y < h - 1; y++) {
-    for (let x = 1; x < w - 1; x++) {
-      if (protectedRibbon.has(key(x, y))) continue;
-      if (spawns.has(key(x, y))) continue;
-      const t = terrain[y][x];
-      if (t === "building_block") continue;
-      /* water cells only valid for water-locked kinds */
-      candidates.push([x, y]);
-    }
-  }
-
-  /* Shuffle candidates so props are tried in random spatial order.
-     Noise still controls placement probability (high-density cells pass
-     the rnd() gate far more often), but we no longer process cells along
-     a density ridge sequentially — which was the root cause of line formation. */
-  shuffleInPlace(candidates, rnd);
-
-  /**
-   * Try to place a single obstacle.
-   * Returns true if placement was accepted.
-   * @param {number} x
-   * @param {number} y
-   * @param {boolean} relaxNoise  if true, skip the noise-threshold roll (fill pass)
-   */
-  const tryPlace = (x, y, relaxNoise) => {
-    const t = terrain[y][x];
-    const isWaterCell = IMPASSABLE_TERRAIN.has(t);
-
-    if (moveCostAt(g, tileTypes, x, y) >= 99 && !isWaterCell) return false;
-
-    const d = tacticalDensity(noiseSeed, x, y);
-    if (!relaxNoise && rnd() > 0.18 + d * 0.72) return false;
-
-    let validKinds = (profile.obstacleVisualKinds || []).filter((ob) =>
-      ob.ctu ? terrainMatchesCtuPlacement(ob.ctu, terrain, x, y) : false,
-    );
-    if (!validKinds.length) return false;
-
-    const tw = cellTouchesWater(terrain, x, y);
-    validKinds = applyPlacementRatioMix(profile.id, validKinds, tw, rnd);
-    if (!validKinds.length) return false;
-
-    const ki = pickScatterEntryIndex(d, validKinds, x, y, rnd);
-    const pick = validKinds[ki];
-    if (!terrainMatchesCtuPlacement(pick.ctu, terrain, x, y)) return false;
-
-    const vk = scatterVisualKind(pick);
-    const extra = mapObjectExtraFromCtuBehavior(pick.ctu, cellSize);
-    const willBlock = extra.blocksMove !== false;
-
-    /* ── Spacing: apply to all blocking props, not just trees ── */
-    if (!treeSpacingOk(mapObjects, x, y, vk, willBlock)) return false;
-
-    if (
-      wouldCompleteOrthogonalBlockingLineOfThree(
-        mapObjects,
-        x,
-        y,
-        w,
-        h,
-        willBlock,
-      )
-    ) {
-      return false;
-    }
-
-    /* ── Pathway guard: blocking props may not touch the free lane ── */
-    if (willBlock && pathwayReserve.has(key(x, y))) return false;
-
-    const prevTerrain = terrain[y][x];
-    const isBridge =
-      pick.ctu?.classification?.subtype === "bridge" && pick.ctu?.behavior?.walkable === true;
-    if (isBridge) {
-      terrain[y][x] = profile.roadTerrain;
-    }
-
-    const vkLow = (vk || "").toLowerCase();
-    if (vkLow === "tree" || vkLow === "ruins" || vkLow === "house") {
-      extra.propAnchor = extra.propAnchor || "bottom";
-    }
-
-    const obj = makeMapObject(x, y, pick.sprite, undefined, vk, extra);
-
-    /* ── Disjoint-path guard: still ensure two routes survive ── */
-    const trial = [...mapObjects, obj];
-    if (
-      !hasTwoVertexDisjointPathsWithObjects(
-        terrain,
-        tileTypes,
-        trial,
-        playerSpawns,
-        enemySpawns,
-      )
-    ) {
-      terrain[y][x] = prevTerrain;
-      return false;
-    }
-
-    mapObjects.push(obj);
-    return true;
-  };
-
-  const kinds = profile.obstacleVisualKinds;
-  if (kinds.length) {
-    /* ── Primary pass: noise-sorted, respects probability threshold ── */
-    for (const [x, y] of candidates) {
-      if (mapObjects.length >= maxObstacles) break;
-      if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
-      tryPlace(x, y, false);
-    }
-
-    /* ── Fill pass: reach a minimum floor without opening walls.
-         Uses the same spacing + pathway rules; only relaxes the noise roll.
-         Cap at 75% of maxObstacles so we never pack the board solid. ── */
-    const fillTarget = Math.min(maxObstacles, Math.ceil(maxObstacles * 0.75));
-    if (mapObjects.length < fillTarget) {
-      /* Shuffle candidates for fill so we don't always retry the same dense spots */
-      const fillPool = [...candidates];
-      for (let i = fillPool.length - 1; i > 0; i--) {
-        const j = Math.floor(rnd() * (i + 1));
-        [fillPool[i], fillPool[j]] = [fillPool[j], fillPool[i]];
-      }
-      let fillTries = Math.min(300, fillPool.length);
-      for (const [x, y] of fillPool) {
-        if (mapObjects.length >= fillTarget) break;
-        if (fillTries-- <= 0) break;
-        if (mapObjects.some((o) => o.x === x && o.y === y)) continue;
-        tryPlace(x, y, true);
-      }
-    }
+    protectedRibbon,
+    profile,
+    rnd,
+    assetManifest,
+    placementSeed,
+    cellSize,
+    mapgenTheme: profile.id,
+    biome: biomeOpt,
+    mapObjects,
+  });
+  for (const wmsg of warnings) {
+    console.warn(wmsg);
   }
 
   placeInteriorFurniture(buildings, assetManifest, profile, rnd);
