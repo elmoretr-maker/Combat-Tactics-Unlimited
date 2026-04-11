@@ -6,6 +6,7 @@ import { moveCostAt } from "../engine/terrain.js";
 import { generateFoundation } from "./foundation.js";
 import { getThemeProfile } from "./themeProfiles.js";
 import { MAP_TEMPLATES } from "./templates.js";
+import { imageToTerrain } from "./imageTemplates.js";
 import { applyDividerRule, buildFlowConnectorLayer } from "./dividerRule.js";
 import { computeProtectedRibbon } from "./corridor.js";
 import { placeTacticalAssets } from "./tacticalAssets.js";
@@ -55,13 +56,36 @@ function ensureSpawnsOnPassableLand(
 }
 
 /**
+ * Structured selection by width; explicit template name (not "auto") wins.
+ * Large maps pick one of four templates using seeded RNG (same seed → same choice).
+ * @param {object} spec
+ * @param {number} width
+ * @param {number} seed
+ */
+function resolveEffectiveTemplate(spec, width, seed) {
+  const raw = spec.template;
+  if (raw && raw !== "auto") return raw;
+  if (width <= 12) return "arena_cross";
+  if (width <= 18) return "central_stronghold";
+  const rnd = mulberry32(seed >>> 0);
+  const largeTemplates = [
+    "island_cluster_large",
+    "ring_map",
+    "choke_valley",
+    "broken_grid",
+  ];
+  return largeTemplates[Math.floor(rnd() * largeTemplates.length)];
+}
+
+/**
  * @param {object} spec
  * @param {number} spec.width
  * @param {number} spec.height
  * @param {number} spec.seed
  * @param {"urban"|"desert"|"grass"|"arctic"} [spec.theme] legacy mapgen theme
  * @param {"forest"|"desert"|"winter"|"urban"} [spec.biome] preferred; overrides theme mapping when set
- * @param {keyof typeof MAP_TEMPLATES} [spec.template] structured layout; skips foundation when set
+ * @param {string} [spec.template] MAP_TEMPLATES key, or "auto" / omit for size-based selection
+ * @param {unknown} [spec.imageTemplate] future: raster → terrain (stub throws)
  * @param {Record<string, object>} spec.tileTypes — tileTextures.types only
  * @param {object|null|undefined} [spec.assetManifest] from assetManifest.json
  * @param {boolean} [spec.addRiverStrip] meandering water segment for divider/connectors (see foundation.js)
@@ -82,14 +106,21 @@ export function generateProceduralScenario(spec) {
 
   const cellSize = spec.cellSize ?? 48;
 
+  /* Raster path: stub throws until imageToTerrain exists. Then: terrain → normalize → ensureSpawns → divider… */
+  if (spec.imageTemplate != null) {
+    imageToTerrain(spec.imageTemplate);
+  }
+
+  const effectiveTemplate = resolveEffectiveTemplate(spec, width, seed);
+
   for (let attempt = 0; attempt < maxGenerationAttempts; attempt++) {
     const s = (seed + attempt * 0x9e3779b9) >>> 0;
 
     let t0;
     let profile;
     const templateFn =
-      spec.template && MAP_TEMPLATES[spec.template]
-        ? MAP_TEMPLATES[spec.template]
+      effectiveTemplate && MAP_TEMPLATES[effectiveTemplate]
+        ? MAP_TEMPLATES[effectiveTemplate]
         : null;
 
     if (templateFn) {
