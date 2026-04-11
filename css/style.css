@@ -3362,7 +3362,8 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
   flex-direction: column;
   align-items: stretch;
   gap: clamp(0.35rem, 1.2vw, 0.55rem);
-  flex: 1 1 auto;
+  /* Size to map + rail — do not absorb vertical flex (was a large empty “black” band) */
+  flex: 0 0 auto;
   min-height: 0;
 }
 #screen-maps .map-theater-rail--strip {
@@ -3407,6 +3408,51 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.55),
     0 0 20px rgba(57, 255, 20, 0.06);
+}
+/* World hero: no flex-grow (avoids empty band under map); center shrink-wrapped map */
+#screen-maps .map-theater-hero__frame.map-theater-hero__frame--world {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  padding: 0;
+  overflow: visible;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*
+ * Map fills the theater row width. Pin layer is sized in JS to the rendered <img> — when max-height
+ * shrinks the image narrower than the wrap, inset:100% on the wrap would misalign % coords vs land.
+ */
+#screen-maps .map-theater-world-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  line-height: 0;
+}
+#screen-maps .map-theater-world-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(72vh, 780px);
+  border-radius: 3px;
+}
+#screen-maps .map-theater-world-pins {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  overflow: visible;
+  pointer-events: none;
+}
+#screen-maps .map-theater-world-pins .map-theater-world-pin {
+  pointer-events: auto;
 }
 #screen-maps .map-theater-hero__frame canvas {
   display: block;
@@ -3471,6 +3517,12 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
 #screen-maps .map-theater-thumb--selected {
   border-color: rgba(61, 158, 255, 0.65);
   box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.22);
+}
+#screen-maps .map-theater-thumb--peek {
+  border-color: rgba(120, 200, 255, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(120, 200, 255, 0.4),
+    0 0 12px rgba(120, 200, 255, 0.25);
 }
 #screen-maps .map-theater-thumb__cv {
   display: block;
@@ -3561,12 +3613,208 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
   padding-top: 0.35rem;
 }
 
+/* Blowup modal — procedural holo frame (no PNG); dialog position set in JS from pin (fixed to viewport) */
+#map-theater-blowup.map-theater-blowup {
+  position: fixed;
+  inset: 0;
+  /* Above #app > header.top-bar (z-index 100); sibling of <main> */
+  z-index: 150;
+  display: block;
+  padding: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+#map-theater-blowup.map-theater-blowup[hidden] {
+  display: none !important;
+}
+#map-theater-blowup .map-theater-projection {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+#map-theater-blowup .map-theater-blowup__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 8, 12, 0.78) 0%,
+    rgba(2, 8, 12, 0.42) 38%,
+    rgba(2, 8, 12, 0.12) 52%,
+    transparent 62%
+  );
+  pointer-events: none;
+}
+#map-theater-blowup .map-theater-blowup__dialog {
+  position: fixed;
+  z-index: 2;
+  /* ~65% smaller than prior min(440px)/52vh (linear scale ≈ 0.35) */
+  width: min(168px, 38vw);
+  max-width: 100%;
+  max-height: min(24vh, 178px);
+  margin: 0;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  pointer-events: auto;
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.5));
+}
+#map-theater-blowup .map-theater-blowup__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+#map-theater-blowup .map-theater-blowup__panel--holo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-radius: 3px;
+  max-height: inherit;
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, rgba(14, 18, 22, 0.98) 0%, rgba(4, 8, 12, 0.99) 55%, rgba(2, 6, 10, 1) 100%);
+  border: 1px solid rgba(0, 220, 255, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.85),
+    0 0 22px rgba(0, 200, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+#map-theater-blowup .map-theater-blowup__holo-title {
+  margin: 0;
+  padding: 0.2rem 0.35rem 0.16rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.45rem, 1.1vw, 0.52rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(230, 250, 255, 0.96);
+  text-shadow:
+    0 0 12px rgba(0, 200, 255, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.95);
+  border-bottom: 1px solid rgba(0, 200, 255, 0.22);
+  background: linear-gradient(180deg, rgba(0, 40, 55, 0.25) 0%, transparent 100%);
+}
+#map-theater-blowup .map-theater-blowup__viewport-shell {
+  padding: 0.18rem 0.22rem 0.12rem;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+#map-theater-blowup .map-theater-blowup__viewport {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(8vh, 58px);
+  max-height: min(10vh, 76px);
+  padding: 0.15rem;
+  border-radius: 2px;
+  background: radial-gradient(ellipse at 50% 20%, rgba(0, 80, 100, 0.2) 0%, transparent 55%),
+    linear-gradient(180deg, #05080c 0%, #0a1018 100%);
+  border: 1px solid rgba(0, 230, 255, 0.45);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.65),
+    inset 0 0 24px rgba(0, 200, 255, 0.08),
+    0 0 16px rgba(0, 200, 255, 0.12);
+}
+#map-theater-blowup .map-theater-blowup__viewport canvas {
+  max-width: 100%;
+  max-height: min(9vh, 70px);
+  width: auto;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 2px;
+}
+#map-theater-blowup .map-theater-blowup__mech-divider {
+  position: relative;
+  height: 0.28rem;
+  margin: 0 0.22rem;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 12%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  border-top: 1px solid rgba(0, 180, 220, 0.15);
+}
+#map-theater-blowup .map-theater-blowup__mech-cap {
+  position: absolute;
+  top: -1px;
+  width: 0.24rem;
+  height: 0.28rem;
+  background: linear-gradient(180deg, rgba(0, 220, 255, 0.55) 0%, rgba(0, 120, 150, 0.35) 100%);
+  box-shadow: 0 0 8px rgba(0, 220, 255, 0.35);
+  border-radius: 1px;
+}
+#map-theater-blowup .map-theater-blowup__mech-cap--l {
+  left: 0;
+}
+#map-theater-blowup .map-theater-blowup__mech-cap--r {
+  right: 0;
+}
+#map-theater-blowup .map-theater-blowup__action-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.18rem 0.35rem 0.22rem;
+}
+#map-theater-blowup .map-theater-blowup__sq {
+  flex: 0 0 auto;
+  width: 1.28rem;
+  height: 1.28rem;
+  padding: 0;
+  margin: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(220, 248, 255, 0.98);
+  text-shadow: 0 0 12px rgba(0, 220, 255, 0.55);
+  background: linear-gradient(165deg, rgba(12, 18, 24, 0.95) 0%, rgba(4, 8, 12, 0.98) 100%);
+  border: 1px solid rgba(0, 220, 255, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 0 14px rgba(0, 200, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  transition:
+    background 0.14s,
+    border-color 0.14s,
+    box-shadow 0.14s;
+}
+#map-theater-blowup .map-theater-blowup__sq:hover {
+  background: linear-gradient(165deg, rgba(20, 36, 48, 0.98) 0%, rgba(8, 16, 24, 0.99) 100%);
+  border-color: rgba(100, 240, 255, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(0, 220, 255, 0.35);
+  color: #fff;
+}
+
 @media (max-width: 900px) {
   #screen-maps .map-theater-cp-frame.hub-roster-cp-frame {
     width: min(100%, 96vw);
   }
-  #screen-maps .map-theater-hero__frame {
-    max-height: min(36vh, 300px);
+  #screen-maps .map-theater-world-img {
+    max-height: min(58vh, 520px);
   }
   #screen-maps .map-theater-section--filters {
     margin-top: 0.5rem;
@@ -3582,8 +3830,8 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
     font-size: 0.65rem;
     padding: 0 0.15rem;
   }
-  #screen-maps .map-theater-hero__frame {
-    max-height: min(40vh, 240px);
+  #screen-maps .map-theater-world-img {
+    max-height: min(48vh, 360px);
   }
   #screen-maps .map-theater-thumb {
     width: 3.65rem;

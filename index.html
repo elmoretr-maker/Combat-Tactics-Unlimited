@@ -436,19 +436,37 @@
               </header>
               <div class="hub-roster-cp-frame__body map-theater-cp-frame__body">
                 <p class="muted small map-theater-hint">
-                  <strong>Scroll the row</strong> of square previews to pick a map. <strong>Large screen</strong> shows the active terrain.
-                  <strong>Filters</strong> narrow the row; then <strong>Vs CPU on map</strong> or hotseat.
+                  <strong>World map</strong> — dots sit on regions by theme (deserts, Amazon forest, Alaska ice, North American mixed, European urban).
+                  Hover dots to sync thumbnails; <strong>click a dot</strong> for a large terrain preview.
+                  <strong>Scroll the row</strong> to pick a map or use the preview actions. <strong>Filters</strong> narrow both dots and thumbnails.
                 </p>
                 <div class="map-theater-shell">
-                  <!-- cp_frame_map: large preview, horizontal square thumb strip, then filters (see asset) -->
+                  <!-- World map + pins; blowup modal uses hud_craftpix/bonus_01_cyber.png -->
                   <div class="map-theater-stage" aria-label="Map previews">
                     <div class="map-theater-hero">
-                      <div class="map-theater-hero__frame">
+                      <div class="map-theater-hero__frame map-theater-hero__frame--world">
+                        <div class="map-theater-world-wrap">
+                          <img
+                            class="map-theater-world-img"
+                            src="assets/ui_master/world%20map.jpg"
+                            width="1024"
+                            height="721"
+                            alt=""
+                            decoding="async"
+                          />
+                          <div
+                            id="map-theater-world-pins"
+                            class="map-theater-world-pins"
+                            role="presentation"
+                          ></div>
+                        </div>
                         <canvas
                           id="map-theater-main-preview"
-                          width="360"
-                          height="220"
-                          aria-label="Selected map terrain preview"
+                          class="map-theater-main-preview--ghost"
+                          width="1"
+                          height="1"
+                          hidden
+                          aria-hidden="true"
                         ></canvas>
                       </div>
                       <p id="map-theater-selected" class="map-theater-selected muted small" aria-live="polite"></p>
@@ -843,6 +861,84 @@
       </div>
     </section>
   </main>
+
+  <!-- Map theater blowup: direct child of #app so z-index stacks above header (main is z-index 0) -->
+  <div
+    id="map-theater-blowup"
+    class="map-theater-blowup"
+    hidden
+    aria-hidden="true"
+  >
+    <div class="map-theater-blowup__backdrop" aria-hidden="true"></div>
+    <svg
+      id="map-theater-projection-svg"
+      class="map-theater-projection"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <filter
+          id="map-theater-proj-glow"
+          x="-40%"
+          y="-40%"
+          width="180%"
+          height="180%"
+        >
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.9" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g id="map-theater-projection-lines"></g>
+    </svg>
+    <div
+      class="map-theater-blowup__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="map-theater-blowup-title"
+    >
+      <h2 id="map-theater-blowup-title" class="map-theater-blowup__sr-only">
+        Battle map terrain preview
+      </h2>
+      <div class="map-theater-blowup__panel map-theater-blowup__panel--holo">
+        <p id="map-theater-blowup-name" class="map-theater-blowup__holo-title"></p>
+        <div class="map-theater-blowup__viewport-shell">
+          <div class="map-theater-blowup__viewport">
+            <canvas
+              id="map-theater-blowup-canvas"
+              width="320"
+              height="200"
+              aria-label="Terrain preview"
+            ></canvas>
+          </div>
+        </div>
+        <div class="map-theater-blowup__mech-divider" aria-hidden="true">
+          <span class="map-theater-blowup__mech-cap map-theater-blowup__mech-cap--l"></span>
+          <span class="map-theater-blowup__mech-cap map-theater-blowup__mech-cap--r"></span>
+        </div>
+        <div class="map-theater-blowup__action-row">
+          <button
+            type="button"
+            class="map-theater-blowup__sq map-theater-blowup__hit--close"
+            id="map-theater-blowup-close"
+            aria-label="Close preview"
+          >
+            ×
+          </button>
+          <button
+            type="button"
+            class="map-theater-blowup__sq map-theater-blowup__hit--use"
+            id="map-theater-blowup-use"
+            aria-label="Use this map"
+          >
+            ✓
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Boot-or-Kill: if ES module fails (file:// or CORS), show full-screen failure overlay -->

@@ -186,55 +186,25 @@ function drawMapTheaterPreviewCanvas(canvas, terrain, tileTypeMap, maxW, maxH) {
   }
 }
 
-/** Large center preview (inventory “screen”); empty state when no map selected */
-async function redrawMapTheaterMainPreview(tileTypeMap) {
-  const canvas = document.getElementById("map-theater-main-preview");
+/** Caption under world map; terrain preview is on dots (blowup modal) and thumbnails. */
+async function redrawMapTheaterMainPreview(_tileTypeMap) {
   const caption = document.getElementById("map-theater-selected");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const frame = canvas.closest(".map-theater-hero__frame");
-  const maxW = frame
-    ? Math.max(160, Math.min(520, (frame.clientWidth || 360) - 4))
-    : 360;
-  const maxH = Math.min(320, Math.round(maxW * 0.62));
+  if (!caption) return;
   if (!pendingUserMapPath) {
-    canvas.width = Math.floor(maxW);
-    canvas.height = Math.floor(maxH);
-    if (ctx) {
-      ctx.fillStyle = "#0a0e0c";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "rgba(57, 255, 20, 0.12)";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
-    }
-    if (caption) {
-      caption.textContent =
-        "No map selected — tap a side slot to preview, or use filters to narrow the list.";
-    }
+    caption.textContent =
+      "Hover dots to sync thumbnails — click a dot for a large preview. Pick a map in the strip or use preview ✓.";
     return;
   }
   try {
-    const sb = await loadJson(pendingUserMapPath);
-    const terrain = sb?.terrain;
-    if (terrain?.length && ctx) {
-      drawMapTheaterPreviewCanvas(canvas, terrain, tileTypeMap, maxW, maxH);
-    }
+    await loadJson(pendingUserMapPath);
     const maps = mapCatalog?.maps || [];
     const cur = maps.find((x) => x.path === pendingUserMapPath);
-    if (caption) {
-      caption.textContent = cur
-        ? `Selected: ${cur.name} — ${biomeDisplayName(getBiomeForCatalogEntry(cur))} · ${cur.width}×${cur.height}`
-        : "Map loaded.";
-    }
+    caption.textContent = cur
+      ? `Selected: ${cur.name} — ${biomeDisplayName(getBiomeForCatalogEntry(cur))} · ${cur.width}×${cur.height}`
+      : "Map loaded.";
   } catch (e) {
-    console.warn("[CTU] Map theater main preview failed", e);
-    canvas.width = Math.floor(maxW);
-    canvas.height = Math.floor(maxH);
-    if (ctx) {
-      ctx.fillStyle = "#1a1010";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    if (caption) caption.textContent = "Could not load preview for this map.";
+    console.warn("[CTU] Map theater caption update failed", e);
+    caption.textContent = "Could not load that map metadata.";
   }
 }
 let battleEndHandled = false;
@@ -692,6 +662,7 @@ function applyVisualTheme() {
 function showScreen(name, sectionId) {
   /* Close the codex dossier before leaving — avoids it being position:fixed over other screens */
   if (name !== "codex") closeCodexDossier();
+  if (name !== "maps") closeMapTheaterBlowup();
 
   const v2Alias = name === "v2-landing";
   const screenName = v2Alias ? "landing" : name;
@@ -3485,6 +3456,459 @@ function applySettingsToUi() {
 let mapTheaterFilterSize = "all";
 let mapTheaterFilterEnv = "all";
 let mapTheaterFilterBiome = "all";
+/** Map path for open blowup modal (`null` when closed). */
+let mapTheaterBlowupPath = null;
+/** Pin button that opened the blowup (for projection lines); cleared on close. */
+let mapTheaterBlowupPinEl = null;
+/** When max-height scales the map narrower than the wrap, pins must match the <img> box, not the wrap. */
+let mapTheaterWorldPinResizeObs = null;
+
+/** Sizes #map-theater-world-pins to the rendered bitmap (same coordinate space as anchor %). */
+function syncMapTheaterWorldPinLayerBox() {
+  const wrap = document.querySelector("#screen-maps .map-theater-world-wrap");
+  const img = document.querySelector("#screen-maps .map-theater-world-img");
+  const pins = document.getElementById("map-theater-world-pins");
+  if (!wrap || !img || !pins) return;
+  if (!img.offsetWidth || !img.offsetHeight) return;
+  pins.style.position = "absolute";
+  pins.style.left = `${img.offsetLeft}px`;
+  pins.style.top = `${img.offsetTop}px`;
+  pins.style.width = `${img.offsetWidth}px`;
+  pins.style.height = `${img.offsetHeight}px`;
+  pins.style.right = "auto";
+  pins.style.bottom = "auto";
+}
+
+function ensureMapTheaterWorldPinLayerObserver() {
+  const img = document.querySelector("#screen-maps .map-theater-world-img");
+  const pins = document.getElementById("map-theater-world-pins");
+  const wrap = document.querySelector("#screen-maps .map-theater-world-wrap");
+  if (!img || !pins || !wrap) return;
+  const run = () => {
+    syncMapTheaterWorldPinLayerBox();
+    if (!document.getElementById("map-theater-blowup")?.hidden) {
+      updateMapTheaterProjectionLines();
+    }
+  };
+  if (!mapTheaterWorldPinResizeObs) {
+    mapTheaterWorldPinResizeObs = new ResizeObserver(run);
+    mapTheaterWorldPinResizeObs.observe(img);
+    mapTheaterWorldPinResizeObs.observe(wrap);
+    img.addEventListener("load", run);
+  }
+  run();
+}
+
+/** Deterministic ±20px jitter from map path so each preview feels anchored, not template-centered. */
+function mapTheaterPathJitterPx(path, salt) {
+  let h = 2166136261 ^ (salt | 0);
+  const s = String(path || "");
+  for (let i = 0; i < s.length; i++) {
+    h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+  }
+  return ((h >>> 0) % 41) - 20;
+}
+
+function layoutMapTheaterBlowupDialog() {
+  const shell = document.getElementById("map-theater-blowup");
+  const dialog = shell?.querySelector?.(".map-theater-blowup__dialog");
+  if (!shell || shell.hidden || !dialog) return;
+  const hdr = document.querySelector("#app > header.top-bar");
+  const headH = hdr ? hdr.getBoundingClientRect().height : 0;
+  const margin = 10;
+  const gap = 12;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const jx = mapTheaterPathJitterPx(mapTheaterBlowupPath, 0x51d);
+  const jy = mapTheaterPathJitterPx(mapTheaterBlowupPath, 0xa7f);
+  const pin = mapTheaterBlowupPinEl;
+  const dw = dialog.offsetWidth;
+  const dh = dialog.offsetHeight;
+  if (!dw || !dh) return;
+
+  let left;
+  let top;
+  if (pin && pin.isConnected) {
+    const pr = pin.getBoundingClientRect();
+    const pcx = pr.left + pr.width / 2;
+    let preferTop = pr.top - gap - dh;
+    if (preferTop >= headH + margin) {
+      top = preferTop;
+    } else {
+      top = pr.bottom + gap;
+    }
+    left = pcx - dw / 2;
+  } else {
+    left = (vw - dw) / 2;
+    top = headH + margin + 8;
+  }
+  left += jx;
+  top += jy;
+  left = Math.min(Math.max(margin, left), vw - margin - dw);
+  top = Math.min(Math.max(headH + margin, top), vh - margin - dh);
+  dialog.style.left = `${Math.round(left)}px`;
+  dialog.style.top = `${Math.round(top)}px`;
+}
+
+function resetMapTheaterBlowupDialogPosition() {
+  const dialog = document.querySelector("#map-theater-blowup .map-theater-blowup__dialog");
+  if (!dialog) return;
+  dialog.style.left = "";
+  dialog.style.top = "";
+}
+
+function updateMapTheaterProjectionLines() {
+  const g = document.getElementById("map-theater-projection-lines");
+  const shell = document.getElementById("map-theater-blowup");
+  const svg = document.getElementById("map-theater-projection-svg");
+  if (!g || !svg || !shell || shell.hidden) {
+    if (g) g.innerHTML = "";
+    return;
+  }
+  const pin = mapTheaterBlowupPinEl;
+  const vp = document.querySelector(".map-theater-blowup__viewport");
+  if (!pin || !vp || !pin.isConnected) {
+    g.innerHTML = "";
+    return;
+  }
+  const pr = pin.getBoundingClientRect();
+  const vr = vp.getBoundingClientRect();
+  const px = pr.left + pr.width / 2;
+  const py = pr.top + pr.height / 2;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  svg.setAttribute("width", String(w));
+  svg.setAttribute("height", String(h));
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  const corners = [
+    [vr.left, vr.top],
+    [vr.right, vr.top],
+    [vr.right, vr.bottom],
+    [vr.left, vr.bottom],
+  ];
+  g.innerHTML = corners
+    .map(
+      ([x2, y2]) =>
+        `<line x1="${px}" y1="${py}" x2="${x2}" y2="${y2}" stroke="#5af0ff" stroke-width="1.4" stroke-opacity="0.72" filter="url(#map-theater-proj-glow)" />`,
+    )
+    .join("");
+}
+
+function refreshMapTheaterBlowupPinRef() {
+  if (!mapTheaterBlowupPath) return;
+  const host = document.getElementById("map-theater-world-pins");
+  if (!host) return;
+  mapTheaterBlowupPinEl = null;
+  for (const b of host.querySelectorAll("button.map-theater-world-pin")) {
+    if (b.dataset.mapPath === mapTheaterBlowupPath) {
+      mapTheaterBlowupPinEl = b;
+      break;
+    }
+  }
+}
+
+function getFilteredMapsForTheater() {
+  const maps = mapCatalog?.maps || [];
+  const filtered = [];
+  for (const m of maps) {
+    if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) continue;
+    if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) continue;
+    if (mapTheaterFilterBiome !== "all") {
+      const b = getBiomeForCatalogEntry(m);
+      if (b !== mapTheaterFilterBiome) continue;
+    }
+    filtered.push(m);
+  }
+  return filtered;
+}
+
+/** FNV-1a for stable urban → Europe vs Africa split from map id. */
+function theaterMapIdStableHash(s) {
+  const str = String(s ?? "");
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function theaterMapUrbanSplitRegion(id) {
+  return (theaterMapIdStableHash(id) & 1) === 0
+    ? "europe_urban"
+    : "africa_urban";
+}
+
+/**
+ * Map catalog entry → geographic theater bucket (pins + previews align to region).
+ * - Desert maps → North Africa + Australia (same asset)
+ * - Wild forest → Amazon / Brazil (dense forest)
+ * - Arctic / winter → Australia (bottom-right landmass on this bitmap)
+ * - Mixed (suburban + sparse cover) → North America
+ * - Urban → Europe or Africa (stable split by map id)
+ */
+function mapCatalogEntryToTheaterWorldRegion(m) {
+  const env = String(m.environment || "").toLowerCase();
+  if (env === "mixed") return "north_america_mixed";
+  if (env === "wild") return "amazon_dense_forest";
+  if (env === "desert") return "desert";
+  if (env === "arctic") return "arctic";
+  if (env === "urban") return theaterMapUrbanSplitRegion(m.id);
+  const biome = getBiomeForCatalogEntry(m);
+  if (biome === "desert") return "desert";
+  if (biome === "winter") return "arctic";
+  if (biome === "urban") return theaterMapUrbanSplitRegion(m.id);
+  if (biome === "forest") return "amazon_dense_forest";
+  return "fallback";
+}
+
+function pinMicroJitterFromMapId(_id) {
+  /* Anchors are sampled on interior black pixels; jitter would push dots onto glow/ocean */
+  return { dx: 0, dy: 0 };
+}
+
+function clampWorldPinPct(n) {
+  return Math.min(98, Math.max(2, n));
+}
+
+/**
+ * Pin anchors as % of the rendered `world map.jpg` bitmap (native 1024×721).
+ * Regenerated by `tools/generate_world_map_cyber.py` (interior black land, greedy spacing, geo boxes).
+ */
+const THEATER_WORLD_ANCHORS = {
+  desert: [
+    { leftPct: 47.75, topPct: 31.76 },
+    { leftPct: 49.51, topPct: 31.07 },
+    { leftPct: 51.17, topPct: 31.9 },
+    { leftPct: 49.02, topPct: 33.56 },
+    { leftPct: 52.93, topPct: 31.76 },
+    { leftPct: 54.39, topPct: 33.15 },
+    { leftPct: 56.05, topPct: 32.18 },
+    { leftPct: 57.71, topPct: 33.15 },
+    { leftPct: 60.16, topPct: 31.07 },
+    { leftPct: 83.4, topPct: 55.48 },
+    { leftPct: 85.16, topPct: 57.84 },
+    { leftPct: 87.21, topPct: 56.87 },
+    { leftPct: 91.31, topPct: 55.48 },
+    { leftPct: 89.45, topPct: 57.14 },
+    { leftPct: 81.93, topPct: 62.14 },
+    { leftPct: 83.89, topPct: 60.33 },
+  ],
+  amazon_dense_forest: [
+    { leftPct: 29.69, topPct: 43.97 },
+    { leftPct: 28.81, topPct: 46.46 },
+    { leftPct: 30.66, topPct: 47.43 },
+    { leftPct: 32.13, topPct: 44.52 },
+    { leftPct: 33.59, topPct: 46.46 },
+    { leftPct: 35.35, topPct: 47.71 },
+    { leftPct: 28.42, topPct: 49.24 },
+    { leftPct: 30.27, topPct: 50.21 },
+    { leftPct: 27.83, topPct: 52.01 },
+  ],
+  arctic: [
+    { leftPct: 83.4, topPct: 55.48 },
+    { leftPct: 85.16, topPct: 57.84 },
+    { leftPct: 87.21, topPct: 56.87 },
+    { leftPct: 91.31, topPct: 55.48 },
+    { leftPct: 89.45, topPct: 57.14 },
+    { leftPct: 81.93, topPct: 62.14 },
+    { leftPct: 83.89, topPct: 60.33 },
+  ],
+  north_america_mixed: [
+    { leftPct: 14.65, topPct: 21.08 },
+    { leftPct: 16.6, topPct: 21.08 },
+    { leftPct: 15.72, topPct: 23.86 },
+    { leftPct: 18.55, topPct: 21.08 },
+    { leftPct: 20.41, topPct: 22.05 },
+    { leftPct: 17.68, topPct: 23.58 },
+    { leftPct: 22.27, topPct: 21.08 },
+    { leftPct: 23.83, topPct: 22.75 },
+    { leftPct: 21.97, topPct: 23.86 },
+    { leftPct: 25.39, topPct: 21.08 },
+    { leftPct: 27.25, topPct: 22.05 },
+    { leftPct: 25.68, topPct: 23.86 },
+    { leftPct: 29.1, topPct: 21.08 },
+    { leftPct: 30.66, topPct: 22.75 },
+  ],
+  europe_urban: [
+    { leftPct: 48.63, topPct: 18.03 },
+    { leftPct: 51.76, topPct: 16.64 },
+    { leftPct: 53.91, topPct: 16.64 },
+    { leftPct: 58.01, topPct: 17.06 },
+    { leftPct: 56.15, topPct: 18.72 },
+    { leftPct: 49.8, topPct: 20.67 },
+    { leftPct: 51.17, topPct: 23.02 },
+    { leftPct: 52.64, topPct: 20.11 },
+    { leftPct: 54.59, topPct: 21.5 },
+    { leftPct: 53.22, topPct: 23.99 },
+  ],
+  africa_urban: [
+    { leftPct: 46.0, topPct: 38.83 },
+    { leftPct: 59.08, topPct: 54.37 },
+    { leftPct: 61.23, topPct: 47.3 },
+    { leftPct: 56.74, topPct: 40.92 },
+    { leftPct: 49.32, topPct: 46.74 },
+    { leftPct: 61.82, topPct: 37.86 },
+    { leftPct: 58.5, topPct: 61.86 },
+    { leftPct: 56.35, topPct: 53.12 },
+    { leftPct: 52.54, topPct: 40.64 },
+    { leftPct: 54.98, topPct: 43.55 },
+    { leftPct: 55.37, topPct: 49.79 },
+    { leftPct: 49.22, topPct: 42.02 },
+  ],
+  fallback: [
+    { leftPct: 48.63, topPct: 18.03 },
+    { leftPct: 47.75, topPct: 31.76 },
+    { leftPct: 29.69, topPct: 43.97 },
+  ],
+};
+
+/**
+ * @param {Array<{ id?: string, path: string }>} maps
+ * @returns {Map<string, { leftPct: number, topPct: number }>}
+ */
+function buildWorldPinLayoutByPath(maps) {
+  /** @type {Map<string, { leftPct: number, topPct: number }>} */
+  const out = new Map();
+  /** @type {Map<string, typeof maps>} */
+  const groups = new Map();
+  for (const m of maps) {
+    const r = mapCatalogEntryToTheaterWorldRegion(m);
+    if (!groups.has(r)) groups.set(r, []);
+    groups.get(r).push(m);
+  }
+  for (const [regionKey, list] of groups) {
+    const anchors = THEATER_WORLD_ANCHORS[regionKey] || THEATER_WORLD_ANCHORS.fallback;
+    list.forEach((m, idx) => {
+      const slot = anchors[idx % anchors.length];
+      const j = pinMicroJitterFromMapId(m.id);
+      out.set(m.path, {
+        leftPct: clampWorldPinPct(slot.leftPct + j.dx),
+        topPct: clampWorldPinPct(slot.topPct + j.dy),
+      });
+    });
+  }
+  return out;
+}
+
+function mapTheaterThumbButtonForPath(mapPath) {
+  const strip = document.getElementById("map-theater-rail-strip");
+  if (!strip) return null;
+  const esc = String(mapPath).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  return strip.querySelector(`button.map-theater-thumb[data-map-path="${esc}"]`);
+}
+
+function scrollMapTheaterThumbIntoView(mapPath) {
+  const el = mapTheaterThumbButtonForPath(mapPath);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }
+}
+
+function setMapTheaterThumbPeek(mapPath, on) {
+  document
+    .querySelectorAll("#map-theater-rail-strip .map-theater-thumb--peek")
+    .forEach((n) => n.classList.remove("map-theater-thumb--peek"));
+  if (!on || !mapPath) return;
+  const el = mapTheaterThumbButtonForPath(mapPath);
+  if (el) el.classList.add("map-theater-thumb--peek");
+}
+
+async function applyMapTheaterSelectionFromPath(mapPath) {
+  const prevPath = pendingUserMapPath;
+  pendingProceduralSkirmishSpec = null;
+  pendingUserMapPath = mapPath;
+  let sb;
+  try {
+    sb = await loadJson(mapPath);
+  } catch (e) {
+    console.warn("[CTU] map theater: load failed", e);
+    pendingUserMapPath = prevPath;
+    const sel = document.getElementById("map-theater-selected");
+    if (sel) sel.textContent = "Could not load that map. Pick another.";
+    await renderMapTheater();
+    return false;
+  }
+  const newSlots = Math.min(8, Math.max(1, sb.skirmishDeploy?.length ?? 8));
+  pendingMapSkirmishSlotCount = newSlots;
+  if (
+    pendingSkirmishOrderedLoadout &&
+    pendingSkirmishOrderedLoadout.length !== newSlots
+  ) {
+    pendingSkirmishOrderedLoadout = null;
+  }
+  await renderMapTheater();
+  if (mapsReturnTarget === "vs-cpu-prep") {
+    mapsReturnTarget = null;
+    void openVsCpuPrep();
+    showScreen("vs-cpu-prep");
+  } else if (mapsReturnTarget === "mat-lab-prep") {
+    mapsReturnTarget = null;
+    void openMatLabPrep();
+    showScreen("mat-lab-prep");
+  }
+  return true;
+}
+
+async function redrawMapTheaterBlowupCanvas(tileTypeMap) {
+  const canvas = document.getElementById("map-theater-blowup-canvas");
+  const panel = document.querySelector("#map-theater-blowup .map-theater-blowup__viewport");
+  if (!canvas || !mapTheaterBlowupPath || !panel) return;
+  const maxW = Math.max(120, Math.min(560, (panel.clientWidth || 320) - 4));
+  const maxH = Math.max(100, Math.min(400, (panel.clientHeight || 200) - 4));
+  try {
+    const sb = await loadJson(mapTheaterBlowupPath);
+    const terrain = sb?.terrain;
+    if (terrain?.length) {
+      drawMapTheaterPreviewCanvas(canvas, terrain, tileTypeMap, maxW, maxH);
+    }
+  } catch (e) {
+    console.warn("[CTU] Map theater blowup preview failed", e);
+  }
+}
+
+function openMapTheaterBlowup(mapPath, tileTypeMap, pinEl) {
+  mapTheaterBlowupPath = mapPath;
+  mapTheaterBlowupPinEl = pinEl && pinEl instanceof Element ? pinEl : null;
+  const shell = document.getElementById("map-theater-blowup");
+  const nameEl = document.getElementById("map-theater-blowup-name");
+  if (!shell) return;
+  const maps = mapCatalog?.maps || [];
+  const entry = maps.find((x) => x.path === mapPath);
+  if (nameEl) nameEl.textContent = entry ? entry.name : mapPath;
+  shell.hidden = false;
+  shell.setAttribute("aria-hidden", "false");
+  void redrawMapTheaterBlowupCanvas(tileTypeMap);
+  requestAnimationFrame(() => {
+    layoutMapTheaterBlowupDialog();
+    void redrawMapTheaterBlowupCanvas(tileTypeMap);
+    updateMapTheaterProjectionLines();
+  });
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      layoutMapTheaterBlowupDialog();
+      void redrawMapTheaterBlowupCanvas(tileTypeMap);
+      updateMapTheaterProjectionLines();
+    });
+  });
+  scrollMapTheaterThumbIntoView(mapPath);
+  setMapTheaterThumbPeek(mapPath, true);
+  document.getElementById("map-theater-blowup-close")?.focus?.();
+}
+
+function closeMapTheaterBlowup() {
+  const shell = document.getElementById("map-theater-blowup");
+  if (shell) {
+    shell.hidden = true;
+    shell.setAttribute("aria-hidden", "true");
+  }
+  resetMapTheaterBlowupDialogPosition();
+  mapTheaterBlowupPath = null;
+  mapTheaterBlowupPinEl = null;
+  const g = document.getElementById("map-theater-projection-lines");
+  if (g) g.innerHTML = "";
+  setMapTheaterThumbPeek(null, false);
+}
 
 async function renderMapTheater() {
   const fs = document.getElementById("map-filter-size");
@@ -3513,17 +3937,11 @@ async function renderMapTheater() {
   const thumbMaxW = 52;
   const thumbMaxH = 52;
 
-  const maps = mapCatalog.maps || [];
-  const filtered = [];
-  for (const m of maps) {
-    if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) continue;
-    if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) continue;
-    if (mapTheaterFilterBiome !== "all") {
-      const b = getBiomeForCatalogEntry(m);
-      if (b !== mapTheaterFilterBiome) continue;
-    }
-    filtered.push(m);
+  const filtered = getFilteredMapsForTheater();
+  if (mapTheaterBlowupPath && !filtered.some((x) => x.path === mapTheaterBlowupPath)) {
+    closeMapTheaterBlowup();
   }
+
   filtered.forEach((m) => {
     const card = document.createElement("button");
     card.type = "button";
@@ -3560,44 +3978,63 @@ async function renderMapTheater() {
         console.warn("[CTU] Map theater thumb preview failed:", m.path, e);
       });
     card.addEventListener("click", () => {
-      void (async () => {
-        const prevPath = pendingUserMapPath;
-        pendingProceduralSkirmishSpec = null;
-        pendingUserMapPath = m.path;
-        let sb;
-        try {
-          sb = await loadJson(m.path);
-        } catch (e) {
-          console.warn("[CTU] map theater: load failed", e);
-          pendingUserMapPath = prevPath;
-          const sel = document.getElementById("map-theater-selected");
-          if (sel) sel.textContent = "Could not load that map. Pick another.";
-          void renderMapTheater();
-          return;
-        }
-        const newSlots = Math.min(8, Math.max(1, sb.skirmishDeploy?.length ?? 8));
-        pendingMapSkirmishSlotCount = newSlots;
-        if (
-          pendingSkirmishOrderedLoadout &&
-          pendingSkirmishOrderedLoadout.length !== newSlots
-        ) {
-          pendingSkirmishOrderedLoadout = null;
-        }
-        void renderMapTheater();
-        if (mapsReturnTarget === "vs-cpu-prep") {
-          mapsReturnTarget = null;
-          void openVsCpuPrep();
-          showScreen("vs-cpu-prep");
-        } else if (mapsReturnTarget === "mat-lab-prep") {
-          mapsReturnTarget = null;
-          void openMatLabPrep();
-          showScreen("mat-lab-prep");
-        }
-      })();
+      void applyMapTheaterSelectionFromPath(m.path);
     });
     railStrip.appendChild(card);
   });
+
+  const pinHost = document.getElementById("map-theater-world-pins");
+  if (pinHost) {
+    pinHost.innerHTML = "";
+    const pinLayout = buildWorldPinLayoutByPath(filtered);
+    filtered.forEach((m) => {
+      const pos = pinLayout.get(m.path);
+      const leftPct = pos?.leftPct ?? 50;
+      const topPct = pos?.topPct ?? 50;
+      const pin = document.createElement("button");
+      pin.type = "button";
+      pin.className = "map-theater-world-pin";
+      pin.style.left = `${leftPct}%`;
+      pin.style.top = `${topPct}%`;
+      pin.dataset.mapPath = m.path;
+      pin.setAttribute("aria-label", `Open terrain preview: ${m.name}`);
+      pin.addEventListener("mouseenter", () => {
+        scrollMapTheaterThumbIntoView(m.path);
+        setMapTheaterThumbPeek(m.path, true);
+      });
+      pin.addEventListener("mouseleave", () => {
+        if (mapTheaterBlowupPath !== m.path) {
+          setMapTheaterThumbPeek(null, false);
+        }
+      });
+      pin.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        openMapTheaterBlowup(m.path, tileTypeMap, pin);
+      });
+      pinHost.appendChild(pin);
+    });
+    ensureMapTheaterWorldPinLayerObserver();
+    requestAnimationFrame(() => {
+      syncMapTheaterWorldPinLayerBox();
+      requestAnimationFrame(() => syncMapTheaterWorldPinLayerBox());
+    });
+  }
+
+  if (
+    mapTheaterBlowupPath &&
+    !document.getElementById("map-theater-blowup")?.hidden
+  ) {
+    refreshMapTheaterBlowupPinRef();
+    requestAnimationFrame(() => {
+      layoutMapTheaterBlowupDialog();
+      updateMapTheaterProjectionLines();
+    });
+  }
+
   void redrawMapTheaterMainPreview(tileTypeMap);
+  if (!document.getElementById("map-theater-blowup")?.hidden && mapTheaterBlowupPath) {
+    void redrawMapTheaterBlowupCanvas(tileTypeMap);
+  }
   const backPrep = document.getElementById("btn-map-theater-back-prep");
   if (backPrep) {
     backPrep.hidden =
@@ -3803,11 +4240,28 @@ function wireUi() {
       mapTheaterLayoutTimer = setTimeout(() => {
         if (document.getElementById("screen-maps")?.classList.contains("screen--active")) {
           void renderMapTheater();
+          const blow = document.getElementById("map-theater-blowup");
+          if (blow && !blow.hidden && mapTheaterBlowupPath) {
+            layoutMapTheaterBlowupDialog();
+            void redrawMapTheaterBlowupCanvas(mapTheaterTileTypes || {});
+            updateMapTheaterProjectionLines();
+          }
         }
       }, 120);
     },
     { passive: true },
   );
+  document.getElementById("map-theater-blowup-close")?.addEventListener("click", () => {
+    closeMapTheaterBlowup();
+  });
+  document.getElementById("map-theater-blowup-use")?.addEventListener("click", () => {
+    const p = mapTheaterBlowupPath;
+    if (!p) return;
+    void (async () => {
+      await applyMapTheaterSelectionFromPath(p);
+      closeMapTheaterBlowup();
+    })();
+  });
   document.getElementById("btn-map-theater-skirmish")?.addEventListener("click", () => {
     void openMapSkirmishLoadout({ returnToPrep: false });
   });
@@ -3957,6 +4411,15 @@ function wireUi() {
     if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
     if (ev.target?.closest?.("input, textarea, select, [contenteditable=true]")) return;
 
+    if (ev.key === "Escape") {
+      const blow = document.getElementById("map-theater-blowup");
+      if (blow && !blow.hidden) {
+        ev.preventDefault();
+        closeMapTheaterBlowup();
+        return;
+      }
+    }
+
     const battleEl = document.getElementById("screen-battle");
     const battleOn = battleEl?.classList.contains("screen--active");
 
@@ -4012,6 +4475,8 @@ function wireUi() {
   initBattleCameraControls();
 
   initDevLogoBackdoor();
+
+  ensureMapTheaterWorldPinLayerObserver();
 }
 
 /* ── Drag-to-scroll gesture helper ──────────────────────
