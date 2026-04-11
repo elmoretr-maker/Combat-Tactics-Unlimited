@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.994Z",
+  "sourceImage": "N-Air.png",
+  "classification": {
+    "type": "unit",
+    "subtype": "vehicle",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "tactical_vehicles",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.3520652651786804
+      },
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.2684793099761009
+      },
+      {
+        "clipCategoryId": "weapons_firearms",
+        "confidence": 0.20542129129171371
+      }
+    ]
+  },
+  "placement": [
+    "land"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [],
+  "pipeline": {
+    "folderLayoutHint": "assets/units/vehicles",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

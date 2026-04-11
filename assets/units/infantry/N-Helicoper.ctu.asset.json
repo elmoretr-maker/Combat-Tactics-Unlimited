@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.994Z",
+  "sourceImage": "N-Helicoper.png",
+  "classification": {
+    "type": "unit",
+    "subtype": "soldier",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "soldiers_infantry",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.7992697358131409
+      },
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.09156294295098633
+      },
+      {
+        "clipCategoryId": "weapons_firearms",
+        "confidence": 0.0537391509860754
+      }
+    ]
+  },
+  "placement": [
+    "land"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [],
+  "pipeline": {
+    "folderLayoutHint": "assets/units/infantry",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

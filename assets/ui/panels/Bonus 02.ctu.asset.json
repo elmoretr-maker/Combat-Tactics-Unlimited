@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.992Z",
+  "sourceImage": "Bonus 02.png",
+  "classification": {
+    "type": "ui",
+    "subtype": "icon",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "loot_icons",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.7005678564310074
+      },
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.18863701075315475
+      },
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.04641512595117092
+      }
+    ]
+  },
+  "placement": [
+    "none"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "ui_never_world_placed"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/ui/panels",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

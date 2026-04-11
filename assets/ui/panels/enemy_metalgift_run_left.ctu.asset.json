@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.994Z",
+  "sourceImage": "enemy_metalgift_run_left.png",
+  "classification": {
+    "type": "ui",
+    "subtype": "icon",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "loot_icons",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.41549962759017944
+      },
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.23982132878154516
+      },
+      {
+        "clipCategoryId": "ui_hud",
+        "confidence": 0.14960450492799282
+      }
+    ]
+  },
+  "placement": [
+    "none"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "ui_never_world_placed"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/ui/panels",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

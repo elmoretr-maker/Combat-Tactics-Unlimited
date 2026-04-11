@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.993Z",
+  "sourceImage": "SMG HUD.png",
+  "classification": {
+    "type": "ui",
+    "subtype": "panel",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "tactical_vehicles",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.5824050661176443
+      },
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.1796201393008232
+      },
+      {
+        "clipCategoryId": "weapons_firearms",
+        "confidence": 0.11820925772190094
+      }
+    ]
+  },
+  "placement": [
+    "none"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "filename_ui_tokens",
+    "ui_never_world_placed"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/ui/panels",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

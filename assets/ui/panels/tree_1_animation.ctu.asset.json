@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.994Z",
+  "sourceImage": "tree_1_animation.png",
+  "classification": {
+    "type": "ui",
+    "subtype": "icon",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "loot_icons",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.6979018300771713
+      },
+      {
+        "clipCategoryId": "vfx_combat",
+        "confidence": 0.07693720515817404
+      },
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.06710839585866779
+      }
+    ]
+  },
+  "placement": [
+    "none"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": true,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "trees_block_movement",
+    "animated_filename_heuristic",
+    "ui_never_world_placed"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/ui/panels",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

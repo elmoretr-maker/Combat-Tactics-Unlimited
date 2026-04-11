@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.993Z",
+  "sourceImage": "HP Icon_clip1.png",
+  "classification": {
+    "type": "ui",
+    "subtype": "icon",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "loot_icons",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.7839429974555969
+      },
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.08660029526799917
+      },
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.040561454370617867
+      }
+    ]
+  },
+  "placement": [
+    "none"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "filename_ui_tokens",
+    "ui_never_world_placed"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/ui/panels",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.993Z",
+  "sourceImage": "Money Panel EMPTY HUD.png",
+  "classification": {
+    "type": "ui",
+    "subtype": "panel",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "loot_icons",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.7051200270652771
+      },
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.1582155041396618
+      },
+      {
+        "clipCategoryId": "ui_hud",
+        "confidence": 0.06183503661304712
+      }
+    ]
+  },
+  "placement": [
+    "none"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "filename_ui_tokens",
+    "ui_never_world_placed"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/ui/panels",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}

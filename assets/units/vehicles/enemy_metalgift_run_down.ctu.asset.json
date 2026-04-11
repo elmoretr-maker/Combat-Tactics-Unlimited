@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-11T00:54:35.994Z",
+  "sourceImage": "enemy_metalgift_run_down.png",
+  "classification": {
+    "type": "unit",
+    "subtype": "vehicle",
+    "decidedBy": "rules",
+    "clipPrimaryHintId": "tactical_vehicles",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Vision/CLIP outputs are suggestions only; classification.type/subtype are rule-finalized.",
+    "topCategories": [
+      {
+        "clipCategoryId": "tactical_vehicles",
+        "confidence": 0.7031184695661068
+      },
+      {
+        "clipCategoryId": "soldiers_infantry",
+        "confidence": 0.1415059193968773
+      },
+      {
+        "clipCategoryId": "loot_icons",
+        "confidence": 0.10356754064559937
+      }
+    ]
+  },
+  "placement": [
+    "land"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [],
+  "pipeline": {
+    "folderLayoutHint": "assets/units/vehicles",
+    "note": "folderLayoutHint is optional librarian layout; game logic must use this JSON, not folders."
+  }
+}
