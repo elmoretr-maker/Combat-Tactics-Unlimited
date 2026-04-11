@@ -3387,6 +3387,15 @@ header.top-bar .lp-dock-tag--header-accent:focus-visible::before {
   border: 1px solid rgba(57, 255, 20, 0.14);
   box-shadow: inset 0 1px 0 rgba(57, 255, 20, 0.06);
 }
+#screen-maps .map-theater-rail-v2-label {
+  margin: 0.35rem 0 0.12rem;
+  padding: 0 0.25rem;
+  letter-spacing: 0.02em;
+}
+#screen-maps .map-theater-rail--strip-v2 {
+  border-color: rgba(120, 200, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(120, 200, 255, 0.08);
+}
 #screen-maps .map-theater-hero {
   display: flex;
   flex-direction: column;

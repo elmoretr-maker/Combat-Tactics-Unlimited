@@ -142,11 +142,17 @@ let pendingProceduralSkirmishSpec = null;
 /** Display name from last loaded scenario JSON (non-catalog paths). */
 let pendingVsCpuScenarioName = null;
 let mapCatalog = { maps: [] };
+/** Secondary catalog: scenarios_v2 / template-structured layouts (Map Theater row 2). */
+let mapCatalogV2 = { maps: [] };
 let mapTheaterTileTypes = null;
+
+function allMapCatalogEntries() {
+  return [...(mapCatalog.maps || []), ...(mapCatalogV2.maps || [])];
+}
 
 function attachCatalogBiomeFromPath(scenario, scenarioPath) {
   if (!scenarioPath || !scenario) return;
-  const maps = mapCatalog.maps || [];
+  const maps = allMapCatalogEntries();
   const entry = maps.find((x) => x.path === scenarioPath);
   if (!entry) return;
   const biome = getBiomeForCatalogEntry(entry);
@@ -197,7 +203,7 @@ async function redrawMapTheaterMainPreview(_tileTypeMap) {
   }
   try {
     await loadJson(pendingUserMapPath);
-    const maps = mapCatalog?.maps || [];
+    const maps = allMapCatalogEntries();
     const cur = maps.find((x) => x.path === pendingUserMapPath);
     caption.textContent = cur
       ? `Selected: ${cur.name} — ${biomeDisplayName(getBiomeForCatalogEntry(cur))} · ${cur.width}×${cur.height}`
@@ -419,7 +425,7 @@ function normalizeSoloDifficulty(d) {
 }
 
 function scenarioLooksGrand(scenario, scenarioPath) {
-  const maps = mapCatalog.maps || [];
+  const maps = allMapCatalogEntries();
   const entry = scenarioPath && maps.find((x) => x.path === scenarioPath);
   if (entry?.sizeCategory === "grand") return true;
   return scenario.width >= 18 && scenario.height >= 14;
@@ -1014,7 +1020,7 @@ function syncVsCpuPrepUi() {
   const mapEl = document.getElementById("vs-cpu-prep-map");
   const squadEl = document.getElementById("vs-cpu-prep-squad");
   const startBtn = document.getElementById("btn-vs-cpu-prep-start");
-  const maps = mapCatalog.maps || [];
+  const maps = allMapCatalogEntries();
   const cur = maps.find((x) => x.path === pendingUserMapPath);
   if (mapEl) {
     let line;
@@ -3162,7 +3168,7 @@ async function bootBattle(options = {}) {
     skirmishDifficulty === "hell" &&
     scenarioPath
   ) {
-    const maps = mapCatalog.maps || [];
+    const maps = allMapCatalogEntries();
     const cur = maps.find((x) => x.path === scenarioPath);
     if (!cur || cur.sizeCategory !== "grand") {
       const g = maps.find((m) => m.sizeCategory === "grand");
@@ -3609,19 +3615,28 @@ function refreshMapTheaterBlowupPinRef() {
   }
 }
 
+function catalogEntryMatchesTheaterFilters(m) {
+  if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) {
+    return false;
+  }
+  if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) {
+    return false;
+  }
+  if (mapTheaterFilterBiome !== "all") {
+    const b = getBiomeForCatalogEntry(m);
+    if (b !== mapTheaterFilterBiome) return false;
+  }
+  return true;
+}
+
 function getFilteredMapsForTheater() {
   const maps = mapCatalog?.maps || [];
-  const filtered = [];
-  for (const m of maps) {
-    if (mapTheaterFilterSize !== "all" && m.sizeCategory !== mapTheaterFilterSize) continue;
-    if (mapTheaterFilterEnv !== "all" && m.environment !== mapTheaterFilterEnv) continue;
-    if (mapTheaterFilterBiome !== "all") {
-      const b = getBiomeForCatalogEntry(m);
-      if (b !== mapTheaterFilterBiome) continue;
-    }
-    filtered.push(m);
-  }
-  return filtered;
+  return maps.filter(catalogEntryMatchesTheaterFilters);
+}
+
+function getFilteredMapsV2ForTheater() {
+  const maps = mapCatalogV2?.maps || [];
+  return maps.filter(catalogEntryMatchesTheaterFilters);
 }
 
 /** FNV-1a for stable urban → Europe vs Africa split from map id. */
@@ -3794,10 +3809,12 @@ function buildWorldPinLayoutByPath(maps) {
 }
 
 function mapTheaterThumbButtonForPath(mapPath) {
-  const strip = document.getElementById("map-theater-rail-strip");
-  if (!strip) return null;
   const esc = String(mapPath).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-  return strip.querySelector(`button.map-theater-thumb[data-map-path="${esc}"]`);
+  const sel = `button.map-theater-thumb[data-map-path="${esc}"]`;
+  return (
+    document.querySelector(`#map-theater-rail-strip ${sel}`) ||
+    document.querySelector(`#map-theater-rail-strip-v2 ${sel}`)
+  );
 }
 
 function scrollMapTheaterThumbIntoView(mapPath) {
@@ -3809,7 +3826,9 @@ function scrollMapTheaterThumbIntoView(mapPath) {
 
 function setMapTheaterThumbPeek(mapPath, on) {
   document
-    .querySelectorAll("#map-theater-rail-strip .map-theater-thumb--peek")
+    .querySelectorAll(
+      "#map-theater-rail-strip .map-theater-thumb--peek, #map-theater-rail-strip-v2 .map-theater-thumb--peek",
+    )
     .forEach((n) => n.classList.remove("map-theater-thumb--peek"));
   if (!on || !mapPath) return;
   const el = mapTheaterThumbButtonForPath(mapPath);
@@ -3875,7 +3894,7 @@ function openMapTheaterBlowup(mapPath, tileTypeMap, pinEl) {
   const shell = document.getElementById("map-theater-blowup");
   const nameEl = document.getElementById("map-theater-blowup-name");
   if (!shell) return;
-  const maps = mapCatalog?.maps || [];
+  const maps = allMapCatalogEntries();
   const entry = maps.find((x) => x.path === mapPath);
   if (nameEl) nameEl.textContent = entry ? entry.name : mapPath;
   shell.hidden = false;
@@ -3933,16 +3952,28 @@ async function renderMapTheater() {
   }
 
   const railStrip = document.getElementById("map-theater-rail-strip");
+  const railStripV2 = document.getElementById("map-theater-rail-strip-v2");
   if (!railStrip) return;
   railStrip.innerHTML = "";
+  if (railStripV2) railStripV2.innerHTML = "";
+  const v2Label = document.getElementById("map-theater-rail-v2-label");
 
   const thumbMaxW = 52;
   const thumbMaxH = 52;
 
   const filtered = getFilteredMapsForTheater();
-  if (mapTheaterBlowupPath && !filtered.some((x) => x.path === mapTheaterBlowupPath)) {
+  const filteredV2 = getFilteredMapsV2ForTheater();
+  const visiblePaths = new Set([
+    ...filtered.map((x) => x.path),
+    ...filteredV2.map((x) => x.path),
+  ]);
+  if (mapTheaterBlowupPath && !visiblePaths.has(mapTheaterBlowupPath)) {
     closeMapTheaterBlowup();
   }
+
+  const showV2Row = filteredV2.length > 0;
+  if (v2Label) v2Label.hidden = !showV2Row;
+  if (railStripV2) railStripV2.hidden = !showV2Row;
 
   filtered.forEach((m) => {
     const card = document.createElement("button");
@@ -3984,6 +4015,49 @@ async function renderMapTheater() {
     });
     railStrip.appendChild(card);
   });
+
+  if (railStripV2) {
+    filteredV2.forEach((m) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      const isSel = pendingUserMapPath === m.path;
+      card.className =
+        "map-theater-thumb" + (isSel ? " map-theater-thumb--selected" : "");
+      card.dataset.mapPath = m.path;
+      card.setAttribute("aria-label", `Select map (layout v2): ${m.name}`);
+      card.setAttribute("aria-current", isSel ? "true" : "false");
+      const previewCanvas = document.createElement("canvas");
+      previewCanvas.className = "map-theater-thumb__cv";
+      previewCanvas.setAttribute("aria-hidden", "true");
+      const previewWrap = document.createElement("span");
+      previewWrap.className = "map-theater-thumb__preview-wrap";
+      previewWrap.appendChild(previewCanvas);
+      card.appendChild(previewWrap);
+      const nameEl = document.createElement("span");
+      nameEl.className = "map-theater-thumb__name";
+      nameEl.textContent = m.name;
+      card.appendChild(nameEl);
+      void loadJson(m.path)
+        .then((sb) => {
+          if (sb?.terrain && previewCanvas) {
+            drawMapTheaterPreviewCanvas(
+              previewCanvas,
+              sb.terrain,
+              tileTypeMap,
+              thumbMaxW,
+              thumbMaxH,
+            );
+          }
+        })
+        .catch((e) => {
+          console.warn("[CTU] Map theater v2 thumb preview failed:", m.path, e);
+        });
+      card.addEventListener("click", () => {
+        void applyMapTheaterSelectionFromPath(m.path);
+      });
+      railStripV2.appendChild(card);
+    });
+  }
 
   const pinHost = document.getElementById("map-theater-world-pins");
   if (pinHost) {
@@ -4062,12 +4136,14 @@ function showBootFailureBanner(message) {
 /* ── Init app ─────────────────────────────────────────── */
 async function initApp() {
   /* Local configs first — these MUST succeed for the app to function */
-  [academyConfig, hubConfig, onboardingConfig, mapCatalog] = await Promise.all([
-    loadJson("js/config/academy.json"),
-    loadJson("js/config/hub.json"),
-    loadJson("js/config/onboarding.json"),
-    loadJson("js/config/mapCatalog.json").catch(() => ({ maps: [] })),
-  ]);
+  [academyConfig, hubConfig, onboardingConfig, mapCatalog, mapCatalogV2] =
+    await Promise.all([
+      loadJson("js/config/academy.json"),
+      loadJson("js/config/hub.json"),
+      loadJson("js/config/onboarding.json"),
+      loadJson("js/config/mapCatalog.json").catch(() => ({ maps: [] })),
+      loadJson("js/config/mapCatalogV2.json").catch(() => ({ maps: [] })),
+    ]);
   unitRegistry = await loadMergedUnitsFromConfig();
   progress  = loadProgress();
   settings  = loadSettings();

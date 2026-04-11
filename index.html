@@ -436,9 +436,8 @@
               </header>
               <div class="hub-roster-cp-frame__body map-theater-cp-frame__body">
                 <p class="muted small map-theater-hint">
-                  <strong>World map</strong> — dots sit on regions by theme (deserts, Amazon forest, Alaska ice, North American mixed, European urban).
-                  Hover dots to sync thumbnails; <strong>click a dot</strong> for a large terrain preview.
-                  <strong>Scroll the row</strong> to pick a map or use the preview actions. <strong>Filters</strong> narrow both dots and thumbnails.
+                  <strong>World map</strong> — dots match the <strong>first</strong> thumbnail row (catalog maps). Hover dots to sync thumbnails; <strong>click a dot</strong> for a large terrain preview.
+                  The <strong>second row</strong> is <strong>layout v2</strong> (template-structured scenarios). <strong>Scroll</strong> either row to pick; <strong>filters</strong> apply to both rows and to dots.
                 </p>
                 <div class="map-theater-shell">
                   <!-- World map + pins; blowup modal uses hud_craftpix/bonus_01_cyber.png -->
@@ -475,12 +474,21 @@
                       id="map-theater-rail-strip"
                       class="map-theater-rail map-theater-rail--strip"
                       role="list"
-                      aria-label="Map thumbnails, horizontal scroll"
+                      aria-label="Map thumbnails (catalog), horizontal scroll"
+                    ></div>
+                    <p id="map-theater-rail-v2-label" class="map-theater-rail-v2-label muted small">
+                      <strong>Layout v2</strong> — template-structured maps (scenarios_v2)
+                    </p>
+                    <div
+                      id="map-theater-rail-strip-v2"
+                      class="map-theater-rail map-theater-rail--strip map-theater-rail--strip-v2"
+                      role="list"
+                      aria-label="Layout v2 map thumbnails, horizontal scroll"
                     ></div>
                   </div>
                   <section class="map-theater-section map-theater-section--filters" aria-labelledby="map-theater-filters-heading">
                     <h3 id="map-theater-filters-heading" class="map-theater-section__heading">Catalog filters</h3>
-                    <p class="map-theater-section__subtle muted small">Narrow which maps appear in the thumbnail row.</p>
+                    <p class="map-theater-section__subtle muted small">Narrow which maps appear in both thumbnail rows (and world dots for row 1).</p>
                     <div class="map-theater-filter-slots">
                       <div class="map-theater-slot-row">
                         <label class="map-theater-slot-row__field">
