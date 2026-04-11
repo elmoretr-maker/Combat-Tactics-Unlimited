@@ -3862,17 +3862,23 @@ async function applyMapTheaterSelectionFromPath(mapPath, opts = {}) {
   ) {
     pendingSkirmishOrderedLoadout = null;
   }
-  await renderMapTheater();
+
   if (mapsReturnTarget === "vs-cpu-prep") {
     mapsReturnTarget = null;
+    await renderMapTheater();
     void openVsCpuPrep();
     showScreen("vs-cpu-prep");
   } else if (mapsReturnTarget === "mat-lab-prep") {
     mapsReturnTarget = null;
+    await renderMapTheater();
     void openMatLabPrep();
     showScreen("mat-lab-prep");
   } else if (opts.autoOpenSkirmish) {
-    void openMapSkirmishLoadout({ returnToPrep: false });
+    /* Squad screen first — avoids a one-frame flash of Map Theater with the new selection */
+    await openMapSkirmishLoadout({ returnToPrep: false });
+    void renderMapTheater();
+  } else {
+    await renderMapTheater();
   }
   return true;
 }
