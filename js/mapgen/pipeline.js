@@ -56,25 +56,36 @@ function ensureSpawnsOnPassableLand(
 }
 
 /**
- * Structured selection by width; explicit template name (not "auto") wins.
- * Large maps pick one of four templates using seeded RNG (same seed → same choice).
+ * Size-based pool + deterministic pick (same seed → same template).
+ * Mutates `spec.template` when omitted or "auto". Explicit names are left unchanged.
  * @param {object} spec
  * @param {number} width
  * @param {number} seed
+ * @returns {string|undefined}
  */
 function resolveEffectiveTemplate(spec, width, seed) {
-  const raw = spec.template;
-  if (raw && raw !== "auto") return raw;
-  if (width <= 12) return "arena_cross";
-  if (width <= 18) return "central_stronghold";
-  const rnd = mulberry32(seed >>> 0);
-  const largeTemplates = [
-    "island_cluster_large",
-    "ring_map",
-    "choke_valley",
-    "broken_grid",
-  ];
-  return largeTemplates[Math.floor(rnd() * largeTemplates.length)];
+  if (!spec.template || spec.template === "auto") {
+    const rnd = mulberry32(seed >>> 0);
+
+    let pool = [];
+
+    if (width <= 12) {
+      pool = ["arena_cross", "small_dual_islands"];
+    } else if (width <= 18) {
+      pool = ["central_stronghold", "three_lane_battle"];
+    } else {
+      pool = [
+        "island_cluster_large",
+        "ring_map",
+        "choke_valley",
+        "broken_grid",
+      ];
+    }
+
+    const index = Math.floor(rnd() * pool.length);
+    spec.template = pool[index];
+  }
+  return spec.template;
 }
 
 /**
