@@ -219,6 +219,39 @@
       "width": 20,
       "height": 16,
       "blurb": "Grand cross-terrain battle. Urban buildings, forest ridges, desert dunes, frozen lakes, and river barriers all collide in one massive map. [v2: procedural rivers, 2-tile corridor rule, flowConnectors.]"
+    },
+    {
+      "id": "map_winter_drifts",
+      "name": "Winter Drifts v2",
+      "path": "js/config/scenarios/maps/map_winter_drifts.json",
+      "sizeCategory": "small",
+      "environment": "arctic",
+      "biome": "winter",
+      "width": 10,
+      "height": 8,
+      "blurb": "Snowfield skirmish: frozen river segment, sparse tree cover, and tight flanking lanes. Winter tile art (snow / pixel fallback 129–132)."
+    },
+    {
+      "id": "map_winter_glacier",
+      "name": "Glacier Line v2",
+      "path": "js/config/scenarios/maps/map_winter_glacier.json",
+      "sizeCategory": "medium",
+      "environment": "arctic",
+      "biome": "winter",
+      "width": 12,
+      "height": 10,
+      "blurb": "Mid-size tundra: ice-channel divide, roads for fast rotation, hills and forest pockets for ambush."
+    },
+    {
+      "id": "map_winter_whiteout",
+      "name": "Whiteout Front v2",
+      "path": "js/config/scenarios/maps/map_winter_whiteout.json",
+      "sizeCategory": "grand",
+      "environment": "arctic",
+      "biome": "winter",
+      "width": 20,
+      "height": 16,
+      "blurb": "Grand winter theater: wide snow basin, braided frozen water, twin bridge corridors — armor and infantry both have room to breathe."
     }
   ]
 }

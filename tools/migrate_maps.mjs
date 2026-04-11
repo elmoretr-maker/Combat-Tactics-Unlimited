@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { generateProceduralScenario } from "../js/mapgen/pipeline.js";
+import { getBiomeForCatalogEntry } from "../js/mapgen/biome.js";
 import { moveCostAt } from "../js/engine/terrain.js";
 import { mapObjectBlocksMoveAt } from "../js/battle-plane/mapObjects.js";
 
@@ -41,23 +42,6 @@ function stableSeed(str) {
     h = Math.imul(h, 16777619);
   }
   return h >>> 0;
-}
-
-function environmentToTheme(env) {
-  switch (env) {
-    case "urban":
-      return "urban";
-    case "desert":
-      return "desert";
-    case "wild":
-      return "grass";
-    case "arctic":
-      return "grass";
-    case "mixed":
-      return "urban";
-    default:
-      return "urban";
-  }
 }
 
 function cellPassable(terrain, tileTypes, mapObjects, x, y) {
@@ -220,7 +204,7 @@ function main() {
       continue;
     }
 
-    const theme = environmentToTheme(entry.environment);
+    const biome = getBiomeForCatalogEntry(entry);
     const seed = stableSeed(`ctu_map_v2_${entry.id}`);
     const area = entry.width * entry.height;
     const maxObstacles = Math.min(28, Math.max(8, Math.floor(area / 12)));
@@ -231,7 +215,7 @@ function main() {
       width: entry.width,
       height: entry.height,
       seed,
-      theme,
+      biome,
       tileTypes,
       assetManifest,
       addRiverStrip: true,
@@ -242,7 +226,7 @@ function main() {
 
     if (!proc) {
       logLine(
-        `FAIL two_disjoint_paths/connectivity: ${entry.id} theme=${theme} seed=${seed} (main map unchanged; see archive_for_review)`,
+        `FAIL two_disjoint_paths/connectivity: ${entry.id} biome=${biome} seed=${seed} (main map unchanged; see archive_for_review)`,
       );
       const failPath = path.join(
         ARCHIVE_DIR,
@@ -265,7 +249,7 @@ function main() {
       fs.writeFileSync(mapPath, JSON.stringify(migrated, null, 2) + "\n", "utf8");
     }
 
-    logLine(`OK ${entry.id} (${theme}) seed=${proc.generator.seed}`);
+    logLine(`OK ${entry.id} (biome=${biome}) seed=${proc.generator.seed}`);
     logLine(
       `  River/flow BEFORE: waterCells=${beforeStats.waterCells} (no flowConnectors in JSON)`,
     );

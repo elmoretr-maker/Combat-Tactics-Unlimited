@@ -4,6 +4,8 @@
  *
  * Usage:
  *   node tools/smart_catalog.mjs [--watch] [--dry-run] [--max-files=N]
+ *   (Default: CLIP classifies then moves auto → assets/… and review → New_Arrivals/review/.)
+ *   (--reference-labels: classifies vs reference_images/ labels; NO inbox moves unless --primary-promote.)
  *   node tools/smart_catalog.mjs --batch-size=12
  *   node tools/smart_catalog.mjs --batch-adaptive   (shrink batch after fallback; grow after clean batch)
  *   node tools/smart_catalog.mjs --reference-labels   (CLIP text labels + image↔image similarity vs reference_images/)
@@ -2793,6 +2795,12 @@ async function main() {
       "smart_catalog: reference label mode — CLIP classes mirror",
       REFERENCE_REL + "/",
       `(${REFERENCE_LABEL_NAMES?.length ?? 0} labels)`,
+    );
+    console.log(
+      "\n[smart_catalog] Reference mode does not move files out of New_Arrivals (classification + reports only).\n" +
+        "  To CLIP-sort into assets/ (auto + review/), run without --reference-labels, e.g.:\n" +
+        "    npm run smart-catalog:move-to-assets\n" +
+        "  To promote usage:ready into assets/PRIMARY after labeling, add --primary-promote.\n",
     );
   }
 

@@ -3643,7 +3643,7 @@ function theaterMapUrbanSplitRegion(id) {
  * Map catalog entry → geographic theater bucket (pins + previews align to region).
  * - Desert maps → North Africa + Australia (same asset)
  * - Wild forest → Amazon / Brazil (dense forest)
- * - Arctic / winter → Australia (bottom-right landmass on this bitmap)
+ * - Arctic / winter → Alaska (2 pin slots) + Russia (1 pin slot) on the world map
  * - Mixed (suburban + sparse cover) → North America
  * - Urban → Europe or Africa (stable split by map id)
  */
@@ -3705,14 +3705,11 @@ const THEATER_WORLD_ANCHORS = {
     { leftPct: 30.27, topPct: 50.21 },
     { leftPct: 27.83, topPct: 52.01 },
   ],
+  /* Winter / arctic maps: 2 dots Alaska, 1 dot Russia (Plate Carré % on world map.jpg, on interior land). */
   arctic: [
-    { leftPct: 83.4, topPct: 55.48 },
-    { leftPct: 85.16, topPct: 57.84 },
-    { leftPct: 87.21, topPct: 56.87 },
-    { leftPct: 91.31, topPct: 55.48 },
-    { leftPct: 89.45, topPct: 57.14 },
-    { leftPct: 81.93, topPct: 62.14 },
-    { leftPct: 83.89, topPct: 60.33 },
+    { leftPct: 6.2, topPct: 15.5 },
+    { leftPct: 10.2, topPct: 18.0 },
+    { leftPct: 60.5, topPct: 18.5 },
   ],
   north_america_mixed: [
     { leftPct: 14.65, topPct: 21.08 },
@@ -3779,7 +3776,10 @@ function buildWorldPinLayoutByPath(maps) {
   }
   for (const [regionKey, list] of groups) {
     const anchors = THEATER_WORLD_ANCHORS[regionKey] || THEATER_WORLD_ANCHORS.fallback;
-    list.forEach((m, idx) => {
+    const ordered = [...list].sort((a, b) =>
+      String(a.path || "").localeCompare(String(b.path || "")),
+    );
+    ordered.forEach((m, idx) => {
       const slot = anchors[idx % anchors.length];
       const j = pinMicroJitterFromMapId(m.id);
       out.set(m.path, {

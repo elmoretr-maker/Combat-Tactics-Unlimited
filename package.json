@@ -16,6 +16,8 @@
     "visual-report": "node tools/catalog_assets.mjs --visual-report",
     "scan-new-arrivals": "node tools/scan_new_arrivals_disk.mjs",
     "smart-catalog": "node tools/smart_catalog.mjs",
+    "smart-catalog:move-to-assets": "node tools/smart_catalog.mjs",
+    "smart-catalog:reference-labels": "node tools/smart_catalog.mjs --reference-labels",
     "smart-catalog:watch": "node tools/smart_catalog.mjs --watch",
     "smart-catalog:dry": "node tools/smart_catalog.mjs --dry-run",
     "generate-ctu": "node tools/generate_ctu_sidecars.mjs",
