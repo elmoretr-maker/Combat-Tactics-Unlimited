@@ -4,6 +4,8 @@
 
 import { moveCostAt } from "../engine/terrain.js";
 import { generateFoundation } from "./foundation.js";
+import { getThemeProfile } from "./themeProfiles.js";
+import { MAP_TEMPLATES } from "./templates.js";
 import { applyDividerRule, buildFlowConnectorLayer } from "./dividerRule.js";
 import { computeProtectedRibbon } from "./corridor.js";
 import { placeTacticalAssets } from "./tacticalAssets.js";
@@ -13,12 +15,53 @@ import { gridFromTerrain } from "./gridCost.js";
 import { resolvePipelineThemeSpec, biomeDisplayName } from "./biome.js";
 
 /**
+ * Map template placeholders → theme terrain ids (see MAP_TEMPLATES).
+ * @param {string[][]} terrain
+ * @param {ReturnType<typeof getThemeProfile>} profile
+ */
+function normalizeTemplateTerrainInPlace(terrain, profile) {
+  const waterId = profile.dividerTerrain;
+  const landId = profile.baseTerrain;
+  for (let y = 0; y < terrain.length; y++) {
+    const row = terrain[y];
+    for (let x = 0; x < row.length; x++) {
+      const t = row[x];
+      if (t === "water") row[x] = waterId;
+      else if (t === "plains") row[x] = landId;
+    }
+  }
+}
+
+/**
+ * Default spawn columns can sit on water for island-style templates; stamp land so
+ * divider/props have valid starting cells (matches full-rectangle foundation behavior).
+ * @param {string[][]} terrain
+ * @param {ReturnType<typeof getThemeProfile>} profile
+ * @param {[number, number][]} playerSpawns
+ * @param {[number, number][]} enemySpawns
+ */
+function ensureSpawnsOnPassableLand(
+  terrain,
+  profile,
+  playerSpawns,
+  enemySpawns,
+) {
+  const land = profile.baseTerrain;
+  for (const [x, y] of [...playerSpawns, ...enemySpawns]) {
+    if (y >= 0 && y < terrain.length && x >= 0 && x < terrain[y].length) {
+      terrain[y][x] = land;
+    }
+  }
+}
+
+/**
  * @param {object} spec
  * @param {number} spec.width
  * @param {number} spec.height
  * @param {number} spec.seed
  * @param {"urban"|"desert"|"grass"|"arctic"} [spec.theme] legacy mapgen theme
  * @param {"forest"|"desert"|"winter"|"urban"} [spec.biome] preferred; overrides theme mapping when set
+ * @param {keyof typeof MAP_TEMPLATES} [spec.template] structured layout; skips foundation when set
  * @param {Record<string, object>} spec.tileTypes — tileTextures.types only
  * @param {object|null|undefined} [spec.assetManifest] from assetManifest.json
  * @param {boolean} [spec.addRiverStrip] meandering water segment for divider/connectors (see foundation.js)
@@ -41,14 +84,36 @@ export function generateProceduralScenario(spec) {
 
   for (let attempt = 0; attempt < maxGenerationAttempts; attempt++) {
     const s = (seed + attempt * 0x9e3779b9) >>> 0;
-    const { terrain: t0, profile } = generateFoundation({
-      width,
-      height,
-      seed: s,
-      theme,
-      addRiverStrip,
-      assetManifest,
-    });
+
+    let t0;
+    let profile;
+    const templateFn =
+      spec.template && MAP_TEMPLATES[spec.template]
+        ? MAP_TEMPLATES[spec.template]
+        : null;
+
+    if (templateFn) {
+      profile = getThemeProfile(theme, assetManifest);
+      t0 = templateFn(width, height, s);
+      normalizeTemplateTerrainInPlace(t0, profile);
+      ensureSpawnsOnPassableLand(
+        t0,
+        profile,
+        defaultPlayerSpawns(width, height),
+        defaultEnemySpawns(width, height),
+      );
+    } else {
+      const gen = generateFoundation({
+        width,
+        height,
+        seed: s,
+        theme,
+        addRiverStrip,
+        assetManifest,
+      });
+      t0 = gen.terrain;
+      profile = gen.profile;
+    }
 
     const playerSpawns = defaultPlayerSpawns(width, height);
     const enemySpawns = defaultEnemySpawns(width, height);

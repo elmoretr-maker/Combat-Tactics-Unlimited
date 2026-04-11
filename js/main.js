@@ -3010,6 +3010,7 @@ async function startProceduralFromVsCpuPrep(loadoutOrdered) {
   const scenario = generateProceduralScenario({
     theme,
     biome,
+    template: "island_cluster",
     width: grand ? 20 : 16,
     height: grand ? 16 : 12,
     seed: (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0,
