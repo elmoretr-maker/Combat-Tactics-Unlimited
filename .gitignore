@@ -16,8 +16,14 @@ tools/reports/
 tools/*.json
 tools/*.txt
 
+# Review scratch at repo root (not tools/review_*.mjs)
+/review*
+
 # Logs
 *.log
+
+# NDJSON / line-delimited tool output
+*.jsonl
 
 # Bulk / generated asset folders (reduce git noise; files remain on disk)
 assets/effects/
