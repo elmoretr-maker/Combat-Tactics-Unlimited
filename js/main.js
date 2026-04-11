@@ -3835,7 +3835,11 @@ function setMapTheaterThumbPeek(mapPath, on) {
   if (el) el.classList.add("map-theater-thumb--peek");
 }
 
-async function applyMapTheaterSelectionFromPath(mapPath) {
+/**
+ * @param {string} mapPath
+ * @param {{ autoOpenSkirmish?: boolean }} [opts] — layout v2 thumbs: go straight to squad picker after load
+ */
+async function applyMapTheaterSelectionFromPath(mapPath, opts = {}) {
   const prevPath = pendingUserMapPath;
   pendingProceduralSkirmishSpec = null;
   pendingUserMapPath = mapPath;
@@ -3867,6 +3871,8 @@ async function applyMapTheaterSelectionFromPath(mapPath) {
     mapsReturnTarget = null;
     void openMatLabPrep();
     showScreen("mat-lab-prep");
+  } else if (opts.autoOpenSkirmish) {
+    void openMapSkirmishLoadout({ returnToPrep: false });
   }
   return true;
 }
@@ -4052,10 +4058,10 @@ async function renderMapTheater() {
         .catch((e) => {
           console.warn("[CTU] Map theater v2 thumb preview failed:", m.path, e);
         });
-      card.addEventListener("click", () => {
-        void applyMapTheaterSelectionFromPath(m.path);
-      });
-      railStripV2.appendChild(card);
+    card.addEventListener("click", () => {
+      void applyMapTheaterSelectionFromPath(m.path, { autoOpenSkirmish: true });
+    });
+    railStripV2.appendChild(card);
     });
   }
 
@@ -4692,7 +4698,10 @@ function wireGestures() {
       ".map-theater-rail, .map-theater-stage, .map-theater-hero, .map-theater-filter-slots, select, button, a[href], canvas",
   });
   document.querySelectorAll("#screen-maps .map-theater-rail").forEach((el) => {
-    addDragScroll(el);
+    addDragScroll(el, {
+      /* Do not treat thumb buttons as drag handles — preserves clicks for map pick + v2 flow */
+      ignoreFromSelector: "button.map-theater-thumb, .map-theater-thumb",
+    });
   });
   addDragScroll(document.querySelector("#screen-settings .ctu-metal-frame__content"));
   addDragScroll(document.querySelector("#screen-academy .ctu-metal-frame__content"));
