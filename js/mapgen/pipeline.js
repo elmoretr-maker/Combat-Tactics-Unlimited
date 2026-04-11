@@ -56,8 +56,8 @@ function ensureSpawnsOnPassableLand(
 }
 
 /**
- * Size-based pool + deterministic pick (same seed → same template).
- * Mutates `spec.template` when omitted or "auto". Explicit names are left unchanged.
+ * Size-based pools + seeded pick for every tier (small / medium / large).
+ * Same `seed` → same template; explicit `spec.template` (not "auto") is unchanged.
  * @param {object} spec
  * @param {number} width
  * @param {number} seed
@@ -82,8 +82,7 @@ function resolveEffectiveTemplate(spec, width, seed) {
       ];
     }
 
-    const index = Math.floor(rnd() * pool.length);
-    spec.template = pool[index];
+    spec.template = pool[Math.floor(rnd() * pool.length)];
   }
   return spec.template;
 }
