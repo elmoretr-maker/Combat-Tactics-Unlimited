@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-12T03:43:17.707Z",
+  "sourceImage": "sprite_0011_clip1.png",
+  "classification": {
+    "type": "environment",
+    "subtype": "tile",
+    "decidedBy": "reference_visual",
+    "referenceLabel": "road",
+    "normalizedReferenceLabel": "tile",
+    "destLabelAlias": "road→tile",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Unified ingest: scores are softmax probabilities vs reference_images/ embeddings only; not generic CLIP text categories.",
+    "topCategories": [
+      {
+        "referenceLabel": "road",
+        "confidence": 0.10542935464506926
+      },
+      {
+        "referenceLabel": "debris",
+        "confidence": 0.09212630034589647
+      },
+      {
+        "referenceLabel": "obstacle",
+        "confidence": 0.08134746349437477
+      }
+    ]
+  },
+  "placement": [
+    "urban"
+  ],
+  "behavior": {
+    "walkable": true,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "unified_reference_authority"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/PRIMARY/tiles",
+    "note": "folderLayoutHint set by unified ingest from reference label → primary_dest / ui"
+  }
+}

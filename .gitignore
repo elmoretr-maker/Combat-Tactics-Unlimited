@@ -1,5 +1,9 @@
 node_modules/
 
+# Local engine packages (keep on disk; not tracked)
+claira-engine/
+classification-engine/
+
 # New arrivals / raw drops
 assets/New_Arrivals/
 

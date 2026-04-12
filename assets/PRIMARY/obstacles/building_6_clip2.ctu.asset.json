@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-12T03:43:17.704Z",
+  "sourceImage": "building_6_clip2.png",
+  "classification": {
+    "type": "obstacle",
+    "subtype": "prop",
+    "decidedBy": "reference_visual",
+    "referenceLabel": "prop",
+    "normalizedReferenceLabel": "prop",
+    "destLabelAlias": null,
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Unified ingest: scores are softmax probabilities vs reference_images/ embeddings only; not generic CLIP text categories.",
+    "topCategories": [
+      {
+        "referenceLabel": "prop",
+        "confidence": 0.09339643828920975
+      },
+      {
+        "referenceLabel": "obstacle",
+        "confidence": 0.07625282569811953
+      },
+      {
+        "referenceLabel": "tile",
+        "confidence": 0.07031812318430652
+      }
+    ]
+  },
+  "placement": [
+    "land"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "unified_reference_authority"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/PRIMARY/obstacles",
+    "note": "folderLayoutHint set by unified ingest from reference label → primary_dest / ui"
+  }
+}

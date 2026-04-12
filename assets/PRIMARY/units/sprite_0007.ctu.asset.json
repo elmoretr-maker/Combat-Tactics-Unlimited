@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-12T03:43:17.708Z",
+  "sourceImage": "sprite_0007.png",
+  "classification": {
+    "type": "unit",
+    "subtype": "vehicle",
+    "decidedBy": "reference_visual",
+    "referenceLabel": "vehicle",
+    "normalizedReferenceLabel": "vehicle",
+    "destLabelAlias": null,
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Unified ingest: scores are softmax probabilities vs reference_images/ embeddings only; not generic CLIP text categories.",
+    "topCategories": [
+      {
+        "referenceLabel": "vehicle",
+        "confidence": 0.11795260710788961
+      },
+      {
+        "referenceLabel": "prop",
+        "confidence": 0.08785389529361093
+      },
+      {
+        "referenceLabel": "ui_panel",
+        "confidence": 0.08221325982188833
+      }
+    ]
+  },
+  "placement": [
+    "land"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": false,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "unified_reference_authority"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/PRIMARY/units",
+    "note": "folderLayoutHint set by unified ingest from reference label → primary_dest / ui"
+  }
+}

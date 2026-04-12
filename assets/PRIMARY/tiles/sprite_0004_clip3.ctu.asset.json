@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-12T03:43:17.708Z",
+  "sourceImage": "sprite_0004_clip3.png",
+  "classification": {
+    "type": "environment",
+    "subtype": "tile",
+    "decidedBy": "reference_visual",
+    "referenceLabel": "foliage",
+    "normalizedReferenceLabel": "terrain",
+    "destLabelAlias": "foliage→terrain",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Unified ingest: scores are softmax probabilities vs reference_images/ embeddings only; not generic CLIP text categories.",
+    "topCategories": [
+      {
+        "referenceLabel": "foliage",
+        "confidence": 0.31335186069783055
+      },
+      {
+        "referenceLabel": "debris",
+        "confidence": 0.07581597444817281
+      },
+      {
+        "referenceLabel": "obstacle",
+        "confidence": 0.06922515833164002
+      }
+    ]
+  },
+  "placement": [
+    "urban"
+  ],
+  "behavior": {
+    "walkable": true,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "unified_reference_authority"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/PRIMARY/tiles",
+    "note": "folderLayoutHint set by unified ingest from reference label → primary_dest / ui"
+  }
+}

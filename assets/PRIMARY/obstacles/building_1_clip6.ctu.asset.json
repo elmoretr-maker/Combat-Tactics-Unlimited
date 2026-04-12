@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-12T03:43:17.705Z",
+  "sourceImage": "building_1_clip6.png",
+  "classification": {
+    "type": "obstacle",
+    "subtype": "prop",
+    "decidedBy": "reference_visual",
+    "referenceLabel": "debris",
+    "normalizedReferenceLabel": "obstacle",
+    "destLabelAlias": "debris→obstacle",
+    "reviewPending": false,
+    "ingestError": false
+  },
+  "clipSuggestions": {
+    "note": "Unified ingest: scores are softmax probabilities vs reference_images/ embeddings only; not generic CLIP text categories.",
+    "topCategories": [
+      {
+        "referenceLabel": "debris",
+        "confidence": 0.08625020344475019
+      },
+      {
+        "referenceLabel": "road",
+        "confidence": 0.07592867463021122
+      },
+      {
+        "referenceLabel": "prop",
+        "confidence": 0.06352733958409783
+      }
+    ]
+  },
+  "placement": [
+    "land"
+  ],
+  "behavior": {
+    "walkable": false,
+    "blocking": true,
+    "animated": false,
+    "interactive": false
+  },
+  "rulesApplied": [
+    "unified_reference_authority"
+  ],
+  "pipeline": {
+    "folderLayoutHint": "assets/PRIMARY/obstacles",
+    "note": "folderLayoutHint set by unified ingest from reference label → primary_dest / ui"
+  }
+}
