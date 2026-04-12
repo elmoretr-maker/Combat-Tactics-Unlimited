@@ -4,6 +4,12 @@
  *
  * Usage:
  *   node tools/smart_catalog.mjs [--watch] [--dry-run] [--max-files=N]
+ *   node tools/smart_catalog.mjs --inbox-subdir=urban_buildings_assets   (only that folder under New_Arrivals)
+ *   node tools/smart_catalog.mjs --unified-ingest   (reference_images/ ONLY authority; CLIP = similarity vs refs; auto-move if confident)
+ *   node tools/smart_catalog.mjs --unified-ingest --dry-run   (preview tools/unified_preview.json; review → review*.preview.*; no dest mkdir)
+ *   node tools/smart_catalog.mjs --unified-ingest --dry-run-strict   (dry-run + no log/jsonl/cache writes)
+ *   node tools/smart_catalog.mjs --unified-ingest --reprocess-review (scan assets/New_Arrivals/review/ only; auto → move + log; surfacing reasons → review.md + place cards)
+ *   node tools/smart_catalog.mjs --verbose-decisions   (per-file decision lines; combine with unified/dry as needed)
  *   (Default: CLIP classifies then moves auto → assets/… and review → New_Arrivals/review/.)
  *   (--reference-labels: classifies vs reference_images/ labels; NO inbox moves unless --primary-promote.)
  *   node tools/smart_catalog.mjs --batch-size=12
@@ -36,6 +42,14 @@ import {
 import { REVIEW_QUICK_SELECT_LABELS } from "./review_quick_select_labels.mjs";
 import { primaryDestRelForContent } from "./lib/primary_dest.mjs";
 import { buildGroupReviewPayload, renderGroupReviewMarkdown } from "./lib/folder_asset_pipeline.mjs";
+import {
+  UNIFIED_HIGH_CONFIDENCE,
+  UNIFIED_MIN_PROB_MARGIN,
+  unifiedDestRelForContentKey,
+  resolveUnifiedDestination,
+  buildUnifiedMetadata,
+} from "./unified_ingest.mjs";
+import { analyzeUnifiedHeuristicHints } from "./unified_heuristic_hints.mjs";
 
 // --- paths & env ---
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -52,6 +66,38 @@ const CACHE_PATH = path.join(ROOT, "tools", "smart_catalog_cache.json");
 /** Human-in-the-loop export (repo root; data only, no moves). */
 const REVIEW_LABELS_JSON = path.join(ROOT, "review_labels.json");
 const REVIEW_MD = path.join(ROOT, "review.md");
+/** Written during --dry-run / --dry-run-strict instead of overwriting review_labels.json / review.md */
+const REVIEW_LABELS_PREVIEW_JSON = path.join(ROOT, "review_labels.preview.json");
+const REVIEW_MD_PREVIEW = path.join(ROOT, "review.preview.md");
+/** Unified ingest dry-run analysis output */
+const UNIFIED_PREVIEW_JSON = path.join(ROOT, "tools", "unified_preview.json");
+/** Unified ingest: pending review place cards (two-phase commit; files stay in place until approved). */
+const UNIFIED_PLACE_CARDS_JSON = path.join(ROOT, "tools", "unified_place_cards.json");
+/** Append-only log of unified auto-moves (repo-relative paths). */
+const UNIFIED_MOVE_LOG_JSON = path.join(ROOT, "tools", "unified_move_log.json");
+
+/** Unified: only these review reasons appear in review.md / place cards (minimal human queue). */
+const UNIFIED_SURFACING_REASONS = new Set([
+  "unified_low_confidence_or_ambiguous",
+  "high_conflict_low_margin",
+  "source_atlas_filename_hint",
+]);
+
+function shouldSurfaceUnifiedReview(d) {
+  return (
+    Boolean(d.classifyMeta?.unifiedIngest) &&
+    d.decision === "review" &&
+    UNIFIED_SURFACING_REASONS.has(String(d.reason || ""))
+  );
+}
+
+function passesReviewExportFilter(d) {
+  if (d.classifyMeta?.unifiedIngest) {
+    return shouldSurfaceUnifiedReview(d);
+  }
+  const ext = d.referenceAssetExtension;
+  return Boolean(ext && ext.usage === "review");
+}
 const REVIEW_GROUPS_JSON = path.join(ROOT, "review_groups.json");
 const REVIEW_GROUPS_MD = path.join(ROOT, "review_groups.md");
 
@@ -108,6 +154,20 @@ const HYPOTHESIS = { hypothesis_template: "This is a photo of {}." };
 
 /** Stage 2 (reference mode only): image↔ref refinement — softmax over cosine maxima (reporting / optional checks). */
 const VISUAL_SOFTMAX_TEMPERATURE = 12;
+
+/** Cosine top-1 vs top-2 pairs held for review when margin is below minimum (see runUnifiedIngestDecisions). */
+const UNIFIED_HIGH_CONFLICT_COSINE_PAIRS = new Set([
+  ["debris", "prop"].sort().join("|"),
+  ["obstacle", "prop"].sort().join("|"),
+  ["debris", "terrain"].sort().join("|"),
+  ["road", "terrain"].sort().join("|"),
+]);
+
+function isUnifiedHighConflictCosineTop2(top1, top2) {
+  if (top1 == null || top2 == null) return false;
+  const k = [String(top1).toLowerCase(), String(top2).toLowerCase()].sort().join("|");
+  return UNIFIED_HIGH_CONFLICT_COSINE_PAIRS.has(k);
+}
 /** Require strong best-vs-rest separation on raw cosine (max per label vs reference_images). */
 const REF_IMAGE_REFINE_MIN_BEST_COSINE = 0.22;
 const REF_IMAGE_REFINE_MIN_COSINE_MARGIN = 0.045;
@@ -123,6 +183,12 @@ const BATCH_DEFAULT = 12;
 const ARGS = new Set(process.argv.slice(2));
 const FLAG_WATCH = ARGS.has("--watch");
 const FLAG_DRY = ARGS.has("--dry-run");
+/** No moves, no mkdirs, no cache; also no smart_catalog_log.txt / smart_catalog.jsonl writes */
+const FLAG_DRY_STRICT = ARGS.has("--dry-run-strict");
+/** Per-file decision line to console */
+const FLAG_VERBOSE_DECISIONS = ARGS.has("--verbose-decisions");
+/** Suppresses file moves, cache write, mkdir in file ops, and (with strict) all log file I/O */
+const FLAG_EFFECTIVE_DRY = FLAG_DRY || FLAG_DRY_STRICT;
 const FLAG_BATCH_ADAPTIVE = ARGS.has("--batch-adaptive");
 /** Load CLIP label set from reference_images/<label>/ (one label per subfolder). */
 const FLAG_REFERENCE_LABELS = ARGS.has("--reference-labels");
@@ -132,6 +198,13 @@ const FLAG_PRIMARY_PROMOTE = ARGS.has("--primary-promote");
 const FLAG_EXPORT_REVIEW_LABELS = ARGS.has("--export-review-labels");
 /** With --reference-labels: write review_groups.json + review_groups.md (folder grouping; does not run CLIP). */
 const FLAG_EXPORT_GROUP_REVIEW = ARGS.has("--export-group-review");
+/**
+ * Reference-only ingest: softmax vs reference_images/ embeddings; auto-move only if prob≥HIGH and margin≥MIN.
+ * Does not use generic CLIP text categories as final class.
+ */
+const FLAG_UNIFIED_INGEST = ARGS.has("--unified-ingest");
+/** Re-run unified classification on assets/New_Arrivals/review/ only; no file moves; overwrites review.md + tools/unified_place_cards.json. Requires --unified-ingest. */
+const FLAG_REPROCESS_REVIEW = ARGS.has("--reprocess-review");
 
 function parseArgInt(prefix, defaultVal, min, max) {
   const raw = process.argv.find((a) => a.startsWith(prefix));
@@ -150,6 +223,28 @@ function parseMaxFiles() {
 
 const MAX_FILES = parseMaxFiles();
 const BATCH_SIZE_CONFIG = parseArgInt("--batch-size=", BATCH_DEFAULT, BATCH_MIN, BATCH_MAX);
+
+/** Only walk `assets/New_Arrivals/<rel>` (forward slashes, no `..`). */
+function parseInboxSubdirRel() {
+  const raw = process.argv.find((a) => a.startsWith("--inbox-subdir="));
+  if (!raw) return null;
+  const rel = raw
+    .slice("--inbox-subdir=".length)
+    .trim()
+    .replace(/\\/g, "/")
+    .replace(/^\/+/, "");
+  if (!rel) return null;
+  const parts = rel.split("/").filter(Boolean);
+  if (parts.some((p) => p === ".." || p === ".")) return null;
+  return parts.join("/");
+}
+
+const INBOX_SUBDIR_REL = parseInboxSubdirRel();
+const SCAN_ROOT = FLAG_REPROCESS_REVIEW
+  ? REVIEW_DIR
+  : INBOX_SUBDIR_REL
+    ? path.join(SOURCE_DIR, ...INBOX_SUBDIR_REL.split("/"))
+    : SOURCE_DIR;
 
 // --- categories: multiple prompts per CTU bucket (aggregated after CLIP softmax) ---
 const CTU_CATEGORIES_DEFAULT = [
@@ -259,6 +354,27 @@ let CATEGORY_BY_ID;
 /** Set when --reference-labels: sorted folder names under reference_images/ */
 let REFERENCE_LABEL_NAMES = null;
 
+/** Sync recursive collect of raster paths under a reference_images/<label>/ tree */
+function collectReferenceRasterPathsSync(dir) {
+  const out = [];
+  let entries;
+  try {
+    entries = fs.readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return out;
+  }
+  for (const e of entries) {
+    if (e.name.startsWith(".")) continue;
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) {
+      out.push(...collectReferenceRasterPathsSync(full));
+    } else if (e.isFile() && IMAGE_EXT.has(path.extname(e.name).toLowerCase())) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
 /**
  * Validate reference_images/ and return sorted label names (one per subfolder).
  * Prints image counts per category and path checks (process.cwd + resolved ROOT path).
@@ -276,7 +392,7 @@ function validateReferenceFolders() {
   }
 
   const LABELS = fs.readdirSync(absRef, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && !e.name.startsWith("."))
+    .filter((e) => e.isDirectory() && !e.name.startsWith(".") && !e.name.startsWith("_"))
     .map((e) => e.name)
     .sort();
 
@@ -284,9 +400,7 @@ function validateReferenceFolders() {
 
   for (const name of LABELS) {
     const dir = path.join(absRef, name);
-    const n = fs
-      .readdirSync(dir)
-      .filter((f) => IMAGE_EXT.has(path.extname(f).toLowerCase())).length;
+    const n = collectReferenceRasterPathsSync(dir).length;
     console.log(`[reference]   ${REFERENCE_REL}/${name}/: ${n} image(s)`);
     if (n < 1) {
       throw new Error(`${REFERENCE_REL}/${name}/ must contain at least one image`);
@@ -301,7 +415,7 @@ function validateReferenceFolders() {
 }
 
 function initTaxonomy() {
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST) {
     REFERENCE_LABEL_NAMES = validateReferenceFolders();
     CTU_CATEGORIES = REFERENCE_LABEL_NAMES.map((id) => ({
       id,
@@ -331,7 +445,7 @@ initTaxonomy();
  * @returns {string}
  */
 function computeRefVisualManifestHash() {
-  if (!FLAG_REFERENCE_LABELS) return "";
+  if (!FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) return "";
   const absRef = path.join(ROOT, REFERENCE_REL);
   if (!fs.existsSync(absRef)) return "missing";
   const lines = [];
@@ -376,7 +490,11 @@ function computeConfigSignature() {
     refVisualManifest: computeRefVisualManifestHash(),
     refImageRefineCosine: FLAG_REFERENCE_LABELS ? REF_IMAGE_REFINE_MIN_BEST_COSINE : null,
     refImageRefineMargin: FLAG_REFERENCE_LABELS ? REF_IMAGE_REFINE_MIN_COSINE_MARGIN : null,
-    refSoftmaxTemp: FLAG_REFERENCE_LABELS ? VISUAL_SOFTMAX_TEMPERATURE : null,
+    refSoftmaxTemp:
+      FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST ? VISUAL_SOFTMAX_TEMPERATURE : null,
+    unifiedIngest: FLAG_UNIFIED_INGEST,
+    unifiedHigh: FLAG_UNIFIED_INGEST ? UNIFIED_HIGH_CONFIDENCE : null,
+    unifiedMargin: FLAG_UNIFIED_INGEST ? UNIFIED_MIN_PROB_MARGIN : null,
   });
   return createHash("sha256").update(payload).digest("hex").slice(0, 32);
 }
@@ -636,23 +754,16 @@ async function loadReferenceEmbeddingTable(extractor) {
   const labels = fs.existsSync(absRef)
     ? fs
         .readdirSync(absRef, { withFileTypes: true })
-        .filter((e) => e.isDirectory() && !e.name.startsWith("."))
+        .filter((e) => e.isDirectory() && !e.name.startsWith(".") && !e.name.startsWith("_"))
         .map((e) => e.name)
         .sort()
     : [];
 
   for (const label of labels) {
     const dir = path.join(absRef, label);
-    let files;
-    try {
-      files = fs.readdirSync(dir);
-    } catch {
-      continue;
-    }
-    for (const name of files) {
-      const ext = path.extname(name).toLowerCase();
-      if (!IMAGE_EXT.has(ext)) continue;
-      const absPath = path.join(dir, name);
+    const filePaths = collectReferenceRasterPathsSync(dir);
+    for (const absPath of filePaths) {
+      const name = path.basename(absPath);
       const emb = await embedImageFeatureVector(extractor, absPath);
       if (!emb) {
         failed += 1;
@@ -707,6 +818,7 @@ function visualProbsMapToRankedArray(visualProbs) {
 }
 
 function eligibleForImageRefinement(d) {
+  if (FLAG_UNIFIED_INGEST) return false;
   if (!FLAG_REFERENCE_LABELS) return false;
   const ext = d.referenceAssetExtension;
   if (!ext) return false;
@@ -1000,8 +1112,9 @@ async function writeReviewLabelExports(decisions, records, featureExtractorIn, r
   const rows = [];
   for (let i = 0; i < decisions.length; i++) {
     const d = decisions[i];
+    if (!passesReviewExportFilter(d)) continue;
     const ext = d.referenceAssetExtension;
-    if (!ext || ext.usage !== "review") continue;
+    if (!ext) continue;
     rows.push({ d, i });
   }
 
@@ -1056,8 +1169,9 @@ async function writeReviewLabelExports(decisions, records, featureExtractorIn, r
       }
     }
 
-    items.push({
-      path: d.file.relPosix.split(path.sep).join("/"),
+    const repoRelOriginal = path.relative(ROOT, d.file.absPath).split(path.sep).join("/");
+    const baseItem = {
+      path: repoRelOriginal,
       predicted_label: d.clipId ?? d.chosen?.id ?? null,
       structure: ext.structure,
       usage: ext.usage,
@@ -1071,26 +1185,35 @@ async function writeReviewLabelExports(decisions, records, featureExtractorIn, r
       top3_visual_predictions: top3Visual,
       refinement_failure_reason,
       correct_label: "",
-    });
+    };
+    if (d.classifyMeta?.unifiedIngest) {
+      const dests = await buildUnifiedPlaceCardDestinations(d);
+      baseItem.reason = d.reason ?? null;
+      baseItem.proposed_destination = dests.proposed_destination;
+      baseItem.alternative_destinations = dests.alternative_destinations;
+    }
+    items.push(baseItem);
   }
 
   const payload = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     modelId: MODEL_ID,
     referenceRoot: `${REFERENCE_REL}/`,
     items,
   };
 
-  await fs.writeJson(REVIEW_LABELS_JSON, payload, { spaces: 2 });
+  const labelsOut = FLAG_EFFECTIVE_DRY ? REVIEW_LABELS_PREVIEW_JSON : REVIEW_LABELS_JSON;
+  const mdOut = FLAG_EFFECTIVE_DRY ? REVIEW_MD_PREVIEW : REVIEW_MD;
 
-  /** Path from repo root: assets/New_Arrivals/<posix rel>, forward slashes. */
-  function repoPathForReviewItem(relUnderNewArrivals) {
-    const norm = String(relUnderNewArrivals)
+  await fs.writeJson(labelsOut, payload, { spaces: 2 });
+
+  /** Repo-root-relative path, forward slashes (actual on-disk location; works with any inbox subfolder). */
+  function repoPathForReviewItem(repoRelPosix) {
+    return String(repoRelPosix)
       .split(/[/\\]+/)
       .filter(Boolean)
       .join("/");
-    return `assets/New_Arrivals/${norm}`;
   }
 
   function reviewMarkdownLinkTarget(repoPath) {
@@ -1106,7 +1229,7 @@ async function writeReviewLabelExports(decisions, records, featureExtractorIn, r
     "",
     `Generated: ${payload.generatedAt}`,
     "",
-    `Items: **${items.length}** (usage: review)`,
+    `Items: **${items.length}** (unified surfacing reasons or usage: review)`,
     "",
     "Click the **filename** in each heading to open the file. Paths are repo-root-relative. **Correct label:** `=` accepts the predicted label; `1`–`9` map to Quick select rows; or type a full label name.",
     "",
@@ -1127,6 +1250,30 @@ async function writeReviewLabelExports(decisions, records, featureExtractorIn, r
     mdLines.push("");
     mdLines.push(`Predicted: \`${predStr}\``);
     mdLines.push("");
+    if (items[n].reason != null) {
+      mdLines.push(`Reason: \`${String(items[n].reason).replace(/`/g, "′")}\``);
+      mdLines.push("");
+    }
+    if (items[n].proposed_destination != null || (items[n].alternative_destinations?.length ?? 0) > 0) {
+      if (items[n].proposed_destination != null) {
+        mdLines.push(`**Proposed destination:** \`${items[n].proposed_destination}\``);
+        mdLines.push("");
+      }
+      const alts = items[n].alternative_destinations;
+      if (alts?.length) {
+        mdLines.push("**Alternative destinations:**");
+        for (const a of alts) {
+          mdLines.push(
+            `- \`${String(a.label).replace(/`/g, "′")}\` → \`${a.destination}\` (score ${a.score})`,
+          );
+        }
+        mdLines.push("");
+      }
+    }
+    mdLines.push(
+      `**Scores:** confidence \`${items[n].confidence ?? "n/a"}\` · margin \`${items[n].margin ?? "n/a"}\``,
+    );
+    mdLines.push("");
     mdLines.push("**Quick select:**");
     mdLines.push(
       REVIEW_QUICK_SELECT_LABELS.map((l, i) => `[${i + 1}] ${l}`).join("   "),
@@ -1139,10 +1286,10 @@ async function writeReviewLabelExports(decisions, records, featureExtractorIn, r
     }
   }
 
-  await fs.writeFile(REVIEW_MD, mdLines.join("\n"), "utf8");
+  await fs.writeFile(mdOut, mdLines.join("\n"), "utf8");
 
   console.log(
-    `smart_catalog: review export → ${path.relative(ROOT, REVIEW_LABELS_JSON)} (${items.length} item(s)) + ${path.relative(ROOT, REVIEW_MD)}`,
+    `smart_catalog: review export → ${path.relative(ROOT, labelsOut)} (${items.length} item(s)) + ${path.relative(ROOT, mdOut)}${FLAG_EFFECTIVE_DRY ? " (dry-run: preview paths)" : ""}`,
   );
 }
 
@@ -1285,7 +1432,8 @@ function cacheFilterStage(scanned, cache) {
     const key = cacheKey(s.relPosix, s.mtimeMs, s.size);
     const hit = cache.entries[key];
     const skipCache =
-      FLAG_REFERENCE_LABELS && s.isAtomicGroupMember && s.atomicFolderAbs;
+      (FLAG_REFERENCE_LABELS && s.isAtomicGroupMember && s.atomicFolderAbs) ||
+      FLAG_UNIFIED_INGEST;
     if (
       !skipCache &&
       hit &&
@@ -1609,6 +1757,29 @@ function buildDecisionFromCache(fileRef, cachedTop3, classifyMeta) {
 function attachMetadataToDecisions(decisions) {
   for (const d of decisions) {
     const fn = path.basename(d.file.absPath);
+
+    if (d.classifyMeta?.unifiedIngest) {
+      const topRanked = (d.top3 || []).map(({ id, confidence }) => ({ id, confidence }));
+      const originalLabel = d.chosen?.id ?? d.top3?.[0]?.id ?? null;
+      const destRes = d.unifiedDestResolution;
+      const routingLabel = destRes?.normalizedReferenceLabel ?? originalLabel;
+      const layoutHint = destRes?.dest ?? (originalLabel ? unifiedDestRelForContentKey(originalLabel) : null);
+      d.assetMetadata = buildUnifiedMetadata(fn, routingLabel || originalLabel, topRanked, {
+        originalReferenceLabel: destRes?.originalReferenceLabel ?? originalLabel,
+        destLabelAlias:
+          destRes?.aliasApplied && destRes.originalReferenceLabel !== destRes.normalizedReferenceLabel
+            ? `${destRes.originalReferenceLabel}→${destRes.aliasApplied}`
+            : null,
+        reviewPending: d.decision === "review",
+        ingestError: d.decision === "error",
+      });
+      d.assetMetadata.pipeline.folderLayoutHint = layoutHint;
+      if (d.decision === "auto" && layoutHint) {
+        d.destRel = layoutHint;
+      }
+      continue;
+    }
+
     const theme = themeHintFromRelPosix(d.file.relPosix);
     const clipTop3 = (d.top3 || []).map(({ id, confidence }) => ({ id, confidence }));
     const primaryClipId = d.chosen?.id ?? d.top3?.[0]?.id ?? null;
@@ -1630,7 +1801,7 @@ function attachMetadataToDecisions(decisions) {
 // --- Stage: file operations (movement only) ---
 async function fileOperationsStage(decisions) {
   const results = [];
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
     for (const d of decisions) {
       results.push({
         d,
@@ -1650,11 +1821,13 @@ async function fileOperationsStage(decisions) {
     try {
       if (d.decision === "auto" && d.destRel) {
         const destDir = path.join(ROOT, d.destRel);
-        await fs.ensureDir(destDir);
+        if (!FLAG_EFFECTIVE_DRY) {
+          await fs.ensureDir(destDir);
+        }
         const baseName = path.basename(absPath);
         let destPath = path.join(destDir, baseName);
         destPath = await uniqueDestPath(destPath);
-        if (FLAG_DRY) {
+        if (FLAG_EFFECTIVE_DRY) {
           await writeAssetMetadataSidecar(destPath, d.assetMetadata, true);
           results.push({
             d,
@@ -1668,6 +1841,14 @@ async function fileOperationsStage(decisions) {
         }
         await fs.move(absPath, destPath, { overwrite: false });
         await writeAssetMetadataSidecar(destPath, d.assetMetadata, false);
+        if (FLAG_UNIFIED_INGEST && d.classifyMeta?.unifiedIngest && !FLAG_EFFECTIVE_DRY) {
+          await appendUnifiedMoveLogEntry({
+            file: path.relative(ROOT, absPath).split(path.sep).join("/"),
+            destination: path.relative(ROOT, destPath).split(path.sep).join("/"),
+            confidence: d.confidence,
+            date: new Date().toISOString(),
+          });
+        }
         results.push({
           d,
           ok: true,
@@ -1680,7 +1861,20 @@ async function fileOperationsStage(decisions) {
       }
 
       if (d.decision === "review") {
-        await fs.ensureDir(REVIEW_DIR);
+        if (FLAG_UNIFIED_INGEST && d.classifyMeta?.unifiedIngest) {
+          results.push({
+            d,
+            ok: true,
+            kind: "unified_review_pending",
+            destPath: null,
+            moveMs: performance.now() - t0,
+            dry: false,
+          });
+          continue;
+        }
+        if (!FLAG_EFFECTIVE_DRY) {
+          await fs.ensureDir(REVIEW_DIR);
+        }
         const baseName = path.basename(absPath);
         let destPath = path.join(REVIEW_DIR, baseName);
         destPath = await uniqueDestPath(destPath);
@@ -1693,7 +1887,7 @@ async function fileOperationsStage(decisions) {
           reason: d.reason,
           classifyMeta: d.classifyMeta,
         };
-        if (!FLAG_DRY) {
+        if (!FLAG_EFFECTIVE_DRY) {
           await fs.writeJson(sidecar, meta, { spaces: 2 });
           await fs.move(absPath, destPath, { overwrite: false });
           await writeAssetMetadataSidecar(destPath, d.assetMetadata, false);
@@ -1707,12 +1901,14 @@ async function fileOperationsStage(decisions) {
           destPath,
           sidecar,
           moveMs: performance.now() - t0,
-          dry: FLAG_DRY,
+          dry: FLAG_EFFECTIVE_DRY,
         });
         continue;
       }
 
-      await fs.ensureDir(ERROR_DIR);
+      if (!FLAG_EFFECTIVE_DRY) {
+        await fs.ensureDir(ERROR_DIR);
+      }
       const baseName = path.basename(absPath);
       let destPath = path.join(ERROR_DIR, baseName);
       destPath = await uniqueDestPath(destPath);
@@ -1723,7 +1919,7 @@ async function fileOperationsStage(decisions) {
         classifyMeta: d.classifyMeta,
         at: new Date().toISOString(),
       };
-      if (!FLAG_DRY) {
+      if (!FLAG_EFFECTIVE_DRY) {
         await fs.writeJson(sidecar, payload, { spaces: 2 });
         await fs.move(absPath, destPath, { overwrite: false });
         await writeAssetMetadataSidecar(destPath, d.assetMetadata, false);
@@ -1737,7 +1933,7 @@ async function fileOperationsStage(decisions) {
         destPath,
         sidecar,
         moveMs: performance.now() - t0,
-        dry: FLAG_DRY,
+        dry: FLAG_EFFECTIVE_DRY,
       });
     } catch (e) {
       results.push({
@@ -1754,13 +1950,236 @@ async function fileOperationsStage(decisions) {
 
 // --- logging ---
 function appendTextLog(line) {
+  if (FLAG_DRY_STRICT) return;
   const ts = new Date().toISOString();
   fs.appendFileSync(LOG_TEXT_PATH, `[${ts}] ${line}\n`, "utf8");
 }
 
 async function logJsonlLine(obj) {
+  if (FLAG_DRY_STRICT) return;
   await fs.ensureDir(path.dirname(LOG_JSONL_PATH));
   fs.appendFileSync(LOG_JSONL_PATH, `${JSON.stringify(obj)}\n`, "utf8");
+}
+
+function mapUnifiedPreviewReason(d) {
+  if (d.referenceAssetExtension?.usage === "redundant_source") return "redundant_source";
+  const r = d.reason || "";
+  if (r === "unified_reference_confident") return "high_confidence";
+  if (r === "unified_low_confidence_or_ambiguous") return "ambiguous";
+  if (r === "high_conflict_low_margin") return "high_conflict_low_margin";
+  if (r === "source_atlas_filename_hint") return "sheet_detected";
+  if (r === "redundant_source_sheet") return "redundant_source";
+  if (r === "input_embedding_failed" || r === "no_labels" || r === "unknown_label_destination") return "low_confidence";
+  return r || "unknown";
+}
+
+function buildUnifiedPreviewSummary(decisions) {
+  const autoDecs = decisions.filter((d) => d.decision === "auto");
+  const review = decisions.filter((d) => d.decision === "review").length;
+  const high_confidence_avg = autoDecs.length
+    ? autoDecs.reduce((s, d) => s + (Number(d.confidence) || 0), 0) / autoDecs.length
+    : null;
+  return {
+    total_files: decisions.length,
+    auto_move: autoDecs.length,
+    review,
+    high_confidence_avg: high_confidence_avg != null ? Number(high_confidence_avg.toFixed(6)) : null,
+    low_confidence_count: decisions.filter((d) => d.decision !== "auto").length,
+  };
+}
+
+/**
+ * Same folder resolution as attachMetadataToDecisions (unified): resolveUnifiedDestination(label, cosine)
+ * then unifiedDestRelForContentKey fallback when dest is null.
+ */
+function layoutHintForUnifiedCandidateLabel(label, cosineScore) {
+  const destRes = resolveUnifiedDestination(label, cosineScore);
+  const layoutHint = destRes?.dest ?? (label ? unifiedDestRelForContentKey(label) : null);
+  return { destRes, layoutHint };
+}
+
+async function uniqueResolvedDestRel(layoutHint, absPath) {
+  if (!layoutHint) return null;
+  const baseName = path.basename(absPath);
+  const destAbs = await uniqueDestPath(path.join(ROOT, layoutHint, baseName));
+  return path.relative(ROOT, destAbs).split(path.sep).join("/");
+}
+
+async function appendUnifiedMoveLogEntry(entry) {
+  if (FLAG_EFFECTIVE_DRY) return;
+  const rec = {
+    file: entry.file,
+    destination: entry.destination,
+    confidence: entry.confidence != null ? Number(Number(entry.confidence).toFixed(6)) : null,
+    date: entry.date || new Date().toISOString(),
+  };
+  let payload = { schemaVersion: 1, entries: [] };
+  if (await fs.pathExists(UNIFIED_MOVE_LOG_JSON)) {
+    try {
+      const prev = await fs.readJson(UNIFIED_MOVE_LOG_JSON);
+      if (Array.isArray(prev)) {
+        payload.entries = prev;
+      } else if (Array.isArray(prev?.entries)) {
+        payload.entries = prev.entries;
+      }
+    } catch {
+      payload.entries = [];
+    }
+  }
+  payload.entries = [...payload.entries, rec];
+  payload.updatedAt = new Date().toISOString();
+  await fs.ensureDir(path.dirname(UNIFIED_MOVE_LOG_JSON));
+  await fs.writeJson(UNIFIED_MOVE_LOG_JSON, payload, { spaces: 2 });
+}
+
+/**
+ * Destinations only from resolveUnifiedDestination + unifiedDestRelForContentKey (same as attachMetadata).
+ * Cosine top-3 ∪ softmax top-3 (deduped by label); first resolvable path → proposed_destination, rest → alternatives.
+ * No synthetic folders — if nothing resolves, proposed_destination is null and alternative_destinations may be empty.
+ */
+async function buildUnifiedPlaceCardDestinations(d) {
+  const rv = d.classifyMeta?.referenceVisual;
+  const byLabel = new Map();
+
+  if (rv?.visualCosineTop3?.length) {
+    for (const { id, cosine } of rv.visualCosineTop3) {
+      if (!id) continue;
+      const c = Number(cosine);
+      if (!byLabel.has(id)) byLabel.set(id, c);
+    }
+  }
+  if (d.top3?.length) {
+    for (const e of d.top3) {
+      if (!e?.id) continue;
+      const c = e.confidence != null ? Number(e.confidence) : 0;
+      if (!byLabel.has(e.id)) byLabel.set(e.id, c);
+    }
+  }
+
+  const rows = [...byLabel.entries()].map(([label, cosine]) => ({ label, cosine }));
+
+  const resolved = [];
+  for (const { label, cosine } of rows) {
+    if (!label) continue;
+    const { layoutHint } = layoutHintForUnifiedCandidateLabel(label, cosine);
+    const destRel = await uniqueResolvedDestRel(layoutHint, d.file.absPath);
+    resolved.push({
+      label,
+      destination: destRel,
+      score: Number(Number(cosine).toFixed(6)),
+    });
+  }
+
+  const withDest = resolved.filter((r) => r.destination);
+  let primary = withDest[0]?.destination ?? null;
+  const seenPaths = new Set();
+  if (primary) seenPaths.add(primary);
+
+  const alternative_destinations = [];
+  for (let i = 1; i < withDest.length; i++) {
+    const { label, destination, score } = withDest[i];
+    if (seenPaths.has(destination)) continue;
+    seenPaths.add(destination);
+    alternative_destinations.push({ label, destination, score });
+  }
+
+  return { proposed_destination: primary, alternative_destinations };
+}
+
+function unifiedPredictedAndRoutingLabels(d) {
+  const originalLabel = d.chosen?.id ?? d.top3?.[0]?.id ?? null;
+  const destRes = d.unifiedDestResolution;
+  const predicted_label =
+    destRes?.originalReferenceLabel != null && String(destRes.originalReferenceLabel).trim() !== ""
+      ? destRes.originalReferenceLabel
+      : originalLabel ?? d.clipId ?? null;
+  const routing_label =
+    destRes?.normalizedReferenceLabel != null && String(destRes.normalizedReferenceLabel).trim() !== ""
+      ? destRes.normalizedReferenceLabel
+      : originalLabel ?? d.clipId ?? null;
+  return { predicted_label, routing_label };
+}
+
+async function writeUnifiedPlaceCards(decisions) {
+  if (!FLAG_UNIFIED_INGEST) return;
+  const items = [];
+  for (const d of decisions) {
+    if (!shouldSurfaceUnifiedReview(d)) continue;
+    const file = path.relative(ROOT, d.file.absPath).split(path.sep).join("/");
+    const { predicted_label, routing_label } = unifiedPredictedAndRoutingLabels(d);
+    const { proposed_destination, alternative_destinations } = await buildUnifiedPlaceCardDestinations(d);
+    let heuristic_hints;
+    const needsHeuristicAssist =
+      proposed_destination == null && (!alternative_destinations || alternative_destinations.length === 0);
+    if (needsHeuristicAssist) {
+      try {
+        heuristic_hints = await analyzeUnifiedHeuristicHints(d.file.absPath);
+      } catch {
+        heuristic_hints = [];
+      }
+    }
+    items.push({
+      file,
+      predicted_label,
+      routing_label,
+      proposed_destination,
+      alternative_destinations,
+      confidence: d.confidence != null ? Number(Number(d.confidence).toFixed(6)) : null,
+      margin: d.margin != null ? Number(Number(d.margin).toFixed(6)) : null,
+      reason: d.reason ?? null,
+      ...(needsHeuristicAssist ? { heuristic_hints: heuristic_hints ?? [] } : {}),
+      status: "pending_review",
+    });
+  }
+  const payload = {
+    schemaVersion: 6,
+    generatedAt: new Date().toISOString(),
+    items,
+  };
+  if (!FLAG_DRY_STRICT) {
+    await fs.ensureDir(path.dirname(UNIFIED_PLACE_CARDS_JSON));
+  }
+  await fs.writeJson(UNIFIED_PLACE_CARDS_JSON, payload, { spaces: 2 });
+  if (items.length) {
+    console.log(
+      "smart_catalog: unified place cards →",
+      path.relative(ROOT, UNIFIED_PLACE_CARDS_JSON),
+      `(${items.length} pending)`,
+    );
+  }
+}
+
+async function writeUnifiedPreviewFile(decisions) {
+  const items = decisions.map((d) => ({
+    file: path.relative(ROOT, d.file.absPath).split(path.sep).join("/"),
+    predicted_label: d.clipId ?? d.chosen?.id ?? null,
+    confidence: d.confidence != null ? Number(Number(d.confidence).toFixed(6)) : null,
+    second_label: d.top3?.[1]?.id ?? null,
+    second_confidence:
+      d.top3?.[1]?.confidence != null ? Number(Number(d.top3[1].confidence).toFixed(6)) : null,
+    margin: d.margin != null ? Number(Number(d.margin).toFixed(6)) : null,
+    action: d.decision === "auto" ? "auto-move" : d.decision === "review" ? "review" : "error",
+    reason: mapUnifiedPreviewReason(d),
+  }));
+  const summary = buildUnifiedPreviewSummary(decisions);
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    mode: "unified-ingest",
+    dryRun: FLAG_EFFECTIVE_DRY,
+    dryRunStrict: FLAG_DRY_STRICT,
+    summary,
+    items,
+  };
+  if (!FLAG_DRY_STRICT) {
+    await fs.ensureDir(path.dirname(UNIFIED_PREVIEW_JSON));
+  }
+  await fs.writeJson(UNIFIED_PREVIEW_JSON, payload, { spaces: 2 });
+  console.log(
+    "smart_catalog: unified preview →",
+    path.relative(ROOT, UNIFIED_PREVIEW_JSON),
+    "| summary:",
+    JSON.stringify(summary),
+  );
 }
 
 function logStructuredDecision(jsonlPayload) {
@@ -1829,6 +2248,55 @@ function basenameSuggestsSourceBasename(fileName) {
   return SOURCE_NAME_FRAGMENTS.some((frag) => base.includes(frag));
 }
 
+/** Stronger hints for a packed master image (excludes generic "sprite" so sprite_0001.png can count as a cell). */
+const MASTER_SHEET_NAME_RE = /sheet|atlas|tileset|strip|spritesheet/i;
+
+function basenameLooksLikeExtractedCell(fileName) {
+  const b = path.basename(fileName, path.extname(fileName));
+  const lower = b.toLowerCase();
+  if (MASTER_SHEET_NAME_RE.test(lower)) return false;
+  if (/^sprite_\d+$/i.test(lower)) return true;
+  if (/^frame[_-]?\d+$/i.test(lower)) return true;
+  if (/^tile_\d+$/i.test(lower)) return true;
+  if (/(^|_)(cell|cut|extract)(_|$)/i.test(lower)) return true;
+  if (/^clip\d+/i.test(lower)) return true;
+  if (/\d{3,4}$/.test(lower)) return true;
+  return false;
+}
+
+/**
+ * True when this path looks like a source sheet AND the same folder already has multiple likely cut sprites.
+ * Avoids marking master sheets as needs_extraction when slices are already present.
+ */
+function folderShowsExtractedSpriteSiblings(masterAbsPath) {
+  if (!basenameSuggestsSourceBasename(path.basename(masterAbsPath))) {
+    return false;
+  }
+  const dir = path.dirname(masterAbsPath);
+  const baseMaster = path.basename(masterAbsPath);
+  let entries;
+  try {
+    entries = fs.readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return false;
+  }
+  let cellLike = 0;
+  let nonMasterNonHint = 0;
+  for (const ent of entries) {
+    if (!ent.isFile()) continue;
+    if (!IMAGE_EXT.has(path.extname(ent.name).toLowerCase())) continue;
+    if (ent.name === baseMaster) continue;
+    const stem = path.basename(ent.name, path.extname(ent.name));
+    const lower = stem.toLowerCase();
+    if (basenameLooksLikeExtractedCell(ent.name)) cellLike += 1;
+    if (!MASTER_SHEET_NAME_RE.test(lower)) nonMasterNonHint += 1;
+  }
+  if (cellLike >= 2) return true;
+  if (nonMasterNonHint >= 3) return true;
+  if (nonMasterNonHint >= 2 && cellLike >= 1) return true;
+  return false;
+}
+
 function isLowConfidenceForUsage(decision, confidence, margin) {
   return (
     decision === "error" ||
@@ -1842,10 +2310,66 @@ function isLowConfidenceForUsage(decision, confidence, margin) {
  * Extended reference reporting model (does not alter CLIP scores or moves).
  * STRUCTURE: sprite_sheet | animation | single_asset
  * CONTENT: semantic label from folder/name/alias, plus CLIP for context
- * USAGE: needs_extraction | ready | review
+ * USAGE: needs_extraction | redundant_source | ready | review
  */
 function deriveReferenceClassificationModel(d) {
   const fn = path.basename(d.file.absPath);
+
+  if (d.classifyMeta?.unifiedIngest) {
+    const visualLabel = d.chosen?.id ?? d.top3?.[0]?.id ?? null;
+    const content = visualLabel || "unspecified";
+    const decision = d.decision;
+    const isSpriteSheetStructure = basenameSuggestsSourceBasename(fn);
+    const extractionAlreadyInFolder =
+      isSpriteSheetStructure && folderShowsExtractedSpriteSiblings(d.file.absPath);
+
+    let structure = isSpriteSheetStructure ? "sprite_sheet" : "single_asset";
+    if (d.atomicFolderContext?.protectedAtomic) structure = "animation";
+
+    let usage;
+    if (structure === "sprite_sheet") {
+      usage = extractionAlreadyInFolder ? "redundant_source" : "needs_extraction";
+    } else if (decision === "review" || decision === "error") {
+      usage = "review";
+    } else {
+      usage = "ready";
+    }
+
+    let state = "USABLE";
+    if (structure === "sprite_sheet") {
+      state = extractionAlreadyInFolder ? "REDUNDANT_SOURCE" : "SOURCE";
+    } else if (d.atomicFolderContext?.protectedAtomic) {
+      state = "COMPOSITE";
+    }
+
+    const sourceReasons = [];
+    if (isSpriteSheetStructure) sourceReasons.push("filename_contains_source_hint");
+    if (extractionAlreadyInFolder) sourceReasons.push("extracted_siblings_in_folder");
+
+    return {
+      structure,
+      content,
+      usage,
+      state,
+      contentHint: [`content:${content}`, visualLabel ? `ref:${visualLabel}` : null]
+        .filter(Boolean)
+        .join(" | "),
+      visualLabel,
+      extractionSatisfiedInFolder: extractionAlreadyInFolder,
+      sourceReasons,
+      recommendedAction:
+        usage === "review"
+          ? "Unified ingest: raise confidence (more/better reference_images) or assign label manually"
+          : usage === "redundant_source"
+            ? "Cut sprites already in this folder — archive or delete the master sheet; do not promote the sheet as final art"
+            : usage === "needs_extraction"
+              ? "Requires preprocessing before use as final art"
+              : "OK as single asset",
+      doNotUseDirectly: usage === "needs_extraction" || usage === "redundant_source",
+      primaryNotUsable: usage === "needs_extraction" || usage === "redundant_source",
+    };
+  }
+
   const refinedByImage = Boolean(d.classifyMeta?.referenceVisual?.refined);
   const stage1TopFromMeta = d.classifyMeta?.referenceVisual?.textTop3Before?.[0]?.id;
   const stage1TextTop = refinedByImage
@@ -1875,6 +2399,9 @@ function deriveReferenceClassificationModel(d) {
     structure = "single_asset";
   }
 
+  const extractionAlreadyInFolder =
+    structure === "sprite_sheet" && folderShowsExtractedSpriteSiblings(d.file.absPath);
+
   const labels = REFERENCE_LABEL_NAMES || Object.keys(CATEGORY_BY_ID);
   let content;
   if (d.atomicFolderContext?.folderLabel) {
@@ -1886,7 +2413,7 @@ function deriveReferenceClassificationModel(d) {
 
   let usage;
   if (structure === "sprite_sheet") {
-    usage = "needs_extraction";
+    usage = extractionAlreadyInFolder ? "redundant_source" : "needs_extraction";
   } else if (low) {
     usage = "review";
   } else {
@@ -1895,7 +2422,7 @@ function deriveReferenceClassificationModel(d) {
 
   let state;
   if (isSpriteSheetStructure) {
-    state = "SOURCE";
+    state = extractionAlreadyInFolder ? "REDUNDANT_SOURCE" : "SOURCE";
   } else if (isAtomic) {
     state = "COMPOSITE";
   } else {
@@ -1910,11 +2437,15 @@ function deriveReferenceClassificationModel(d) {
   if (clipSpriteSheet) sourceReasons.push("clip_predicted_sprite_sheet");
   if (stage1SaysSpriteSheet) sourceReasons.push("stage1_text_clip_sprite_sheet");
   if (nameLooksLikeSource) sourceReasons.push("filename_contains_source_hint");
+  if (extractionAlreadyInFolder) sourceReasons.push("extracted_siblings_in_folder");
 
-  const doNotUseDirectly = usage === "needs_extraction";
+  const doNotUseDirectly = usage === "needs_extraction" || usage === "redundant_source";
   let recommendedAction;
   if (usage === "review") {
     recommendedAction = "Low confidence — verify manually before use or extraction";
+  } else if (usage === "redundant_source") {
+    recommendedAction =
+      "Cut sprites already in this folder — remove or archive the master sheet; do not promote it as final art";
   } else if (usage === "needs_extraction") {
     recommendedAction =
       "Requires preprocessing — do not move into primary usable folders as final art (DO NOT USE DIRECTLY)";
@@ -1931,6 +2462,7 @@ function deriveReferenceClassificationModel(d) {
     state,
     contentHint,
     visualLabel,
+    extractionSatisfiedInFolder: extractionAlreadyInFolder,
     sourceReasons,
     recommendedAction,
     doNotUseDirectly,
@@ -1942,6 +2474,13 @@ function deriveReferenceClassificationModel(d) {
 function referenceAgreementForReport(nameLabel, visualLabel, ext) {
   if (ext.usage === "review") {
     return { key: "unknown", emoji: "❌", text: "UNKNOWN" };
+  }
+  if (ext.usage === "redundant_source") {
+    return {
+      key: "redundant",
+      emoji: "♻️",
+      text: "REDUNDANT SOURCE (cut cells already beside this file)",
+    };
   }
   if (ext.structure === "sprite_sheet") {
     return { key: "format", emoji: "ℹ️", text: "OK (format vs content — not a semantic mismatch)" };
@@ -1968,6 +2507,26 @@ function printReferenceAssetStateLines(ext) {
     console.log(`   ❗ SOURCE material (atlas / packed):`);
     console.log(`      action: requires extraction before use`);
   }
+  if (ext.state === "REDUNDANT_SOURCE") {
+    console.log(`   ♻️ REDUNDANT master sheet — extracted sprites already in this folder`);
+    console.log(`      action: archive or delete the sheet; do not auto-move as final art`);
+  }
+}
+
+function reconcileUnifiedRedundantSourceDecisions(decisions) {
+  let n = 0;
+  for (const d of decisions) {
+    if (!d.classifyMeta?.unifiedIngest) continue;
+    const ext = d.referenceAssetExtension;
+    if (!ext || ext.usage !== "redundant_source") continue;
+    if (d.decision !== "auto") continue;
+    d.decision = "review";
+    d.reason = "redundant_source_sheet";
+    delete d.destRel;
+    n++;
+  }
+  if (n) attachMetadataToDecisions(decisions);
+  return n;
 }
 
 function attachReferenceAssetExtension(decisions) {
@@ -1980,6 +2539,7 @@ function printUsageStateReport(decisions) {
   const groups = {
     ready: [],
     needs_extraction: [],
+    redundant_source: [],
     review: [],
   };
   for (const d of decisions) {
@@ -1990,7 +2550,7 @@ function printUsageStateReport(decisions) {
     }
   }
   console.log("\n=== USAGE STATE REPORT ===\n");
-  for (const key of ["ready", "needs_extraction", "review"]) {
+  for (const key of ["ready", "needs_extraction", "redundant_source", "review"]) {
     const list = [...groups[key]].sort();
     console.log(`--- ${key} (${list.length}) ---`);
     for (const p of list) {
@@ -2002,7 +2562,7 @@ function printUsageStateReport(decisions) {
 
 function printPrimaryPromoteReport(moved, skipped) {
   console.log("\n=== PRIMARY PROMOTE REPORT ===\n");
-  if (FLAG_DRY) {
+  if (FLAG_EFFECTIVE_DRY) {
     console.log("(dry-run — no files were moved)\n");
   }
   console.log(`--- moved (${moved.length}) ---`);
@@ -2015,6 +2575,7 @@ function printPrimaryPromoteReport(moved, skipped) {
   console.log("");
   const order = [
     ["needs_extraction", "usage: needs_extraction (source / atlas — leave in place)"],
+    ["redundant_source", "usage: redundant_source (master sheet — do not promote)"],
     ["review", "usage: review (low confidence — leave in place)"],
     ["no_mapping", "no PRIMARY route for content label"],
     ["not_in_inbox", "path not under assets/New_Arrivals"],
@@ -2039,6 +2600,7 @@ async function primaryPromoteFromUsageDecisions(decisions) {
   const moved = [];
   const skipped = {
     needs_extraction: [],
+    redundant_source: [],
     review: [],
     no_mapping: [],
     not_in_inbox: [],
@@ -2073,7 +2635,12 @@ async function primaryPromoteFromUsageDecisions(decisions) {
       continue;
     }
     if (ext.usage !== "ready") {
-      const key = ext.usage === "needs_extraction" ? "needs_extraction" : "review";
+      const key =
+        ext.usage === "needs_extraction"
+          ? "needs_extraction"
+          : ext.usage === "redundant_source"
+            ? "redundant_source"
+            : "review";
       for (const d of group) skipped[key].push(d.file.relPosix);
       continue;
     }
@@ -2091,7 +2658,7 @@ async function primaryPromoteFromUsageDecisions(decisions) {
       }
       destFolder = await uniqueDestDirPath(destFolder);
       const relTo = path.relative(ROOT, destFolder).split(path.sep).join("/");
-      if (FLAG_DRY) {
+      if (FLAG_EFFECTIVE_DRY) {
         moved.push({
           type: "folder",
           dry: true,
@@ -2130,7 +2697,12 @@ async function primaryPromoteFromUsageDecisions(decisions) {
       continue;
     }
     if (ext.usage !== "ready") {
-      const key = ext.usage === "needs_extraction" ? "needs_extraction" : "review";
+      const key =
+        ext.usage === "needs_extraction"
+          ? "needs_extraction"
+          : ext.usage === "redundant_source"
+            ? "redundant_source"
+            : "review";
       skipped[key].push(d.file.relPosix);
       continue;
     }
@@ -2143,7 +2715,7 @@ async function primaryPromoteFromUsageDecisions(decisions) {
     const baseName = path.basename(d.file.absPath);
     let destPath = path.join(destDir, baseName);
     try {
-      if (!FLAG_DRY) {
+      if (!FLAG_EFFECTIVE_DRY) {
         await fs.ensureDir(destDir);
         destPath = await uniqueDestPathPrimaryFile(destPath);
         await fs.move(d.file.absPath, destPath, { overwrite: false });
@@ -2153,7 +2725,7 @@ async function primaryPromoteFromUsageDecisions(decisions) {
       const relTo = path.relative(ROOT, destPath).split(path.sep).join("/");
       moved.push({
         type: "file",
-        dry: FLAG_DRY,
+        dry: FLAG_EFFECTIVE_DRY,
         from: d.file.absPath,
         to: destPath,
         rel: relTo,
@@ -2167,7 +2739,7 @@ async function primaryPromoteFromUsageDecisions(decisions) {
   await logJsonlLine({
     t: new Date().toISOString(),
     event: "primary_promote",
-    dryRun: FLAG_DRY,
+    dryRun: FLAG_EFFECTIVE_DRY,
     movedCount: moved.length,
     skipped,
   });
@@ -2205,6 +2777,8 @@ function printReferenceClassificationReport(decisions) {
       const st = referenceAgreementForReport(ctx.folderLabel, visualLabel, ext);
       if (ext.state === "SOURCE") {
         console.log(`❗ SOURCE  ${fn}`);
+      } else if (ext.state === "REDUNDANT_SOURCE") {
+        console.log(`♻️ REDUNDANT SOURCE  ${fn}`);
       } else if (ext.state === "COMPOSITE") {
         console.log(`✅ COMPOSITE (protected)  ${fn}`);
       } else {
@@ -2243,6 +2817,8 @@ function printReferenceClassificationReport(decisions) {
     const st = referenceAgreementForReport(filenameLabel, visualLabel, ext);
     if (ext.state === "SOURCE") {
       console.log(`❗ SOURCE  ${fn}`);
+    } else if (ext.state === "REDUNDANT_SOURCE") {
+      console.log(`♻️ REDUNDANT SOURCE  ${fn}`);
     } else {
       const head = st.key === "ready" ? `✅ USABLE (${st.text})` : `${st.emoji} ${st.text}`;
       console.log(`${head}  ${fn}`);
@@ -2302,6 +2878,8 @@ function printAtomicFolderReport(decisions) {
     protectedList.push(folderRel);
     if (ext.state === "SOURCE") {
       console.log(`❗ SOURCE (folder aggregate)`);
+    } else if (ext.state === "REDUNDANT_SOURCE") {
+      console.log(`♻️ REDUNDANT SOURCE (folder aggregate)`);
     } else if (ext.state === "COMPOSITE") {
       console.log(`✅ COMPOSITE (protected)`);
     } else {
@@ -2339,14 +2917,205 @@ function printAtomicFolderReport(decisions) {
   console.log("");
 }
 
+function printUnifiedIngestSummary(decisions) {
+  console.log("\n=== unified ingest (reference-only) ===\n");
+  const by = { auto: 0, review: 0, error: 0 };
+  for (const d of decisions) {
+    by[d.decision] = (by[d.decision] || 0) + 1;
+  }
+  console.log(`   auto=${by.auto}  review=${by.review}  error=${by.error}`);
+  console.log(
+    `   move when cosine ≥ ${UNIFIED_HIGH_CONFIDENCE} and cosine-margin ≥ ${UNIFIED_MIN_PROB_MARGIN} (vs 2nd label)`,
+  );
+  console.log("");
+}
+
+/**
+ * Classify each inbox raster by CLIP image embedding vs reference_images/ only (softmax over labels).
+ * @returns {Promise<Array>} decisions aligned with `records`
+ */
+async function runUnifiedIngestDecisions(records, metrics) {
+  const featureExtractor = await getImageFeatureExtractor();
+  const refTable = await loadReferenceEmbeddingTable(featureExtractor);
+  if (!refTable.ok) {
+    throw new Error(
+      "unified-ingest: need reference_images/<label>/**/*.png with at least one image per label",
+    );
+  }
+  console.log(
+    `[unified-ingest] reference embeddings: ${refTable.loaded} (${refTable.byLabel?.size ?? 0} labels, failed=${refTable.failed})`,
+  );
+
+  const embCache = new Map();
+  const decisions = [];
+  const tClass = performance.now();
+
+  for (const rec of records) {
+    const fn = path.basename(rec.absPath);
+
+    if (basenameSuggestsSourceBasename(fn) && !folderShowsExtractedSpriteSiblings(rec.absPath)) {
+      decisions.push(
+        attachAtomicFolderContextUnified(rec, {
+          file: { absPath: rec.absPath, relPosix: rec.relPosix, cacheKey: rec.cacheKey },
+          top3: [],
+          chosen: null,
+          confidence: 0,
+          margin: 0,
+          decision: "review",
+          reason: "source_atlas_filename_hint",
+          clipId: null,
+          classifyMeta: {
+            mode: "unified_reference_visual",
+            unifiedIngest: true,
+            atlasHint: true,
+          },
+        }),
+      );
+      continue;
+    }
+
+    const inputNorm = await getInputEmbeddingNormReviewExport(
+      rec,
+      records,
+      featureExtractor,
+      embCache,
+    );
+    if (!inputNorm) {
+      decisions.push(
+        attachAtomicFolderContextUnified(rec, {
+          file: { absPath: rec.absPath, relPosix: rec.relPosix, cacheKey: rec.cacheKey },
+          top3: [],
+          chosen: null,
+          confidence: 0,
+          margin: 0,
+          decision: "error",
+          reason: "input_embedding_failed",
+          classifyMeta: { mode: "unified_reference_visual", unifiedIngest: true },
+        }),
+      );
+      continue;
+    }
+
+    const cosByLabel = maxCosineByLabel(inputNorm, refTable.byLabel);
+
+    // Sort by raw cosine — this is the primary confidence metric.
+    // Softmax over 22+ labels with compressed game-art cosines (0.62–0.92 range)
+    // never concentrates above ~0.15, making softmax-based thresholds unachievable.
+    const sortedCos = [...cosByLabel.entries()].sort((a, b) => b[1] - a[1]);
+    const bestC = sortedCos[0]?.[1] ?? 0;
+    const secondC = sortedCos[1]?.[1] ?? null;
+    const marginCos = secondC != null ? bestC - secondC : bestC;
+    const chosenLabel = sortedCos[0]?.[0] ?? null;
+    const secondLabel = sortedCos[1]?.[0] ?? null;
+
+    // Also compute softmax for metadata/reporting only (not used for the gate).
+    const visProbs = cosineMapToSoftmaxProbs(cosByLabel, VISUAL_SOFTMAX_TEMPERATURE);
+    const ranked = [...visProbs.entries()]
+      .map(([id, confidence]) => ({ id, confidence, dest: null }))
+      .sort((a, b) => b.confidence - a.confidence);
+    const top3 = categoryRankingToTop3(ranked);
+
+    // chosen is the top raw-cosine label (not softmax), wrapped to match top3 shape.
+    const chosen = chosenLabel ? { id: chosenLabel, confidence: bestC, dest: null } : null;
+    const second = secondLabel ? { id: secondLabel, confidence: secondC ?? 0, dest: null } : null;
+
+    const classifyMeta = {
+      mode: "unified_reference_visual",
+      unifiedIngest: true,
+      referenceVisual: {
+        softmaxTop3: top3,
+        visualCosineTop3: sortedCos.slice(0, 3).map(([id, cosine]) => ({ id, cosine })),
+        bestCosine: bestC,
+        secondCosine: secondC,
+        cosineMarginRaw: marginCos,
+        refinementSkipped: "unified_authority_no_text_clip",
+      },
+    };
+
+    const unifiedDestResolution = chosen ? resolveUnifiedDestination(chosen.id, bestC) : null;
+    const dest = unifiedDestResolution?.dest ?? null;
+    let decision;
+    let reason;
+
+    if (!chosen) {
+      decision = "error";
+      reason = "no_labels";
+    } else if (!dest) {
+      decision = "review";
+      reason = "unknown_label_destination";
+    } else if (bestC < UNIFIED_HIGH_CONFIDENCE || marginCos < UNIFIED_MIN_PROB_MARGIN) {
+      decision = "review";
+      const marginFail = marginCos < UNIFIED_MIN_PROB_MARGIN;
+      const cosFail = bestC < UNIFIED_HIGH_CONFIDENCE;
+      if (
+        !cosFail &&
+        marginFail &&
+        isUnifiedHighConflictCosineTop2(chosenLabel, secondLabel)
+      ) {
+        reason = "high_conflict_low_margin";
+      } else {
+        reason = "unified_low_confidence_or_ambiguous";
+      }
+    } else {
+      decision = "auto";
+      reason = "unified_reference_confident";
+    }
+
+    decisions.push(
+      attachAtomicFolderContextUnified(rec, {
+        file: { absPath: rec.absPath, relPosix: rec.relPosix, cacheKey: rec.cacheKey },
+        top3,
+        chosen: chosen ?? null,
+        unifiedDestResolution,
+        // confidence and margin are now raw cosine values (0.0–1.0 scale),
+        // matching UNIFIED_HIGH_CONFIDENCE and UNIFIED_MIN_PROB_MARGIN.
+        confidence: bestC,
+        margin: marginCos,
+        decision,
+        reason,
+        clipId: chosen?.id ?? null,
+        classifyMeta,
+      }),
+    );
+  }
+
+  metrics.classifyWallMsTotal += performance.now() - tClass;
+  metrics.batchRuns += 1;
+  metrics.batchTimesMs.push(performance.now() - tClass);
+  return { decisions, featureExtractor, referenceVisualTable: refTable };
+}
+
+function attachAtomicFolderContextUnified(rec, dec) {
+  if (!rec.isAtomicGroupMember || !rec.atomicFolderAbs) {
+    return dec;
+  }
+  const refLabelsForAtomic = REFERENCE_LABEL_NAMES || Object.keys(CATEGORY_BY_ID);
+  const folderName = path.basename(rec.atomicFolderAbs);
+  const folderTokens = extractFilenameTokens(folderName);
+  const resolved = resolveLabelFromTokens(folderTokens, refLabelsForAtomic);
+  dec.atomicFolderContext = {
+    folderAbs: rec.atomicFolderAbs,
+    folderRel: path.relative(ROOT, rec.atomicFolderAbs).split(path.sep).join("/"),
+    folderName,
+    folderTokens,
+    folderLabel: resolved.label,
+    folderLabelMatch: resolved.matchedBy,
+    labelAliasTrace: resolved.tokenHits,
+    protectedAtomic: true,
+  };
+  return dec;
+}
+
 // --- orchestrator ---
 async function runPipeline() {
   const tPipeline = performance.now();
-  await fs.ensureDir(path.dirname(LOG_TEXT_PATH));
+  if (!FLAG_DRY_STRICT) {
+    await fs.ensureDir(path.dirname(LOG_TEXT_PATH));
+  }
 
-  if (FLAG_EXPORT_REVIEW_LABELS && !FLAG_REFERENCE_LABELS) {
+  if (FLAG_EXPORT_REVIEW_LABELS && !FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
     console.warn(
-      "smart_catalog: --export-review-labels requires --reference-labels (export will not run; usage comes from reference extension)",
+      "smart_catalog: --export-review-labels requires --reference-labels or use --unified-ingest (export will not run)",
     );
   }
 
@@ -2368,11 +3137,14 @@ async function runPipeline() {
   };
 
   const tScan = performance.now();
-  const scannedAll = await scanStage(SOURCE_DIR);
+  const scannedAll = await scanStage(SCAN_ROOT);
   metrics.scanMs = performance.now() - tScan;
 
   if (!scannedAll.length) {
-    console.log("smart_catalog: no raster files under", path.relative(ROOT, SOURCE_DIR));
+    console.log(
+      "smart_catalog: no raster files under",
+      path.relative(ROOT, SCAN_ROOT).split(path.sep).join("/"),
+    );
     return;
   }
 
@@ -2388,9 +3160,10 @@ async function runPipeline() {
 
   metrics.filesTotal = limited.length;
 
-  const pipelineScanned = FLAG_REFERENCE_LABELS
-    ? augmentScannedWithAtomic(limited, SOURCE_DIR)
-    : limited;
+  const pipelineScanned =
+    FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST
+      ? augmentScannedWithAtomic(limited, SOURCE_DIR)
+      : limited;
 
   const cache = await loadCache();
   if (cache.signature !== CONFIG_SIGNATURE) {
@@ -2406,33 +3179,37 @@ async function runPipeline() {
   metrics.cacheMisses = toClassify.length;
 
   let clipMap = new Map();
-  try {
-    clipMap =
-      toClassify.length > 0
-        ? await classificationStageReferenceAware(toClassify, metrics)
-        : new Map();
-  } catch (stageErr) {
-    console.error("smart_catalog: classification stage fatal:", stageErr?.message || stageErr);
-    appendTextLog(`CLASSIFY_STAGE_FATAL ${String(stageErr?.message || stageErr)}`);
-    for (const rec of toClassify) {
-      clipMap.set(rec.absPath, {
-        absPath: rec.absPath,
-        sortedFlat: null,
-        mode: "stage_fatal",
-        classifyMs: 0,
-        batchWallMs: 0,
-        error: String(stageErr?.message || stageErr),
-      });
+  if (!FLAG_UNIFIED_INGEST) {
+    try {
+      clipMap =
+        toClassify.length > 0
+          ? await classificationStageReferenceAware(toClassify, metrics)
+          : new Map();
+    } catch (stageErr) {
+      console.error("smart_catalog: classification stage fatal:", stageErr?.message || stageErr);
+      appendTextLog(`CLASSIFY_STAGE_FATAL ${String(stageErr?.message || stageErr)}`);
+      for (const rec of toClassify) {
+        clipMap.set(rec.absPath, {
+          absPath: rec.absPath,
+          sortedFlat: null,
+          mode: "stage_fatal",
+          classifyMs: 0,
+          batchWallMs: 0,
+          error: String(stageErr?.message || stageErr),
+        });
+      }
     }
   }
 
   const tDecide = performance.now();
-  const decisions = [];
+  let decisions = [];
+  let unifiedFeatureExtractor = null;
+  let unifiedReferenceTable = null;
   const refLabelsForAtomic = REFERENCE_LABEL_NAMES || Object.keys(CATEGORY_BY_ID);
 
   function attachAtomicFolderContext(rec, dec) {
     if (
-      FLAG_REFERENCE_LABELS &&
+      (FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST) &&
       rec.isAtomicGroupMember &&
       rec.atomicFolderAbs
     ) {
@@ -2453,45 +3230,52 @@ async function runPipeline() {
     return dec;
   }
 
-  for (const rec of records) {
-    try {
-      if (rec.fromCache) {
-        const dec = buildDecisionFromCache(rec, rec.cachedTop3, {
-          mode: "cache",
-          classifyMs: 0,
-        });
+  if (FLAG_UNIFIED_INGEST) {
+    const u = await runUnifiedIngestDecisions(records, metrics);
+    decisions = u.decisions;
+    unifiedFeatureExtractor = u.featureExtractor;
+    unifiedReferenceTable = u.referenceVisualTable;
+  } else {
+    for (const rec of records) {
+      try {
+        if (rec.fromCache) {
+          const dec = buildDecisionFromCache(rec, rec.cachedTop3, {
+            mode: "cache",
+            classifyMs: 0,
+          });
+          decisions.push(attachAtomicFolderContext(rec, dec));
+          continue;
+        }
+
+        const cr = clipMap.get(rec.absPath);
+        const classifyMeta = cr
+          ? {
+              mode: cr.mode,
+              classifyMs: cr.classifyMs,
+              batchWallMs: cr.batchWallMs,
+              fallbackReason: cr.fallbackReason,
+              error: cr.error,
+            }
+          : { mode: "missing", error: "no_classification_row" };
+
+        const dec = decisionStage(rec, cr?.sortedFlat ?? null, classifyMeta);
         decisions.push(attachAtomicFolderContext(rec, dec));
-        continue;
+      } catch (decErr) {
+        decisions.push({
+          file: {
+            absPath: rec.absPath,
+            relPosix: rec.relPosix,
+            cacheKey: rec.cacheKey,
+          },
+          top3: [],
+          chosen: null,
+          confidence: 0,
+          margin: 0,
+          decision: "error",
+          reason: "decision_stage_exception",
+          classifyMeta: { error: String(decErr?.message || decErr) },
+        });
       }
-
-      const cr = clipMap.get(rec.absPath);
-      const classifyMeta = cr
-        ? {
-            mode: cr.mode,
-            classifyMs: cr.classifyMs,
-            batchWallMs: cr.batchWallMs,
-            fallbackReason: cr.fallbackReason,
-            error: cr.error,
-          }
-        : { mode: "missing", error: "no_classification_row" };
-
-      const dec = decisionStage(rec, cr?.sortedFlat ?? null, classifyMeta);
-      decisions.push(attachAtomicFolderContext(rec, dec));
-    } catch (decErr) {
-      decisions.push({
-        file: {
-          absPath: rec.absPath,
-          relPosix: rec.relPosix,
-          cacheKey: rec.cacheKey,
-        },
-        top3: [],
-        chosen: null,
-        confidence: 0,
-        margin: 0,
-        decision: "error",
-        reason: "decision_stage_exception",
-        classifyMeta: { error: String(decErr?.message || decErr) },
-      });
     }
   }
   metrics.decisionMs = performance.now() - tDecide;
@@ -2501,10 +3285,14 @@ async function runPipeline() {
   let referenceImageRefinementUpgrades = [];
   /** @type {null | { eligibleSeen: number, upgraded: number, failedInputEmbedding: number, failedGates: number, failedReasons?: Record<string, number> }} */
   let referenceImageRefinementStats = null;
-  let featureExtractor = null;
-  let referenceVisualTable = null;
+  let featureExtractor = unifiedFeatureExtractor;
+  let referenceVisualTable = unifiedReferenceTable;
 
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_UNIFIED_INGEST) {
+    attachReferenceAssetExtension(decisions);
+    reconcileUnifiedRedundantSourceDecisions(decisions);
+    printUnifiedIngestSummary(decisions);
+  } else if (FLAG_REFERENCE_LABELS) {
     attachReferenceAssetExtension(decisions);
 
     const nRefineEligible = decisions.filter(eligibleForImageRefinement).length;
@@ -2564,12 +3352,26 @@ async function runPipeline() {
     }
   }
 
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
     console.log(
       FLAG_PRIMARY_PROMOTE
         ? "smart_catalog: reference mode — legacy inbox moves disabled; PRIMARY promote runs after reports"
         : "smart_catalog: reference mode — no file moves (classification + reporting only)",
     );
+  }
+  if (FLAG_UNIFIED_INGEST) {
+    if (FLAG_REPROCESS_REVIEW) {
+      console.log(
+        "smart_catalog: reprocess-review — assets/New_Arrivals/review/ only; auto-moves logged to tools/unified_move_log.json; surfacing review reasons → review.md + tools/unified_place_cards.json",
+      );
+    } else {
+      console.log(
+        "smart_catalog: unified-ingest — moves use raw cosine vs reference pool; cosine threshold",
+        UNIFIED_HIGH_CONFIDENCE,
+        "/ cosine-margin",
+        UNIFIED_MIN_PROB_MARGIN,
+      );
+    }
   }
 
   const tMove = performance.now();
@@ -2593,7 +3395,8 @@ async function runPipeline() {
       classifyMeta: d.classifyMeta,
       assetMetadata: d.assetMetadata,
       atomicFolderContext: d.atomicFolderContext ?? null,
-      referenceAssetExtension: FLAG_REFERENCE_LABELS ? (d.referenceAssetExtension ?? null) : null,
+      referenceAssetExtension:
+        FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST ? (d.referenceAssetExtension ?? null) : null,
       move: mr.ok ? mr.kind : "move_failed",
       dest: mr.destPath ? path.relative(ROOT, mr.destPath) : null,
       moveOk: mr.ok,
@@ -2602,7 +3405,7 @@ async function runPipeline() {
     };
     await logStructuredDecision(line);
 
-    if (FLAG_REFERENCE_LABELS) {
+    if (FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
       continue;
     }
 
@@ -2619,7 +3422,14 @@ async function runPipeline() {
         `AUTO ${d.file.absPath} -> ${path.relative(ROOT, mr.destPath)} | ${typeStr} | clip=${d.clipId || ""}`,
       );
     } else if (d.decision === "review" && mr.ok) {
-      console.log("review ->", path.relative(ROOT, mr.destPath || REVIEW_DIR));
+      if (mr.kind === "unified_review_pending") {
+        console.log(
+          "review (pending place card, file unchanged) ->",
+          path.relative(ROOT, d.file.absPath).split(path.sep).join("/"),
+        );
+      } else {
+        console.log("review ->", path.relative(ROOT, mr.destPath || REVIEW_DIR));
+      }
       appendTextLog(`REVIEW ${d.file.absPath} | margin=${d.margin.toFixed(4)}`);
     } else if (d.decision === "error" && mr.ok) {
       appendTextLog(`ERROR ${d.file.absPath} | ${d.reason}`);
@@ -2628,10 +3438,30 @@ async function runPipeline() {
     }
   }
 
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_UNIFIED_INGEST || FLAG_REFERENCE_LABELS) {
     printReferenceClassificationReport(decisions);
     printAtomicFolderReport(decisions);
     printUsageStateReport(decisions);
+  }
+  if (FLAG_UNIFIED_INGEST) {
+    try {
+      await writeReviewLabelExports(decisions, records, featureExtractor, referenceVisualTable);
+    } catch (e) {
+      console.warn("smart_catalog: review export failed:", e?.message || e);
+    }
+    try {
+      await writeUnifiedPlaceCards(decisions);
+    } catch (e) {
+      console.warn("smart_catalog: unified place cards failed:", e?.message || e);
+    }
+    if (FLAG_EFFECTIVE_DRY) {
+      try {
+        await writeUnifiedPreviewFile(decisions);
+      } catch (e) {
+        console.warn("smart_catalog: unified preview failed:", e?.message || e);
+      }
+    }
+  } else if (FLAG_REFERENCE_LABELS) {
     if (FLAG_EXPORT_REVIEW_LABELS) {
       try {
         await writeReviewLabelExports(decisions, records, featureExtractor, referenceVisualTable);
@@ -2664,7 +3494,7 @@ async function runPipeline() {
   }
 
   metrics.totalMs = performance.now() - tPipeline;
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST) {
     metrics.imageRefinementUpgrades = referenceImageRefinementUpgrades.length;
     if (referenceImageRefinementStats) {
       metrics.imageRefinementStats = referenceImageRefinementStats;
@@ -2673,6 +3503,9 @@ async function runPipeline() {
       metrics.referenceEmbeddingsLoaded = referenceVisualTable.loaded;
       metrics.referenceEmbeddingFailures = referenceVisualTable.failed;
     }
+  }
+  if (FLAG_UNIFIED_INGEST) {
+    metrics.unifiedIngest = true;
   }
   const hitRate =
     metrics.filesTotal > 0 ? (metrics.cacheHits / metrics.filesTotal).toFixed(3) : "0";
@@ -2690,7 +3523,7 @@ async function runPipeline() {
     batchTimesMsSample: metrics.batchTimesMs.slice(0, 5).map((x) => Math.round(x)),
     decisions: metrics.decisions,
     signature: CONFIG_SIGNATURE.slice(0, 12) + "...",
-    ...(FLAG_REFERENCE_LABELS
+    ...(FLAG_REFERENCE_LABELS || FLAG_UNIFIED_INGEST
       ? {
           imageRefinementUpgrades: metrics.imageRefinementUpgrades,
           ...(metrics.imageRefinementStats
@@ -2702,6 +3535,7 @@ async function runPipeline() {
                 referenceEmbeddingFailures: metrics.referenceEmbeddingFailures,
               }
             : {}),
+          ...(FLAG_UNIFIED_INGEST ? { unifiedIngest: true } : {}),
         }
       : {}),
   });
@@ -2712,10 +3546,22 @@ async function runPipeline() {
     metrics,
   });
 
-  if (cacheDirty && !FLAG_DRY) {
+  if (FLAG_VERBOSE_DECISIONS && decisions.length) {
+    console.log("\n=== verbose-decisions ===\n");
+    for (const d of decisions) {
+      const rel = path.relative(ROOT, d.file.absPath).split(path.sep).join("/");
+      const lab = d.clipId ?? d.chosen?.id ?? "(none)";
+      const cf = d.confidence != null ? Number(d.confidence).toFixed(4) : "n/a";
+      const mg = d.margin != null ? Number(d.margin).toFixed(4) : "n/a";
+      console.log(`   ${rel} → label=${lab} conf=${cf} margin=${mg} decision=${d.decision} reason=${d.reason ?? ""}`);
+    }
+    console.log("");
+  }
+
+  if (cacheDirty && !FLAG_EFFECTIVE_DRY) {
     await saveCache(cache);
   }
-  if (FLAG_DRY && cacheDirty) {
+  if (FLAG_EFFECTIVE_DRY && cacheDirty) {
     console.log("smart_catalog: dry-run (cache not written)");
   }
 }
@@ -2785,12 +3631,52 @@ async function main() {
     process.exit(1);
   }
 
-  if (FLAG_PRIMARY_PROMOTE && !FLAG_REFERENCE_LABELS) {
+  if (FLAG_PRIMARY_PROMOTE && !FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
     console.error("smart_catalog: --primary-promote requires --reference-labels");
     process.exit(1);
   }
 
-  if (FLAG_REFERENCE_LABELS) {
+  if (FLAG_PRIMARY_PROMOTE && FLAG_UNIFIED_INGEST) {
+    console.error(
+      "smart_catalog: do not combine --primary-promote with --unified-ingest (unified already moves on confidence)",
+    );
+    process.exit(1);
+  }
+
+  if (FLAG_REPROCESS_REVIEW && !FLAG_UNIFIED_INGEST) {
+    console.error("smart_catalog: --reprocess-review requires --unified-ingest");
+    process.exit(1);
+  }
+
+  if (FLAG_REPROCESS_REVIEW && INBOX_SUBDIR_REL) {
+    console.error("smart_catalog: do not combine --reprocess-review with --inbox-subdir");
+    process.exit(1);
+  }
+
+  if (FLAG_REPROCESS_REVIEW) {
+    await fs.ensureDir(REVIEW_DIR);
+  }
+
+  if (FLAG_UNIFIED_INGEST) {
+    console.log(
+      "smart_catalog: --unified-ingest — reference_images/ is the label set; CLIP image embeddings scored by cosine vs refs; auto-move if cosine ≥",
+      UNIFIED_HIGH_CONFIDENCE,
+      "and cosine-margin ≥",
+      UNIFIED_MIN_PROB_MARGIN,
+    );
+  }
+
+  if (FLAG_DRY_STRICT) {
+    console.log(
+      "smart_catalog: --dry-run-strict — no file moves, mkdir, cache, smart_catalog_log.txt, or smart_catalog.jsonl; review → *.preview.*; unified → tools/unified_preview.json",
+    );
+  } else if (FLAG_EFFECTIVE_DRY) {
+    console.log(
+      "smart_catalog: dry-run — no moves/cache; no mkdir for destinations; review → *.preview.*; unified → tools/unified_preview.json; logs still append unless --dry-run-strict",
+    );
+  }
+
+  if (FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
     console.log(
       "smart_catalog: reference label mode — CLIP classes mirror",
       REFERENCE_REL + "/",
@@ -2810,7 +3696,7 @@ async function main() {
     );
   }
 
-  if (FLAG_EXPORT_GROUP_REVIEW && !FLAG_REFERENCE_LABELS) {
+  if (FLAG_EXPORT_GROUP_REVIEW && !FLAG_REFERENCE_LABELS && !FLAG_UNIFIED_INGEST) {
     console.error("smart_catalog: --export-group-review requires --reference-labels");
     process.exit(1);
   }
@@ -2833,6 +3719,23 @@ async function main() {
     `smart_catalog: auto if confidence>=${MIN_TOP_SCORE} and margin>=${MIN_MARGIN_VS_SECOND}; else review/`,
   );
   console.log("smart_catalog: model", MODEL_ID, "| cache sig", CONFIG_SIGNATURE.slice(0, 12) + "...");
+
+  if (INBOX_SUBDIR_REL) {
+    if (!(await fs.pathExists(SCAN_ROOT))) {
+      console.error("smart_catalog: --inbox-subdir path not found:", SCAN_ROOT);
+      process.exit(1);
+    }
+    const normSource = path.normalize(SOURCE_DIR);
+    const normScan = path.normalize(SCAN_ROOT);
+    if (normScan !== normSource && !normScan.startsWith(normSource + path.sep)) {
+      console.error("smart_catalog: --inbox-subdir must stay under", SOURCE_DIR);
+      process.exit(1);
+    }
+    console.log(
+      "smart_catalog: inbox scope",
+      path.relative(ROOT, SCAN_ROOT).split(path.sep).join("/"),
+    );
+  }
 
   await processAllInbox();
 

@@ -40,6 +40,7 @@ const VARIANT_NAME_RE = /_(alt|backup|old|copy|beta|new)(?=\.|$)|_idle(?=\.|$)/i
 const UNITISH_DOMINANT = new Set(["tank", "helicopter", "unit", "boat", "canon_turret", "gun"]);
 
 function isSourceExt(ext) {
+  if (ext?.usage === "redundant_source" || ext?.state === "REDUNDANT_SOURCE") return false;
   return ext?.usage === "needs_extraction" || ext?.state === "SOURCE";
 }
 
